@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\MainChar">
+      <UniqueIdentifier>{e6c59b00-0f99-46f7-9f0d-e2a4d20d11bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ParalaxLayers">
+      <UniqueIdentifier>{d74dd861-e8bf-4dba-b35a-d2c565078b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Enemies">
+      <UniqueIdentifier>{fdb25958-a8a1-4306-af1d-8128c39cef55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{e3c6f7fe-7911-44be-887a-0490c6454e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{27aaf63a-522c-4e42-8dd4-3fbfc1ba674d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{eff622be-7e11-4e7f-bc71-4e8e76f8632e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Timers">
+      <UniqueIdentifier>{1c010f2e-256b-4653-825e-6c8b239cec98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Animal">
+      <UniqueIdentifier>{c9df441d-eeda-49b8-8607-01ea86ba46d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Intro&amp;Menu">
+      <UniqueIdentifier>{24eca383-9ef1-40b0-b053-75d0af795d28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MainScreen">
+      <UniqueIdentifier>{afa47835-1b76-4f0d-b106-2b0ff4eccad4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Collisions">
+      <UniqueIdentifier>{509cef66-b402-4e64-b863-2a0192cb0f7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Outro">
+      <UniqueIdentifier>{47df3d68-337e-4a73-b8fd-70dd6fd1b633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GettingInput">
+      <UniqueIdentifier>{af359d97-a78d-4b65-9640-bdafd6829961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HighScore">
+      <UniqueIdentifier>{23d67523-1d15-4250-8a65-4ee52923c7f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{5ee6e462-b76e-4849-b417-1d3178f37074}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="characters.cpp">
+      <Filter>Source Files\MainChar</Filter>
+    </ClCompile>
+    <ClCompile Include="Paralaxlayers.cpp">
+      <Filter>Source Files\ParalaxLayers</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemies.cpp">
+      <Filter>Source Files\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Objects.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Timers.cpp">
+      <Filter>Source Files\Timers</Filter>
+    </ClCompile>
+    <ClCompile Include="Animals.cpp">
+      <Filter>Source Files\Animal</Filter>
+    </ClCompile>
+    <ClCompile Include="Intro.cpp">
+      <Filter>Source Files\Intro&amp;Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Start.cpp">
+      <Filter>Source Files\MainScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Source Files\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="OutroFinish.cpp">
+      <Filter>Source Files\Outro</Filter>
+    </ClCompile>
+    <ClCompile Include="GetInput.cpp">
+      <Filter>Source Files\GettingInput</Filter>
+    </ClCompile>
+    <ClCompile Include="HighScore.cpp">
+      <Filter>Source Files\HighScore</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundAndMusic.cpp">
+      <Filter>Source Files\Sound</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="characters.h">
+      <Filter>Source Files\MainChar</Filter>
+    </ClInclude>
+    <ClInclude Include="Paralaxlayers.h">
+      <Filter>Source Files\ParalaxLayers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemies.h">
+      <Filter>Source Files\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Objects.h">
+      <Filter>Source Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Source Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Timers.h">
+      <Filter>Source Files\Timers</Filter>
+    </ClInclude>
+    <ClInclude Include="Animals.h">
+      <Filter>Source Files\Animal</Filter>
+    </ClInclude>
+    <ClInclude Include="Intro.h">
+      <Filter>Source Files\Intro&amp;Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Start.h">
+      <Filter>Source Files\MainScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Source Files\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="OutroFinish.h">
+      <Filter>Source Files\Outro</Filter>
+    </ClInclude>
+    <ClInclude Include="GetInput.h">
+      <Filter>Source Files\GettingInput</Filter>
+    </ClInclude>
+    <ClInclude Include="HighScore.h">
+      <Filter>Source Files\HighScore</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundAndMusic.h">
+      <Filter>Source Files\Sound</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
