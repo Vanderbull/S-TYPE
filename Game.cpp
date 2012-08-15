@@ -306,28 +306,28 @@ void Gamestate::load_files()
 {	
 	font = TTF_OpenFont( "cour.ttf", 28 );
 
-	m_srfGrass = Load_imageAlpha( "Graphics\\nyabananstor.png", 0, 0, 0 );
-	m_srfFence = Load_imageAlpha( "Graphics\\Fence.png", 0, 0, 0 );
-	m_srfClouds = Load_imageAlpha( "Graphics\\cloud.png", 0, 0, 0 );
-	m_srfBlack = Load_imageAlpha( "Graphics\\firstlayer.png", 0, 0, 0 );
-	m_srfBack = Load_imageAlpha( "Graphics\\sky.png", 0, 0, 0 );
-	m_srfTrees = Load_imageAlpha( "Graphics\\trees.png", 2, 2, 2 );
-	demon.DemonSurface = Load_imageAlpha( "Graphics\\helagubbentest.png", 255, 255, 255 );
-	m_srfEnemyZombie = Load_imageAlpha( "Graphics\\Zombie.png", 106, 76, 48 );
-	m_srfSkeleton = Load_imageAlpha( "Graphics\\skelettSpritesheet.png", 106, 76, 48  );
-	m_srfCrow = Load_imageAlpha( "Graphics\\crow.png", 255, 255, 255 );
-	m_srfCoffin  = Load_imageAlpha( "Graphics\\SpriteSheetCoffin.png", 97, 68, 43 );
-	m_srfBoss = Load_imageAlpha( "Graphics\\bosssheet.png", 255, 255, 255 );
-	m_srfDemonLife = Load_imageAlpha( "Graphics\\olikasakervittalpha.png", 255, 255, 255 );
-	m_srfDemonHealthAndFire = Load_imageAlpha( "Graphics\\olikasakersvartalpha.png", 0, 0, 0 );
-	m_srfDragon = Load_imageAlpha( "Graphics\\DragonSprite.png", 0, 0, 0 );
-	m_srfStart = Load_imageAlpha( "Graphics\\start.png", 237, 234, 214 );
-	m_srfButtons = Load_imageAlpha( "Graphics\\butt.png", 255, 255, 255 );
-	m_srfIntro = Load_imageAlpha( "Graphics\\Intro.png", 255, 255, 255 );
-	m_srfPower = Load_imageAlpha( "Graphics\\SkullSpriteSheet.png", 97, 68, 43 );
-	m_srfMorphing = Load_imageAlpha( "Graphics\\testback.png", 255, 255, 241 );
-	m_srfReaper = Load_imageAlpha( "Graphics\\grimreeper.png", 255, 255, 255 );
-	m_srfOutro = Load_imageAlpha( "Graphics\\Gates.png", 255, 255, 255 );
+	m_srfGrass = Load_imageAlpha( "Graphics\\srfGrass.png", 0, 0, 0 );
+	m_srfFence = Load_imageAlpha( "Graphics\\srfFence.png", 0, 0, 0 );
+	m_srfClouds = Load_imageAlpha( "Graphics\\srfClouds.png", 0, 0, 0 );
+	m_srfBlack = Load_imageAlpha( "Graphics\\srfBlack.png", 0, 0, 0 );
+	m_srfBack = Load_imageAlpha( "Graphics\\srfBack.png", 0, 0, 0 );
+	m_srfTrees = Load_imageAlpha( "Graphics\\srfTrees.png", 2, 2, 2 );
+	demon.DemonSurface = Load_imageAlpha( "Graphics\\DemonSurface.png", 255, 255, 255 );
+	m_srfEnemyZombie = Load_imageAlpha( "Graphics\\srfEnemyZombie.png", 106, 76, 48 );
+	m_srfSkeleton = Load_imageAlpha( "Graphics\\srfSkeleton.png", 106, 76, 48  );
+	m_srfCrow = Load_imageAlpha( "Graphics\\srfCrow.png", 255, 255, 255 );
+	m_srfCoffin  = Load_imageAlpha( "Graphics\\srfCoffin.png", 97, 68, 43 );
+	m_srfBoss = Load_imageAlpha( "Graphics\\srfBoss.png", 255, 255, 255 );
+	m_srfDemonLife = Load_imageAlpha( "Graphics\\srfDemonLife.png", 255, 255, 255 );
+	m_srfDemonHealthAndFire = Load_imageAlpha( "Graphics\\srfDemonHealthAndFire.png", 0, 0, 0 );
+	m_srfDragon = Load_imageAlpha( "Graphics\\srfDragon.png", 0, 0, 0 );
+	m_srfStart = Load_imageAlpha( "Graphics\\srfStart.png", 237, 234, 214 );
+	m_srfButtons = Load_imageAlpha( "Graphics\\srfButtons.png", 255, 255, 255 );
+	m_srfIntro = Load_imageAlpha( "Graphics\\srfIntro.png", 255, 255, 255 );
+	m_srfPower = Load_imageAlpha( "Graphics\\srfPower.png", 97, 68, 43 );
+	m_srfMorphing = Load_imageAlpha( "Graphics\\srfMorphing.png", 255, 255, 241 );
+	m_srfReaper = Load_imageAlpha( "Graphics\\srfReaper.png", 255, 255, 255 );
+	m_srfOutro = Load_imageAlpha( "Graphics\\srfOutro.png", 255, 255, 255 );
 
 	gamestate.CreateNewThings();
 
