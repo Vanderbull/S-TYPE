@@ -18,7 +18,7 @@ Control_Sound_And_Music::Control_Sound_And_Music()
 	Mix_Chunk *Dontknow = NULL; 
 	Mix_Chunk *Morph = NULL;
 	Mix_Chunk *Boss = NULL;
-	Mix_Chunk *FireBall_Explode = NULL;
+	Mix_Chunk *FireBallExplode = NULL;
 
 	MusicOn = false;
 	MusicPaused = false;
@@ -86,7 +86,7 @@ void Control_Sound_And_Music::PlaySoundEffect( int effect )
 	}
 	else if( effect == SOUND_FIREBALL_EXPLODE )
 	{
-		Mix_PlayChannel( -1, FireBall_Explode, 0 );
+		Mix_PlayChannel( -1, FireBallExplode, 0 );
 	}
 }
 
@@ -115,24 +115,24 @@ bool Control_Sound_And_Music::Load_Files()
 	} 
 
 	//Load the music 
-	music = Mix_LoadMUS( "Music/End.wav" ); 
-	musicMenu = Mix_LoadMUS( "Music/menuSong.wav" );
-	musicOutro = Mix_LoadMUS( "Music/Outro.wav" );
+	music = Mix_LoadMUS( "Music/music.wav" ); 
+	musicMenu = Mix_LoadMUS( "Music/musicMenu.wav" );
+	musicOutro = Mix_LoadMUS( "Music/musicOutro.wav" );
 
 	// load all sound
-	Morph = Mix_LoadWAV( "Music/Wolf.wav" );
+	Morph = Mix_LoadWAV( "Music/Morph.wav" );
 	Hit = Mix_LoadWAV( "Music/Hit.wav" );
-	Punch = Mix_LoadWAV( "Music/Hits.wav" );
-	Dontknow =  Mix_LoadWAV( "Music/haha.wav" );
-	Boss = Mix_LoadWAV( "Music/Doom.wav" );
+	Punch = Mix_LoadWAV( "Music/Punch.wav" );
+	Dontknow =  Mix_LoadWAV( "Music/Dontknow.wav" );
+	Boss = Mix_LoadWAV( "Music/Boss.wav" );
 	Fireball = Mix_LoadWAV( "Music/FireBall.wav" );
-	FireBall_Explode = Mix_LoadWAV( "Music/FireballExplode.wav" );
+	FireBallExplode = Mix_LoadWAV( "Music/FireballExplode.wav" );
 	
 	//If there was a problem loading the sound effects 
 	if( ( Fireball == NULL ) || ( Hit == NULL ) || 
 		( Punch == NULL ) || ( Dontknow == NULL ) || 
 		( Boss == NULL ) || ( Morph == NULL ) ||
-		( FireBall_Explode == NULL ) ) 
+		( FireBallExplode == NULL ) ) 
 	{ 
 		return false; 
 	} 

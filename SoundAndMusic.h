@@ -23,7 +23,7 @@ public:
 	Mix_Chunk *Dontknow; 
 	Mix_Chunk *Morph;
 	Mix_Chunk * Boss;
-	Mix_Chunk *FireBall_Explode;
+	Mix_Chunk *FireBallExplode;
 
 	bool MusicOn;
 	bool MusicPaused;
