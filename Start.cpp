@@ -1,5 +1,5 @@
 #include "Start.h"
-#include "SDL.h"
+#include <SDL.h>
 
 // @date 2012-08-07
 

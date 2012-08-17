@@ -1,6 +1,6 @@
 // Parallax.h
 #pragma once
-#include "SDL.h"
+#include <SDL.h>
 
 // @date 2012-08-07
 

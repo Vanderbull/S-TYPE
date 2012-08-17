@@ -1,5 +1,5 @@
 #include "Animals.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "game.h"
 
 // @date 2012-08-07

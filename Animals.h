@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "SDL.h"
+#include <SDL.h>
 
 // @date 2012-08-07
 

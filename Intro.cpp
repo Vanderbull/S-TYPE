@@ -1,5 +1,5 @@
 #include "Intro.h"
-#include "SDL.h"
+#include <SDL.h>
 #include "Game.h"
 
 // @date 2012-08-07

@@ -1,5 +1,5 @@
 #include "SoundAndMusic.h"
-#include "SDL_mixer.h"
+#include <SDL_mixer.h>
 
 // @date 2012-08-07
 

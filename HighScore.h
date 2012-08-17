@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 
-// Fredrik Zaar SP6 
+// @date 2012-08-07
 
 using namespace std;
 

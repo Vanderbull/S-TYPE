@@ -1,6 +1,6 @@
 #pragma once
-#include "SDL.h"
-#include "SDL_image.h"
+#include <SDL.h>
+#include <SDL_image.h>
 #include <list>
 #include "Objects.h"
 

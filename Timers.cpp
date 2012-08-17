@@ -1,5 +1,5 @@
 #include "Timers.h"
-#include "SDL.h"
+#include <SDL.h>
 Timer timer;
 
 // @date 2012-08-07

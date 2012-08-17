@@ -1,5 +1,5 @@
-#include "SDL.h"
-#include "SDL_image.h"
+#include <SDL.h>
+#include <SDL_image.h>
 #include "characters.h"
 #include "Game.h"
 #include <cmath>
