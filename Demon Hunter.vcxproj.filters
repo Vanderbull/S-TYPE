@@ -6,49 +6,49 @@
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Source Files\MainChar">
-      <UniqueIdentifier>{e6c59b00-0f99-46f7-9f0d-e2a4d20d11bc}</UniqueIdentifier>
+      <UniqueIdentifier>{746b1b96-b353-48da-8305-0c27e5f36fd4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\ParalaxLayers">
-      <UniqueIdentifier>{d74dd861-e8bf-4dba-b35a-d2c565078b8e}</UniqueIdentifier>
+      <UniqueIdentifier>{95a0442c-9f42-4f04-b752-3e411c28fe8b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Enemies">
-      <UniqueIdentifier>{fdb25958-a8a1-4306-af1d-8128c39cef55}</UniqueIdentifier>
+      <UniqueIdentifier>{c6ba5090-1829-4972-aecc-190389462e42}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Objects">
-      <UniqueIdentifier>{e3c6f7fe-7911-44be-887a-0490c6454e39}</UniqueIdentifier>
+      <UniqueIdentifier>{f97e29d2-327b-48a2-90f8-7ab09b8a0f23}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Game">
-      <UniqueIdentifier>{27aaf63a-522c-4e42-8dd4-3fbfc1ba674d}</UniqueIdentifier>
+      <UniqueIdentifier>{7b011974-fae9-4eba-afbb-6ab1b2a32db0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Main">
-      <UniqueIdentifier>{eff622be-7e11-4e7f-bc71-4e8e76f8632e}</UniqueIdentifier>
+      <UniqueIdentifier>{a07314fe-1edd-484e-a4e8-d6e4cfe0ae2f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Timers">
-      <UniqueIdentifier>{1c010f2e-256b-4653-825e-6c8b239cec98}</UniqueIdentifier>
+      <UniqueIdentifier>{1661aafa-a762-4bb4-9a6f-cefc876e4f9b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Animal">
-      <UniqueIdentifier>{c9df441d-eeda-49b8-8607-01ea86ba46d9}</UniqueIdentifier>
+      <UniqueIdentifier>{d5d95db7-e94d-403e-89f6-d728e25b6788}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Intro&amp;Menu">
-      <UniqueIdentifier>{24eca383-9ef1-40b0-b053-75d0af795d28}</UniqueIdentifier>
+      <UniqueIdentifier>{682f3bb7-b145-46e9-8b3d-5b0f2ac3b98d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\MainScreen">
-      <UniqueIdentifier>{afa47835-1b76-4f0d-b106-2b0ff4eccad4}</UniqueIdentifier>
+      <UniqueIdentifier>{a043b48e-c136-45d9-9b56-9b9306638acc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Collisions">
-      <UniqueIdentifier>{509cef66-b402-4e64-b863-2a0192cb0f7e}</UniqueIdentifier>
+      <UniqueIdentifier>{64fb4b7d-690c-4c0d-a107-0bfc32394193}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Outro">
-      <UniqueIdentifier>{47df3d68-337e-4a73-b8fd-70dd6fd1b633}</UniqueIdentifier>
+      <UniqueIdentifier>{8403bca0-81d0-4138-bbc7-075f27f49e7d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\GettingInput">
-      <UniqueIdentifier>{af359d97-a78d-4b65-9640-bdafd6829961}</UniqueIdentifier>
+      <UniqueIdentifier>{f76263ca-b6df-4e97-9b55-ffe1d610911b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\HighScore">
-      <UniqueIdentifier>{23d67523-1d15-4250-8a65-4ee52923c7f7}</UniqueIdentifier>
+      <UniqueIdentifier>{46955082-5f71-419c-b3a4-fade460902c5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Sound">
-      <UniqueIdentifier>{5ee6e462-b76e-4849-b417-1d3178f37074}</UniqueIdentifier>
+      <UniqueIdentifier>{e2bae62d-40b9-4566-bd9d-2c804a0e8611}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
