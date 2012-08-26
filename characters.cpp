@@ -98,6 +98,7 @@ Demon::Demon()
 	xPosHotSpot      = 0;
 }
 
+//What is end position and what is it used for???
 void Demon::UpdateEndPosition()
 {
 	demon.WhereIsEnd += demon.xPosHotSpot - LastEnd_Pos;
@@ -108,7 +109,7 @@ void Demon::UpdateEndPosition()
 bool Demon::CheckBoundaries()
 {
 	Last_Xpos = demon.xPos;
-	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000 );
+	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
 	if( demon.Left )
 	{
 		if( (demon.Last_Xpos -= abs( 70 * cos( TriangleSpeed ) ) )  < 20 )
@@ -136,7 +137,7 @@ bool Demon::CheckBoundaries()
 			demon.Triangle = false;
 			return false;
 		}
-	}
+	} 
 
 	return true;
 }
