@@ -78,6 +78,7 @@ public:
 	int Radius, RadiusFist, RadiusFeet;
 
 	bool Right, Left;
+	bool MovementDirection; // false = left, true = right
 
 	float xPos, yPos;
 	float xVel, yVel;

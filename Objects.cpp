@@ -559,31 +559,29 @@ void Coffin::SetFrames()
 
 Coffin * Control_Objects::CreateCoffin( int xPos, int yPos, int Surface )
 {
-	Coffin * temp = new Coffin;
-	temp->xPos = xPos;
-	temp->yPos = yPos;
-	temp->surface = Surface;
-	temp->SetClips();
+	Coffin * TemporaryCoffin = new Coffin;
+	TemporaryCoffin->xPos = xPos;
+	TemporaryCoffin->yPos = yPos;
+	TemporaryCoffin->surface = Surface;
+	TemporaryCoffin->SetClips();
 
-
-	return temp;
+	return TemporaryCoffin;
 }
 
 FireBall * Control_Objects::CreateFireBall( int xpos, int ypos, int Surface, bool right, bool left )
 {
-	FireBall * temp = new FireBall;
-	temp->xPos = xpos;
-	temp->yPos = ypos;
-	temp->surface = Surface;
-	temp->Width = 70;
-	temp->Height = 30;
-	temp->FireRight = right;
-	temp->FireLeft = left;
-	temp->SetClips();
-	temp->radius = ( temp->FireWidth > temp->FireHeight ) ? temp->FireWidth / 2 : temp->FireHeight / 2;
+	FireBall * TemporaryFireball = new FireBall;
+	TemporaryFireball->xPos = xpos;
+	TemporaryFireball->yPos = ypos;
+	TemporaryFireball->surface = Surface;
+	TemporaryFireball->Width = 70;
+	TemporaryFireball->Height = 30;
+	TemporaryFireball->FireRight = right;
+	TemporaryFireball->FireLeft = left;
+	TemporaryFireball->SetClips();
+	TemporaryFireball->radius = ( TemporaryFireball->FireWidth > TemporaryFireball->FireHeight ) ? TemporaryFireball->FireWidth / 2 : TemporaryFireball->FireHeight / 2;
 
-	return temp;
-
+	return TemporaryFireball;
 }
 
 void FireBall::SetClips()

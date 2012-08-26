@@ -11,91 +11,91 @@ Demon demon;
 
 Demon::Demon()
 {
-	isMovingRight = false;
-	isMovingLeft = false;
-	isJumping = false;
-	isCrouching = false;
-	isKicking = false;
-	isPunching = false;
-	CrouchFireBall = false;
-	Right = false;
-	Left = false;
-	Immortal = false;
+	isMovingRight    = false;
+	isMovingLeft     = false;
+	isJumping        = false;
+	isCrouching      = false;
+	isKicking        = false;
+	isPunching       = false;
+	CrouchFireBall   = false;
+	Right            = false;
+	Left             = false;
+	Immortal         = false;
 
-	isHit = false; 
-	DieOneLife = false;
+	isHit            = false; 
+	DieOneLife       = false;
 
-	SmallHunter = true;
-	MediumHunter = false;
-	LargeHunter = false;
-	DemonHunter = false;
+	SmallHunter      = true;
+	MediumHunter     = false;
+	LargeHunter      = false;
+	DemonHunter      = false;
 
-	LifeFull_Small = true;
+	LifeFull_Small   = true;
 	LifeMedium_Small = false;
 	LifeLittle_Small = false;
 
-	Demon_Dead = false;
+	Demon_Dead       = false;
 
-	Crouch = false;
-	Kick = false; 
-	Jump = false;
-	Punch = false;
-	FireBall = false;
-	CrouchFire = false;
-	TriangleAttack = false;
-	Triangle = false;
-	GetUp = false;
+	Crouch           = false;
+	Kick             = false; 
+	Jump             = false;
+	Punch            = false;
+	FireBall         = false;
+	CrouchFire       = false;
+	TriangleAttack   = false;
+	Triangle         = false;
+	GetUp            = false;
 
-	KickRight = 5;
-	KickLeft = 28;
-	WhereWalkLeft = 24;
-	WhereWalkRight = 0;
-	WhereJumpLeft = 35;
-	WhereJumpRight = 12;
-	CrouchRight = 19;
-	CrouchLeft = 41;
-	PunchRight = 8; 
-	PunchLeft = 31;
+	KickRight        = 5;
+	KickLeft         = 28;
+	WhereWalkLeft    = 24;
+	WhereWalkRight   = 0;
+	WhereJumpLeft    = 35;
+	WhereJumpRight   = 12;
+	CrouchRight      = 19;
+	CrouchLeft       = 41;
+	PunchRight       = 8; 
+	PunchLeft        = 31;
 
-	WalkLeft_Demon = 22;
-	WalkRight_Demon = 1;
+	WalkLeft_Demon   = 22;
+	WalkRight_Demon  = 1;
 	FireBallRight_Demon = 9;
 	FireBallLeft_Demon = 30;
-	JumpRight_Demon = 5;
-	JumpLeft_Demon = 26;
-	CrouchRightFire = 14;
-	CrouchLeftFire = 35;
-	FireBallRight = 39;
-	FireBallLeft = 42;
+	JumpRight_Demon  = 5;
+	JumpLeft_Demon   = 26;
+	CrouchRightFire  = 14;
+	CrouchLeftFire   = 35;
+	FireBallRight    = 39;
+	FireBallLeft     = 42;
 
-	AlphaImmortal = SDL_ALPHA_OPAQUE;
+	AlphaImmortal    = SDL_ALPHA_OPAQUE;
 
-	Demon_Life = 2;
+	Demon_Life       = 2;
 	LengthOfTriangle = 0;
 
 	TriangleFireLeft = 34;
 	TriangleFireRight = 13;
 
-	DieRightDemon = 44;
-	DieLeftDemon = 40;
+	DieRightDemon    = 44;
+	DieLeftDemon     = 40;
 
-	DieState = 0;
+	DieState         = 0;
 
-	Radius = 0;
-	RadiusFist = 0;
-	RadiusFeet = 0;
-	Demon_Health = 100;
+	Radius           = 0;
+	RadiusFist       = 0;
+	RadiusFeet       = 0;
+	Demon_Health     = 100;
 
-	Feet_W = 10;
-	Feet_H = 10;
-	Fist_W = 15;
-	Fist_H = 15;
+	Feet_W           = 10;
+	Feet_H           = 10;
+	Fist_W           = 15;
+	Fist_H           = 15;
 
-	WhereIsEnd = 0;
-	LastEnd_Pos = 0;
+	WhereIsEnd       = 0;
+	LastEnd_Pos      = 0;
 
-	TriangleState = 0;
-	xPosHotSpot = 0;
+	TriangleState    = 0;
+	xPosHotSpot      = 0;
 }
 
 void Demon::UpdateEndPosition()
@@ -179,71 +179,76 @@ int Demon::UpdatePlayer()
 	float speedJump = 500.0f * ( gamestate.dt / 1000 );
 	float speedJumpDemon = 800.0f * ( gamestate.dt / 1000 );
 	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000 );
-	
+
+	cout << "Speed: " << speed << endl;
+	cout << "SpeedJump: " << speedJump << endl;
+	cout << "speedJumpDemon: " << speedJumpDemon << endl;
+	cout << "TriangleSpeed: " << TriangleSpeed << endl;
+
 			
 	// checks which animation to play
 	if( Crouch )
 	{
-		isKicking = false;
-		isJumping = false;
-		isCrouching = true;
-		isPunching = false;
+		isKicking      = false;
+		isJumping      = false;
+		isCrouching    = true;
+		isPunching     = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 
 	else if( Kick )
 	{
-		isKicking = true;
-		isJumping = false;
-		isCrouching = false;
-		isPunching = false;
+		isKicking      = true;
+		isJumping      = false;
+		isCrouching    = false;
+		isPunching     = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 
 	else if( Jump )
 	{
-		isKicking = false;
-		isJumping = true;
-		isCrouching = false;
-		isPunching = false;
+		isKicking      = false;
+		isJumping      = true;
+		isCrouching    = false;
+		isPunching     = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 	else if( Punch )
 	{
 		
-		isPunching = true;
-		isKicking = false;
-		isJumping = false;
-		isCrouching = false;
+		isPunching     = true;
+		isKicking      = false;
+		isJumping      = false;
+		isCrouching    = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 	else if( FireBall )
 	{
-		isPunching = false;
-		isKicking = true;
-		isJumping = false;
-		isCrouching = false;
+		isPunching     = false;
+		isKicking      = true;
+		isJumping      = false;
+		isCrouching    = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 	else if( CrouchFire )
 	{
-		isJumping = false;
-		isKicking = true;
-		isJumping = false;
-		isCrouching = true;
+		isJumping      = false;
+		isKicking      = true;
+		isJumping      = false;
+		isCrouching    = true;
 		TriangleAttack = false;
 	}
 	else if( Triangle )
 	{
-		isPunching = false;
-		isKicking = false;
-		isJumping = false;
-		isCrouching = false;
+		isPunching     = false;
+		isKicking      = false;
+		isJumping      = false;
+		isCrouching    = false;
 		CrouchFireBall = false;
 		TriangleAttack = true;
 	}
@@ -251,6 +256,7 @@ int Demon::UpdatePlayer()
 	if( GetUp )
 	{
 		demon.GetUp = false;
+
 		if( demon.Right )
 		{
 			return 46;
@@ -267,6 +273,7 @@ int Demon::UpdatePlayer()
 		{
 			Control_OBJ.WhichLifeToShow++;
 			demon.Demon_Health = 100;
+
 			if( Control_OBJ.WhichLifeToShow >= 6 )
 			{
 				Control_OBJ.WhichLifeToShow = 0;
@@ -301,11 +308,12 @@ int Demon::UpdatePlayer()
 	
 		if( demon.SmallHunter )
 		{
-		
+			//Nothing
 		}
 		else
 		{
 			Sound_Music.PlaySoundEffect( SOUND_GETS_HIT );
+
 			if( Right )
 			{
 				if( demon.xVel - speed <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
@@ -316,8 +324,7 @@ int Demon::UpdatePlayer()
 				{
 					demon.xPos -= speed + 20;
 					demon.xVel -= speed + 20;
-					xPosHotSpot--;
-					
+					xPosHotSpot--;			
 				}
 				return 43;
 			}
@@ -506,9 +513,7 @@ int Demon::UpdatePlayer()
 					}
 					else if( CrouchRightFire == 16 )
 					{
-						Control_OBJ.List_FireBalls.push_back(	Control_OBJ.CreateFireBall( demon.xPos + 40, 
-																demon.yPos + 55, gamestate.m_srfDemonHealthAndFire, 
-																Right, Left ) );
+						Control_OBJ.List_FireBalls.push_back( Control_OBJ.CreateFireBall( demon.xPos + 40, demon.yPos + 55, gamestate.m_srfDemonHealthAndFire, Right, Left ) );
 						CrouchRightFire++;
 					}
 					else
@@ -1037,7 +1042,6 @@ int Demon::UpdatePlayer()
 		}
 		else
 			return 21;
-
 	}
 
 	return 0;
@@ -1047,6 +1051,7 @@ void Demon::UpdateXPos()
 {
 	if( demon.isMovingRight )
 		{
+			MovementDirection = true; // Right
 			demon.Right = true;
 			demon.Left = false;
 		}
@@ -1055,6 +1060,7 @@ void Demon::UpdateXPos()
 		// the right demon in sprite sheet
 		else if( demon.isMovingLeft )
 		{
+			MovementDirection = false; // Left
 			demon.Right = false;
 			demon.Left = true;
 		}	
