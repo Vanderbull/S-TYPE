@@ -42,10 +42,81 @@ Timer::Timer()
 	startTicks = 0;
     pausedTicks = 0;
     paused = false;
-    started = false;   
-
-
+    started = false;
 }
+
+bool IsPaused()
+{
+	return paused;
+}
+
+bool IsStarted()
+{
+	return started;
+}
+
+int GetTicks()
+{
+	return 0;
+};
+bool Unpause()
+{
+	return false;
+};
+bool Pause()
+{
+	return false;
+};
+bool Stop()
+{
+	if( IsStarted() )
+	{
+		started = false;
+		paused = false;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+    //Stop the timer
+    //started = false;
+    
+    //Unpause the timer
+    //paused = false;    
+
+	//return false;
+};
+bool Start()
+{
+	if( IsStarted() )
+	{
+		paused = false;
+		return true;
+	}
+	else
+	{
+	    //Get the current clock time
+	    startTicks = SDL_GetTicks();    
+
+		paused = true;
+		return false;
+	}
+
+    //Start the timer
+    //started = true;
+    
+    //Unpause the timer
+    //paused = false;
+    
+    //Get the current clock time
+    //startTicks = SDL_GetTicks();    
+
+	//return false;
+};
+void RestartTimers()
+{
+};
 
 void Timer::RestartAllTimers()
 {
@@ -80,8 +151,7 @@ void Timer::RestartAllTimers()
 	startTicks = 0;
     pausedTicks = 0;
     paused = false;
-    started = false;   
-
+    started = false;
 }
 
 void Timer::start()
@@ -105,6 +175,12 @@ void Timer::stop()
     paused = false;    
 }
 
+/*
+Prerequisits:
+started = true
+paused = false
+
+*/
 void Timer::pause()
 {
     //If the timer is running and isn't already paused

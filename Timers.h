@@ -7,6 +7,15 @@ class Timer
 public:
 	Timer();
 
+	bool IsPaused();
+	bool IsStarted();
+	int GetTicks();
+	bool Unpause();
+	bool Pause();
+	bool Stop();
+	bool Start();
+	void RestartTimers();
+
 	bool is_paused();
 	bool is_started();
 	int	 get_ticks();
