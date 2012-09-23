@@ -381,8 +381,8 @@ void Gamestate::DrawObjects()
 	}
 	else
 	{
+		AnimalController.Draw_Animals();
 		Control_ENEMY.Draw_Enemies();
-		Control_Anim.Draw_Animals();
 		Control_OBJ.DrawObjects();
 	}
 	
@@ -1668,8 +1668,8 @@ void Gamestate::drawParallaxLayers()
 
 void Gamestate::CreateAll()
 {
+	AnimalController.Create_Animals();
 	Control_ENEMY.Create_Enemies();
-	Control_Anim.Create_Animals();
 	Control_OBJ.CreateObjects();
 }
 

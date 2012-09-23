@@ -4,7 +4,7 @@
 
 // @date 2012-08-07
 
-Control_Animals Control_Anim;
+ControlAnimals AnimalController;
 
 void Animal::Setframe()
 {	
@@ -35,8 +35,21 @@ Animal::Animal()
 
 }
 
-void Control_Animals::Draw_Animals()
+void ControlAnimals::Draw_Animals()
 {
+	list< Animal* >::iterator i = My_Animals.begin();
+	while(i != My_Animals.end() )
+	{
+		if( (*i)->xPos < 0 )
+		{
+			cout << "The Bird is no longer..." << endl;
+			i = My_Animals.erase(i);
+		}
+		else
+		{
+			++i;
+		}
+	}
 	// Draws the Crow and sets the frame
 	float Speed = 200.0f * ( gamestate.dt / 1000.0f );
 	if( My_Animals.size() != 0 )
@@ -55,7 +68,7 @@ void Control_Animals::Draw_Animals()
 														
 			if( gamestate.OK_PaceEnemy() )
 			{
-				SDL_BlitSurface(	gamestate.GetSurface( animal->surface ),&animal->Clips[ animal->Frame ], 
+				SDL_BlitSurface(	gamestate.GetSurface( animal->Surface ),&animal->Clips[ animal->Frame ], 
 									gamestate.BackBuffer, &CrowDest );
 				animal->Setframe();
 				animal->PrevFrameCrow = animal->Frame;
@@ -63,35 +76,34 @@ void Control_Animals::Draw_Animals()
 			else
 			{
 							
-				SDL_BlitSurface(	gamestate.GetSurface( animal->surface ),&animal->Clips[ animal->PrevFrameCrow ], 
+				SDL_BlitSurface(	gamestate.GetSurface( animal->Surface ),&animal->Clips[ animal->PrevFrameCrow ], 
 									gamestate.BackBuffer, &CrowDest );
 			}
 		}
 	}
-
 }
 
-Animal * Control_Animals::CreateAnimal( int xPos, int yPos, int surface )
+Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
 {
 	Animal * temp = new Animal;
-	temp->surface = surface;
+	temp->Surface = surface;
 	temp->xPos = xPos;
 	temp->yPos = yPos;
 
-	temp->radius = ( temp->Width > temp->Height ) ? temp->Width / 2 : temp->Height / 2;
+	temp->Radius = ( temp->Width > temp->Height ) ? temp->Width / 2 : temp->Height / 2;
 
 	return temp;
 }
 
-void Control_Animals::Create_Animals()
+void ControlAnimals::Create_Animals()
 {
 	if( rand() % 100 == 5 )
 	{
-		My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % CrowTurf ) , gamestate.m_srfCrow ) );
+  		My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % CrowTurf ) , gamestate.m_srfCrow ) );
 	}
 }
 
-Control_Animals::Control_Animals()
+ControlAnimals::ControlAnimals()
 {
 	CrowTurf = 200;
 }

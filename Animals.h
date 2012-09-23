@@ -1,21 +1,23 @@
 #pragma once
 #include <list>
+#include <stack>
 #include <SDL.h>
 
 // @date 2012-08-07
 
-class NotEnemies
+class AnimalState
 {
 public:
-	float xPos, yPos;
+	int xPos, yPos;
 	int Frame, State;
 	int Height, Width;
-	int radius;
-	int surface;
+	int Radius;
+	int Surface;
 };
 
-class Animal : public NotEnemies
+class Animal : public AnimalState
 {
+
 public:
 	Animal();
 	SDL_Rect Clips[ 17 ];
@@ -29,10 +31,10 @@ private:
 };
 
 // the class that controls the animals
-class Control_Animals
+class ControlAnimals
 {
 public:
-	Control_Animals();
+	ControlAnimals();
 	void Draw_Animals();
 	void Create_Animals();
 
@@ -46,4 +48,4 @@ private:
 
 };
 
-extern Control_Animals Control_Anim;
+extern ControlAnimals AnimalController;
