@@ -36,7 +36,7 @@ void Control_Sound_And_Music::PlayMusic( int song )
 {
 	if( song == MUSIC_START )
 	{
-		Mix_PlayMusic( music, -1 );
+		//Mix_PlayMusic( music, -1 );
 		LevelSong = true;
 		MenuSong = false;
 		OutroSong = false;
@@ -44,14 +44,14 @@ void Control_Sound_And_Music::PlayMusic( int song )
 	}
 	else if( song == MUSIC_MENU )
 	{
-		Mix_PlayMusic( musicMenu, -1 );
+		//Mix_PlayMusic( musicMenu, -1 );
 		MenuSong = true;
 		LevelSong = false;
 		OutroSong = false;
 	}
 	else if( song == MUSIC_OUTRO )
 	{
-		Mix_PlayMusic( musicOutro, -1 );
+		//Mix_PlayMusic( musicOutro, -1 );
 		MenuSong = false;
 		LevelSong = false;
 		OutroSong = true;

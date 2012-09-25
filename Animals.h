@@ -20,7 +20,8 @@ class Animal : public AnimalState
 
 public:
 	Animal();
-	SDL_Rect Clips[ 17 ];
+
+	SDL_Rect Clips[ 16 ];
 	
 
 	void Setframe();

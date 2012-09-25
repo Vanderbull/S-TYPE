@@ -32,15 +32,17 @@ Animal::Animal()
 		Clips[ i ].h = Height;
 		Clips[ i ].w = Width;
 	}
-
 }
 
 void ControlAnimals::Draw_Animals()
 {
-	list< Animal* >::iterator i = My_Animals.begin();
+	float Speed = 200.0f * ( gamestate.dt / 1000.0f );
+
+	list< Animal* >::iterator i;
+	i = My_Animals.begin();
 	while(i != My_Animals.end() )
 	{
-		if( (*i)->xPos < 0 )
+		if( (*i)->xPos < -200 )
 		{
 			cout << "The Bird is no longer..." << endl;
 			i = My_Animals.erase(i);
@@ -50,11 +52,29 @@ void ControlAnimals::Draw_Animals()
 			++i;
 		}
 	}
+
+	i = My_Animals.begin();
+	while(i != My_Animals.end() )
+	{
+		(*i)->xPos -= Speed;
+		SDL_Rect CrowDest = {	(*i)->xPos, (*i)->yPos, 	
+						(*i)->Width, 
+						(*i)->Height };  
+
+		SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->Clips[ (*i)->PrevFrameCrow ], 
+							gamestate.BackBuffer, &CrowDest );
+
+		(*i)->Setframe();
+		(*i)->PrevFrameCrow = (*i)->Frame;
+
+		++i;
+	}
+
 	// Draws the Crow and sets the frame
-	float Speed = 200.0f * ( gamestate.dt / 1000.0f );
+	/*
 	if( My_Animals.size() != 0 )
 	{
-		list< Animal* >::iterator i = My_Animals.begin();
+		//list< Animal* >::iterator i = My_Animals.begin();
 		for( ; i != My_Animals.end(); ++i )
 		{
 			Animal * animal = (*i);
@@ -80,7 +100,7 @@ void ControlAnimals::Draw_Animals()
 									gamestate.BackBuffer, &CrowDest );
 			}
 		}
-	}
+	}*/
 }
 
 Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
@@ -97,10 +117,7 @@ Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
 
 void ControlAnimals::Create_Animals()
 {
-	if( rand() % 100 == 5 )
-	{
-  		My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % CrowTurf ) , gamestate.m_srfCrow ) );
-	}
+	My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % CrowTurf ) , gamestate.m_srfCrow ) );
 }
 
 ControlAnimals::ControlAnimals()
