@@ -27,6 +27,11 @@ int main( int argc, char * arg[] )
 	
 	while( Quit == false )
 	{	
+		    float Framerate = 1.f / SDL_GetTicks();
+			int t = SDL_GetTicks ();
+
+		    int NewTime = SDL_GetTicks();    int TimeSinceLastFrame = NewTime - PrevTick;    PrevTick = NewTime;
+			cout << "framerate" << TimeSinceLastFrame << endl;
 		fps.start();
 
 		if( gamestate.GameOK == false )
@@ -49,19 +54,19 @@ int main( int argc, char * arg[] )
 				gamestate.GameCondition = GS_INTRO;
 			}
 		}		
-		
+					t = SDL_GetTicks () - t;
 		CurTick = SDL_GetTicks();
 		gamestate.dt = float(CurTick - PrevTick);
-		PrevTick = CurTick;
+		//PrevTick = CurTick;
 
 		
 		New_Game.upDate( event );
 
 	      //Cap the frame rate
-        while( fps.get_ticks() < 1000 / FRAMES_PER_SECOND )
-        {
+//        while( fps.get_ticks() < 1000 / FRAMES_PER_SECOND )
+//        {
             //wait    
-        }
+//        }
 				
 		gamestate.AddTick();
 		

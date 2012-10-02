@@ -176,16 +176,15 @@ void Demon::InitiateDemon(	int surface, int Xpos, int Ypos,
 // updates player animations and moving
 int Demon::UpdatePlayer()
 {
-	float speed = 300.0f * ( gamestate.dt / 1000 );
-	float speedJump = 500.0f * ( gamestate.dt / 1000 );
-	float speedJumpDemon = 800.0f * ( gamestate.dt / 1000 );
-	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000 );
+	float speed = 300.0f * ( gamestate.dt / 1000.0f );
+	float speedJump = 500.0f * ( gamestate.dt / 1000.0f );
+	float speedJumpDemon = 800.0f * ( gamestate.dt / 1000.0f );
+	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
 
-	cout << "Speed: " << speed << endl;
+ 	cout << "Speed: " << speed << endl;
 	cout << "SpeedJump: " << speedJump << endl;
 	cout << "speedJumpDemon: " << speedJumpDemon << endl;
 	cout << "TriangleSpeed: " << TriangleSpeed << endl;
-
 			
 	// checks which animation to play
 	if( Crouch )
@@ -323,8 +322,8 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
-					demon.xPos -= speed + 20;
-					demon.xVel -= speed + 20;
+					demon.xPos -= speed + 20.0f;
+					demon.xVel -= speed + 20.0f;
 					xPosHotSpot--;			
 				}
 				return 43;
@@ -337,8 +336,8 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
-					demon.xPos += speed + 20;
-					demon.xVel += speed + 20;
+					demon.xPos += speed + 20.0f;
+					demon.xVel += speed + 20.0f;
 					xPosHotSpot++;
 					
 				}

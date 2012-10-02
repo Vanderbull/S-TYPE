@@ -32,7 +32,7 @@ Gamestate::Gamestate()
 	SCREEN_HEIGHT = 600;
 	SCREEN_WIDTH = 800;
 	SCREEN_BPP = 32;
-	dt = 0.0;
+	dt = 0.0f;
 	CheckingHighScore = false;
 	FirstLevel = true;
 	BossStart = false;
@@ -1134,6 +1134,7 @@ void Gamestate::DrawAllText()
 // ----------------------------------------------------------------------------
 void Gamestate::Loading()
 {
+	float Speed = 1000.0f * ( gamestate.dt / 1000.0f );
 	SDL_Rect dstRect = { Dragon->xPos, Dragon->yPos, Dragon->Width, Dragon->Height };
 	if ( gamestate.IntroDone == false )
 	{

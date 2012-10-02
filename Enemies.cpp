@@ -11,17 +11,16 @@
 Control_Enemies Control_ENEMY;
 
 void Enemy::Set_Clips( int WhichTypeOfEnemy )
-{ 
+{
 	// enemy type zombie
 	if( WhichTypeOfEnemy == 0 )
 	{
-	
 		for( int i = 0; i < 10; i++ )
 		{
-			EnemyClips[ i ].x = i * Enemy_Width;
-			EnemyClips[ i ].y = 0;
-			EnemyClips[ i ].h = Enemy_Height;
-			EnemyClips[ i ].w = Enemy_Width;
+			ZombieClips[ i ].x = i * Enemy_Width;
+			ZombieClips[ i ].y = 0;
+			ZombieClips[ i ].h = Enemy_Height;
+			ZombieClips[ i ].w = Enemy_Width;
 		}
 	}
 	// enemy type 1 Skelton
@@ -580,7 +579,6 @@ Heads::Heads()
 // draws all enemies skeleton, skull, zombies, checks collision and updates frame
 void Control_Enemies::Draw_Enemies()
 {
-	
 	list< Enemy* > vRemoveFiende;
 	list< Enemy* >::iterator vRemoveIterFienden;
 	Collide = false;
@@ -596,13 +594,14 @@ void Control_Enemies::Draw_Enemies()
 				Enemy * enemy = (*i);
 
 				// checks collision with player using circlecollision
-				Collide = Contr_Coll.CheckCollisionWithPlayer( enemy, 1 );
+				//Collide = Contr_Coll.CheckCollisionWithPlayer( enemy, 1 );
+				Collide = Contr_Coll.CheckCollisionWithPlayer( (*i), 1);
 
-				Attack = demon.IsInStateAttack();
+				//Attack = demon.IsInStateAttack();
 				
-				if( Collide == true && Attack == true )
+				if( Collide == true && demon.IsInStateAttack() ) // && Attack == true
 				{
-						gamestate.Score += 2;
+						gamestate.Score += 200;
 
 						if( (*i)->Surface == Zombie )
 						{
@@ -679,7 +678,7 @@ void Control_Enemies::Draw_Enemies()
 						{
 							enemy->xPos -= 3;
 						}
-						SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ),&enemy->EnemyClips[0], 
+						SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ),&enemy->ZombieClips[0], 
 											gamestate.BackBuffer, &EnemyDest );
 					}
 					else if( enemy->Surface == Skull )
@@ -761,8 +760,9 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	temp->AnimCounter = 1;
 	temp->PrevFrameSkel = 0;
 	
-	temp->xPos = xPos;
+	temp->xPos = 0.0f;//xPos;
 	temp->yPos = yPos;
+
 	if( temp->Surface == ENEMY_SKULL )
 	{
 		temp->Enemy_Height = 64;
@@ -790,7 +790,6 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	Height = temp->Enemy_Height / 2;
 	Width = temp->Enemy_Width / 2;
 
-	
 
 	if( temp->Surface == Zombie )
 	{
@@ -819,6 +818,7 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 
 void Control_Enemies::Create_Enemies()
 {
+	/*
 	if( demon.WhereIsEnd > 200 )
 	{
 		if( rand() % 40 == 2 &&  timer.AttackTimer_Zombie >= 35 )
@@ -851,6 +851,7 @@ void Control_Enemies::Create_Enemies()
 		}
 		timer.AttackTimer_Head++;
 	}
+	*/
 }
 
 Control_Enemies::Control_Enemies()

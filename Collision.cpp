@@ -462,7 +462,7 @@ bool Control_Collision::CheckCollisionWithPlayer( PowerUp *TransForm, int WhichC
 
 	if( WhichCollisionToUse == 1 )
 	{
-		temp = CollisionCircle( &demon, TransForm, false );
+		temp = CollisionCircle( &demon, TransForm, true );
 	}
 
 	return temp;
@@ -537,11 +537,11 @@ bool Control_Collision::CheckCollisionWithPlayer( Enemy *MyEnemy, int WhichColli
 
 	if( WhichCollisionToUse == 1 )
 	{
-		temp = CollisionCircle( &demon, MyEnemy, false );
+		temp = CollisionCircle( &demon, MyEnemy, true );
 	}
 	if( temp )
 	{
-		temp = CollisionBox( &demon, MyEnemy, false );
+		temp = CollisionBox( &demon, MyEnemy, true );
 	}
 
 	return temp;

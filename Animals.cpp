@@ -36,18 +36,18 @@ Animal::Animal()
 
 void ControlAnimals::Draw_Animals()
 {
-	float Speed = 200.0f * ( gamestate.dt / 1000.0f );
+	float Speed = 2000.0f * ( gamestate.dt / 1000.0f );
 
-	list< Animal* >::iterator i;
+ 	list< Animal* >::iterator i;
 	i = My_Animals.begin();
 	while(i != My_Animals.end() )
 	{
-		if( (*i)->xPos < -200 )
+		if( (*i)->xPos <= -200.0f )
 		{
-			cout << "The Bird is no longer..." << endl;
-			i = My_Animals.erase(i);
+        			cout << "The Bird is no longer..." << endl;
+      			i = My_Animals.erase(i);
 		}
-		else
+  		else
 		{
 			++i;
 		}
@@ -114,9 +114,10 @@ Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
 
 	return temp;
 }
-
+  
 void ControlAnimals::Create_Animals()
 {
+	//if( My_Animals.size() < 4 )
 	My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % CrowTurf ) , gamestate.m_srfCrow ) );
 }
 

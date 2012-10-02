@@ -107,6 +107,7 @@ Control_Objects::Control_Objects()
 
 void Control_Objects::CreateObjects()
 {
+	/*
 	if( demon.WhereIsEnd > 200 )
 	{
 		if( rand() % 50 == 12 && timer.Timer_CreateCoffin > 70 )
@@ -127,8 +128,7 @@ void Control_Objects::CreateObjects()
 		}
 		timer.Timer_CreateCoffin++;
 	}
-	
-
+	*/
 }
 
 void PowerUp::SetFrame()
@@ -271,7 +271,7 @@ void Control_Objects::DrawObjects()
 					}
 				}
 
-				if( Contr_Coll.CollisionCircle( temp, gamestate.boss, false ) )
+				if( Contr_Coll.CollisionCircle( temp, gamestate.boss, true ) )
 				{
 					vRemoveFireBall.push_back( ( *i ) ); 
 					Sound_Music.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );

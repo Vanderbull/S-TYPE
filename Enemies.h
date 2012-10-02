@@ -28,7 +28,7 @@ public:
 	void SetFrameSkull();
 	
 	SDL_Rect SkeletonClips[ 4 ][ 14 ];
-	SDL_Rect EnemyClips[ 10 ];
+	SDL_Rect ZombieClips[ 10 ];
 	SDL_Rect Skulls[ 21 ];
 
 private:
