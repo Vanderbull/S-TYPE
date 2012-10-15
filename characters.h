@@ -14,8 +14,9 @@ public:
 	void Set_clips();
 	void UpdateEndPosition();
 	int  UpdatePlayer();
-
 	void UpdateXPos();
+	bool IsInStateAttack();
+	bool CheckBoundaries();
 
 	bool SmallHunter, MediumHunter, LargeHunter, DemonHunter;
 
@@ -27,10 +28,8 @@ public:
 	bool isPunching;
 	bool CrouchFireBall;
 	bool TriangleAttack;
-	bool IsInStateAttack();
 	bool GetUp;
 
-	bool CheckBoundaries();
 
 	bool LifeFull_Small;
 	bool LifeMedium_Small;
@@ -84,9 +83,6 @@ public:
 	float xVel, yVel;
 
 	SDL_Rect AnimationArrays[ 4 ][ 48 ];
-
-private:
-
 };
 
 extern Demon demon;

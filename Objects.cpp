@@ -1,14 +1,48 @@
+#include <cmath>
 #include "Objects.h"
 #include "Game.h"
 #include "characters.h"
 #include "Timers.h"
-#include <cmath>
 #include "Collision.h"
 #include "SoundAndMusic.h"
 
 // @date 2012-08-07
 
 Control_Objects Control_OBJ;
+
+int Object::Initialize(float _xPos = 0.0f, float _yPos = 0.0f, int _Width = 0, int _Height = 0, int _Frame = 0, int _Radius = 0 )
+{
+	xPos = _xPos;
+	yPos = _yPos;
+	Width = _Width;
+	Height = _Height;
+	Frame = _Frame;
+	radius = _Radius;
+
+	int ArraySize = sizeof(Clips) / sizeof(Clips[0]);
+	// Zeroing the Clips array
+	for( int i = 0; i < ArraySize; i++ )
+	{
+		Clips[ i ].x = 0;
+		Clips[ i ].y = 0;
+		Clips[ i ].w = 0;
+		Clips[ i ].h = 0;
+	}
+	return 0;
+}
+
+int Object::SetClips(int _xStepping = 0, int _yStepping = 0, int _Width = 0, int _Height = 0)
+{
+	int ArraySize = sizeof(Clips) / sizeof(Clips[0]);
+	for( int i = 0; i < ArraySize; i++ )
+	{
+		Clips[ i ].x = _xStepping * i;
+		Clips[ i ].y = _yStepping;
+		Clips[ i ].w = _Width;
+		Clips[ i ].h = _Height;
+	}
+	return 0;
+}
 
 Tree::Tree()
 {
@@ -18,10 +52,10 @@ Tree::Tree()
 	SingleClip.y = 0;
 }
 
-PowerUp::PowerUp( int xpos, int ypos, int Surface )
+PowerUp::PowerUp( int xPos, int yPos, int Surface )
 {
-	xPos = xpos;
-	yPos = ypos;
+	xPos = xPos;
+	yPos = yPos;
 	surface = Surface;
 	Height = 56;
 	Width = 50;
@@ -30,12 +64,13 @@ PowerUp::PowerUp( int xpos, int ypos, int Surface )
 	Right = false;
 
 	radius = ( Width > Height ) ? Width / 2 - 10 : Height/2 - 10;
-	SetClips();
+	this->SetClips(50,54,50,56);
+	//SetClips();
 }
 
+/*
 void PowerUp::SetClips()
 {
-	
 	for( int i = 0; i < 4; i++ )
 	{
 		Clips[ i ].x = i * Width;
@@ -44,10 +79,11 @@ void PowerUp::SetClips()
 		Clips[ i ].h = Height;
 	}
 }
-	
+*/
+
 ThingsToDemon::ThingsToDemon()
 {
-	Width = 49;
+	Width = 50;
 	Height = 50;
 	surface = gamestate.m_srfDemonLife;
 	SurfaceHealth = gamestate.m_srfDemonHealthAndFire;
@@ -82,14 +118,17 @@ void ThingsToDemon::SetClips()
 Control_Objects::Control_Objects()
 {
 	DemonLife = new ThingsToDemon;
-	DemonLife->Frame = 0;
-	DemonLife->Height = 43;
-	DemonLife->Width = 49;
-	DemonLife->xPos = 0;
-	DemonLife->yPos = 0;
+	DemonLife->Initialize(0,0,49,43,0,0);
+
+	// Replaced by Initialize function
+	//DemonLife->Frame = 0;
+	//DemonLife->Height = 43;
+	//DemonLife->Width = 49;
+	//DemonLife->xPos = 0;
+	//DemonLife->yPos = 0;
 
 	WhichLifeToShow = 0;
-
+	
 	destHealth.x = 50; 
 	destHealth.y = 550;
 	destHealth.w = 70;
@@ -163,7 +202,6 @@ void Control_Objects::DrawObjects()
 
 	if( Control_OBJ.PowerUpMan == true )
 	{
-
 		if( demon.isMovingLeft && demon.xVel >= gamestate.SCREEN_WIDTH - 350 )
 		{
 			Control_OBJ.WereWolf->xPos += CoffinTim;
@@ -200,7 +238,6 @@ void Control_Objects::DrawObjects()
 
 		if( timer.Timer_PowerUp > 2 )
 		{
-
 			// draw the poweup here when its created
 			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
 									Control_OBJ.WereWolf->yPos,
@@ -433,15 +470,12 @@ void Control_Objects::DrawObjects()
 
 
 				SDL_BlitSurface(	gamestate.GetSurface( temp->surface ), &srcRect,
-									gamestate.BackBuffer, &dstRect );
-			
+									gamestate.BackBuffer, &dstRect );	
 		}
-
-	
-
 	}
 
-		vRemoveIterCoffin = vRemoveCoffin.begin();
+	vRemoveIterCoffin = vRemoveCoffin.begin();
+
 	for( ; vRemoveIterCoffin != vRemoveCoffin.end() ; ++vRemoveIterCoffin )
 	{
 		List_Coffins.remove( ( *vRemoveIterCoffin ) );
@@ -523,19 +557,7 @@ void Control_Objects::DrawObjects()
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ FrameHealth ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
-	}
-	
-}
-
-void Coffin::SetClips()
-{
-	for( int i = 0; i < 11; i++ )
-	{
-		Clips[ i ].x = i * Width;
-		Clips[ i ].y = 0;
-		Clips[ i ].w = Width;
-		Clips[ i ].h = Height;
-	}
+	}	
 }
 
 Coffin::Coffin()
@@ -543,7 +565,21 @@ Coffin::Coffin()
 	Width = 64;
 	Height = 64;
 	Frame = 0;
+	this->SetClips(64,0,64,64);
 }
+
+/*
+void Coffin::SetClips()
+{
+	for( int i = 0; i < 10; i++ )
+	{
+		Clips[ i ].x = i * Width;
+		Clips[ i ].y = 0;
+		Clips[ i ].w = Width;
+		Clips[ i ].h = Height;
+	}
+}
+*/
 
 void Coffin::SetFrames()
 {
@@ -568,22 +604,22 @@ Coffin * Control_Objects::CreateCoffin( int xPos, int yPos, int Surface )
 	return TemporaryCoffin;
 }
 
-FireBall * Control_Objects::CreateFireBall( int xpos, int ypos, int Surface, bool right, bool left )
+FireBall::FireBall()
 {
-	FireBall * TemporaryFireball = new FireBall;
-	TemporaryFireball->xPos = xpos;
-	TemporaryFireball->yPos = ypos;
-	TemporaryFireball->surface = Surface;
-	TemporaryFireball->Width = 70;
-	TemporaryFireball->Height = 30;
-	TemporaryFireball->FireRight = right;
-	TemporaryFireball->FireLeft = left;
-	TemporaryFireball->SetClips();
-	TemporaryFireball->radius = ( TemporaryFireball->FireWidth > TemporaryFireball->FireHeight ) ? TemporaryFireball->FireWidth / 2 : TemporaryFireball->FireHeight / 2;
+	xPos = 0;
+	yPos = 0;
 
-	return TemporaryFireball;
+	FrameRight = 0;
+	FrameLeft = 3;
+	FireRight = false;
+	FireLeft = false;
+
+	FireWidth = 35;
+	FireHeight = 35;
+	this->SetClips(35,35,35,35);
 }
 
+/*
 void FireBall::SetClips()
 {
 	for( int i = 0; i < 6; i++ )
@@ -603,25 +639,21 @@ void FireBall::SetClips()
 	Clips[ 7 ].y = 45;
 	Clips[ 7 ].w = 80;
 	Clips[ 7 ].h = 70;
-
 }
+*/
 
-FireBall::FireBall()
+FireBall * Control_Objects::CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left )
 {
-	xPos = 0;
-	yPos = 0;
+	FireBall * TemporaryFireball = new FireBall;
+	TemporaryFireball->xPos = xPos;
+	TemporaryFireball->yPos = yPos;
+	TemporaryFireball->surface = Surface;
+	TemporaryFireball->Width = 70;
+	TemporaryFireball->Height = 30;
+	TemporaryFireball->FireRight = Right;
+	TemporaryFireball->FireLeft = Left;
+	TemporaryFireball->SetClips(70,30,70,30);
+	TemporaryFireball->radius = ( TemporaryFireball->FireWidth > TemporaryFireball->FireHeight ) ? TemporaryFireball->FireWidth / 2 : TemporaryFireball->FireHeight / 2;
 
-	FrameRight = 0;
-	FrameLeft = 3;
-	FireRight = false;
-	FireLeft = false;
-
-	FireWidth = 35;
-	FireHeight = 35;
+	return TemporaryFireball;
 }
-	
-
-
-
-
-

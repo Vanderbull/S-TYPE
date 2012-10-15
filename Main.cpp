@@ -7,7 +7,7 @@
 
 // @date 2012-08-07
 
-const int FRAMES_PER_SECOND = 30;
+const int FRAMES_PER_SECOND = 120;
 using namespace std;
 
 SDL_Event event;
@@ -17,33 +17,28 @@ bool Quit = false;
 int main( int argc, char * arg[] )
 {
 	srand( time( 0 ) );
-	DWORD	PrevTick, CurTick;
-
+	DWORD	PrevTick = 0, CurTick = 0;
+	UINT32 PreviousTick = 0, CurrentTick = 0,DeltaTime = 0;
+	UINT32 MILLISECONDS = 1000;
+	UINT32 UpdayeStepping = 20; 
 	Game New_Game;
 
 	PrevTick = SDL_GetTicks();
 
 	Timer fps;
+
+	int framecount = 0;
 	
 	while( Quit == false )
-	{	
-		    float Framerate = 1.f / SDL_GetTicks();
-			int t = SDL_GetTicks ();
-
-		    int NewTime = SDL_GetTicks();    int TimeSinceLastFrame = NewTime - PrevTick;    PrevTick = NewTime;
-			cout << "framerate" << TimeSinceLastFrame << endl;
-		fps.start();
+	{				
+ 		fps.start();
 
 		if( gamestate.GameOK == false )
 		{
 			Quit = true;
-		}
-
-		
+		}		
 		while( SDL_PollEvent( &event ) )
 		{		
-		
-
 			if( event.type == SDL_QUIT  )
 			{
 				Quit = true;
@@ -54,29 +49,24 @@ int main( int argc, char * arg[] )
 				gamestate.GameCondition = GS_INTRO;
 			}
 		}		
-					t = SDL_GetTicks () - t;
+		
 		CurTick = SDL_GetTicks();
 		gamestate.dt = float(CurTick - PrevTick);
-		//PrevTick = CurTick;
-
+		PrevTick = CurTick;
 		
 		New_Game.upDate( event );
 
-	      //Cap the frame rate
-//        while( fps.get_ticks() < 1000 / FRAMES_PER_SECOND )
-//        {
+	    //Cap the frame rate
+        while( fps.get_ticks() < 1000 / FRAMES_PER_SECOND )
+        {
             //wait    
-//        }
+        }
 				
-		gamestate.AddTick();
-		
-		/*SDL_Delay( 2 );*/
-		
+		gamestate.AddTick();		
 	}
 
 	New_Game.cleanUp();
 	gamestate.EndAll();
 
 	return 0;
-
 }

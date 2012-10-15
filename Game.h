@@ -145,7 +145,7 @@ public:
 
 	
 
-	int m_srfGrass, m_srfBack, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
+	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
 		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
 		m_srfDemonLife, m_srfDemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
 		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro;

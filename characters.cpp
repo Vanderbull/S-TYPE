@@ -233,7 +233,7 @@ int Demon::UpdatePlayer()
 		isJumping      = false;
 		isCrouching    = false;
 		CrouchFireBall = false;
-		TriangleAttack = false;
+  		TriangleAttack = false;
 	}
 	else if( CrouchFire )
 	{

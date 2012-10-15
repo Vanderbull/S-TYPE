@@ -23,9 +23,6 @@
     <Filter Include="Source Files\Main">
       <UniqueIdentifier>{a07314fe-1edd-484e-a4e8-d6e4cfe0ae2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Timers">
-      <UniqueIdentifier>{1661aafa-a762-4bb4-9a6f-cefc876e4f9b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Animal">
       <UniqueIdentifier>{d5d95db7-e94d-403e-89f6-d728e25b6788}</UniqueIdentifier>
     </Filter>
@@ -50,6 +47,9 @@
     <Filter Include="Source Files\Sound">
       <UniqueIdentifier>{e2bae62d-40b9-4566-bd9d-2c804a0e8611}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Sound\Timers">
+      <UniqueIdentifier>{1661aafa-a762-4bb4-9a6f-cefc876e4f9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="characters.cpp">
@@ -71,7 +71,7 @@
       <Filter>Source Files\Main</Filter>
     </ClCompile>
     <ClCompile Include="Timers.cpp">
-      <Filter>Source Files\Timers</Filter>
+      <Filter>Source Files\Sound\Timers</Filter>
     </ClCompile>
     <ClCompile Include="Animals.cpp">
       <Filter>Source Files\Animal</Filter>
@@ -115,7 +115,7 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Timers.h">
-      <Filter>Source Files\Timers</Filter>
+      <Filter>Source Files\Sound\Timers</Filter>
     </ClInclude>
     <ClInclude Include="Animals.h">
       <Filter>Source Files\Animal</Filter>

@@ -20,6 +20,7 @@ public:
 	void SetFrame();
 	void SetClips();
 	SDL_Rect Clips[ 23 ];
+	int AnimationTimestamp;
 };
 
 class IntroTalk

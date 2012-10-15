@@ -56,7 +56,6 @@ Gamestate::Gamestate()
 	m_paralax = 0;
 
 	Score = 0;
-
 }
 
 void Game::Handle_events( SDL_Event input )
@@ -306,11 +305,11 @@ void Gamestate::load_files()
 {	
 	font = TTF_OpenFont( "cour.ttf", 28 );
 
-	m_srfGrass = Load_imageAlpha( "Graphics\\srfGrass.png", 0, 0, 0 );
+	m_srfCity = Load_imageAlpha( "Graphics\\srfCity.png", 0, 0, 0 );
 	m_srfFence = Load_imageAlpha( "Graphics\\srfFence.png", 0, 0, 0 );
 	m_srfClouds = Load_imageAlpha( "Graphics\\srfClouds.png", 0, 0, 0 );
 	m_srfBlack = Load_imageAlpha( "Graphics\\srfBlack.png", 0, 0, 0 );
-	m_srfBack = Load_imageAlpha( "Graphics\\srfBack.png", 0, 0, 0 );
+	m_srfSky = Load_imageAlpha( "Graphics\\srfSky.png", 0, 0, 0 );
 	m_srfTrees = Load_imageAlpha( "Graphics\\srfTrees.png", 2, 2, 2 );
 	demon.DemonSurface = Load_imageAlpha( "Graphics\\DemonSurface.png", 255, 255, 255 );
 	m_srfEnemyZombie = Load_imageAlpha( "Graphics\\srfEnemyZombie.png", 106, 76, 48 );
@@ -521,6 +520,8 @@ void Gamestate::DrawBackgroundBlack()
 {
 	if( gamestate.GameCondition == GS_OUTRO )
 	{
+		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,255,0));
+		/*
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
 
@@ -529,10 +530,12 @@ void Gamestate::DrawBackgroundBlack()
 		SDL_Rect dtRect = {	600, 530, 100, 50 };
 
 		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
-
+		*/
 	}
 	else
 	{
+		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,255,0));
+		/*
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
 
@@ -541,7 +544,8 @@ void Gamestate::DrawBackgroundBlack()
 
 		SDL_Rect dtRect = {	0, 0, MyParaBackGround->m_width, 600 };
 
-		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
+		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect );
+		*/
 	}
 }
 
@@ -1130,15 +1134,24 @@ void Gamestate::DrawAllText()
 }
 
 // ----------------------------------------------------------------------------
-// Loading() - draws the loading screen on the screen.
+// Loading() - draws the loading screen on the screen. Dragon dancing
 // ----------------------------------------------------------------------------
 void Gamestate::Loading()
 {
-	float Speed = 1000.0f * ( gamestate.dt / 1000.0f );
+	cout << "fps" <<1000.f /dt<< "-"<<endl;
+	cout << dt*15  << endl;
+	//currentAnimFrame += deltaTime * animFramesPerSecond;
+
+	float Speed = 1000.0f * ( dt / 1000.0f );
 	SDL_Rect dstRect = { Dragon->xPos, Dragon->yPos, Dragon->Width, Dragon->Height };
 	if ( gamestate.IntroDone == false )
 	{
-		if( timer.Timer_Dancing >= 1 )
+					SDL_BlitSurface(	m_surfaceList[ Dragon->surface ], &Dragon->Clips[ Dragon->Frame ],
+								gamestate.BackBuffer, &dstRect );
+			Dragon->PrevFrame = Dragon->Frame;
+			Dragon->SetFrame();		
+			/*
+		if( timer.Timer_Dancing >= (1000.f /dt) / 60 )
 		{
 			timer.Timer_Dancing = 0;
 			
@@ -1152,7 +1165,7 @@ void Gamestate::Loading()
 			SDL_BlitSurface(	m_surfaceList[ Dragon->surface ], &Dragon->Clips[ Dragon->PrevFrame ],
 								gamestate.BackBuffer, &dstRect );
 			timer.Timer_Dancing++;
-		}
+		}*/
 		
 	}
 }
@@ -1970,7 +1983,7 @@ void Gamestate::setUpParallaxLayers()
 	Paralax->setLayer( 0, 0, m_srfBlack, 0, 800, 600, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	////sky
-	Paralax->setLayer( 1, 0.0f, m_srfBack, 0, 800, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Paralax->setLayer( 1, 0.0f, m_srfSky, 0, 800, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	// trees
 	Paralax->setLayer( 2, 0.1f, m_srfTrees, 0, 1172, 170, 0, 370, 800, 170 ); 
@@ -1997,10 +2010,10 @@ void Gamestate::setUpParallaxLayers()
 						gamestate.BackBuffer->h );
 
 	// City
-	Paralax->setLayer( 8, 0.7f, m_srfGrass, 0, 5100, 535, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Paralax->setLayer( 8, 0.7f, m_srfCity, 0, 5100, 535, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	// WalkPath
-	Paralax->setLayer(	9, 1.0f, m_srfGrass, 
+	Paralax->setLayer(	9, 1.0f, m_srfCity, 
 						540, 5100, 60, 0, 535, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 

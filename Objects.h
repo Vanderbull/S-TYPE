@@ -7,6 +7,9 @@
 class Object
 {
 public:
+
+	int Initialize(float _xPos, float _yPos, int _Width, int _Height,int Frame, int _Radius);
+	int Object::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
 	float xPos, yPos;
 	int Width, Height;
 	int surface;
@@ -14,9 +17,7 @@ public:
 	int radius;
 
 	SDL_Rect Clips[ 10 ];
-	SDL_Rect SingleClip;
-	
-private:
+	SDL_Rect SingleClip; // Tree
 };
 
 class ThingsToDemon : public Object
@@ -26,51 +27,40 @@ public:
 	void SetClips();
 	SDL_Rect HealthClips[ 6 ];
 	int SurfaceHealth;
-
-private:
-
 };
 
 class PowerUp : public Object
 {
 public:
 	PowerUp( int xpos, int ypos, int Surface );
-	void SetClips();
+	//void SetClips();
 	void SetFrame();
 	bool Left, Right;
-
-private:
 };
 
 class Tree : public Object
 {
 public:
 	Tree();
-	
-private:
 };
 
 class FireBall : public Object
 {
 public:
 	FireBall();
-	void SetClips();
+	//void SetClips();
 	int FrameRight, FrameLeft;
 	bool FireRight, FireLeft;
 
 	int FireWidth, FireHeight;
-
-private:
-
 };
 
 class Coffin : public Object
 {
 public:
 	Coffin();
-	void SetClips();
+	//void SetClips();
 	void SetFrames();
-	
 };
 
 class Control_Objects
@@ -89,7 +79,7 @@ public:
 
 	bool PowerUpMan;
 	
-	FireBall * CreateFireBall( int xpos, int ypos, int Surface, bool right, bool left );
+	FireBall * CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left );
 	Coffin * CreateCoffin( int xPos, int yPos, int Surface );
 
 	PowerUp * WereWolf;

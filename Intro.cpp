@@ -41,6 +41,7 @@ DancingDragon::DancingDragon( int Surface )
 	//184
 	Height = 119;
 	SetClips();
+	AnimationTimestamp = GetTickCount();
 }
 
 // sets up the intro where the dudes talk
@@ -93,16 +94,17 @@ IntroTalk::IntroTalk( int Surface )
 // draws a black background
 void IntroTalk::DrawBackground()
 {
+	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,255,0));
+	/*
 	ParallaxLayer  * MyParaBackGround;
 	MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
 
-	SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
-								600 };
+	SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 600 };
 
 	SDL_Rect dtRect = {	0, 0, MyParaBackGround->m_width, 600 };
 
 	SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
-
+	*/
 }
 
 // all the talking
