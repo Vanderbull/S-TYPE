@@ -923,6 +923,7 @@ int Demon::UpdatePlayer()
 				demon.Left = false;
 				if( gamestate.GameCondition == GS_OUTRO )
 				{
+					Sleep(100);
 					demon.xPos += 2;
 					demon.xVel += 2;	
 				}
@@ -951,7 +952,7 @@ int Demon::UpdatePlayer()
 					demon.xVel += speed;
 					demon.xPosHotSpot++;
 				}
-
+				// Walking animation frames 
 				if( demon.SmallHunter )
 				{
 					if( WhereWalkRight == 4 )
@@ -967,7 +968,7 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
-					if( WalkRight_Demon == 3 )
+					if( WalkRight_Demon == 4 )
 					{
 						WalkRight_Demon = 1;
 					}
@@ -991,8 +992,8 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
-					demon.xPos -= speed;
-					demon.xVel -= speed;
+					//demon.xPos -= speed;
+					//demon.xVel -= speed;
 					demon.xPosHotSpot--;
 				}
 				

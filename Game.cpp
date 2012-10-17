@@ -977,7 +977,6 @@ void Gamestate::DoIntroTalk()
 // ----------------------------------------------------------------------------
 void Gamestate::PlayerDied()
 {
-
 	ListHighScore->sort( gamestate.name->str.c_str(), gamestate.Score );
 	ListHighScore->Save();
 
@@ -1137,8 +1136,6 @@ void Gamestate::DrawAllText()
 // ----------------------------------------------------------------------------
 void Gamestate::Loading()
 {
-	Sleep(100);
-
 	//currentAnimFrame += deltaTime * animFramesPerSecond;
 	SDL_SetAlpha( m_surfaceList[  Dragon->surface ], SDL_SRCALPHA, 255 );
 
@@ -1345,7 +1342,7 @@ void Gamestate::EnterName()
 	SDL_Color textColor = { 255,255,255 };
 	SDL_Event input;
 	gamestate.IntroDone = false;
-	SDL_Surface * Enter;
+	SDL_Surface * srfEnter;
 	
 	while( Name != true )
 	{
@@ -1360,21 +1357,19 @@ void Gamestate::EnterName()
 			gamestate.DrawBackgroundBlack();
 			gamestate.Loading();
 			gamestate.name->handle_input( input );
+			Sleep(100);
 		}
 		timer.Timer_Name++;
 
 		
-		TypeName = TTF_RenderText_Solid( font, " Please Enter Your Initials Max Three Letters: ", textColor ); 
+		TypeName = TTF_RenderText_Solid( font, " Enter your name ", textColor ); 
 		gamestate.name->show_centered();
-		gamestate.apply_surface( 10, 200, TypeName, gamestate.BackBuffer );
+		gamestate.apply_surface( 250, 200, TypeName, gamestate.BackBuffer );
 
-		Enter = TTF_RenderText_Solid( font, " Press Enter To Finish ", textColor );
-		gamestate.apply_surface( 50, 500, Enter, gamestate.BackBuffer );
-
+		srfEnter = TTF_RenderText_Solid( font, " Press Enter To Finish ", textColor );
+		gamestate.apply_surface( 200, 500, srfEnter, gamestate.BackBuffer );
 
 		gamestate.FLIP();
-	
-
 	}
 
 	gamestate.GameCondition = GS_INTROSTORY;

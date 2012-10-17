@@ -36,7 +36,7 @@ Animal::Animal()
 
 void ControlAnimals::Draw_Animals()
 {
-	float Speed = 2000.0f * ( gamestate.dt / 1000.0f );
+	float Speed = 2.5f;//2000.0f * ( gamestate.dt / 1000.0f );
 
  	list< Animal* >::iterator i;
 	i = My_Animals.begin();
@@ -117,7 +117,7 @@ Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
   
 void ControlAnimals::Create_Animals()
 {
-	//if( My_Animals.size() < 4 )
+	if( My_Animals.size() < rand()%25 )
 	My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % CrowTurf ) , gamestate.m_srfCrow ) );
 }
 

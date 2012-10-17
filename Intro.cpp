@@ -128,7 +128,7 @@ void IntroTalk::DoTalk()
 			}
 		}
 
-		int SpeedOfWords = 50.0f * ( gamestate.dt / 1000 ) ;
+		int SpeedOfWords = 25;//500.0f * ( gamestate.dt / 1000 ) ;
 		Counter += SpeedOfWords;
 		
 		DrawBackground();
