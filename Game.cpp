@@ -1,6 +1,11 @@
 #pragma once
 
 #include <iostream>
+#include <windows.h>
+#include <sstream>
+#include <stdlib.h>
+#include <fstream>
+#include <cmath>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -8,11 +13,6 @@
 #include "Game.h"
 #include "characters.h"
 #include "SoundAndMusic.h"
-#include <windows.h>
-#include <sstream>
-#include <stdlib.h>
-#include <fstream>
-#include <cmath>
 #include "Objects.h"
 #include "Enemies.h"
 #include "TImers.h"
@@ -36,7 +36,6 @@ Gamestate::Gamestate()
 	CheckingHighScore = false;
 	FirstLevel = true;
 	BossStart = false;
-	Skeleton_Attack = false;
 	IntroDone = false;
 	ScreenSize = 0;
 	GameCondition = GS_INTRO;
@@ -51,7 +50,7 @@ Gamestate::Gamestate()
 	Current_Frame = 0;
 
 	font = NULL;
-	text = NULL;
+	srfText = NULL;
 
 	m_paralax = 0;
 
@@ -294,6 +293,7 @@ Game::Game()
 	gamestate.GameOK = true;
 	gamestate.GameOK = Init( gamestate.screen );
 	
+	// h 100 w 130
 	demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH ); 
 
 	gamestate.load_files();
@@ -306,7 +306,6 @@ void Gamestate::load_files()
 	font = TTF_OpenFont( "cour.ttf", 28 );
 
 	m_srfCity = Load_imageAlpha( "Graphics\\srfCity.png", 0, 0, 0 );
-	m_srfFence = Load_imageAlpha( "Graphics\\srfFence.png", 0, 0, 0 );
 	m_srfClouds = Load_imageAlpha( "Graphics\\srfClouds.png", 0, 0, 0 );
 	m_srfBlack = Load_imageAlpha( "Graphics\\srfBlack.png", 0, 0, 0 );
 	m_srfSky = Load_imageAlpha( "Graphics\\srfSky.png", 0, 0, 0 );
@@ -323,10 +322,10 @@ void Gamestate::load_files()
 	m_srfStart = Load_imageAlpha( "Graphics\\srfStart.png", 237, 234, 214 );
 	m_srfButtons = Load_imageAlpha( "Graphics\\srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Load_imageAlpha( "Graphics\\srfIntro.png", 255, 255, 255 );
-	m_srfPower = Load_imageAlpha( "Graphics\\srfPower.png", 97, 68, 43 );
 	m_srfMorphing = Load_imageAlpha( "Graphics\\srfMorphing.png", 255, 255, 241 );
 	m_srfReaper = Load_imageAlpha( "Graphics\\srfReaper.png", 255, 255, 255 );
 	m_srfOutro = Load_imageAlpha( "Graphics\\srfOutro.png", 255, 255, 255 );
+	m_srfButton = Load_imageAlpha( "Graphics\\srfButton.png", 0, 0, 0 );
 
 	gamestate.CreateNewThings();
 
@@ -520,7 +519,7 @@ void Gamestate::DrawBackgroundBlack()
 {
 	if( gamestate.GameCondition == GS_OUTRO )
 	{
-		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,255,0));
+		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
 		/*
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
@@ -534,7 +533,7 @@ void Gamestate::DrawBackgroundBlack()
 	}
 	else
 	{
-		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,255,0));
+		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
 		/*
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
@@ -1110,14 +1109,14 @@ void Gamestate::DrawAllText()
 		
 		if( GameCondition == GS_DEAD )
 		{
-			sprintf_s( gamestate.text_out, 256, " Press Space For Menu " );
-			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.text_out, textColor, textColor2 );
+			sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
+			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, textColor, textColor2 );
 			gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer ); 
 		}
 		else
 		{
-			sprintf_s( gamestate.text_out, 256, " Press Space To Start " );		
-			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.text_out, textColor, textColor2 );
+			sprintf_s( gamestate.Text, 256, " Press Space To Start " );		
+			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, textColor, textColor2 );
 			gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer ); 
 		}
 	}
@@ -1127,9 +1126,9 @@ void Gamestate::DrawAllText()
 		SDL_Color textColor = { 251, 245, 32 };
 
 		// print out the score
-		sprintf_s(gamestate.text_out, 256, "Score: %i ", gamestate.Score );		
-		gamestate.text = TTF_RenderText_Solid( gamestate.font, text_out, textColor );
-		gamestate.apply_surface( 600, 20, gamestate.text, gamestate.BackBuffer ); 
+		sprintf_s(gamestate.Text, 256, "Score: %i ", gamestate.Score );		
+		gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, textColor );
+		gamestate.apply_surface( 600, 20, gamestate.srfText, gamestate.BackBuffer ); 
 	}
 }
 
@@ -1138,9 +1137,10 @@ void Gamestate::DrawAllText()
 // ----------------------------------------------------------------------------
 void Gamestate::Loading()
 {
-	cout << "fps" <<1000.f /dt<< "-"<<endl;
-	cout << dt*15  << endl;
+	Sleep(100);
+
 	//currentAnimFrame += deltaTime * animFramesPerSecond;
+	SDL_SetAlpha( m_surfaceList[  Dragon->surface ], SDL_SRCALPHA, 255 );
 
 	float Speed = 1000.0f * ( dt / 1000.0f );
 	SDL_Rect dstRect = { Dragon->xPos, Dragon->yPos, Dragon->Width, Dragon->Height };
@@ -1204,11 +1204,10 @@ void Gamestate::FLIP()
 }
 
 // ----------------------------------------------------------------------------
-// MainScreen() - Draws the mainscreen, checks conditions.
+// MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen()
 {
-
 	SDL_Surface * Surface_Credits = NULL;
 	SDL_Surface * Surface_HighScore = NULL;
 
@@ -1283,11 +1282,8 @@ void Gamestate::MainScreen()
 		
 	
 		Surface_Credits =		TTF_RenderText_Solid( gamestate.font, 
-								" A MrHadley Production ", textColor );
+								" A Risk Production ", textColor );
 		apply_surface( 50, 100, Surface_Credits, gamestate.BackBuffer );
-		
-		
-
 	}
 	else
 	{
@@ -1305,8 +1301,6 @@ void Gamestate::MainScreen()
 		}
 	}
 	
-
-
 	if( TitleScreen->Button_Newgame == true )
 	{
 		gamestate.GameCondition = GS_ENTERNAME;
@@ -1328,15 +1322,17 @@ void Gamestate::MainScreen()
 		gamestate.GameOK = false;
 		TitleScreen->Button_Quit == false;
 	}
+
 	if( TitleScreen->Button_Back == true )
 	{
 		TitleScreen->Button_Options = false;
 		TitleScreen->Button_Back = false;
 		TitleScreen->Button_HighScore = false;
 		TitleScreen->Button_Credits = false;
+		TitleScreen->Button_Back = false;
 	}
 	
-	// Show result
+	// Render frame
 	gamestate.FLIP();
 }
 
@@ -1774,7 +1770,7 @@ bool Gamestate::OK_Pace()
 {
 	if( GameCondition != GS_OUTRO )
 	{
-		if( UpDateAnimationSpeed > ANIMPACE )
+		if( UpdateAnimationSpeed > ANIMPACE )
 		{
 			return true;
 		}
@@ -1785,7 +1781,7 @@ bool Gamestate::OK_Pace()
 	}
 	else
 	{
-		if( UpDateAnimationSpeed > ANIMPACESLOWER )
+		if( UpdateAnimationSpeed > ANIMPACESLOWER )
 		{
 			return true;
 		}
@@ -1799,7 +1795,7 @@ bool Gamestate::OK_Pace()
 // if enemy OK to move
 bool Gamestate::OK_PaceEnemy()
 {
-	if( UpDateAnimationSpeed > ANIMPACEENEMY )
+	if( UpdateAnimationSpeed > ANIMPACEENEMY )
 	{
 		return true;
 	}
@@ -1809,12 +1805,12 @@ bool Gamestate::OK_PaceEnemy()
 void Gamestate::AddTick()
 {
 	 float Speed = 1000.0f * ( gamestate.dt / 1000 );;
-	 UpDateAnimationSpeed += Speed;
+	 UpdateAnimationSpeed += Speed;
 }
 
 void Gamestate::resetAnimationPace()
 {
-	UpDateAnimationSpeed = 0;
+	UpdateAnimationSpeed = 0;
 }
 
 void Gamestate::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )

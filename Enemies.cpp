@@ -579,6 +579,7 @@ Heads::Heads()
 // draws all enemies skeleton, skull, zombies, checks collision and updates frame
 void Control_Enemies::Draw_Enemies()
 {
+
 	list< Enemy* > vRemoveFiende;
 	list< Enemy* >::iterator vRemoveIterFienden;
 	Collide = false;
@@ -666,7 +667,7 @@ void Control_Enemies::Draw_Enemies()
 										gamestate.GetSurface( Zombie )->h }; 
 
 				
-				if(  (*i)->xPos < 10 )
+				if(  (*i)->xPos < 0 )
 				{
 					vRemoveFiende.push_back( (*i) );
 				}
@@ -747,9 +748,7 @@ void Control_Enemies::Draw_Enemies()
 	for( ; vRemoveIterFienden != vRemoveFiende.end() ; ++vRemoveIterFienden )
 	{
 		My_Enemies.remove(*vRemoveIterFienden);
-	}
-
-	
+	}	
 }
 
 // gives the enemy the attributes he should have
@@ -760,7 +759,7 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	temp->AnimCounter = 1;
 	temp->PrevFrameSkel = 0;
 	
-	temp->xPos = 0.0f;//xPos;
+	temp->xPos = xPos;
 	temp->yPos = yPos;
 
 	if( temp->Surface == ENEMY_SKULL )
@@ -823,7 +822,7 @@ void Control_Enemies::Create_Enemies()
 	{
 		if( rand() % 40 == 2 &&  timer.AttackTimer_Zombie >= 35 )
 		{
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y + 20, Zombie ) );
+			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, Zombie ) );
 			timer.AttackTimer_Zombie = 0;
 		}
 		timer.AttackTimer_Zombie++;
@@ -831,7 +830,7 @@ void Control_Enemies::Create_Enemies()
 		if( rand() % 50 == 2 &&  timer.AttackTimer_Head >= 50 )
 		{
 			timer.AttackTimer_Head = 0;
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y + 20, Skull ) );
+			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y, Skull ) );
 		}
 		timer.AttackTimer_Head++;
 	}
@@ -839,7 +838,7 @@ void Control_Enemies::Create_Enemies()
 	{
 		if( rand() % 100 == 2 &&  timer.AttackTimer_Zombie >= 50 )
 		{
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y + 20, Zombie ) );
+			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, Zombie ) );
 			timer.AttackTimer_Zombie = 0;
 		}
 		timer.AttackTimer_Zombie++;
@@ -847,7 +846,7 @@ void Control_Enemies::Create_Enemies()
 		if( rand() % 100 == 2 &&  timer.AttackTimer_Head >= 100 )
 		{
 			timer.AttackTimer_Head = 0;
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y + 20, Skull ) );
+			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y, Skull ) );
 		}
 		timer.AttackTimer_Head++;
 	}

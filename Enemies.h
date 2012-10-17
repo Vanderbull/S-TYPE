@@ -64,7 +64,6 @@ public:
 	float HeadTimer;
 
 	int HeadHeight, HeadWidth;
-
 };
 
 class Boss : public MovingThings

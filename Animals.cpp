@@ -44,7 +44,7 @@ void ControlAnimals::Draw_Animals()
 	{
 		if( (*i)->xPos <= -200.0f )
 		{
-        			cout << "The Bird is no longer..." << endl;
+        			// cout << "The Bird is no longer..." << endl;
       			i = My_Animals.erase(i);
 		}
   		else

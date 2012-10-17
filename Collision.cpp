@@ -502,7 +502,7 @@ void Control_Collision::Circle( long centerx, long centery, long radius )
 // checks collision
 void Control_Collision::SetPixelMine( int xPos, int yPos  )
 {
-	SDL_LockSurface( gamestate.BackBuffer );
+  	SDL_LockSurface( gamestate.BackBuffer );
 
 	COLORREF color( RGB( 255, 0, 0 ) );
 

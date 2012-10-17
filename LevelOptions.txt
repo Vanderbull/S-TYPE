@@ -1,5 +1,5 @@
 WhichLayer: 0
-Layer_Surface: 3
+Layer_Surface: 2
 Layer_Width: 800
 Layer_Height: 600
 Layer_WhereOn_Y: 0
@@ -10,7 +10,7 @@ Destination_Width: 800
 Destination_Height: 600
 
 WhichLayer: 1
-Layer_Surface: 4
+Layer_Surface: 3
 Layer_Width: 800
 Layer_Height: 400
 Layer_WhereOn_Y: 0
@@ -21,7 +21,7 @@ Destination_Width: 800
 Destination_Height: 600
 
 WhichLayer: 2
-Layer_Surface: 5
+Layer_Surface: 4
 Layer_Width: 1172
 Layer_Height: 170
 Layer_WhereOn_Y: 0
@@ -32,7 +32,7 @@ Destination_Width: 800
 Destination_Height: 170
 
 WhichLayer: 3
-Layer_Surface: 2
+Layer_Surface: 1
 Layer_Width: 800
 Layer_Height: 38
 Layer_WhereOn_Y: 0
@@ -43,7 +43,7 @@ Destination_Width: 800
 Destination_Height: 600
 
 WhichLayer: 4
-Layer_Surface: 2
+Layer_Surface: 1
 Layer_Width: 800
 Layer_Height: 87
 Layer_WhereOn_Y: 38
@@ -54,7 +54,7 @@ Destination_Width: 800
 Destination_Height: 600
 
 WhichLayer: 5
-Layer_Surface: 2
+Layer_Surface: 1
 Layer_Width: 800
 Layer_Height: 46
 Layer_WhereOn_Y: 126
@@ -65,7 +65,7 @@ Destination_Width: 800
 Destination_Height: 600
 
 WhichLayer: 6
-Layer_Surface: 2
+Layer_Surface: 1
 Layer_Width: 800
 Layer_Height: 21
 Layer_WhereOn_Y: 172
@@ -76,7 +76,7 @@ Destination_Width: 800
 Destination_Height: 600
 
 WhichLayer: 7
-Layer_Surface: 2
+Layer_Surface: 1
 Layer_Width: 800
 Layer_Height: 12
 Layer_WhereOn_Y: 193

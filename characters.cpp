@@ -138,7 +138,7 @@ bool Demon::CheckBoundaries()
 			return false;
 		}
 	} 
-
+	
 	return true;
 }
 
@@ -176,16 +176,13 @@ void Demon::InitiateDemon(	int surface, int Xpos, int Ypos,
 // updates player animations and moving
 int Demon::UpdatePlayer()
 {
-	float speed = 300.0f * ( gamestate.dt / 1000.0f );
-	float speedJump = 500.0f * ( gamestate.dt / 1000.0f );
+	float JumpSpeed = 10.0f;
+
+	float speed = 2500.0f * ( gamestate.dt / 1000.0f );
+	float speedJump = 2500.0f * ( gamestate.dt / 1000.0f );
 	float speedJumpDemon = 800.0f * ( gamestate.dt / 1000.0f );
 	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
 
- 	cout << "Speed: " << speed << endl;
-	cout << "SpeedJump: " << speedJump << endl;
-	cout << "speedJumpDemon: " << speedJumpDemon << endl;
-	cout << "TriangleSpeed: " << TriangleSpeed << endl;
-			
 	// checks which animation to play
 	if( Crouch )
 	{
@@ -218,7 +215,6 @@ int Demon::UpdatePlayer()
 	}
 	else if( Punch )
 	{
-		
 		isPunching     = true;
 		isKicking      = false;
 		isJumping      = false;
@@ -815,7 +811,7 @@ int Demon::UpdatePlayer()
 						}
 						else
 						{
-							demon.yPos -= speedJump;
+							demon.yPos -= JumpSpeed;
 							WhereJumpRight++;
 						}
 
@@ -941,6 +937,7 @@ int Demon::UpdatePlayer()
 						else
 						{
 							demon.xPos += speed;
+							//demon.xVel = 2500.0f;
 							demon.xVel += speed;
 						}
 					}
@@ -948,7 +945,9 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
+					//First movement right
 					demon.xPos += speed;
+					//demon.xVel = 2500.0f;
 					demon.xVel += speed;
 					demon.xPosHotSpot++;
 				}
@@ -968,7 +967,7 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
-					if( WalkRight_Demon == 4 )
+					if( WalkRight_Demon == 3 )
 					{
 						WalkRight_Demon = 1;
 					}

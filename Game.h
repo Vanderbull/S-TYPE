@@ -41,7 +41,7 @@ const int DEMONHEIGHTREAL = 25;
 
 const int GROUND_Y = 450;
 const int GROUND_X = 400;
-const int STARTSCROLLING = 600;
+const int STARTSCROLLING = 400;
 const int BOSS_ATTACK_START = 150;
 
 using namespace std;
@@ -53,8 +53,7 @@ public:
 	
 	ParallaxBackground *Paralax;
 
-	int SCREEN_HEIGHT, SCREEN_WIDTH;
-	int SCREEN_BPP;
+	int SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_BPP;
 
 	int Current_AnimArray, Previous_AnimArray;
 	int Current_Frame, Previous_Frame;
@@ -69,19 +68,18 @@ public:
 
 	float dt;
 	float ScreenSize;
-	float UpDateAnimationSpeed;
+	float UpdateAnimationSpeed;
 
 	bool GameOK;
-	bool FirstLevel, SecondLevel, ThirdLevel;
+	bool FirstLevel;
 	bool OK_Pace();
 	bool OK_PaceEnemy();
 
 	bool BossStart;
-	bool Skeleton_Attack;
 	bool IntroDone;
 	bool CheckingHighScore;
 
-	char text_out[ 256 ];
+	char Text[ 256 ];
 	string ScoreString;
 
 	SDL_Surface * screen;
@@ -148,9 +146,9 @@ public:
 	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
 		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
 		m_srfDemonLife, m_srfDemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
-		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro;
+		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro, m_srfButton;
 
-	SDL_Surface * text;
+	SDL_Surface * srfText;
 	SDL_Surface * textIntro;
 	SDL_Surface * DeathSurface[ 2 ];
 	SDL_Surface * TypeName;

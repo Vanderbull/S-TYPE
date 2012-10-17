@@ -34,12 +34,11 @@ DancingDragon::DancingDragon( int Surface )
 	PrevFrame = 0;
 	StateCounter = 0;
 
-	xPos = 300;
-	yPos = 300;
+	xPos = 0;
+	yPos = 0;
 	surface = Surface;
-	Width = 185;
-	//184
-	Height = 119;
+	Width = 64;
+	Height = 64;
 	SetClips();
 	AnimationTimestamp = GetTickCount();
 }
@@ -94,7 +93,7 @@ IntroTalk::IntroTalk( int Surface )
 // draws a black background
 void IntroTalk::DrawBackground()
 {
-	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,255,0));
+	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
 	/*
 	ParallaxLayer  * MyParaBackGround;
 	MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
