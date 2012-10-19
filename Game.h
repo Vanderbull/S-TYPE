@@ -152,6 +152,9 @@ public:
 	SDL_Surface * textIntro;
 	SDL_Surface * DeathSurface[ 2 ];
 	SDL_Surface * TypeName;
+
+	// Level progress counter
+	int LevelProgress;
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];

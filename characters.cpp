@@ -3,7 +3,7 @@
 #include "characters.h"
 #include "Game.h"
 #include <cmath>
-#include "SoundAndMusic.h"
+#include "Audio.h"
 
 // @date 2012-08-07
 
@@ -95,19 +95,22 @@ Demon::Demon()
 	LastEnd_Pos      = 0;
 
 	TriangleState    = 0;
-	xPosHotSpot      = 0;
+	//xPosHotSpot      = 0;
 }
 
 //What is end position and what is it used for???
 void Demon::UpdateEndPosition()
 {
-	demon.WhereIsEnd += demon.xPosHotSpot - LastEnd_Pos;
-	LastEnd_Pos = demon.xPosHotSpot;
+	//demon.WhereIsEnd += demon.xPosHotSpot - LastEnd_Pos;
+	//LastEnd_Pos = demon.xPosHotSpot;
+	demon.WhereIsEnd += gamestate.LevelProgress - LastEnd_Pos;
+	LastEnd_Pos = gamestate.LevelProgress;
 }
 
 // checks if OK to move
 bool Demon::CheckBoundaries()
 {
+	/*
 	Last_Xpos = demon.xPos;
 	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
 	if( demon.Left )
@@ -138,7 +141,7 @@ bool Demon::CheckBoundaries()
 			return false;
 		}
 	} 
-	
+	*/
 	return true;
 }
 
@@ -308,7 +311,7 @@ int Demon::UpdatePlayer()
 		}
 		else
 		{
-			Sound_Music.PlaySoundEffect( SOUND_GETS_HIT );
+			Audio.PlaySoundEffect( SOUND_GETS_HIT );
 
 			if( Right )
 			{
@@ -320,7 +323,7 @@ int Demon::UpdatePlayer()
 				{
 					demon.xPos -= speed + 20.0f;
 					demon.xVel -= speed + 20.0f;
-					xPosHotSpot--;			
+					//xPosHotSpot--;
 				}
 				return 43;
 			}
@@ -334,7 +337,7 @@ int Demon::UpdatePlayer()
 				{
 					demon.xPos += speed + 20.0f;
 					demon.xVel += speed + 20.0f;
-					xPosHotSpot++;
+					//xPosHotSpot++;
 					
 				}
 				return 39;
@@ -359,7 +362,7 @@ int Demon::UpdatePlayer()
 					{
 						if( demon.xVel <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
 						{
-							demon.xPosHotSpot--;
+							//demon.xPosHotSpot--;
 							demon.xPos = 51;
 							demon.xVel = 51;
 						}
@@ -368,7 +371,7 @@ int Demon::UpdatePlayer()
 							demon.yPos -= abs( 16 * cos( speedJumpDemon ) );
 							demon.xPos -= abs( 16 * cos( speedJumpDemon ) );
 							demon.xVel -= abs( 16 * cos( speedJumpDemon ) );
-							demon.xPosHotSpot--;
+							//demon.xPosHotSpot--;
 
 							if( demon.yPos < GROUND_Y - 50 )
 							{
@@ -382,7 +385,7 @@ int Demon::UpdatePlayer()
 					{
 						if( demon.xVel <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
 						{
-							demon.xPosHotSpot--;
+							//demon.xPosHotSpot--;
 							demon.xPos = 51;
 							demon.xVel = 51;
 						}
@@ -391,7 +394,7 @@ int Demon::UpdatePlayer()
 							demon.yPos += abs( 15 * cos( speedJumpDemon ) );
 							demon.xPos -= abs( 10 * cos( speedJumpDemon ) );
 							demon.xVel -= abs( 10 * cos( speedJumpDemon ) );
-							demon.xPosHotSpot--;
+							//demon.xPosHotSpot--;
 		
 							if( demon.yPos > GROUND_Y )
 							{
@@ -428,14 +431,14 @@ int Demon::UpdatePlayer()
 					{
 						if( demon.xVel + abs( 10 * cos( speedJumpDemon ) ) >= gamestate.SCREEN_WIDTH - 50 )
 						{
-							demon.xPosHotSpot++;
+							//demon.xPosHotSpot++;
 						}
 						else
 						{
 							demon.yPos -= abs( 15 * cos( speedJumpDemon ) );
 							demon.xPos += abs( 10 * cos( speedJumpDemon ) );
 							demon.xVel += abs( 10 * cos( speedJumpDemon ) );
-							demon.xPosHotSpot++;
+							//demon.xPosHotSpot++;
 
 							if( demon.yPos < GROUND_Y - 50 )
 							{
@@ -448,14 +451,14 @@ int Demon::UpdatePlayer()
 					{
 						if( demon.xVel + abs( 5 * cos( speedJumpDemon ) ) >= gamestate.SCREEN_WIDTH - 50 )
 						{
-							demon.xPosHotSpot++;
+							//demon.xPosHotSpot++;
 						}
 						else
 						{
 							demon.yPos += abs( 15 * cos( speedJumpDemon ) );
 							demon.xPos += abs( 5 * cos( speedJumpDemon ) );
 							demon.xVel += abs( 5 * cos( speedJumpDemon ) );
-							demon.xPosHotSpot++;
+							//demon.xPosHotSpot++;
 							
 							if( demon.yPos > GROUND_Y )
 							{
@@ -620,7 +623,7 @@ int Demon::UpdatePlayer()
 					{
 						if( FireBallRight_Demon == 11 )
 						{
-							Sound_Music.PlaySoundEffect( SOUND_FIRE );
+							Audio.PlaySoundEffect( SOUND_FIRE );
 							Control_OBJ.List_FireBalls.push_back(	Control_OBJ.CreateFireBall( demon.xPos - 15,
 																	demon.yPos + 35, gamestate.m_srfDemonHealthAndFire, Right, Left ) );
 							FireBallRight_Demon++;
@@ -644,7 +647,7 @@ int Demon::UpdatePlayer()
 					{
 						if( FireBallLeft_Demon == 32 )
 						{
-							Sound_Music.PlaySoundEffect( SOUND_FIRE );
+							Audio.PlaySoundEffect( SOUND_FIRE );
 							Control_OBJ.List_FireBalls.push_back(	Control_OBJ.CreateFireBall( demon.xPos - 40,
 																	demon.yPos + 35, gamestate.m_srfDemonHealthAndFire, Right, Left ) );
 							FireBallLeft_Demon++;
@@ -689,14 +692,14 @@ int Demon::UpdatePlayer()
 								}
 								demon.xVel += abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos += abs( 70 * cos( TriangleSpeed ) );
-								demon.xPosHotSpot++;
+								//demon.xPosHotSpot++;
 								break;
 							}
 						case 1:
 							{
 								demon.xVel += abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos += abs( 70 * cos( TriangleSpeed ) );
-								demon.xPosHotSpot++;
+								//demon.xPosHotSpot++;
 								TriangleState = 0;
 								Triangle = false;
 								break;
@@ -722,7 +725,7 @@ int Demon::UpdatePlayer()
 								demon.xVel -= abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos -= abs( 70 * cos( TriangleSpeed ) );
 								demon.LengthOfTriangle++;
-								demon.xPosHotSpot--;						
+								//demon.xPosHotSpot--;						
 								break;
 							}
 				
@@ -730,7 +733,7 @@ int Demon::UpdatePlayer()
 							{
 								demon.xVel -= abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos -= abs( 70 * cos( TriangleSpeed ) );
-								demon.xPosHotSpot--;
+								//demon.xPosHotSpot--;
 							
 								TriangleState = 0;
 								Triangle = false;
@@ -784,7 +787,6 @@ int Demon::UpdatePlayer()
 			// kickass
 			else if( demon.isJumping )
 			{
-				
 				Jump = true;
 
 				if( Right )
@@ -896,18 +898,10 @@ int Demon::UpdatePlayer()
 						}
 		
 						return JumpLeft_Demon;
-						
-
-
 					}
 				}
-				
 			}
 		}
-			
-
-		
-
 		else if( demon.isMovingLeft || demon.isMovingRight )
 		{
 			if( gamestate.GameCondition != GS_OUTRO )
@@ -915,19 +909,22 @@ int Demon::UpdatePlayer()
 				demon.yPos = GROUND_Y;
 			}
 
-			// checks if deom is moving right, also checks which clip to use for
+			// checks if demon is moving right, also checks which clip to use for
 			// the right demon in sprite sheet
 			if( demon.isMovingRight )
 			{
+				if( demon.xPos < 600 )
+				{
+					demon.xPos += 15.0f;
+				}
 				demon.Right = true;
 				demon.Left = false;
 				if( gamestate.GameCondition == GS_OUTRO )
 				{
-					Sleep(100);
 					demon.xPos += 2;
 					demon.xVel += 2;	
 				}
-				else if( demon.xVel >= STARTSCROLLING )
+				else if( demon.xVel >= STARTSCROLLING - 50)
 				{
 					if( gamestate.GameCondition == GS_LEVEL1BOSS )
 					{
@@ -937,24 +934,27 @@ int Demon::UpdatePlayer()
 						}
 						else
 						{
-							demon.xPos += speed;
+							//demon.xPos += speed;
 							//demon.xVel = 2500.0f;
-							demon.xVel += speed;
+							//demon.xVel += speed;
 						}
 					}
-					demon.xPosHotSpot++;
+					// Updating to see where on the map the character is
+					//demon.xPosHotSpot++;
 				}
 				else
 				{
+					// Enter here when meeting the boss and get hurt
 					//First movement right
-					demon.xPos += speed;
+ 					//demon.xPos += speed;
 					//demon.xVel = 2500.0f;
-					demon.xVel += speed;
-					demon.xPosHotSpot++;
+					//demon.xVel += speed;
+					//demon.xPosHotSpot++;
 				}
 				// Walking animation frames 
 				if( demon.SmallHunter )
 				{
+					
 					if( WhereWalkRight == 4 )
 					{
 						WhereWalkRight = 1;
@@ -963,7 +963,6 @@ int Demon::UpdatePlayer()
 					{
 						WhereWalkRight++;
 					}
-
 					return WhereWalkRight;
 				}
 				else
@@ -977,7 +976,6 @@ int Demon::UpdatePlayer()
 						WalkRight_Demon++;
 					
 					}
-
 					return WalkRight_Demon;
 				}
 			}
@@ -986,15 +984,19 @@ int Demon::UpdatePlayer()
 			// the right demon in sprite sheet
 			else if( demon.isMovingLeft )
 			{
+				if( demon.xPos > 0.0f )
+				{
+					demon.xPos -= 15.0f;
+				}
 				if( demon.xVel <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 25 )
 				{
-					demon.xPosHotSpot--;
+					//demon.xPosHotSpot--;
 				}
 				else
 				{
 					//demon.xPos -= speed;
 					//demon.xVel -= speed;
-					demon.xPosHotSpot--;
+					//demon.xPosHotSpot--;
 				}
 				
 				demon.Right = false;
@@ -1050,20 +1052,20 @@ int Demon::UpdatePlayer()
 void Demon::UpdateXPos()
 {
 	if( demon.isMovingRight )
-		{
-			MovementDirection = true; // Right
-			demon.Right = true;
-			demon.Left = false;
-		}
+	{
+		MovementDirection = true; // Right
+		demon.Right = true;
+		demon.Left = false;
+	}
 		
-		// checks if demom is moving left, also checks which clip to use for
-		// the right demon in sprite sheet
-		else if( demon.isMovingLeft )
-		{
-			MovementDirection = false; // Left
-			demon.Right = false;
-			demon.Left = true;
-		}	
+	// checks if demom is moving left, also checks which clip to use for
+	// the right demon in sprite sheet
+	else if( demon.isMovingLeft )
+	{
+		MovementDirection = false; // Left
+		demon.Right = false;
+		demon.Left = true;
+	}	
 }
 
 void Demon::Set_clips()

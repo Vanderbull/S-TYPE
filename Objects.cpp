@@ -4,7 +4,7 @@
 #include "characters.h"
 #include "Timers.h"
 #include "Collision.h"
-#include "SoundAndMusic.h"
+#include "Audio.h"
 
 // @date 2012-08-07
 
@@ -302,7 +302,7 @@ void Control_Objects::DrawObjects()
 							gamestate.Score += 5;
 							vRemoveHead.push_back( ( *h ) );
 							vRemoveFireBall.push_back( ( *i ) );
-							Sound_Music.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
+							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
 
 						}
 					}
@@ -311,7 +311,7 @@ void Control_Objects::DrawObjects()
 				if( Contr_Coll.CollisionCircle( temp, gamestate.boss, true ) )
 				{
 					vRemoveFireBall.push_back( ( *i ) ); 
-					Sound_Music.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
+					Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
 					gamestate.Score += 5;
 					gamestate.boss->BossLife -= 50;
 					if( gamestate.boss->BossLife < 0 )
@@ -335,7 +335,7 @@ void Control_Objects::DrawObjects()
 					{
 						if( Contr_Coll.CollisionCircle( temp, enemy, false ) )
 						{
-							Sound_Music.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
+							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
 
 							gamestate.Score += 2;
 							if( (*e)->Surface == Zombie )

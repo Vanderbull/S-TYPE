@@ -46,7 +46,7 @@ public:
 	int Demon_Life;
 	int Last_Xpos;
 	int LastEnd_Pos;
-	int xPosHotSpot;
+	//int xPosHotSpot;
 
 	int AlphaImmortal;
 	int LengthOfTriangle;

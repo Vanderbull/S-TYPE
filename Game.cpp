@@ -12,7 +12,7 @@
 #include <SDL_mixer.h>
 #include "Game.h"
 #include "characters.h"
-#include "SoundAndMusic.h"
+#include "Audio.h"
 #include "Objects.h"
 #include "Enemies.h"
 #include "TImers.h"
@@ -55,6 +55,7 @@ Gamestate::Gamestate()
 	m_paralax = 0;
 
 	Score = 0;
+	LevelProgress = 0;
 }
 
 void Game::Handle_events( SDL_Event input )
@@ -173,7 +174,7 @@ void Game::Handle_events( SDL_Event input )
 					}
 
 					demon.isKicking = true;
-					Sound_Music.PlaySoundEffect( SOUND_HIT );
+					Audio.PlaySoundEffect( SOUND_HIT );
 											
 					break;
 				}
@@ -188,7 +189,7 @@ void Game::Handle_events( SDL_Event input )
 					if( demon.SmallHunter )
 					{ 
 						demon.isPunching = true; 
-						Sound_Music.PlaySoundEffect( SOUND_HIT );
+						Audio.PlaySoundEffect( SOUND_HIT );
 					}
 					else
 					{ 
@@ -196,7 +197,7 @@ void Game::Handle_events( SDL_Event input )
 						{
 							timer.Timer_TriangleAttackOK = 0;
 							demon.TriangleAttack = true; 
-							Sound_Music.PlaySoundEffect( SOUND_FIRE );
+							Audio.PlaySoundEffect( SOUND_FIRE );
 						}
 
 					}
@@ -406,7 +407,7 @@ Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 // ----------------------------------------------------------------------------
 void Gamestate::MorphMyDude()
 {
-	Sound_Music.PlaySoundEffect( SOUND_MORPH );
+	Audio.PlaySoundEffect( SOUND_MORPH );
 
 	int State = 3;
 	SDL_Rect destRect = { 0, 0, 800, 600 };
@@ -702,11 +703,13 @@ void Game::upDate( SDL_Event input )
 			demon.Immortal = false;
 		}
 	}
-	if( demon.WhereIsEnd >= 300 )
+	// WhereIsEnd is @ image width + screenwidth 800+5100
+	//if( demon.WhereIsEnd >= 5700 ) 
+	if( gamestate.LevelProgress >= 6100 )
 	{
 		gamestate.GameCondition = GS_LEVEL1BOSS;
 		demon.WhereIsEnd = 0;
-		Sound_Music.PlaySoundEffect( SOUND_BOSS );
+		Audio.PlaySoundEffect( SOUND_BOSS );
 	}
 
 		// Check game state
@@ -716,34 +719,34 @@ void Game::upDate( SDL_Event input )
 		// Intro sequence
 		case GS_INTRO:
 			{
-				Sound_Music.PlayIntroSong();
+				Audio.PlayIntroSong();
 				Handle_events( input );
 				gamestate.MainScreen();
 				break;
 			}
 		case GS_ENTERNAME:
 			{
-				Sound_Music.PlayIntroSong();
+				Audio.PlayIntroSong();
 				gamestate.EnterName();
 
 				break;
 			}	
 		case GS_INTROSTORY:
 			{
-				Sound_Music.PlayIntroSong();
+				Audio.PlayIntroSong();
 				gamestate.DoIntroTalk();
 				gamestate.FLIP();
 				break;
 			}
 		case GS_LOADING:
 			{
-				Sound_Music.PauseMusic();
+				Audio.PauseMusic();
 				gamestate.Loading();
 				break;
 			}
 		case GS_MORPH:
 			{
-				Sound_Music.PauseMusic();
+				Audio.PauseMusic();
 				gamestate.MorphMyDude();
 				break;
 			}
@@ -751,14 +754,14 @@ void Game::upDate( SDL_Event input )
 		// Level1 Loop
 		case GS_LEVEL1:
 			{
-				if( Sound_Music.MusicPaused == true )
+				if( Audio.MusicPaused == true )
 				{
-					Sound_Music.UnpauseMusic();
+					Audio.UnpauseMusic();
 				}
 
-				if( Sound_Music.LevelSong == false )
+				if( Audio.LevelSong == false )
 				{
-					Sound_Music.PlayMusic( 0 );
+					Audio.PlayMusic( 0 );
 				}
 
 				// handles events what the user does with the character
@@ -777,9 +780,9 @@ void Game::upDate( SDL_Event input )
 			}
 		case GS_LEVEL1BOSS:
 			{
-				if( Sound_Music.MusicPaused == true )
+				if( Audio.MusicPaused == true )
 				{
-					Sound_Music.UnpauseMusic();
+					Audio.UnpauseMusic();
 				}
 
 				// handles events what the user does with the character
@@ -802,15 +805,15 @@ void Game::upDate( SDL_Event input )
 
 		case GS_OUTRO:
 			{
-				Sound_Music.PauseMusic();
-				Sound_Music.PlayMusic( 2 );
+				Audio.PauseMusic();
+				Audio.PlayMusic( 2 );
 				gamestate.PlayOutro();
 				break;
 			}
 		case GS_DEAD:
 			{
-				Sound_Music.PauseMusic();
-				Sound_Music.PlaySoundEffect( SOUND_DIE );
+				Audio.PauseMusic();
+				Audio.PlaySoundEffect( SOUND_DIE );
 				gamestate.PlayerDied();
 				break;
 			}
@@ -1519,11 +1522,14 @@ bool Game::Init(SDL_Surface * &screen)
 {
 
 	gamestate.screen = 0;
+
 	//initialize all SDL subystems
 	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1)
 	{
 		return false;
 	}
+	SDL_WM_SetCaption("", "res/big.ico");
+	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
 	//set up the screen
 	gamestate.screen = SDL_SetVideoMode(gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT, gamestate.SCREEN_BPP, SDL_SWSURFACE );
@@ -1569,21 +1575,25 @@ bool Game::Init(SDL_Surface * &screen)
 // ----------------------------------------------------------------------------
 void Gamestate::drawParallaxLayers()
 {
-	if( gamestate.GameCondition != GS_LEVEL1BOSS && 
-		gamestate.GameCondition != GS_OUTRO )
+	//demon.xPosHotSpot++;
+	LevelProgress++;
+
+	if( gamestate.GameCondition != GS_LEVEL1BOSS && gamestate.GameCondition != GS_OUTRO )
 	{
+		/*
 		if( demon.xVel >= STARTSCROLLING - 50 )
 		{
+			// Updating the background to scroll when character is moving
 			if( demon.isMovingRight )
 			{
-				gamestate.m_paralax += 2;
+				gamestate.m_paralax += 20;
 			}
 			else if( demon.isMovingLeft )
 			{
-				gamestate.m_paralax -= 2;
+				gamestate.m_paralax -= 20;
 			}
 		}
-
+		*/
 		gamestate.CreateAll();
 	}
 	else
@@ -1668,7 +1678,14 @@ void Gamestate::drawParallaxLayers()
 
 			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
 
-		}		
+		}
+		gamestate.m_paralax++;
+
+		// Makes the character follow the scrolling when standing still
+		if( demon.isMovingLeft == false && demon.isMovingRight == false)
+		{
+			demon.xPos -= 1.0f;
+		}
 }
 
 void Gamestate::CreateAll()

@@ -44,11 +44,11 @@
     <Filter Include="Source Files\HighScore">
       <UniqueIdentifier>{46955082-5f71-419c-b3a4-fade460902c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Sound">
-      <UniqueIdentifier>{e2bae62d-40b9-4566-bd9d-2c804a0e8611}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Sound\Timers">
+    <Filter Include="Source Files\Timers">
       <UniqueIdentifier>{1661aafa-a762-4bb4-9a6f-cefc876e4f9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Audio">
+      <UniqueIdentifier>{e2bae62d-40b9-4566-bd9d-2c804a0e8611}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,11 +67,8 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files\Main</Filter>
-    </ClCompile>
     <ClCompile Include="Timers.cpp">
-      <Filter>Source Files\Sound\Timers</Filter>
+      <Filter>Source Files\Timers</Filter>
     </ClCompile>
     <ClCompile Include="Animals.cpp">
       <Filter>Source Files\Animal</Filter>
@@ -94,8 +91,11 @@
     <ClCompile Include="HighScore.cpp">
       <Filter>Source Files\HighScore</Filter>
     </ClCompile>
-    <ClCompile Include="SoundAndMusic.cpp">
-      <Filter>Source Files\Sound</Filter>
+    <ClCompile Include="Audio.cpp">
+      <Filter>Source Files\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files\ParalaxLayers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +115,7 @@
       <Filter>Source Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Timers.h">
-      <Filter>Source Files\Sound\Timers</Filter>
+      <Filter>Source Files\Timers</Filter>
     </ClInclude>
     <ClInclude Include="Animals.h">
       <Filter>Source Files\Animal</Filter>
@@ -138,8 +138,14 @@
     <ClInclude Include="HighScore.h">
       <Filter>Source Files\HighScore</Filter>
     </ClInclude>
-    <ClInclude Include="SoundAndMusic.h">
-      <Filter>Source Files\Sound</Filter>
+    <ClInclude Include="Audio.h">
+      <Filter>Source Files\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Demon Hunter.rc" />
   </ItemGroup>
 </Project>
