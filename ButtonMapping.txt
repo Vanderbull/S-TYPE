@@ -1,0 +1,10 @@
+0:gamestate.TitleScreen->Button_Newgame = true;
+1:gamestate.TitleScreen->Button_Options = true;
+2:gamestate.TitleScreen->Button_Quit = true;
+3:
+4:gamestate.TitleScreen->Button_HighScore = true
+5:gamestate.TitleScreen->Button_Credits = true;
+6:gamestate.TitleScreen->Button_Sound = true;
+7:gamestate.TitleScreen->Button_Back = true;
+8:
+9:

@@ -17,10 +17,10 @@ void Enemy::Set_Clips( int WhichTypeOfEnemy )
 	{
 		for( int i = 0; i < 10; i++ )
 		{
-			ZombieClips[ i ].x = i * Enemy_Width;
+			ZombieClips[ i ].x = i * this->Width;
 			ZombieClips[ i ].y = 0;
-			ZombieClips[ i ].h = Enemy_Height;
-			ZombieClips[ i ].w = Enemy_Width;
+			ZombieClips[ i ].h = this->Height;
+			ZombieClips[ i ].w = this->Width;
 		}
 	}
 	// enemy type 1 Skelton
@@ -31,30 +31,13 @@ void Enemy::Set_Clips( int WhichTypeOfEnemy )
 		{
 			for( int j = 0; j < 14; j++ )
 			{
-				SkeletonClips[ i ][ j ].x = j * Enemy_Width;
-				SkeletonClips[ i ][ j ].y = i * Enemy_Height;
-				SkeletonClips[ i ][ j ].h = Enemy_Height;
-				SkeletonClips[ i ][ j ].w = Enemy_Width;
+				SkeletonClips[ i ][ j ].x = j * this->Width;
+				SkeletonClips[ i ][ j ].y = i * this->Height;
+				SkeletonClips[ i ][ j ].h = this->Height;
+				SkeletonClips[ i ][ j ].w = this->Width;
 			}
 		}
-	}
-
-	// enemy type skull
-	else if( WhichTypeOfEnemy == 2 )
-	{
-		Enemy_Width = 48;
-		Enemy_Height = 64;
-		Frame = 0;
-
-		for( int i = 0; i < 20; i++ )
-		{
-			Skulls[ i ].x = i * Enemy_Width;
-			Skulls[ i ].y = 0;
-			Skulls[ i ].w = Enemy_Width;
-			Skulls[ i ].h = Enemy_Height;
-		}
-	}
-	
+	}	
 }
 
 // sets frame for skeleton
@@ -157,16 +140,6 @@ void Enemy::SetFrame()
 	}
 }
 
-void Enemy::SetFrameSkull()
-{
-	if( Frame == 9 )
-	{
-		Frame = 9;
-	}
-	else
-		Frame++;
-}
-
 // frame stuff
 int Heads::GetFrame()
 {
@@ -235,7 +208,7 @@ void Boss::UpdateBoss()
 	if( x >= BOSS_ATTACK_START || HeadsComing == true )
 	{
 		bool CollideWithPlayer = false;
-		CollideWithPlayer = Contr_Coll.CollisionCircle( &demon, gamestate.boss, false );
+		CollideWithPlayer = CollisionController.CollisionCircle( &demon, gamestate.boss, false );
 		if( CollideWithPlayer )
 		{	
 			bool CheckAttack = false;
@@ -370,7 +343,7 @@ void Boss::UpdateHeads()
 		{
 			Heads * temp = (*i);
 			bool Collide = false;
-			Collide = Contr_Coll.CollisionCircle( &demon, temp, false );
+			Collide = CollisionController.CollisionCircle( &demon, temp, false );
 
 			if( Collide )
 			{	
@@ -472,7 +445,7 @@ Heads * Boss::CreateBossHeads( int xPos, int yPos, int surface, int lengthOfTrav
 	temp->surface = surface;
 	temp->length = lengthOfTravel;
 
-	temp->radius = ( temp->HeadWidth > temp->HeadHeight ) ? temp->HeadWidth / 2 : temp->HeadHeight;
+	temp->Radius = ( temp->HeadWidth > temp->HeadHeight ) ? temp->HeadWidth / 2 : temp->HeadHeight;
 
 	return temp;
 
@@ -591,12 +564,12 @@ void Control_Enemies::Draw_Enemies()
 		list< Enemy* >::iterator i = My_Enemies.begin();
 		for( ; i != My_Enemies.end(); ++i )
 		{
-				// kollar om kollision sker och om min gubbe är i något attack state
+				// Check to see if collision occurs and if demon is in any kind of attack state
 				Enemy * enemy = (*i);
 
 				// checks collision with player using circlecollision
-				//Collide = Contr_Coll.CheckCollisionWithPlayer( enemy, 1 );
-				Collide = Contr_Coll.CheckCollisionWithPlayer( (*i), 1);
+				//Collide = CollisionController.CheckCollisionWithPlayer( enemy, 1 );
+				Collide = CollisionController.CheckCollisionWithPlayer( (*i), 1);
 
 				//Attack = demon.IsInStateAttack();
 				
@@ -607,6 +580,11 @@ void Control_Enemies::Draw_Enemies()
 						if( (*i)->Surface == Zombie )
 						{
 							vRemoveFiende.push_back( ( *i ) );
+							if( Control_OBJ.PowerUpMan == false && demon.DemonHunter == false )
+							{
+								Control_OBJ.PowerUpMan = true;
+								Control_OBJ.WereWolf = new PowerUp( (*i)->xPos, (*i)->yPos + 20, gamestate.m_srfDemonLife );
+							}
 						}
 						else if( (*i)->Surface == Skeleton )
 						{
@@ -617,16 +595,6 @@ void Control_Enemies::Draw_Enemies()
 								vRemoveFiende.push_back( ( *i ) );
 							}
 						}
-						else if( (*i)->Surface ==  Skull )
-						{
-							vRemoveFiende.push_back( ( *i ) );
-							if( Control_OBJ.PowerUpMan == false && demon.DemonHunter == false )
-							{
-								Control_OBJ.PowerUpMan = true;
-								Control_OBJ.WereWolf = new PowerUp( (*i)->xPos, (*i)->yPos + 20, gamestate.m_srfDemonLife );
-							}
-						}
-						
 				}
 				else if( Collide == true )
 				{
@@ -682,16 +650,6 @@ void Control_Enemies::Draw_Enemies()
 						SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ),&enemy->ZombieClips[0], 
 											gamestate.BackBuffer, &EnemyDest );
 					}
-					else if( enemy->Surface == Skull )
-					{
-						if( Collide == false )
-						{
-							enemy->xPos -= 3;
-						}
-						SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ),&enemy->Skulls[ enemy->Frame ], 
-											gamestate.BackBuffer, &EnemyDest );
-						enemy->SetFrameSkull();
-					}
 					else if( enemy->Surface == Skeleton )
 					{
 						if( gamestate.OK_PaceEnemy() )
@@ -714,7 +672,7 @@ void Control_Enemies::Draw_Enemies()
 							SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
 												gamestate.BackBuffer, &EnemyDest );
 							enemy->SetFrame();
-							enemy->PrevFrameSkel = enemy->Frame;
+							enemy->PrevFrame = enemy->Frame;
 							}
 							else
 							{
@@ -730,12 +688,12 @@ void Control_Enemies::Draw_Enemies()
 								SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
 												gamestate.BackBuffer, &EnemyDest );
 								enemy->SetFrame();
-								enemy->PrevFrameSkel = enemy->Frame;
+								enemy->PrevFrame = enemy->Frame;
 							}
 						}
 						else
 						{
-							SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->PrevFrameSkel ],
+							SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->PrevFrame ],
 												gamestate.BackBuffer, &EnemyDest );
 						}
 					}
@@ -757,26 +715,18 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	Enemy * temp = new Enemy;
 	temp->Surface = surface;
 	temp->AnimCounter = 1;
-	temp->PrevFrameSkel = 0;
+	temp->PrevFrame = 0;
 	
 	temp->xPos = xPos;
 	temp->yPos = yPos;
 
-	if( temp->Surface == ENEMY_SKULL )
-	{
-		temp->Enemy_Height = 64;
-		temp->Enemy_Width = 64;
-	}
-	else
-	{
-		temp->Enemy_Height = 96;
-		temp->Enemy_Width = 96;
-		temp->Walk = true;
-		temp->Attack = false;
-		temp->Die = false;
-		temp->LeftOf_Demon = false; 
-		temp->RightOf_Demon = false;
-	}
+	temp->Height = 96;
+	temp->Width = 96;
+	temp->Walk = true;
+	temp->Attack = false;
+	temp->Die = false;
+	temp->LeftOf_Demon = false; 
+	temp->RightOf_Demon = false;
 
 	temp->AttackFrameLeft = 9;
 	temp->AttackFrameRight = 37;
@@ -786,13 +736,13 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	temp->WalkFrameRight = 28;
 
 	int Height, Width;
-	Height = temp->Enemy_Height / 2;
-	Width = temp->Enemy_Width / 2;
+	Height = temp->Height / 2;
+	Width = temp->Width / 2;
 
 
 	if( temp->Surface == Zombie )
 	{
-		temp->radius = ( Width > Height ) ? Width / 2 - 10 : Height / 2 - 10 ;
+		temp->Radius = ( Width > Height ) ? Width / 2 - 10 : Height / 2 - 10 ;
 		temp->Set_Clips( ENEMY_ZOMBIE );
 	}
 	else if( temp->Surface == Skeleton )
@@ -803,13 +753,8 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 		}
 
 		temp->RightOf_Demon = true;
-		temp->radius = ( Width > Height ) ? Width / 2 : Height / 2;
+		temp->Radius = ( Width > Height ) ? Width / 2 : Height / 2;
 		temp->Set_Clips( ENEMY_SKELETON );
-	}
-	else if( temp->Surface == Skull )
-	{
-		temp->radius = ( Width > Height ) ? Width / 2 : Height / 2;
-		temp->Set_Clips( ENEMY_SKULL );
 	}
 	
 	return temp;
@@ -861,6 +806,5 @@ Control_Enemies::Control_Enemies()
 
 	Zombie = 7;
 	Skeleton = 8;
-	Skull = 18;
 }
 

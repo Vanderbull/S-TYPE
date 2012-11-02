@@ -6,7 +6,7 @@
 
 // @date 2012-08-07
 
-enum{ ENEMY_ZOMBIE, ENEMY_SKELETON, ENEMY_SKULL };
+enum{ ENEMY_ZOMBIE, ENEMY_SKELETON };
 
 
 // holds info for all the enemies
@@ -14,33 +14,32 @@ class Enemy
 {
 public:
 	
-	void Set_Clips( int WhichTypeOfEnemy );
+	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
 	float xPos, yPos;
-	int Enemy_Width, Enemy_Height;
+	int Width, Height;
 	int Surface;
-	int PrevFrameSkel, Frame, radius,
-		WalkFrameLeft, WalkFrameRight, AttackFrameRight, AttackFrameLeft, 
-		DieFrameLeft, DieFrameRight, AnimCounter;
+	int PrevFrame, Frame, Radius, 
+		WalkFrameLeft, WalkFrameRight, 
+		AttackFrameRight, AttackFrameLeft, 
+		DieFrameLeft, DieFrameRight, 
+		AnimCounter;
 
 	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
 
-	void SetFrame();
-	void SetFrameSkull();
-	
+	void SetFrame();	
+
 	SDL_Rect SkeletonClips[ 4 ][ 14 ];
 	SDL_Rect ZombieClips[ 10 ];
-	SDL_Rect Skulls[ 21 ];
 
 private:
 };
-
 
 class MovingThings
 {
 public:
 	float xPos, yPos;
 	int Frame;
-	int radius;
+	int Radius;
 	int Width, Height;
 	
 	int surface;
@@ -121,7 +120,7 @@ private:
 
 	std::list< Enemy* > My_Enemies_dead;
 	
-	int Zombie, Skeleton, Skull;
+	int Zombie, Skeleton;
 
 	bool Collide;
 	bool CollideFire;

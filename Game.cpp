@@ -397,7 +397,7 @@ Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 	temp->xPos = xPos;
 	temp->yPos = yPos;
 
-	temp->radius = ( temp->BossWidth > temp->BossHeight ) ? temp->BossWidth / 2 : temp->BossHeight  / 2;
+	temp->Radius = ( temp->BossWidth > temp->BossHeight ) ? temp->BossWidth / 2 : temp->BossHeight  / 2;
 
 	return temp;
 }
@@ -1242,6 +1242,8 @@ void Gamestate::MainScreen()
 	{
 		for( int i = 0; i < 4; i++ )
 		{
+			//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
+			
 			SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ), 
 								&TitleScreen->ButtonClips[ i ],
 								gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 

@@ -267,7 +267,7 @@ void Control_Objects::DrawObjects()
 		}
 
 		// kolla om han har blivit demon annars så sätt till false igen så den kan skapas en gång till
-		bool GettingSpooky = Contr_Coll.CheckCollisionWithPlayer( Control_OBJ.WereWolf, 1 );
+		bool GettingSpooky = CollisionController.CheckCollisionWithPlayer( Control_OBJ.WereWolf, 1 );
 		if( GettingSpooky == true )
 		{
 			demon.DemonHunter = true;
@@ -297,7 +297,7 @@ void Control_Objects::DrawObjects()
 					for( ; h != gamestate.boss->My_BossHead.end(); ++h )
 					{
 						Heads * head = ( *h );
-						if( Contr_Coll.CollisionCircle( temp, head, false ) )
+						if( CollisionController.CollisionCircle( temp, head, false ) )
 						{
 							gamestate.Score += 5;
 							vRemoveHead.push_back( ( *h ) );
@@ -308,7 +308,7 @@ void Control_Objects::DrawObjects()
 					}
 				}
 
-				if( Contr_Coll.CollisionCircle( temp, gamestate.boss, true ) )
+				if( CollisionController.CollisionCircle( temp, gamestate.boss, true ) )
 				{
 					vRemoveFireBall.push_back( ( *i ) ); 
 					Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
@@ -333,7 +333,7 @@ void Control_Objects::DrawObjects()
 
 					if( ( *e )->Die != true )
 					{
-						if( Contr_Coll.CollisionCircle( temp, enemy, false ) )
+						if( CollisionController.CollisionCircle( temp, enemy, false ) )
 						{
 							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
 

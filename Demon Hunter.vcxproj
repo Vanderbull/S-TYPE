@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="characters.h" />
+    <ClInclude Include="ConfigFileConverter.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Paralaxlayers.h" />
     <ClInclude Include="Enemies.h" />
@@ -131,6 +132,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Demon Hunter.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ButtonMapping.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,14 +3,14 @@
 
 // @date 2012-08-07
 
-Control_Collision Contr_Coll;
+ControlCollision CollisionController;
 
 // checks collision
-bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Show )
 {
 	// Cache
-	double	dx = ( ( MyDemon->xPos + DEMONWIDTHREAL / 2 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-			dy = ( ( MyDemon->yPos + DEMONHEIGHTREAL / 2 + 45 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+	double	dx = ( ( MyDemon->xPos + DEMONWIDTHREAL / 2 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+			dy = ( ( MyDemon->yPos + DEMONHEIGHTREAL / 2 + 45 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 
 	double	dx1 = 0,
 			dy1 = 0;
@@ -25,10 +25,10 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Sh
 			if( demon.Right == true )
 			{
 				// Cache
-				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 98 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 )+ 60 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 98 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 )+ 60 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 				int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-				if( dist3 < MyDemon->Radius + MyEnemy->radius )
+				if( dist3 < MyDemon->Radius + MyEnemy->Radius )
 				{
 				return true;	// Yep, collision
 				}
@@ -37,10 +37,10 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Sh
 			else
 			{
 				// Cache
-				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 ) ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 65 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 ) ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 65 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 				int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-				if( dist3 < MyDemon->Radius + MyEnemy->radius )
+				if( dist3 < MyDemon->Radius + MyEnemy->Radius )
 				{
 					return true;	// Yep, collision
 				}
@@ -48,8 +48,8 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Sh
 		}
 			
 			// Cache
-			dx1 = ( ( ( MyDemon->xPos + demon.Feet_W / 2 )+ 15 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-			dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 80 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+			dx1 = ( ( ( MyDemon->xPos + demon.Feet_W / 2 )+ 15 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+			dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 80 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 
 		if( Show )
 		{
@@ -73,30 +73,30 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Sh
 			if( demon.Right )
 			{
 				// Cache
-				dx1 = ( ( ( MyDemon->xPos + demon.Feet_W / 2 ) + 60 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-				dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 75 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+				dx1 = ( ( ( MyDemon->xPos + demon.Feet_W / 2 ) + 60 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+				dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 75 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 			}
 			else
 			{
 				// Cache
-				dx1 = ( ( MyDemon->xPos + demon.Feet_W / 2 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-				dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 75 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+				dx1 = ( ( MyDemon->xPos + demon.Feet_W / 2 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+				dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 75 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 			}
 		}
 		else
 		{
 			// Cache
-			dx1 = ( ( ( MyDemon->xPos + demon.Feet_W / 2 )+ 15 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-			dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 80 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+			dx1 = ( ( ( MyDemon->xPos + demon.Feet_W / 2 )+ 15 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+			dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 80 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 		}
 
 		if( demon.isPunching )
 		{
 			// Cache
-			dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 55 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-			dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 40 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+			dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 55 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+			dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 40 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-			if( dist3 < MyDemon->Radius + MyEnemy->radius )
+			if( dist3 < MyDemon->Radius + MyEnemy->Radius )
 			{
 				return true;	// Yep, collision
 			}
@@ -104,10 +104,10 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Sh
 		else
 		{
 			// Cache
-			dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 20 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-			dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 40 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+			dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 20 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+			dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 40 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-			if( dist3 < MyDemon->Radius + MyEnemy->radius )
+			if( dist3 < MyDemon->Radius + MyEnemy->Radius )
 			{
 				return true;	// Yep, collision
 			}
@@ -149,7 +149,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Sh
 	
 
 	// Do circles overlap?
-	if(	dist < MyDemon->Radius + MyEnemy->radius || dist2 < MyDemon->Radius + MyEnemy->radius )
+	if(	dist < MyDemon->Radius + MyEnemy->Radius || dist2 < MyDemon->Radius + MyEnemy->Radius )
 	{
 		return true;	// Yep, collision
 	}
@@ -159,9 +159,8 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Sh
 }
 
 // checks collision
-bool Control_Collision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool Show )
 {
-
 	if( demon.Triangle == true || demon.TriangleAttack == true && demon.isMovingLeft == true )
 	{
 		// Cache
@@ -175,7 +174,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool 
 		int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
 
 		// Do circles overlap?
-		if(	dist < MyDemon->Radius + EnemyHead->radius || dist1 < MyDemon->Radius + EnemyHead->radius )	
+		if(	dist < MyDemon->Radius + EnemyHead->Radius || dist1 < MyDemon->Radius + EnemyHead->Radius )	
 		{
 			return true;	// Yep, collision
 		}
@@ -193,7 +192,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool 
 		int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
 
 		// Do circles overlap?
-		if(	dist < MyDemon->Radius + EnemyHead->radius || dist1 < MyDemon->Radius + EnemyHead->radius )	
+		if(	dist < MyDemon->Radius + EnemyHead->Radius || dist1 < MyDemon->Radius + EnemyHead->Radius )	
 		{
 			return true;	// Yep, collision
 		}
@@ -221,7 +220,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool 
 
 			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
 			// Do circles overlap?
-			if( dist3 < MyDemon->Radius + EnemyHead->radius )	
+			if( dist3 < MyDemon->Radius + EnemyHead->Radius )	
 			{
 				return true;	// Yep, collision
 			}
@@ -270,11 +269,10 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool 
  
 	// No collision
 	return false;
-
 }
 
 // checks collision
-bool Control_Collision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show )
 {
 	// Cache
 	double	dx =	( ( MyDemon->xPos + DEMONWIDTHREAL / 2 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 100 ) ),
@@ -323,7 +321,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show
 		int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
 		int dist4 = ( int )sqrt( dx3 * dx3 + dy3 * dy3 );
 			// Do circles overlap?
-		if( dist3 < MyDemon->Radius + Myboss->radius || dist4 < MyDemon->Radius + Myboss->radius )	
+		if( dist3 < MyDemon->Radius + Myboss->Radius || dist4 < MyDemon->Radius + Myboss->Radius )	
 		{
 			return true;	// Yep, collision
 		}
@@ -335,7 +333,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show
 	
 
 	// Do circles overlap?
-	if(	dist < MyDemon->Radius + Myboss->radius || dist1 < MyDemon->Radius + Myboss->radius )	
+	if(	dist < MyDemon->Radius + Myboss->Radius || dist1 < MyDemon->Radius + Myboss->Radius )	
 	{
 		return true;	// Yep, collision
 	}
@@ -345,7 +343,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show
 }
 
 // checks collision
-bool Control_Collision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool Show )
+bool ControlCollision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool Show )
 {
 	// Cache
 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( My_boss->xPos + My_boss->BossWidth / 2 + 100 ) ),
@@ -363,7 +361,7 @@ bool Control_Collision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool S
 	int dist1 = (int)sqrt( dx1 * dx1 + dy1 * dy1 );
 
 	// Do circles overlap?
-	if( dist < MyFire->radius + My_boss->radius || dist1 < MyFire->radius + My_boss->radius )
+	if( dist < MyFire->radius + My_boss->Radius || dist1 < MyFire->radius + My_boss->Radius )
 	{
 		return true;	// Yep, collision
 	}
@@ -374,7 +372,7 @@ bool Control_Collision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool S
 
 
 // checks collision
-bool Control_Collision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool Show )
+bool ControlCollision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool Show )
 {
 	// Cache
 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 ) ),
@@ -388,7 +386,7 @@ bool Control_Collision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, boo
 	int dist = (int)sqrt( dx*dx + dy*dy );
 
 	// Do circles overlap?
-	if( dist < MyFire->radius + EnemyHead->radius )
+	if( dist < MyFire->radius + EnemyHead->Radius )
 	{
 		return true;	// Yep, collision
 	}
@@ -398,11 +396,11 @@ bool Control_Collision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, boo
 }
 
 // checks collision
-bool Control_Collision::CollisionCircle( FireBall *MyFire, Enemy * MyEnemy, bool Show )
+bool ControlCollision::CollisionCircle( FireBall *MyFire, Enemy * MyEnemy, bool Show )
 {
 	// Cache
-	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( MyEnemy->xPos + MyEnemy->Enemy_Width / 2 ) ),
-			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( MyEnemy->yPos + MyEnemy->Enemy_Height / 2 ) );
+	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
+			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
 	
 	if( Show )
 	{
@@ -412,7 +410,7 @@ bool Control_Collision::CollisionCircle( FireBall *MyFire, Enemy * MyEnemy, bool
 	int dist = (int)sqrt( dx*dx + dy*dy );
 
 	// Do circles overlap?
-	if( dist < MyFire->radius + MyEnemy->radius )
+	if( dist < MyFire->radius + MyEnemy->Radius )
 	{
 		return true;	// Yep, collision
 	}
@@ -422,9 +420,8 @@ bool Control_Collision::CollisionCircle( FireBall *MyFire, Enemy * MyEnemy, bool
 }
 
 // checks collision
-bool Control_Collision::CollisionCircle( Demon *MyDemon, PowerUp *TransForm, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, PowerUp *TransForm, bool Show )
 {
-
 	// Cache
 	double	dx = ( ( MyDemon->xPos + DEMONWIDTHREAL / 2 - 10 ) - ( TransForm->xPos + TransForm->Width / 2 ) ),
 			dy = ( ( MyDemon->yPos + DEMONHEIGHTREAL / 2 - 10 ) - ( TransForm->yPos + TransForm->Height / 2 ) );
@@ -455,7 +452,7 @@ bool Control_Collision::CollisionCircle( Demon *MyDemon, PowerUp *TransForm, boo
 }
 
 // checks collision
-bool Control_Collision::CheckCollisionWithPlayer( PowerUp *TransForm, int WhichCollisionToUse )
+bool ControlCollision::CheckCollisionWithPlayer( PowerUp *TransForm, int WhichCollisionToUse )
 {
 	
 	bool temp = false;
@@ -469,7 +466,7 @@ bool Control_Collision::CheckCollisionWithPlayer( PowerUp *TransForm, int WhichC
 }
 
 // checks collision
-void Control_Collision::Circle( long centerx, long centery, long radius )
+void ControlCollision::Circle( long centerx, long centery, long radius )
 {
          long d, y, x;
 
@@ -500,7 +497,7 @@ void Control_Collision::Circle( long centerx, long centery, long radius )
 }
 
 // checks collision
-void Control_Collision::SetPixelMine( int xPos, int yPos  )
+void ControlCollision::SetPixelMine( int xPos, int yPos  )
 {
   	SDL_LockSurface( gamestate.BackBuffer );
 
@@ -520,9 +517,8 @@ void Control_Collision::SetPixelMine( int xPos, int yPos  )
 // ----------------------------------------------------------------------------
 // ChecksCollision - test if any collision occurs
 // ----------------------------------------------------------------------------
-bool Control_Collision::CheckCollisionWithPlayer( Enemy *MyEnemy, int WhichCollisionToUse )
+bool ControlCollision::CheckCollisionWithPlayer( Enemy *MyEnemy, int WhichCollisionToUse )
 {
-	
 	bool temp = false;
 
 	if( MyEnemy->xPos - demon.xPos >= 150 )
@@ -550,7 +546,7 @@ bool Control_Collision::CheckCollisionWithPlayer( Enemy *MyEnemy, int WhichColli
 // ----------------------------------------------------------------------------
 // CheckBoxCollision - test if box collision occurs
 // ----------------------------------------------------------------------------
-bool Control_Collision::CollisionBox( Demon *MyDemon, Enemy *MyEnemy, bool Show )
+bool ControlCollision::CollisionBox( Demon *MyDemon, Enemy *MyEnemy, bool Show )
 {
     int left1, left2;
     int right1, right2;
@@ -560,11 +556,11 @@ bool Control_Collision::CollisionBox( Demon *MyDemon, Enemy *MyEnemy, bool Show 
 	left1 = MyDemon->xPos - 10;
 	left2 = MyEnemy->xPos;
 	right1 = MyDemon->xPos + MyDemon->Demon_Width - 10;
-	right2 = MyEnemy->xPos + MyEnemy->Enemy_Width;
+	right2 = MyEnemy->xPos + MyEnemy->Width;
 	top1 = MyDemon->yPos;
     top2 = MyEnemy->yPos;
 	bottom1 = MyDemon->yPos + MyDemon->Demon_Height;
-	bottom2 = MyEnemy->yPos + MyEnemy->Enemy_Height;
+	bottom2 = MyEnemy->yPos + MyEnemy->Height;
 
     if ( bottom1 < top2 ) return false;
     if ( top1 > bottom2 ) return false;
@@ -576,7 +572,7 @@ bool Control_Collision::CollisionBox( Demon *MyDemon, Enemy *MyEnemy, bool Show 
 
 };
 
-bool Control_Collision::CollisionPixel( Demon *MyDemon, Enemy *MyEnemy )
+bool ControlCollision::CollisionPixel( Demon *MyDemon, Enemy *MyEnemy )
 {
 	return false;
 }

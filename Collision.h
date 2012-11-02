@@ -7,7 +7,7 @@
 // @date 2012-08-07
 
 // holds all the info on the collisions
-class Control_Collision
+class ControlCollision
 {
 public:
 	bool CollisionCircle( Demon *MyDemon, PowerUp *TransForm, bool Show );
@@ -30,4 +30,4 @@ public:
 	void SetPixelMine( int xPos, int yPos );
 };
 
-extern Control_Collision Contr_Coll;
+extern ControlCollision CollisionController;
