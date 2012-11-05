@@ -61,5 +61,4 @@ public:
 		Sixth, Seventh, Eight;
 
 	SDL_Surface * IntroSurfaces[ 1 ];
-
 };

@@ -29,9 +29,6 @@
     <Filter Include="Source Files\Intro&amp;Menu">
       <UniqueIdentifier>{682f3bb7-b145-46e9-8b3d-5b0f2ac3b98d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\MainScreen">
-      <UniqueIdentifier>{a043b48e-c136-45d9-9b56-9b9306638acc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Collisions">
       <UniqueIdentifier>{64fb4b7d-690c-4c0d-a107-0bfc32394193}</UniqueIdentifier>
     </Filter>
@@ -49,6 +46,9 @@
     </Filter>
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{e2bae62d-40b9-4566-bd9d-2c804a0e8611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FirstScreen">
+      <UniqueIdentifier>{a043b48e-c136-45d9-9b56-9b9306638acc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,9 +76,6 @@
     <ClCompile Include="Intro.cpp">
       <Filter>Source Files\Intro&amp;Menu</Filter>
     </ClCompile>
-    <ClCompile Include="Start.cpp">
-      <Filter>Source Files\MainScreen</Filter>
-    </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>Source Files\Collisions</Filter>
     </ClCompile>
@@ -96,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="FirstScreen.cpp">
+      <Filter>Source Files\FirstScreen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +123,6 @@
     <ClInclude Include="Intro.h">
       <Filter>Source Files\Intro&amp;Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Start.h">
-      <Filter>Source Files\MainScreen</Filter>
-    </ClInclude>
     <ClInclude Include="Collision.h">
       <Filter>Source Files\Collisions</Filter>
     </ClInclude>
@@ -145,6 +142,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="ConfigFileConverter.h" />
+    <ClInclude Include="FirstScreen.h">
+      <Filter>Source Files\FirstScreen</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Demon Hunter.rc" />

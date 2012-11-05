@@ -9,20 +9,18 @@ using namespace std;
 
 // reads the list and sorts it
 FillHighScore::FillHighScore()
-{	
-	ifstream infile( "Highscore.txt" );
-
-	for( int i = 0; i < 6 && infile && infile.peek() != EOF; i++)
+{
+	// Reset the highscore array
+	int ArraySize = sizeof(list) / sizeof(list[0]);
+	for( int i = 0; i < ArraySize; i++ )
 	{
-		string temp;		
-							
-		infile >> temp;
-		infile >> list[ i ].name;
-		infile >> temp;
-		infile >> list[ i ].Score;	
-		
+		list[ i ].name = "";
+		list[ i ].Score = 0;
 	}
 
+	// Read information from highscore file into highscore array 
+	ReadHighscoreFile();
+/*
 	for( int i = 0; i < 6; i++ )
 	{
 		for( int j = 0; j < 6; j++ )
@@ -37,32 +35,30 @@ FillHighScore::FillHighScore()
 			}
 		}
 	}
+	*/
+}
+
+void FillHighScore::ReadHighscoreFile()
+{
+	ifstream infile( "Highscore.txt" );
+
+	for( int i = 0; i < 6 && infile && infile.peek() != EOF; i++)
+	{
+		infile >> list[ i ].name;
+		infile >> list[ i ].Score;
+	}
 }
 
 void FillHighScore::Save()
 {
 	ofstream ofile("Highscore.txt");	
 										
-	for( int i = 0; i < 6; i++ )
+	int ArraySize = sizeof(list) / sizeof(list[0]);
+	for( int i = 0; i < ArraySize; i++ )
 	{
-		ofile << "Name: " << list[ i ].name << endl;
-		ofile << "Score: " << list[ i ].Score << endl;
+		ofile << list[ i ].name << endl;
+		ofile << list[ i ].Score << endl;
 	} 
-}
-
-// copy the whole list
-void FillHighScore::copy( Highscore cop[], int Count )
-{	
-	ifstream infile( "Highscore.txt" );
-	for( int i = 0; i < Count; i++ )
-	{
-		string temp;		
-							
-		infile >> temp;
-		getline(infile, cop[ i ].name);
-		infile >> temp;
-		infile >> cop[ i ].Score;
-	}
 }
 
 void FillHighScore::sort( string a, unsigned long int x )
@@ -83,6 +79,5 @@ void FillHighScore::sort( string a, unsigned long int x )
 
 			swap( list[ i+1 ].Score, list[ i ].Score );
 		}
-
 	}	
 }

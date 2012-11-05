@@ -13,5 +13,4 @@ public:
 	int xPos, yPos;
 	
 	SDL_Rect ClipsOutro[ 2 ];
-	
 };

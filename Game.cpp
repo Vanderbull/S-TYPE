@@ -18,7 +18,7 @@
 #include "TImers.h"
 #include "Paralaxlayers.h"
 #include "Animals.h"
-#include "Start.h"
+#include "FirstScreen.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -217,7 +217,7 @@ void Game::Handle_events( SDL_Event input )
 			y = input.button.y;
 
 			// check if mouse is over something
-			if( gamestate.TitleScreen->Button_Options == true )
+			if( gamestate.TitleScreen->ButtonOptions == true )
 			{
 				for( int i = 4; i < 8; i++ )
 				{
@@ -231,17 +231,17 @@ void Game::Handle_events( SDL_Event input )
 						switch( i )
 						{
 						case 4:
-							gamestate.TitleScreen->Button_HighScore = true;
+							gamestate.TitleScreen->ButtonHighScore = true;
 							gamestate.CheckingHighScore = true;
 							break;
 						case 5:
-							gamestate.TitleScreen->Button_Credits = true;
+							gamestate.TitleScreen->ButtonCredits = true;
 							break;
 						case 6:
-							gamestate.TitleScreen->Button_Sound = true;
+							gamestate.TitleScreen->ButtonSound = true;
 							break;
 						case 7:
-							gamestate.TitleScreen->Button_Back = true;
+							gamestate.TitleScreen->ButtonBack = true;
 							break;
 
 						}
@@ -264,13 +264,13 @@ void Game::Handle_events( SDL_Event input )
 							switch( i )
 							{
 							case 0:
-								gamestate.TitleScreen->Button_Newgame = true;
+								gamestate.TitleScreen->ButtonNewgame = true;
 								break;
 							case 1:
-								gamestate.TitleScreen->Button_Options = true;
+								gamestate.TitleScreen->ButtonOptions = true;
 								break;
 							case 2:
-								gamestate.TitleScreen->Button_Quit = true;
+								gamestate.TitleScreen->ButtonQuit = true;
 								break;
 							}
 						}
@@ -1214,10 +1214,9 @@ void Gamestate::MainScreen()
 	ParallaxLayer  * MyParaBackGround;
 	MyParaBackGround = Paralax->getLayer( TitleScreen->surface );
 
-	SDL_Rect scRect = { 0, 0,	TitleScreen->Width, 
-								TitleScreen->Height };
+	SDL_Rect scRect = { 0, 0, 800, 600 };
 
-	SDL_Rect dtRect = {	0, 0, TitleScreen->Width, TitleScreen->Height };
+	SDL_Rect dtRect = {	0, 0, 800, 600 };
 
 	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect ); 
 	if( CheckingHighScore == true )
@@ -1238,7 +1237,7 @@ void Gamestate::MainScreen()
 		}
 	}
 	
-	if( TitleScreen->Button_Options == false )
+	if( TitleScreen->ButtonOptions == false )
 	{
 		for( int i = 0; i < 4; i++ )
 		{
@@ -1249,7 +1248,7 @@ void Gamestate::MainScreen()
 								gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
 		}
 	}
-	else if( TitleScreen->Button_HighScore == true )
+	else if( TitleScreen->ButtonHighScore == true )
 	{
 		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
 							&TitleScreen->ButtonClips[ 4 ],
@@ -1269,7 +1268,7 @@ void Gamestate::MainScreen()
 		}
 
 	}
-	else if( TitleScreen->Button_Credits == true )
+	else if( TitleScreen->ButtonCredits == true )
 	{
 		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
 							&TitleScreen->ButtonClips[ 8 ],
@@ -1303,10 +1302,10 @@ void Gamestate::MainScreen()
 		}
 	}
 	
-	if( TitleScreen->Button_Newgame == true )
+	if( TitleScreen->ButtonNewgame == true )
 	{
 		gamestate.GameCondition = GS_ENTERNAME;
-		TitleScreen->Button_Newgame = false;
+		TitleScreen->ButtonNewgame = false;
 
 		if( Surface_Credits != NULL )
 		{
@@ -1319,19 +1318,19 @@ void Gamestate::MainScreen()
 
 		gamestate.RestartGame();
 	}
-	if( TitleScreen->Button_Quit == true )
+	if( TitleScreen->ButtonQuit == true )
 	{
 		gamestate.GameOK = false;
-		TitleScreen->Button_Quit == false;
+		TitleScreen->ButtonQuit == false;
 	}
 
-	if( TitleScreen->Button_Back == true )
+	if( TitleScreen->ButtonBack == true )
 	{
-		TitleScreen->Button_Options = false;
-		TitleScreen->Button_Back = false;
-		TitleScreen->Button_HighScore = false;
-		TitleScreen->Button_Credits = false;
-		TitleScreen->Button_Back = false;
+		TitleScreen->ButtonOptions = false;
+		TitleScreen->ButtonBack = false;
+		TitleScreen->ButtonHighScore = false;
+		TitleScreen->ButtonCredits = false;
+		TitleScreen->ButtonBack = false;
 	}
 	
 	// Render frame

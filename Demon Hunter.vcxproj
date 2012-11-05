@@ -105,7 +105,7 @@
     <ClCompile Include="Timers.cpp" />
     <ClCompile Include="Animals.cpp" />
     <ClCompile Include="Intro.cpp" />
-    <ClCompile Include="Start.cpp" />
+    <ClCompile Include="FirstScreen.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="OutroFinish.cpp" />
     <ClCompile Include="GetInput.cpp" />
@@ -123,7 +123,7 @@
     <ClInclude Include="Timers.h" />
     <ClInclude Include="Animals.h" />
     <ClInclude Include="Intro.h" />
-    <ClInclude Include="Start.h" />
+    <ClInclude Include="FirstScreen.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="OutroFinish.h" />
     <ClInclude Include="GetInput.h" />

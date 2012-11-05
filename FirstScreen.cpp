@@ -1,31 +1,34 @@
-#include "Start.h" 
+#include "FirstScreen.h" 
 #include <SDL.h>
 
 // @date 2012-08-07
 
 FirstScreen::FirstScreen( int ButtonX, int Surface, int SurfaceButtons )							
 {
-	xPos = 0;
-	yPos = 0;
-	Width = 800;
-	Height = 600;
+	//xPos = 0;
+	//yPos = 0;
+	//Width = 800;
+	//Height = 600;
+
+	//TitleScreen surface
 	surface = Surface;
+
 	SurfaceButt = SurfaceButtons;
 
-	ButtonXpos = ButtonX;
-	Button_Width = 250;
-	Button_Height = 70;
-	Button_Small_Width = 200;
-	Button_Small_Height = 50;
+	//ButtonXpos = ButtonX;
+	//Button_Width = 250;
+	//Button_Height = 70;
+	//Button_Small_Width = 200;
+	//Button_Small_Height = 50;
 
-	Button_Options = false;
-	Button_Back = false; 
-	Button_Sound = false;
-	Button_Credits = false;
-	Button_HighScore = false;
+	ButtonOptions = false;
+	ButtonBack = false; 
+	ButtonSound = false;
+	ButtonCredits = false;
+	ButtonHighScore = false;
 
-	Button_Newgame = false;
-	Button_Quit = false;
+	ButtonNewgame = false;
+	ButtonQuit = false;
 
 	int ArraySize = sizeof(ButtonClips) / sizeof(ButtonClips[0]);
 	for( int i = 0; i < ArraySize; i++ )
