@@ -4,11 +4,41 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
-class Demon
+
+class DemonInterface
+ {
+public:
+	 virtual void Update()=0;
+	 virtual void SetClips()=0;
+};
+
+class Demon : public DemonInterface
 {
 public:
 
+	enum State
+	{
+		IDLE,
+		MOVING_RIGHT,
+		MOVING_LEFT,
+		JUMPING,
+		CROUCHING,
+		KICKING,
+		PUNCHING,
+		GETTING_UP,
+		GETTING_HIT
+	};
+
+	enum MorphState
+	{
+		SMALL_HUNTER,
+		MEDIUM_HUNTER,
+		LARGE_HUNTER,
+		DEMON_HUNTER
+	};
+
 	Demon();
+	Demon(int surface, int Xpos, int Ypos, int height, int width);
 	void InitiateDemon( int surface, int Xpos, int Ypos, int height, int width ); 
 
 	void Set_clips();
@@ -20,24 +50,28 @@ public:
 
 	bool SmallHunter, MediumHunter, LargeHunter, DemonHunter;
 
+	// States the character can be in
 	bool isMovingRight;
 	bool isMovingLeft;
 	bool isJumping;
 	bool isCrouching;
 	bool isKicking;
 	bool isPunching;
+	bool isGettingUp;
+	bool isHit;
+	bool isImmortal;
+
 	bool CrouchFireBall;
 	bool TriangleAttack;
-	bool GetUp;
-
 
 	bool LifeFull_Small;
 	bool LifeMedium_Small;
 	bool LifeLittle_Small;
 
-	bool Crouch, Kick, Jump, Punch, FireBall, CrouchFire, Triangle;
+	//bool Crouch, Jump, Punch, FireBall, CrouchFire, Triangle;
+	bool FireBall, CrouchFire, Triangle;
 
-	bool isHit, DieOneLife, Demon_Dead;
+	bool DieOneLife, Demon_Dead;
 	
 	int Demon_Height;
 	int Demon_Width;
@@ -51,7 +85,6 @@ public:
 	int AlphaImmortal;
 	int LengthOfTriangle;
 
-	bool Immortal;
 
 	int Feet_W, Feet_H, Fist_W, Fist_H;
 
@@ -80,9 +113,35 @@ public:
 	bool MovementDirection; // false = left, true = right
 
 	float xPos, yPos;
-	float xVel, yVel;
+	float xVelocity, yVelocity;
 
 	SDL_Rect AnimationArrays[ 4 ][ 48 ];
+
+	// New update functionality
+	void Update();
+	void SetClips();
+	void UpdatePosition(float x, float y); 
+	void SetState( Demon::State state )
+	{
+		_State = state;
+	}
+	Demon::State GetState() const
+	{
+	   return _State;
+	}
+	void SetMorphState( Demon::MorphState state )
+	{
+		_MorphState = state;
+	}
+	Demon::MorphState GetMorphState() const
+	{
+	   return _MorphState;
+	}
+
+
+private:
+	Demon::State _State;
+	Demon::MorphState _MorphState;
 };
 
 extern Demon demon;

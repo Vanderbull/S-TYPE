@@ -61,6 +61,7 @@ void FillHighScore::Save()
 	} 
 }
 
+
 void FillHighScore::sort( string a, unsigned long int x )
 {
 	if( x > list[ 5 ].Score )// if score is bigger

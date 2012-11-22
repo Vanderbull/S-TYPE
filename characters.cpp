@@ -7,7 +7,7 @@
 
 // @date 2012-08-07
 
-Demon demon;
+Demon demon(0,GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH);
 
 Demon::Demon()
 {
@@ -20,7 +20,7 @@ Demon::Demon()
 	CrouchFireBall   = false;
 	Right            = false;
 	Left             = false;
-	Immortal         = false;
+	isImmortal         = false;
 
 	isHit            = false; 
 	DieOneLife       = false;
@@ -36,15 +36,15 @@ Demon::Demon()
 
 	Demon_Dead       = false;
 
-	Crouch           = false;
-	Kick             = false; 
-	Jump             = false;
-	Punch            = false;
+	//Crouch           = false;
+	//Kick             = false; 
+	//Jump             = false;
+	//Punch            = false;
 	FireBall         = false;
 	CrouchFire       = false;
 	TriangleAttack   = false;
 	Triangle         = false;
-	GetUp            = false;
+	isGettingUp      = false;
 
 	KickRight        = 5;
 	KickLeft         = 28;
@@ -98,6 +98,24 @@ Demon::Demon()
 	//xPosHotSpot      = 0;
 }
 
+Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
+{
+	demon.Demon_Height = height;
+	demon.Demon_Width = width;
+
+	demon.Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
+	RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
+	RadiusFeet  = ( Fist_W > Fist_H ) ? Fist_W / 2 : Fist_H / 2;
+
+	demon.xPos = Xpos;
+	demon.yPos = Ypos;
+
+	demon.DemonSurface = surface;
+
+	xVelocity = 0;
+	yVelocity = 0;
+}
+
 //What is end position and what is it used for???
 void Demon::UpdateEndPosition()
 {
@@ -148,7 +166,6 @@ bool Demon::CheckBoundaries()
 bool Demon::IsInStateAttack()
 {
 	if( demon.isKicking == true || demon.isPunching == true ||
-		demon.Kick == true || demon.Punch == true || 
 		demon.CrouchFireBall == true || demon.TriangleAttack == true || demon.Triangle == true)
 	{
 		return true;
@@ -172,8 +189,8 @@ void Demon::InitiateDemon(	int surface, int Xpos, int Ypos,
 
 	demon.DemonSurface = surface;
 
-	xVel = Xpos;
-	yVel = Ypos;
+	xVelocity = 0;
+	yVelocity = 0;
 }
 
 // updates player animations and moving
@@ -186,20 +203,62 @@ int Demon::UpdatePlayer()
 	float speedJumpDemon = 800.0f * ( gamestate.dt / 1000.0f );
 	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
 
+	if( IDLE == demon.GetState() )
+	{
+		cout << "Character is standing around doing nothing...." << endl;
+	}
+	if( CROUCHING == demon.GetState() )
+	{
+		cout << "Character is crouching...." << endl;
+		demon.SetState(demon.IDLE);
+	}
+	if( KICKING == demon.GetState() )
+	{
+		cout << "Character is kicking...." << endl;
+		demon.SetState(demon.IDLE);
+	}
+	if( JUMPING == demon.GetState() )
+	{
+		cout << "Character is jumping...." << endl;
+		demon.SetState(demon.IDLE);
+	}
+	if( PUNCHING == demon.GetState() )
+	{
+		cout << "Character is punching...." << endl;
+		demon.SetState(demon.IDLE);
+	}
+	if( GETTING_UP == demon.GetState() )
+	{
+		cout << "Character is getting up after falling...." << endl;
+		demon.SetState(demon.IDLE);
+		if( demon.Right )
+		{
+			return 46;
+		}
+		else
+		{
+			return 43;
+		}
+	}
+	if( GETTING_HIT == demon.GetState() )
+	{
+		cout << "Character is getting hit by the enemy...." << endl;
+		demon.SetState(demon.IDLE);
+	}
 	// checks which animation to play
-	if( Crouch )
+	if( isCrouching )
 	{
 		isKicking      = false;
 		isJumping      = false;
-		isCrouching    = true;
+		//isCrouching    = true;
 		isPunching     = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 
-	else if( Kick )
+	else if( isKicking )
 	{
-		isKicking      = true;
+		//isKicking      = true;
 		isJumping      = false;
 		isCrouching    = false;
 		isPunching     = false;
@@ -207,18 +266,18 @@ int Demon::UpdatePlayer()
 		TriangleAttack = false;
 	}
 
-	else if( Jump )
+	else if( isJumping )
 	{
 		isKicking      = false;
-		isJumping      = true;
+		//isJumping      = true;
 		isCrouching    = false;
 		isPunching     = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
-	else if( Punch )
+	else if( isPunching )
 	{
-		isPunching     = true;
+		//isPunching     = true;
 		isKicking      = false;
 		isJumping      = false;
 		isCrouching    = false;
@@ -252,9 +311,9 @@ int Demon::UpdatePlayer()
 		TriangleAttack = true;
 	}
 
-	if( GetUp )
+	if( demon.isGettingUp )
 	{
-		demon.GetUp = false;
+		demon.isGettingUp = false;
 
 		if( demon.Right )
 		{
@@ -278,7 +337,7 @@ int Demon::UpdatePlayer()
 				Control_OBJ.WhichLifeToShow = 0;
 				demon.Demon_Life--;
 				demon.DieOneLife = true;
-				demon.Immortal = true;
+				demon.isImmortal = true;
 			}
 		}
 
@@ -315,28 +374,28 @@ int Demon::UpdatePlayer()
 
 			if( Right )
 			{
-				if( demon.xVel - speed <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
+				if( demon.xVelocity - speed <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
 				{
 					
 				}
 				else
 				{
 					demon.xPos -= speed + 20.0f;
-					demon.xVel -= speed + 20.0f;
+					demon.xVelocity -= speed + 20.0f;
 					//xPosHotSpot--;
 				}
 				return 43;
 			}
 			else
 			{
-				if( demon.xVel >= STARTSCROLLING )
+				if( demon.xVelocity >= STARTSCROLLING )
 				{
 
 				}
 				else
 				{
 					demon.xPos += speed + 20.0f;
-					demon.xVel += speed + 20.0f;
+					demon.xVelocity += speed + 20.0f;
 					//xPosHotSpot++;
 					
 				}
@@ -360,17 +419,17 @@ int Demon::UpdatePlayer()
 				{
 				case 0:
 					{
-						if( demon.xVel <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
+						if( demon.xVelocity <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
 						{
 							//demon.xPosHotSpot--;
 							demon.xPos = 51;
-							demon.xVel = 51;
+							demon.xVelocity = 51;
 						}
 						else
 						{
-							demon.yPos -= abs( 16 * cos( speedJumpDemon ) );
+							//demon.yPos -= abs( 16 * cos( speedJumpDemon ) );
 							demon.xPos -= abs( 16 * cos( speedJumpDemon ) );
-							demon.xVel -= abs( 16 * cos( speedJumpDemon ) );
+							demon.xVelocity -= abs( 16 * cos( speedJumpDemon ) );
 							//demon.xPosHotSpot--;
 
 							if( demon.yPos < GROUND_Y - 50 )
@@ -383,17 +442,17 @@ int Demon::UpdatePlayer()
 					}
 				case 1:
 					{
-						if( demon.xVel <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
+						if( demon.xVelocity <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 50 )
 						{
 							//demon.xPosHotSpot--;
 							demon.xPos = 51;
-							demon.xVel = 51;
+							demon.xVelocity = 51;
 						}
 						else
 						{
-							demon.yPos += abs( 15 * cos( speedJumpDemon ) );
+							//demon.yPos += abs( 15 * cos( speedJumpDemon ) );
 							demon.xPos -= abs( 10 * cos( speedJumpDemon ) );
-							demon.xVel -= abs( 10 * cos( speedJumpDemon ) );
+							demon.xVelocity -= abs( 10 * cos( speedJumpDemon ) );
 							//demon.xPosHotSpot--;
 		
 							if( demon.yPos > GROUND_Y )
@@ -411,7 +470,7 @@ int Demon::UpdatePlayer()
 						demon.DieRightDemon++;
 						demon.DieOneLife = false;
 						demon.DieState = 0;	
-						demon.GetUp = true;
+						demon.isGettingUp = true;
 						break;
 					}
 				}
@@ -429,7 +488,7 @@ int Demon::UpdatePlayer()
 				{
 				case 0:
 					{
-						if( demon.xVel + abs( 10 * cos( speedJumpDemon ) ) >= gamestate.SCREEN_WIDTH - 50 )
+						if( demon.xVelocity + abs( 10 * cos( speedJumpDemon ) ) >= gamestate.SCREEN_WIDTH - 50 )
 						{
 							//demon.xPosHotSpot++;
 						}
@@ -437,7 +496,7 @@ int Demon::UpdatePlayer()
 						{
 							demon.yPos -= abs( 15 * cos( speedJumpDemon ) );
 							demon.xPos += abs( 10 * cos( speedJumpDemon ) );
-							demon.xVel += abs( 10 * cos( speedJumpDemon ) );
+							demon.xVelocity += abs( 10 * cos( speedJumpDemon ) );
 							//demon.xPosHotSpot++;
 
 							if( demon.yPos < GROUND_Y - 50 )
@@ -449,7 +508,7 @@ int Demon::UpdatePlayer()
 					}
 				case 1:
 					{
-						if( demon.xVel + abs( 5 * cos( speedJumpDemon ) ) >= gamestate.SCREEN_WIDTH - 50 )
+						if( demon.xVelocity + abs( 5 * cos( speedJumpDemon ) ) >= gamestate.SCREEN_WIDTH - 50 )
 						{
 							//demon.xPosHotSpot++;
 						}
@@ -457,7 +516,7 @@ int Demon::UpdatePlayer()
 						{
 							demon.yPos += abs( 15 * cos( speedJumpDemon ) );
 							demon.xPos += abs( 5 * cos( speedJumpDemon ) );
-							demon.xVel += abs( 5 * cos( speedJumpDemon ) );
+							demon.xVelocity += abs( 5 * cos( speedJumpDemon ) );
 							//demon.xPosHotSpot++;
 							
 							if( demon.yPos > GROUND_Y )
@@ -475,7 +534,7 @@ int Demon::UpdatePlayer()
 						demon.DieLeftDemon++;
 						demon.DieOneLife = false;
 						demon.DieState = 0;	
-						demon.GetUp = true;
+						demon.isGettingUp = true;
 						break;
 					}
 				}
@@ -491,10 +550,10 @@ int Demon::UpdatePlayer()
 		}
 	}
 
-	if( isJumping || isPunching || isCrouching || isKicking || Crouch || Kick || Punch || Jump || isMovingLeft || isMovingRight ||FireBall || CrouchFireBall || TriangleAttack || Triangle )
+	if( isJumping || isPunching || isCrouching || isKicking || isMovingLeft || isMovingRight || FireBall || CrouchFireBall || TriangleAttack || Triangle )
 	{
 	// checks which sprites to use
-		if( isJumping || isPunching || isCrouching || demon.isKicking || Crouch || Kick || Jump || Punch ||FireBall || CrouchFireBall || TriangleAttack || Triangle )
+		if( isJumping || isPunching || isCrouching || demon.isKicking || FireBall || CrouchFireBall || TriangleAttack || Triangle )
 		{
 			if( isCrouching == true && isKicking == true )
 			{
@@ -581,13 +640,13 @@ int Demon::UpdatePlayer()
 			{
 				if( demon.SmallHunter )
 				{
-					Kick = true;
+					//Kick = true;
 					
 					if( Right )
 					{
 						if( KickRight == 8 )
 						{
-							Kick = false;
+							//Kick = false;
 							demon.isKicking = false;
 							KickRight = 5;
 						}
@@ -600,10 +659,9 @@ int Demon::UpdatePlayer()
 					}
 					else if( Left )
 					{
-					
 						if( KickLeft == 31 )
 						{
-							Kick = false;
+							//Kick = false;
 							demon.isKicking = false;
 							KickLeft = 28;
 						}
@@ -617,7 +675,6 @@ int Demon::UpdatePlayer()
 				}
 				else if( demon.DemonHunter )
 				{
-					
 					FireBall = true;
 					if( Right )
 					{
@@ -690,14 +747,15 @@ int Demon::UpdatePlayer()
 									TriangleState = 1;
 									demon.LengthOfTriangle = 0;
 								}
-								demon.xVel += abs( 70 * cos( TriangleSpeed ) );
+								
+								demon.xVelocity += abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos += abs( 70 * cos( TriangleSpeed ) );
 								//demon.xPosHotSpot++;
 								break;
 							}
 						case 1:
 							{
-								demon.xVel += abs( 70 * cos( TriangleSpeed ) );
+								demon.xVelocity += abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos += abs( 70 * cos( TriangleSpeed ) );
 								//demon.xPosHotSpot++;
 								TriangleState = 0;
@@ -722,7 +780,7 @@ int Demon::UpdatePlayer()
 									demon.LengthOfTriangle = 0;
 									TriangleState = 1;
 								}
-								demon.xVel -= abs( 70 * cos( TriangleSpeed ) );
+								demon.xVelocity -= abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos -= abs( 70 * cos( TriangleSpeed ) );
 								demon.LengthOfTriangle++;
 								//demon.xPosHotSpot--;						
@@ -731,7 +789,7 @@ int Demon::UpdatePlayer()
 				
 						case 1:
 							{
-								demon.xVel -= abs( 70 * cos( TriangleSpeed ) );
+								demon.xVelocity -= abs( 70 * cos( TriangleSpeed ) );
 								demon.xPos -= abs( 70 * cos( TriangleSpeed ) );
 								//demon.xPosHotSpot--;
 							
@@ -748,13 +806,13 @@ int Demon::UpdatePlayer()
 			{
 				if( demon.SmallHunter )
 				{
-					Punch = true;
+					//Punch = true;
 					if( Right )
 					{
 						if( PunchRight == 11 )
 						{
 							PunchRight = 8;
-							Punch = false;
+							//Punch = false;
 							demon.isPunching = false;
 						}
 						else
@@ -769,7 +827,7 @@ int Demon::UpdatePlayer()
 						if( PunchLeft == 34 )
 						{
 							PunchLeft = 31;
-							Punch = false;
+							//7Punch = false;
 							demon.isPunching = false;
 						}
 						else
@@ -787,7 +845,7 @@ int Demon::UpdatePlayer()
 			// kickass
 			else if( demon.isJumping )
 			{
-				Jump = true;
+				//Jump = true;
 
 				if( Right )
 				{
@@ -805,18 +863,17 @@ int Demon::UpdatePlayer()
 						}
 						else if( WhereJumpRight == 16 )
 						{
-						demon.yPos += speed;
-						Jump = false;
-						demon.isJumping = false;
-						
-						WhereJumpRight = 12;
+							demon.yPos += speedJump;
+							//Jump = false;
+							demon.isJumping = false;
+							WhereJumpRight = 12;
 						}
 						else
 						{
-							demon.yPos -= JumpSpeed;
+							demon.yPos -= speedJump;
 							WhereJumpRight++;
 						}
-
+						
 						return WhereJumpRight;
 					}
 					else
@@ -834,15 +891,13 @@ int Demon::UpdatePlayer()
 						else if( JumpRight_Demon == 7 )
 						{
 						demon.yPos += speedJumpDemon;
-						Jump = false;
+						//Jump = false;
 						demon.isJumping = false;
 						
 						JumpRight_Demon = 5;
 						}
 
 						return JumpRight_Demon;
-
-
 					}
 				}
 				else if( Left )
@@ -862,7 +917,7 @@ int Demon::UpdatePlayer()
 						else if( WhereJumpLeft == 38 )
 						{
 							demon.yPos += speedJump;
-							Jump = false;
+							//Jump = false;
 							demon.isJumping = false;
 			
 							WhereJumpLeft = 35;
@@ -891,7 +946,7 @@ int Demon::UpdatePlayer()
 						else if( JumpLeft_Demon == 28 )
 						{
 							demon.yPos += speedJumpDemon;
-							Jump = false;
+							//Jump = false;
 							demon.isJumping = false;
 			
 							JumpLeft_Demon = 26;
@@ -904,31 +959,34 @@ int Demon::UpdatePlayer()
 		}
 		else if( demon.isMovingLeft || demon.isMovingRight )
 		{
+			// Character movement left and right
 			if( gamestate.GameCondition != GS_OUTRO )
 			{
-				demon.yPos = GROUND_Y;
+				//demon.yPos = GROUND_Y;
 			}
 
 			// checks if demon is moving right, also checks which clip to use for
 			// the right demon in sprite sheet
 			if( demon.isMovingRight )
 			{
-				if( demon.xPos < 600 )
+				if( demon.xPos < 600.0f )
 				{
 					demon.xPos += 15.0f;
 				}
+
 				demon.Right = true;
 				demon.Left = false;
+
 				if( gamestate.GameCondition == GS_OUTRO )
 				{
 					demon.xPos += 2;
-					demon.xVel += 2;	
+					demon.xVelocity += 2;	
 				}
-				else if( demon.xVel >= STARTSCROLLING - 50)
+				else if( demon.xVelocity >= STARTSCROLLING - 50)
 				{
 					if( gamestate.GameCondition == GS_LEVEL1BOSS )
 					{
-						if( demon.xVel >= STARTSCROLLING + 100 )
+						if( demon.xVelocity >= STARTSCROLLING + 100 )
 						{
 
 						}
@@ -954,8 +1012,7 @@ int Demon::UpdatePlayer()
 				// Walking animation frames 
 				if( demon.SmallHunter )
 				{
-					
-					if( WhereWalkRight == 4 )
+					if( WhereWalkRight > 3 )
 					{
 						WhereWalkRight = 1;
 					}
@@ -967,7 +1024,7 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
-					if( WalkRight_Demon == 4 )
+					if( WalkRight_Demon > 3 )
 					{
 						WalkRight_Demon = 1;
 					}
@@ -984,11 +1041,12 @@ int Demon::UpdatePlayer()
 			// the right demon in sprite sheet
 			else if( demon.isMovingLeft )
 			{
-				if( demon.xPos > 0.0f )
+				// Character maximum distance to the left edge of the screen
+				if( demon.xPos > 15.0f )
 				{
 					demon.xPos -= 15.0f;
 				}
-				if( demon.xVel <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 25 )
+				if( demon.xVelocity <= gamestate.SCREEN_WIDTH - gamestate.SCREEN_WIDTH + 25 )
 				{
 					//demon.xPosHotSpot--;
 				}
@@ -1002,6 +1060,7 @@ int Demon::UpdatePlayer()
 				demon.Right = false;
 				demon.Left = true;
 
+				// What sprites to use when drawing the main character
 				if( demon.SmallHunter )
 				{
 					if( WhereWalkLeft > 26 )
@@ -1017,7 +1076,7 @@ int Demon::UpdatePlayer()
 				}
 				else
 				{
-					if( WalkLeft_Demon == 25 )
+					if( WalkLeft_Demon > 24 )
 					{
 						WalkLeft_Demon = 22;
 					}
@@ -1053,26 +1112,23 @@ void Demon::UpdateXPos()
 {
 	if( demon.isMovingRight )
 	{
-		MovementDirection = true; // Right
-		demon.Right = true;
-		demon.Left = false;
+		//MovementDirection = true; // Right
+		//demon.Right = true;
+		//demon.Left = false;
 	}
 		
 	// checks if demom is moving left, also checks which clip to use for
 	// the right demon in sprite sheet
 	else if( demon.isMovingLeft )
 	{
-		MovementDirection = false; // Left
-		demon.Right = false;
-		demon.Left = true;
+		//MovementDirection = false; // Left
+		//demon.Right = false;
+		//demon.Left = true;
 	}	
 }
 
 void Demon::Set_clips()
 {
-	// Quite long have to shorten down if it takes to much power
-	// Create a loading screen that shows when the game starts
-
 	for( int i = 0; i < 4; i++ )
 	{
 		for( int j = 0; j < 48; j++ )
@@ -1082,6 +1138,35 @@ void Demon::Set_clips()
 			demon.AnimationArrays[ i ][ j ].h = demon.Demon_Height;
 			demon.AnimationArrays[ i ][ j ].w = demon.Demon_Width;
 		}
+	}
+}
+
+void Demon::Update()
+{
+}
+
+void Demon::SetClips()
+{
+	int ArraySize = sizeof(AnimationArrays) / sizeof(AnimationArrays[0]);
+	for( int i = 0; i < ArraySize; i++ )
+	{
+	}
+}
+
+void Demon::UpdatePosition(float xUnits, float yUnits)
+{
+	xPos += xUnits;
+	yPos += yUnits;
+
 	
+	if( xPos < 0.0f )
+	{
+		// Bumps the character to the right a bit if the player isn't moving and to far to the left
+		xPos += 10.0f;
+	}
+	else
+	{
+		// Makes the character follow the parallax scrolling speed to make it look like he is standing still
+		xPos -= 2.0f;
 	}
 }

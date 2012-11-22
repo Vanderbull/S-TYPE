@@ -25,7 +25,7 @@ Layer_Surface: 4
 Layer_Width: 1172
 Layer_Height: 170
 Layer_WhereOn_Y: 0
-Layer_Parallax: 0.1
+Layer_Parallax: 0.7
 Destination_X: 0
 Destination_Y: 370
 Destination_Width: 800

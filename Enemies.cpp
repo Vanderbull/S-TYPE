@@ -230,7 +230,7 @@ void Boss::UpdateBoss()
 			else
 			{		
 				if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-					demon.Immortal == false )
+					demon.isImmortal == false )
 				{
 					timer.Timer_Hit = 0;
 					demon.Right = true;
@@ -355,7 +355,7 @@ void Boss::UpdateHeads()
 				else
 				{
 					if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-					demon.Immortal == false )
+					demon.isImmortal == false )
 					{
 						timer.Timer_Hit = 0;
 						demon.isHit = true;
@@ -603,7 +603,7 @@ void Control_Enemies::Draw_Enemies()
 						timer.Timer_Hit++;
 						demon.Demon_Health -= 50;
 						if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-							demon.Immortal == false )
+							demon.isImmortal == false )
 						{
 							timer.Timer_Hit = 0;
 							demon.isHit = true;
@@ -617,7 +617,7 @@ void Control_Enemies::Draw_Enemies()
 						demon.Demon_Health -= 50;
 							
 						if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-							demon.Immortal == false )
+							demon.isImmortal == false )
 						{
 							timer.Timer_Hit = 0;
 							demon.isHit = true;
@@ -676,7 +676,7 @@ void Control_Enemies::Draw_Enemies()
 							}
 							else
 							{
-								if( demon.isMovingLeft && demon.xVel >= gamestate.SCREEN_WIDTH - 350 )
+								if( demon.isMovingLeft && demon.xVelocity >= gamestate.SCREEN_WIDTH - 350 )
 								{
 									enemy->xPos += speed;
 								}

@@ -216,8 +216,8 @@ FirstScreen::FirstScreen( int ButtonX, int Surface, int SurfaceButtons )
 	DestClips[ 6 ].w = 325;
 	DestClips[ 6 ].h = 70;
 
-	DestClips[ 7 ].x = 325;
-	DestClips[ 7 ].y = 140;
+	DestClips[ 7 ].x = 800-325;
+	DestClips[ 7 ].y = 600-140;
 	DestClips[ 7 ].w = 325;
 	DestClips[ 7 ].h = 70;
 

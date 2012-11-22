@@ -375,7 +375,7 @@ bool ControlCollision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool Sh
 bool ControlCollision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool Show )
 {
 	// Cache
-	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 ) ),
+ 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 ) ),
 			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 ) );
 	
 	if( Show )
