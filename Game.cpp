@@ -12,6 +12,7 @@
 #include <SDL_mixer.h>
 #include "Game.h"
 #include "characters.h"
+#include "ControlGfx.h"
 #include "Audio.h"
 #include "Objects.h"
 #include "Enemies.h"
@@ -29,33 +30,41 @@ Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
+	cout << "Initializing Gamestate" << endl;
 	SCREEN_HEIGHT = 600;
 	SCREEN_WIDTH = 800;
 	SCREEN_BPP = 32;
+	cout << "Resolution: " << SCREEN_HEIGHT << "x" << SCREEN_WIDTH << "x" << SCREEN_BPP << endl;
 	dt = 0.0f;
 	CheckingHighScore = false;
-	FirstLevel = true;
 	BossStart = false;
 	IntroDone = false;
-	ScreenSize = 0;
+
+	FirstLevel = true;
+	cout << "Setting FirstLevel" << endl;
+
 	GameCondition = GS_INTRO;
+	cout << "GameCondition: GS_INTRO" << endl;
 
 	boss = NULL;
 	Intro = NULL;
 	outro = NULL;
 	
-	Previous_AnimArray = 0;
-	Previous_Frame = 0;
-	Current_AnimArray = 0;
-	Current_Frame = 0;
+	PreviousAnimArray = 0;
+	PreviousFrame = 0;
+	CurrentAnimArray = 0;
+	CurrentFrame = 0;
 
 	font = NULL;
 	srfText = NULL;
 
-	m_paralax = 0;
+	m_parallax = 0;
 
 	Score = 0;
 	LevelProgress = 0;
+
+	// Loading files
+
 }
 
 void Game::Handle_events( SDL_Event input )
@@ -72,43 +81,31 @@ void Game::Handle_events( SDL_Event input )
 		{
 		case SDLK_RIGHT:
 			{
-				cout << "Released <RIGHT> key" << endl; 
-				demon.SetState(Demon::State::IDLE);
 				demon.isMovingRight = false;
 				break;
 			}
 		case SDLK_LEFT:
 			{
-				demon.SetState(Demon::State::IDLE);
-				cout << "Released <LEFT> key" << endl;
 				demon.isMovingLeft = false;
 				break;
 			}
 		case SDLK_UP:
 			{
-				demon.SetState(Demon::State::IDLE);
-				cout << "Released <UP> key" << endl;
 				demon.isJumping = false;
 				break;
 			}
 		case SDLK_DOWN:
 			{
-				demon.SetState(Demon::State::IDLE);
-				cout << "Released <DOWN> key" << endl;
 				demon.isCrouching = false;
 				break;
 			}
 		case SDLK_SPACE:
 			{
-				demon.SetState(Demon::State::IDLE);
-				cout << "Released <SPACEBAR> key" << endl;
 				demon.isKicking = false;
 				break;
 			}
 		case SDLK_LALT:
 			{
-				demon.SetState(Demon::State::IDLE);
-				cout << "Released <LALT> key" << endl;
 				if( demon.SmallHunter )
 				{
 					demon.isPunching = false;
@@ -117,6 +114,10 @@ void Game::Handle_events( SDL_Event input )
 				{
 					demon.TriangleAttack = false;
 				}
+				break;
+			}
+		default:
+			{
 				break;
 			}
 		}
@@ -195,6 +196,7 @@ void Game::Handle_events( SDL_Event input )
 											
 					break;
 				}
+				break;
 			}
 		case SDLK_LALT:
 			{
@@ -222,7 +224,15 @@ void Game::Handle_events( SDL_Event input )
 				}
 				break;
 			}
+		default:
+			{
+				break;
+			}
 		}
+	}
+	else
+	{
+		demon.SetState(Demon::State::IDLE);
 	}
 	// if intro checks mouseposition and checks for presses
 	if( gamestate.GameCondition == GS_INTRO )
@@ -299,16 +309,38 @@ void Game::Handle_events( SDL_Event input )
 
 
 	}
-
 	else
 	{
 		return;
 	}
-	
 }
 
 Game::Game()
 {
+	//initialize all SDL subystems
+	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1)
+	{
+		cout << "SDL INIT FAILED..." << endl;
+		SDL_Quit();
+	}
+	else
+	{
+		cout << "SDL_INIT_EVERYTHING..." << endl;
+	}
+
+	if( TTF_Init() == -1 )
+	{
+		cout << "TTF_INIT FAILED..." << endl;
+	}
+	else
+	{
+		gamestate.font = TTF_OpenFont( "cour.ttf", 28 );
+	}
+
+	// Setup of the application icons
+	SDL_WM_SetCaption("", "res/big.ico");
+	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
+
 	gamestate.GameOK = true;
 	gamestate.GameOK = Init( gamestate.screen );
 	
@@ -322,7 +354,27 @@ Game::Game()
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
 {	
-	font = TTF_OpenFont( "cour.ttf", 28 );
+	m_srfCity = Gfx.Load_imageAlpha( "Graphics\\srfCity.png", 0, 0, 0 );
+	m_srfClouds = Gfx.Load_imageAlpha( "Graphics\\srfClouds.png", 0, 0, 0 );
+	m_srfBlack = Gfx.Load_imageAlpha( "Graphics\\srfBlack.png", 0, 0, 0 );
+	m_srfSky = Gfx.Load_imageAlpha( "Graphics\\srfSky.png", 0, 0, 0 );
+	m_srfTrees = Gfx.Load_imageAlpha( "Graphics\\srfTrees.png", 2, 2, 2 );
+	demon.DemonSurface = Gfx.Load_imageAlpha( "Graphics\\DemonSurface.png", 255, 255, 255 );
+	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics\\srfEnemyZombie.png", 106, 76, 48 );
+	m_srfSkeleton = Gfx.Load_imageAlpha( "Graphics\\srfSkeleton.png", 106, 76, 48  );
+	m_srfCrow = Gfx.Load_imageAlpha( "Graphics\\srfCrow.png", 255, 255, 255 );
+	m_srfCoffin  = Gfx.Load_imageAlpha( "Graphics\\srfCoffin.png", 97, 68, 43 );
+	m_srfBoss = Gfx.Load_imageAlpha( "Graphics\\srfBoss.png", 255, 255, 255 );
+	m_srfDemonLife = Gfx.Load_imageAlpha( "Graphics\\srfDemonLife.png", 255, 255, 255 );
+	m_srfDemonHealthAndFire = Gfx.Load_imageAlpha( "Graphics\\srfDemonHealthAndFire.png", 0, 0, 0 );
+	m_srfDragon = Gfx.Load_imageAlpha( "Graphics\\srfDragon.png", 0, 0, 0 );
+	m_srfStart = Gfx.Load_imageAlpha( "Graphics\\srfStart.png", 237, 234, 214 );
+	m_srfButtons = Gfx.Load_imageAlpha( "Graphics\\srfButtons.png", 255, 255, 255 );
+	m_srfIntro = Gfx.Load_imageAlpha( "Graphics\\srfIntro.png", 255, 255, 255 );
+	m_srfMorphing = Gfx.Load_imageAlpha( "Graphics\\srfMorphing.png", 255, 255, 241 );
+	m_srfReaper = Gfx.Load_imageAlpha( "Graphics\\srfReaper.png", 255, 255, 255 );
+	m_srfOutro = Gfx.Load_imageAlpha( "Graphics\\srfOutro.png", 255, 255, 255 );
+	m_srfButton = Gfx.Load_imageAlpha( "Graphics\\srfButton.png", 0, 0, 0 );
 
 	m_srfCity = Load_imageAlpha( "Graphics\\srfCity.png", 0, 0, 0 );
 	m_srfClouds = Load_imageAlpha( "Graphics\\srfClouds.png", 0, 0, 0 );
@@ -348,13 +400,12 @@ void Gamestate::load_files()
 
 	gamestate.CreateNewThings();
 
-	int MorphWidth = 800;
 	for( int i = 0; i < 4; i++ )
 	{
-		MorphingPics[ i ].x = i * MorphWidth;
+		MorphingPics[ i ].x = i * SCREEN_WIDTH;
 		MorphingPics[ i ].y = 0;
-		MorphingPics[ i ].h = 600;
-		MorphingPics[ i ].w = MorphWidth;
+		MorphingPics[ i ].h = SCREEN_HEIGHT;
+		MorphingPics[ i ].w = SCREEN_WIDTH;
 	}
 
 	setUpParallaxLayers();
@@ -401,9 +452,7 @@ void Gamestate::DrawObjects()
 		AnimalController.Draw_Animals();
 		Control_ENEMY.Draw_Enemies();
 		Control_OBJ.DrawObjects();
-	}
-	
-	
+	}	
 }
 // ----------------------------------------------------------------------------
 // CreateBoss() - Creates the boss gives collisionCircle and pos
@@ -428,7 +477,7 @@ void Gamestate::MorphMyDude()
 	Audio.PlaySoundEffect( SOUND_MORPH );
 
 	int State = 3;
-	SDL_Rect destRect = { 0, 0, 800, 600 };
+	SDL_Rect destRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	while( State != -1 )
 	{
 		
@@ -708,6 +757,8 @@ void Gamestate::ResetPlayer()
 // ----------------------------------------------------------------------------
 void Game::upDate( SDL_Event input )
 {
+	gamestate.LevelProgress++;
+	cout << gamestate.LevelProgress << endl;
 	demon.UpdateEndPosition();
 
 	if( demon.isImmortal )
@@ -1229,7 +1280,7 @@ void Gamestate::MainScreen()
 	SDL_Surface * Surface_HighScore = NULL;
 
 	ParallaxLayer  * MyParaBackGround;
-	MyParaBackGround = Paralax->getLayer( TitleScreen->surface );
+	MyParaBackGround = Parallax->getLayer( TitleScreen->surface );
 
 	SDL_Rect scRect = { 0, 0, 800, 600 };
 
@@ -1408,7 +1459,7 @@ void Gamestate::RestartGame()
 
 	demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH );
 	gamestate.Score = 0;
-	gamestate.m_paralax = 0;
+	gamestate.m_parallax = 0;
 
 }
 
@@ -1437,7 +1488,7 @@ void Gamestate::ResetRest()
 // Frees surfaces and deletes thing thats not NULL
 void Gamestate::EndAll()
 {
-	for( int i = 0; i < Paralax->getLayerCount(); i++ )
+	for( int i = 0; i < Parallax->getLayerCount(); i++ )
 	{
 		SDL_FreeSurface( m_surfaceList[ i ] );
 	}
@@ -1481,9 +1532,9 @@ void Gamestate::RecordAllData()
 {
 	ParallaxLayer * LayerToFile;
 	ofstream OutToFile("LevelOptions.txt");
-	for( int i = 0; i < Paralax->getLayerCount(); i++ )
+	for( int i = 0; i < Parallax->getLayerCount(); i++ )
 	{
-		LayerToFile = Paralax->getLayer( i );
+		LayerToFile = Parallax->getLayer( i );
 		OutToFile << "WhichLayer: " << i << endl;
 		OutToFile << "Layer_Surface: " << LayerToFile->m_surface << endl;
 		OutToFile << "Layer_Width: " << LayerToFile->m_width << endl;
@@ -1538,29 +1589,33 @@ int Gamestate::Load_imageAlpha( std::string filename, int r, int g, int b )
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
-
 	gamestate.screen = 0;
 
+
 	//initialize all SDL subystems
-	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1)
+/*	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1)
 	{
 		return false;
-	}
-	SDL_WM_SetCaption("", "res/big.ico");
-	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
+	} */
+	//SDL_WM_SetCaption("", "res/big.ico");
+	//SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
 	//set up the screen
-	gamestate.screen = SDL_SetVideoMode(gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT, gamestate.SCREEN_BPP, SDL_SWSURFACE );
+	gamestate.screen = SDL_SetVideoMode(gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT, gamestate.SCREEN_BPP, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
 	if( screen == NULL )
 	{
 		return false;
 	}
 
-	if( TTF_Init() == -1 )
+/*	if( TTF_Init() == -1 )
 	{
 		return false;
 	}
+	else
+	{
+		gamestate.font = TTF_OpenFont( "cour.ttf", 28 );
+	} */
 	
 	//set window caption
 	SDL_WM_SetCaption( " Demon hunter ", NULL);
@@ -1577,7 +1632,7 @@ bool Game::Init(SDL_Surface * &screen)
 	bmask = 0x00000000;
 	amask = 0x00000000;
 
-	gamestate.BackBuffer = SDL_CreateRGBSurface( SDL_SWSURFACE, 800, 600, 32,
+	gamestate.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT, gamestate.SCREEN_BPP,
 								   rmask, gmask, bmask, amask);
 	
 	if( gamestate.BackBuffer == NULL )
@@ -1593,8 +1648,7 @@ bool Game::Init(SDL_Surface * &screen)
 void Gamestate::drawParallaxLayers()
 {
 	//demon.xPosHotSpot++;
-	LevelProgress++;
-	cout << LevelProgress << endl;
+
 
 	if( gamestate.GameCondition != GS_LEVEL1BOSS && gamestate.GameCondition != GS_OUTRO )
 	{
@@ -1627,22 +1681,23 @@ void Gamestate::drawParallaxLayers()
 
 		//// Draw parallax layers
 		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = Paralax->getLayer( 0 );
+		MyParaBackGround = Parallax->getLayer( 0 );
 
 		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
 									MyParaBackGround->m_height };
 
 		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
 
-		SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
+		SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, gamestate.BackBuffer, &dtRect );
+		//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
 
 		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
 
 		int x = 0;
-		for( int i = 1; i < Paralax->getLayerCount(); ++i )
+		for( int i = 1; i < Parallax->getLayerCount(); ++i )
 		{		
 			// Calc rects
-			MyParaBackGround = Paralax->getLayer( i );
+			MyParaBackGround = Parallax->getLayer( i );
 			if( MyParaBackGround->m_surface == m_srfClouds )
 			{
 				MyParaBackGround->AnimClouds++;
@@ -1665,7 +1720,7 @@ void Gamestate::drawParallaxLayers()
 			{
 
 				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_paralax ) );  
+				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_parallax ) );  
 				if( x < 0 )	// neg -> pos
 				{
 					x *= -1;	// invert sign, because % only works with positive integers
@@ -1686,8 +1741,9 @@ void Gamestate::drawParallaxLayers()
 
 				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY, 
 												MyParaBackGround->DW, MyParaBackGround->DH };
-			
-				SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
+
+				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, gamestate.BackBuffer, &destinationRect ); 			
+				//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
 				
 				
 				x += MyParaBackGround->m_width;
@@ -1697,7 +1753,7 @@ void Gamestate::drawParallaxLayers()
 			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
 
 		}
-		gamestate.m_paralax++;
+		gamestate.m_parallax++;
 }
 
 void Gamestate::CreateAll()
@@ -1711,7 +1767,7 @@ void Gamestate::CreateAll()
 void Gamestate::DrawSprite()
 {
 		SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.Demon_Width, demon.Demon_Height };
-
+		demonDest = demon.GetPosition();
 		if( demon.isImmortal )
 		{
 			if( demon.AlphaImmortal < SDL_ALPHA_OPAQUE - 100 )
@@ -1722,14 +1778,11 @@ void Gamestate::DrawSprite()
 			{
 				demon.AlphaImmortal -= 50;
 			}
-
-			SDL_SetAlpha( m_surfaceList[ demon.DemonSurface ], SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
-			
+			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
 		}
 		else
 		{
-
-			SDL_SetAlpha( m_surfaceList[ demon.DemonSurface ], SDL_SRCALPHA | SDL_RLEACCEL, 255 );
+			SDL_SetAlpha( m_surfaceList[ demon.DemonSurface ], SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
 		}
 
 		
@@ -1745,20 +1798,23 @@ void Gamestate::DrawSprite()
 			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
 								&demon.AnimationArrays[ Current_AnimArray ][ Current_Frame ],
 								gamestate.BackBuffer, &demonDest );*/
-			if( Current_Frame == 3 )
+			if( CurrentFrame == 3 )
 			{
-				Current_Frame = 0;
+				CurrentFrame = 0;
 			}
 
-			
-			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
-				&demon.AnimationArrays[ demon.GetState() ][ ++Current_Frame ],
-								gamestate.BackBuffer, &demonDest );
+			SDL_BlitSurface(	Gfx.GetSurface( demon.DemonSurface ), 
+				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
+				gamestate.BackBuffer, &demon.GetPosition() );
+			/*
+			SDL_BlitSurface(	m_surfaceList[ emon.DemonSurface ], 
+				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
+								gamestate.BackBuffer, &demonDest );*/
 
 
 			gamestate.resetAnimationPace();
-			Previous_AnimArray = Current_AnimArray;
-			Previous_Frame = Current_Frame;
+			PreviousAnimArray = CurrentAnimArray;
+			PreviousFrame = CurrentFrame;
 			if( gamestate.GameCondition == GS_OUTRO )
 			{
 				gamestate.resetAnimationPace();
@@ -1766,14 +1822,19 @@ void Gamestate::DrawSprite()
 		}
 		else
 		{
-			if( Current_Frame == 3 )
+			if( CurrentFrame == 3 )
 			{
-				Current_Frame = 0;
+				CurrentFrame = 0;
 			}
-						
-			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
-				&demon.AnimationArrays[ demon.GetState() ][ ++Current_Frame ],
+
+			SDL_BlitSurface( Gfx.GetSurface( demon.DemonSurface ), 
+				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
 								gamestate.BackBuffer, &demonDest );
+			/*
+			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
+				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
+								gamestate.BackBuffer, &demonDest );*/
+
 			/*SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
 								&demon.AnimationArrays[ Previous_AnimArray ][ Previous_Frame ],
 								gamestate.BackBuffer, &demonDest );*/
@@ -2019,45 +2080,45 @@ void Gamestate::setUpParallaxLayers()
 {
 	// Create background
 	int i = 0;
-	Paralax = new ParallaxBackground();
-	Paralax->createLayers( 10 );
+	Parallax = new ParallaxBackground();
+	Parallax->createLayers( 10 );
 
 	//Firstlayer
-	Paralax->setLayer( 0, 0, m_srfBlack, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Parallax->setLayer( 0, 0, m_srfBlack, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	////sky
-	Paralax->setLayer( 1, 0.0f, m_srfSky, 0, 800, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Parallax->setLayer( 1, 0.0f, m_srfSky, 0, 800, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 
 	//clouds
-	Paralax->setLayer(	3, 0.5f, m_srfClouds, 
+	Parallax->setLayer(	3, 0.5f, m_srfClouds, 
 						0, 800, 38, 0, 0, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	4, 0.4f, m_srfClouds, 
+	Parallax->setLayer(	4, 0.4f, m_srfClouds, 
 						38, 800, 87, 0, 38, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	5, 0.3f, m_srfClouds, 
+	Parallax->setLayer(	5, 0.3f, m_srfClouds, 
 						126, 800, 46, 0, 126, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	6, 0.2f, m_srfClouds, 
+	Parallax->setLayer(	6, 0.2f, m_srfClouds, 
 						172, 800, 21, 0, 172, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	7, 0.1f, m_srfClouds, 
+	Parallax->setLayer(	7, 0.1f, m_srfClouds, 
 						193, 800, 12, 0, 193, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
 	// City
-	Paralax->setLayer( 8, 0.7f, m_srfCity, 0, 5100, 535, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Parallax->setLayer( 8, 0.7f, m_srfCity, 0, 5100, 535, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	// trees
-	Paralax->setLayer( 2, 0.7f, m_srfTrees, 0, 1172, 170, 0, 370, gamestate.BackBuffer->w, 170 ); 
+	Parallax->setLayer( 2, 0.7f, m_srfTrees, 0, 1172, 170, 0, 370, gamestate.BackBuffer->w, 170 ); 
 
 	// WalkPath
-	Paralax->setLayer(	9, 1.0f, m_srfCity, 
+	Parallax->setLayer(	9, 1.0f, m_srfCity, 
 						540, 5100, 60, 0, 535, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 

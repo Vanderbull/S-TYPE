@@ -118,8 +118,8 @@ void ThingsToDemon::SetClips()
 Control_Objects::Control_Objects()
 {
 	DemonLife = new ThingsToDemon;
-	DemonLife->Initialize(0,0,49,43,0,0);
-
+	DemonLife->Initialize(0,0,50,50,0,0);
+	DemonLife->SetClips();
 	// Replaced by Initialize function
 	//DemonLife->Frame = 0;
 	//DemonLife->Height = 43;
@@ -500,6 +500,7 @@ void Control_Objects::DrawObjects()
 
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
+
 	}
 	else if( demon.LifeMedium_Small )
 	{
@@ -511,6 +512,7 @@ void Control_Objects::DrawObjects()
 			DemonLife->Frame = 1;
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
+
 
 	}
 	else if( demon.LifeLittle_Small )
@@ -528,33 +530,33 @@ void Control_Objects::DrawObjects()
 	switch( WhichLifeToShow )
 	{
 	case 0:
-		FrameHealth = 0;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ FrameHealth ],
+		//FrameHealth = 0;
+		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 1:
-		FrameHealth = 1;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ FrameHealth ],
+		//FrameHealth = 1;
+		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 2:
-		FrameHealth = 2;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ FrameHealth ],
+		//FrameHealth = 2;
+		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 3:
-		FrameHealth = 3;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ FrameHealth ],
+		//FrameHealth = 3;
+		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 4:
-		FrameHealth = 4;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ FrameHealth ],
+		//FrameHealth = 4;
+		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 5:
-		FrameHealth = 5;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ FrameHealth ],
+		//FrameHealth = 5;
+		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	}	

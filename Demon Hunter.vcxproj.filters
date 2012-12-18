@@ -50,6 +50,9 @@
     <Filter Include="Source Files\FirstScreen">
       <UniqueIdentifier>{a043b48e-c136-45d9-9b56-9b9306638acc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Gfx">
+      <UniqueIdentifier>{fa9fbf12-3f08-43cb-af11-7e855fc630e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="characters.cpp">
@@ -96,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="FirstScreen.cpp">
       <Filter>Source Files\FirstScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlGfx.cpp">
+      <Filter>Source Files\Gfx</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +150,9 @@
     <ClInclude Include="ConfigFileConverter.h" />
     <ClInclude Include="FirstScreen.h">
       <Filter>Source Files\FirstScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="ControlGfx.h">
+      <Filter>Source Files\Gfx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -97,6 +97,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="characters.cpp" />
+    <ClCompile Include="ControlGfx.cpp" />
     <ClCompile Include="Paralaxlayers.cpp" />
     <ClCompile Include="Enemies.cpp" />
     <ClCompile Include="Objects.cpp" />
@@ -115,6 +116,7 @@
   <ItemGroup>
     <ClInclude Include="characters.h" />
     <ClInclude Include="ConfigFileConverter.h" />
+    <ClInclude Include="ControlGfx.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Paralaxlayers.h" />
     <ClInclude Include="Enemies.h" />

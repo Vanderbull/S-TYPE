@@ -11,6 +11,9 @@ Demon demon(0,GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH);
 
 Demon::Demon()
 {
+	Demon::SetAliveState(AliveState::ALIVE);
+	Demon::SetLives(3);
+
 	isMovingRight    = false;
 	isMovingLeft     = false;
 	isJumping        = false;
@@ -20,7 +23,7 @@ Demon::Demon()
 	CrouchFireBall   = false;
 	Right            = false;
 	Left             = false;
-	isImmortal         = false;
+	isImmortal       = false;
 
 	isHit            = false; 
 	DieOneLife       = false;
@@ -205,31 +208,31 @@ int Demon::UpdatePlayer()
 
 	if( IDLE == demon.GetState() )
 	{
-		cout << "Character is standing around doing nothing...." << endl;
+		//cout << "Character is standing around doing nothing...." << endl;
 	}
 	if( CROUCHING == demon.GetState() )
 	{
-		cout << "Character is crouching...." << endl;
+		//cout << "Character is crouching...." << endl;
 		demon.SetState(demon.IDLE);
 	}
 	if( KICKING == demon.GetState() )
 	{
-		cout << "Character is kicking...." << endl;
+		//cout << "Character is kicking...." << endl;
 		demon.SetState(demon.IDLE);
 	}
 	if( JUMPING == demon.GetState() )
 	{
-		cout << "Character is jumping...." << endl;
+		//cout << "Character is jumping...." << endl;
 		demon.SetState(demon.IDLE);
 	}
 	if( PUNCHING == demon.GetState() )
 	{
-		cout << "Character is punching...." << endl;
+		//cout << "Character is punching...." << endl;
 		demon.SetState(demon.IDLE);
 	}
 	if( GETTING_UP == demon.GetState() )
 	{
-		cout << "Character is getting up after falling...." << endl;
+		//cout << "Character is getting up after falling...." << endl;
 		demon.SetState(demon.IDLE);
 		if( demon.Right )
 		{
@@ -242,7 +245,7 @@ int Demon::UpdatePlayer()
 	}
 	if( GETTING_HIT == demon.GetState() )
 	{
-		cout << "Character is getting hit by the enemy...." << endl;
+		//cout << "Character is getting hit by the enemy...." << endl;
 		demon.SetState(demon.IDLE);
 	}
 	// checks which animation to play
@@ -314,7 +317,6 @@ int Demon::UpdatePlayer()
 	if( demon.isGettingUp )
 	{
 		demon.isGettingUp = false;
-
 		if( demon.Right )
 		{
 			return 46;
@@ -327,38 +329,38 @@ int Demon::UpdatePlayer()
 
 	if( demon.isHit )
 	{
+		demon.isHit = false;
+
 		if( demon.Demon_Health <= 50 )
 		{
 			Control_OBJ.WhichLifeToShow++;
-			demon.Demon_Health = 100;
+			//demon.Demon_Health = 100;
 
 			if( Control_OBJ.WhichLifeToShow >= 6 )
 			{
 				Control_OBJ.WhichLifeToShow = 0;
+				demon.Died();	
 				demon.Demon_Life--;
 				demon.DieOneLife = true;
 				demon.isImmortal = true;
 			}
-		}
-
-		demon.isHit = false;
-	
-		if( Demon_Life == 2 )
+		}	
+		if( Demon::GetLives() == 3 )
 		{
 			LifeFull_Small = true;
 		}
-		else if( Demon_Life == 1 )
+		else if( Demon::GetLives() == 2 )
 		{
 			LifeFull_Small = false;
 			LifeMedium_Small = true;
 		}
-		else if( Demon_Life == 0 )
+		else if( Demon::GetLives() == 1 )
 		{
 			LifeMedium_Small = false;
 			LifeLittle_Small = true;
 		}
 						
-		if( Demon_Life <= -1 )
+		if( Demon::GetLives() <= 0 )
 		{
 			demon.Demon_Dead = true;
 			gamestate.GameCondition = GS_DEAD;
@@ -555,6 +557,7 @@ int Demon::UpdatePlayer()
 	// checks which sprites to use
 		if( isJumping || isPunching || isCrouching || demon.isKicking || FireBall || CrouchFireBall || TriangleAttack || Triangle )
 		{
+			// Crouching kick action
 			if( isCrouching == true && isKicking == true )
 			{
 				CrouchFire = true;
@@ -1155,8 +1158,13 @@ void Demon::SetClips()
 
 void Demon::UpdatePosition(float xUnits, float yUnits)
 {
-	xPos += xUnits;
-	yPos += yUnits;
+	Demon::_Position.x += xUnits;
+	Demon::_Position.y += yUnits;
+	Demon::_Position.w = Demon::Demon_Width;
+	Demon::_Position.h = Demon::Demon_Height;
+
+	Demon::_Position.x = xPos += xUnits;
+	Demon::_Position.y = yPos += yUnits;
 
 	
 	if( xPos < 0.0f )
@@ -1168,5 +1176,32 @@ void Demon::UpdatePosition(float xUnits, float yUnits)
 	{
 		// Makes the character follow the parallax scrolling speed to make it look like he is standing still
 		xPos -= 2.0f;
+	}
+}
+
+bool Demon::Alive()
+{
+	return true;
+}
+
+void Demon::SetLives(int Lives)
+{
+	_Lives = Lives;
+}
+
+int Demon::GetLives()
+{
+	return _Lives;
+}
+
+void Demon::Died()
+{
+	if( _Lives > 0 )
+	{
+		_Lives--;
+	}
+	else
+	{
+		//Change gamestate to Outro
 	}
 }

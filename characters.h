@@ -37,6 +37,13 @@ public:
 		DEMON_HUNTER
 	};
 
+	enum AliveState
+	{
+		DEAD,
+		IMMORTAL,
+		ALIVE
+	};
+
 	Demon();
 	Demon(int surface, int Xpos, int Ypos, int height, int width);
 	void InitiateDemon( int surface, int Xpos, int Ypos, int height, int width ); 
@@ -47,6 +54,10 @@ public:
 	void UpdateXPos();
 	bool IsInStateAttack();
 	bool CheckBoundaries();
+	bool Alive();
+	void SetLives(int Lives);
+	int GetLives();
+	void Died();
 
 	bool SmallHunter, MediumHunter, LargeHunter, DemonHunter;
 
@@ -118,6 +129,11 @@ public:
 	SDL_Rect AnimationArrays[ 4 ][ 48 ];
 
 	// New update functionality
+	SDL_Rect GetPosition()
+	{
+		return Demon::_Position;
+	}
+
 	void Update();
 	void SetClips();
 	void UpdatePosition(float x, float y); 
@@ -137,11 +153,22 @@ public:
 	{
 	   return _MorphState;
 	}
+	void SetAliveState( Demon::AliveState state )
+	{
+		_AliveState = state;
+	}
+	Demon::AliveState GetAliveState() const
+	{
+	   return _AliveState;
+	}
 
 
 private:
 	Demon::State _State;
 	Demon::MorphState _MorphState;
+	Demon::AliveState _AliveState;
+	SDL_Rect _Position;
+	int _Lives;
 };
 
 extern Demon demon;

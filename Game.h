@@ -51,15 +51,16 @@ class Gamestate
 public:
 	Gamestate();
 	
-	ParallaxBackground *Paralax;
+	ParallaxBackground *Parallax;
 
+	// Edit these to follow name standard
 	int SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_BPP;
 
-	int Current_AnimArray, Previous_AnimArray;
-	int Current_Frame, Previous_Frame;
+	int CurrentAnimArray, PreviousAnimArray;
+	int CurrentFrame, PreviousFrame;
 	
 	int GameCondition;
-	int m_paralax;
+	int m_parallax;
 	int WhichMorphType();
 	int Score;
 
@@ -67,7 +68,6 @@ public:
 	int Load_imageAlpha( std::string filename, int r, int g, int b );
 
 	float dt;
-	float ScreenSize;
 	float UpdateAnimationSpeed;
 
 	bool GameOK;
