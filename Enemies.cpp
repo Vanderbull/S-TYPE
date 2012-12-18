@@ -214,7 +214,8 @@ void Boss::UpdateBoss()
 			bool CheckAttack = false;
 			if( CheckAttack = demon.IsInStateAttack() )
 			{
-				gamestate.Score += 10;
+				demon.Score += 10;
+				//gamestate.Score += 10;
 				gamestate.boss->BossLife -= 50;
 
 				if( demon.Triangle )
@@ -349,7 +350,8 @@ void Boss::UpdateHeads()
 			{	
 				if( demon.IsInStateAttack() )
 				{
-					gamestate.Score += 5;
+					demon.Score += 5;
+					//gamestate.Score += 5;
 					vRemoveHead.push_back((*i));
 				}
 				else
@@ -575,7 +577,8 @@ void Control_Enemies::Draw_Enemies()
 				
 				if( Collide == true && demon.IsInStateAttack() ) // && Attack == true
 				{
-						gamestate.Score += 200;
+					demon.Score += 200;
+						//gamestate.Score += 200;
 
 						if( (*i)->Surface == Zombie )
 						{

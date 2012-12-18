@@ -60,7 +60,7 @@ Gamestate::Gamestate()
 
 	m_parallax = 0;
 
-	Score = 0;
+	//Score = 0;
 	LevelProgress = 0;
 
 	// Loading files
@@ -1048,7 +1048,7 @@ void Gamestate::DoIntroTalk()
 // ----------------------------------------------------------------------------
 void Gamestate::PlayerDied()
 {
-	ListHighScore->sort( gamestate.name->str.c_str(), gamestate.Score );
+	ListHighScore->sort( gamestate.name->str.c_str(), demon.Score );
 	ListHighScore->Save();
 
 	int PlayerDieState = 0;
@@ -1196,7 +1196,7 @@ void Gamestate::DrawAllText()
 		SDL_Color textColor = { 251, 245, 32 };
 
 		// print out the score
-		sprintf_s(gamestate.Text, 256, "Score: %i ", gamestate.Score );		
+		sprintf_s(gamestate.Text, 256, "Score: %i ", demon.Score );		
 		gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, textColor );
 		gamestate.apply_surface( 600, 20, gamestate.srfText, gamestate.BackBuffer ); 
 	}
@@ -1289,7 +1289,7 @@ void Gamestate::MainScreen()
 	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect ); 
 	if( CheckingHighScore == true )
 	{
-		ListHighScore->sort( gamestate.name->str.c_str(), gamestate.Score );
+		ListHighScore->sort( gamestate.name->str.c_str(), demon.Score );
 		ListHighScore->Save();
 
 		delete ListHighScore;
@@ -1299,8 +1299,7 @@ void Gamestate::MainScreen()
 		for( int i = 0; i < 5; i++ )
 		{
 			char temp[ 256 ];
-			sprintf_s(	temp, 256, "Name: %s Score: %i",
-						ListHighScore->list[ i ].name.c_str(), ListHighScore->list[ i ].Score );	
+			sprintf_s(	temp, 256, "Name: %s Score: %i", ListHighScore->list[ i ].name.c_str(), ListHighScore->list[ i ].Score );	
 			gamestate.HighScoreList[ i ] = temp;
 		}
 	}
@@ -1458,7 +1457,7 @@ void Gamestate::RestartGame()
 	timer.RestartAllTimers();
 
 	demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH );
-	gamestate.Score = 0;
+	//gamestate.Score = 0;
 	gamestate.m_parallax = 0;
 
 }
@@ -1511,7 +1510,7 @@ void Gamestate::EndAll()
 	}
 
 
-	ListHighScore->sort( gamestate.name->str, gamestate.Score );
+	ListHighScore->sort( gamestate.name->str, demon.Score );
 	ListHighScore->Save();
 
 	if( gamestate.name != NULL )

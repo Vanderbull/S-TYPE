@@ -188,6 +188,8 @@ void PowerUp::SetFrame()
 // shows life and lifeicon
 void Control_Objects::DrawObjects()
 {
+	Control_OBJ.WereWolf = new PowerUp( 50, 400, gamestate.m_srfDemonLife );
+
 	float speed = 500.0f * ( gamestate.dt / 1000.0f );
     float CoffinTim = 50.0f * ( gamestate.dt / 1000.0f );
 
@@ -235,10 +237,20 @@ void Control_Objects::DrawObjects()
 			timer.Timer_PowerUpRoll++;
 		}
 		
+			// draw the powerup here when its created
+			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
+									Control_OBJ.WereWolf->yPos,
+									Control_OBJ.WereWolf->Width,
+									Control_OBJ.WereWolf->Height };
+
+			SDL_BlitSurface(	gamestate.GetSurface( Control_OBJ.WereWolf->surface ),
+								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
+								gamestate.BackBuffer,
+								&destRect );
 
 		if( timer.Timer_PowerUp > 2 )
 		{
-			// draw the poweup here when its created
+			// draw the powerup here when its created
 			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
 									Control_OBJ.WereWolf->yPos,
 									Control_OBJ.WereWolf->Width,
@@ -254,7 +266,7 @@ void Control_Objects::DrawObjects()
 		}
 		else
 		{
-			// draw the poweup here when its created
+			// draw the powerup here when its created
 			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
 									Control_OBJ.WereWolf->yPos,
 									Control_OBJ.WereWolf->Width,
@@ -283,6 +295,7 @@ void Control_Objects::DrawObjects()
 		}
 	}
 
+	// Do we have any Fireballs to draw to the screen?
 	if( Control_OBJ.List_FireBalls.size() != 0 )
 	{
 		std::list< FireBall* >::iterator i = Control_OBJ.List_FireBalls.begin();
@@ -299,7 +312,8 @@ void Control_Objects::DrawObjects()
 						Heads * head = ( *h );
 						if( CollisionController.CollisionCircle( temp, head, false ) )
 						{
-							gamestate.Score += 5;
+							demon.Score += 5;
+							//gamestate.Score += 5;
 							vRemoveHead.push_back( ( *h ) );
 							vRemoveFireBall.push_back( ( *i ) );
 							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
@@ -312,7 +326,8 @@ void Control_Objects::DrawObjects()
 				{
 					vRemoveFireBall.push_back( ( *i ) ); 
 					Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
-					gamestate.Score += 5;
+					demon.Score += 5;
+					//gamestate.Score += 5;
 					gamestate.boss->BossLife -= 50;
 					if( gamestate.boss->BossLife < 0 )
 					{
@@ -337,7 +352,8 @@ void Control_Objects::DrawObjects()
 						{
 							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
 
-							gamestate.Score += 2;
+							demon.Score += 2;
+							//gamestate.Score += 2;
 							if( (*e)->Surface == Zombie )
 							{
 								vRemoveEnemy.push_back( ( *e ) );
@@ -496,11 +512,12 @@ void Control_Objects::DrawObjects()
 			DemonLife->Frame = 5;
 		}
 		else
+		{
 			DemonLife->Frame = 2;
+		}
 
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
-
 	}
 	else if( demon.LifeMedium_Small )
 	{
@@ -509,11 +526,12 @@ void Control_Objects::DrawObjects()
 			DemonLife->Frame = 4;
 		}
 		else
+		{
 			DemonLife->Frame = 1;
+		}
+
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
-
-
 	}
 	else if( demon.LifeLittle_Small )
 	{
@@ -522,7 +540,10 @@ void Control_Objects::DrawObjects()
 			DemonLife->Frame = 3;
 		}
 		else
-		DemonLife->Frame = 0;
+		{
+			DemonLife->Frame = 0;
+		}
+
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
 	}

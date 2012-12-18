@@ -62,7 +62,7 @@ public:
 	int GameCondition;
 	int m_parallax;
 	int WhichMorphType();
-	int Score;
+	//int Score;
 
 	int findAvailableIndex();
 	int Load_imageAlpha( std::string filename, int r, int g, int b );
