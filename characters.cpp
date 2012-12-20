@@ -555,6 +555,11 @@ int Demon::UpdatePlayer()
 
 	if( isJumping || isPunching || isCrouching || isKicking || isMovingLeft || isMovingRight || FireBall || CrouchFireBall || TriangleAttack || Triangle )
 	{
+		if(!demon.isJumping)
+		{
+			demon.yPos = GROUND_Y;
+			demon.isJumping = false;
+		}
 	// checks which sprites to use
 		if( isJumping || isPunching || isCrouching || demon.isKicking || FireBall || CrouchFireBall || TriangleAttack || Triangle )
 		{
@@ -849,6 +854,13 @@ int Demon::UpdatePlayer()
 			// kickass
 			else if( demon.isJumping )
 			{
+				demon.JumpingSpeed--;
+				if(demon.yPos > 400)
+				{
+					demon.yPos = 400;
+					demon.isJumping = false;
+				}
+				
 				//Jump = true;
 
 				if( Right )
@@ -857,24 +869,28 @@ int Demon::UpdatePlayer()
 					{
 						if( WhereJumpRight == 13 || WhereJumpRight == 14 )
 						{
-							demon.yPos -= speedJump;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJump;
 							WhereJumpRight++;
 						}
 						else if( WhereJumpRight == 15 )
 						{
-							demon.yPos += speedJump;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos += speedJump;
 							WhereJumpRight++;
 						}
 						else if( WhereJumpRight == 16 )
 						{
-							demon.yPos += speedJump;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos += speedJump;
 							//Jump = false;
 							demon.isJumping = false;
 							WhereJumpRight = 12;
 						}
 						else
 						{
-							demon.yPos -= speedJump;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJump;
 							WhereJumpRight++;
 						}
 						
@@ -884,17 +900,20 @@ int Demon::UpdatePlayer()
 					{
 						if( JumpRight_Demon == 5 )
 						{
-							demon.yPos -= speedJumpDemon;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJumpDemon;
 							JumpRight_Demon++;
 						}
 						else if( JumpRight_Demon == 6 )
 						{
-							demon.yPos -= speedJumpDemon;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJumpDemon;
 							JumpRight_Demon++;
 						}
 						else if( JumpRight_Demon == 7 )
 						{
-						demon.yPos += speedJumpDemon;
+							demon.yPos -= demon.JumpingSpeed;
+						//demon.yPos += speedJumpDemon;
 						//Jump = false;
 						demon.isJumping = false;
 						
@@ -910,17 +929,20 @@ int Demon::UpdatePlayer()
 					{
 						if( WhereJumpLeft == 35 || WhereJumpLeft == 36 )
 						{
-							demon.yPos -= speedJump;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJump;
 							WhereJumpLeft++;
 						}
 						else if( WhereJumpLeft == 37 )
 						{
-							demon.yPos -= speedJump;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJump;
 							WhereJumpLeft++;
 						}
 						else if( WhereJumpLeft == 38 )
 						{
-							demon.yPos += speedJump;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos += speedJump;
 							//Jump = false;
 							demon.isJumping = false;
 			
@@ -928,7 +950,8 @@ int Demon::UpdatePlayer()
 						}
 						else
 						{
-							demon.yPos -= speed;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speed;
 							WhereJumpLeft++;
 
 						}
@@ -939,17 +962,20 @@ int Demon::UpdatePlayer()
 					{
 						if( JumpLeft_Demon == 26 )
 						{
-							demon.yPos -= speedJumpDemon;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJumpDemon;
 							JumpLeft_Demon++;
 						}
 						else if( JumpLeft_Demon == 27 )
 						{
-							demon.yPos -= speedJumpDemon;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos -= speedJumpDemon;
 							JumpLeft_Demon++;
 						}
 						else if( JumpLeft_Demon == 28 )
 						{
-							demon.yPos += speedJumpDemon;
+							demon.yPos -= demon.JumpingSpeed;
+							//demon.yPos += speedJumpDemon;
 							//Jump = false;
 							demon.isJumping = false;
 			

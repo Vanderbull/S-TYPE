@@ -30,6 +30,7 @@ Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
+
 	cout << "Initializing Gamestate" << endl;
 	SCREEN_HEIGHT = 600;
 	SCREEN_WIDTH = 800;
@@ -150,7 +151,12 @@ void Game::Handle_events( SDL_Event input )
 			}
 		case SDLK_UP:
 			{
-				demon.SetState(Demon::State::JUMPING);
+				if( !demon.isJumping )
+				{
+					demon.JumpingSpeed = 20;
+					demon.SetState(Demon::State::JUMPING);
+				}
+
 				if( demon.isHit == false && demon.DieOneLife == false && 
 					demon.isCrouching == false && demon.isPunching == false 
 					&& demon.isKicking == false && demon.isJumping == false 
@@ -1216,7 +1222,7 @@ void Gamestate::Loading()
 	{
 					SDL_BlitSurface(	m_surfaceList[ Dragon->surface ], &Dragon->Clips[ Dragon->Frame ],
 								gamestate.BackBuffer, &dstRect );
-			Dragon->PrevFrame = Dragon->Frame;
+			//Dragon->PrevFrame = Dragon->Frame;
 			Dragon->SetFrame();		
 			/*
 		if( timer.Timer_Dancing >= (1000.f /dt) / 60 )
@@ -1669,7 +1675,7 @@ void Gamestate::drawParallaxLayers()
 	}
 	else
 	{
-		if( !BossStart ) // BossStart == false
+		if( !BossStart )
 		{
 			demon.DemonHunter = true;
 			demon.SmallHunter = false;
@@ -1911,7 +1917,7 @@ bool Gamestate::OK_PaceEnemy()
 
 void Gamestate::AddTick()
 {
-	 float Speed = 1000.0f * ( gamestate.dt / 1000 );;
+	 float Speed = 1000.0f * ( gamestate.dt / 1000.0f );
 	 UpdateAnimationSpeed += Speed;
 }
 
@@ -2121,6 +2127,5 @@ void Gamestate::setUpParallaxLayers()
 						540, 5100, 60, 0, 535, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
-	gamestate.RecordAllData();
-
+	//gamestate.RecordAllData();
 }

@@ -15,6 +15,8 @@ class Enemy
 public:
 	
 	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
+	void SetFrame();
+
 	float xPos, yPos;
 	int Width, Height;
 	int Surface;
@@ -26,7 +28,7 @@ public:
 
 	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
 
-	void SetFrame();	
+	
 
 	SDL_Rect SkeletonClips[ 4 ][ 14 ];
 	SDL_Rect ZombieClips[ 10 ];

@@ -17,7 +17,7 @@ ControlAudio::ControlAudio()
 	Mix_Chunk *Fireball = NULL; 
 	Mix_Chunk *Hit = NULL; 
 	Mix_Chunk *Punch = NULL; 
-	Mix_Chunk *Dontknow = NULL; 
+	Mix_Chunk *Laugh = NULL; 
 	Mix_Chunk *Morph = NULL;
 	Mix_Chunk *Boss = NULL;
 	Mix_Chunk *FireBallExplode = NULL;
@@ -38,7 +38,7 @@ void ControlAudio::PlayMusic( int song )
 {
 	if( song == MUSIC_START )
 	{
-		//Mix_PlayMusic( music, -1 );
+		Mix_PlayMusic( music, -1 );
 		LevelSong = true;
 		MenuSong = false;
 		OutroSong = false;
@@ -46,7 +46,7 @@ void ControlAudio::PlayMusic( int song )
 	}
 	else if( song == MUSIC_MENU )
 	{
-		//Mix_PlayMusic( musicMenu, -1 );
+		Mix_PlayMusic( musicMenu, -1 );
 		MenuSong = true;
 		LevelSong = false;
 		OutroSong = false;
@@ -80,7 +80,7 @@ void ControlAudio::PlaySoundEffect( int effect )
 	}
 	else if( effect == SOUND_DIE )
 	{
-			Mix_PlayChannel( -1, Dontknow, 0 );
+			Mix_PlayChannel( -1, Laugh, 0 );
 	}
 	else if( effect == SOUND_BOSS )
 	{
@@ -110,40 +110,41 @@ void ControlAudio::PlayLevelSong()
 
 bool ControlAudio::LoadFiles()
 {
-	if( Mix_OpenAudio( 22500, MIX_DEFAULT_FORMAT, 2, 800 ) == -1 ) 
-	{ 
+	if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096 ) == -1 ) 
+	{
 		return false; 
 	} 
 
 	//Load the music 
 	music = Mix_LoadMUS( "Music/music.wav" ); 
-	musicMenu = Mix_LoadMUS( "Music/musicMenu.wav" );
+	musicMenu = Mix_LoadMUS( "Music/musicMenu.ogg" );
 	musicOutro = Mix_LoadMUS( "Music/musicOutro.wav" );
 
 	// load all sound
 	Morph = Mix_LoadWAV( "Music/Morph.wav" );
 	Hit = Mix_LoadWAV( "Music/Hit.wav" );
 	Punch = Mix_LoadWAV( "Music/Punch.wav" );
-	Dontknow =  Mix_LoadWAV( "Music/Dontknow.wav" );
+	Laugh =  Mix_LoadWAV( "Music/Laugh.wav" );
 	Boss = Mix_LoadWAV( "Music/Boss.wav" );
-	Fireball = Mix_LoadWAV( "Music/FireBall.wav" );
-	FireBallExplode = Mix_LoadWAV( "Music/FireballExplode.wav" );
+	Fireball = Mix_LoadWAV( "Music/FireBall.ogg" );
+	FireBallExplode = Mix_LoadWAV( "Music/FireballExplode.ogg" );
 	
 	//If there was a problem loading the sound effects 
 	if( ( Fireball == NULL ) || ( Hit == NULL ) || 
-		( Punch == NULL ) || ( Dontknow == NULL ) || 
+		( Punch == NULL ) || ( Laugh == NULL ) || 
 		( Boss == NULL ) || ( Morph == NULL ) ||
 		( FireBallExplode == NULL ) ) 
 	{ 
 		return false; 
 	} 
-	
+	Mix_VolumeMusic(1);
 	//If everything loaded fine 
 	return true; 
 }
 
 void ControlAudio::PauseMusic()
 {
+	Mix_FadeOutMusic(300);
 	Mix_PauseMusic();
 	MusicPaused = true;
 }

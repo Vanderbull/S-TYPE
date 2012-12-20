@@ -20,9 +20,9 @@ public:
 	Mix_Chunk *Fireball; 
 	Mix_Chunk *Hit; 
 	Mix_Chunk *Punch; 
-	Mix_Chunk *Dontknow; 
+	Mix_Chunk *Laugh; 
 	Mix_Chunk *Morph;
-	Mix_Chunk * Boss;
+	Mix_Chunk *Boss;
 	Mix_Chunk *FireBallExplode;
 
 	bool MusicOn;

@@ -92,6 +92,7 @@ public:
 	int Last_Xpos;
 	int LastEnd_Pos;
 	int Score;
+	int JumpingSpeed;
 	//int xPosHotSpot;
 
 	int AlphaImmortal;

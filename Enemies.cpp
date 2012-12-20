@@ -43,6 +43,8 @@ void Enemy::Set_Clips( int WhichTypeOfEnemy )
 // sets frame for skeleton
 void Enemy::SetFrame()
 {
+	PrevFrame = Frame;
+
 	if( Attack )
 	{
 		Walk = false;
@@ -675,7 +677,7 @@ void Control_Enemies::Draw_Enemies()
 							SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
 												gamestate.BackBuffer, &EnemyDest );
 							enemy->SetFrame();
-							enemy->PrevFrame = enemy->Frame;
+							//enemy->PrevFrame = enemy->Frame;
 							}
 							else
 							{
@@ -691,7 +693,7 @@ void Control_Enemies::Draw_Enemies()
 								SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
 												gamestate.BackBuffer, &EnemyDest );
 								enemy->SetFrame();
-								enemy->PrevFrame = enemy->Frame;
+								//enemy->PrevFrame = enemy->Frame;
 							}
 						}
 						else
