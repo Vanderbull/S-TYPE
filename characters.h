@@ -128,7 +128,7 @@ public:
 	float xPos, yPos;
 	float xVelocity, yVelocity;
 
-	SDL_Rect AnimationArrays[ 4 ][ 48 ];
+	SDL_Rect AnimationArrays[ 9 ][ 48 ];
 
 	// New update functionality
 	SDL_Rect GetPosition()

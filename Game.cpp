@@ -783,7 +783,7 @@ void Game::upDate( SDL_Event input )
 	{
 		gamestate.GameCondition = GS_LEVEL1BOSS;
 		demon.WhereIsEnd = 0;
-		Audio.PlaySoundEffect( SOUND_BOSS );
+		//Audio.PlaySoundEffect( SOUND_BOSS );
 	}
 
 		// Check game state
@@ -1168,6 +1168,7 @@ void Gamestate::PlayerDied()
 // ----------------------------------------------------------------------------
 void Gamestate::DrawAllText()
 {
+	Audio.PauseMusic();
 	if( GameCondition == GS_INTROSTORY || GameCondition == GS_DEAD )
 	{
 		if( timer.Timer_Color > 2 )
@@ -1266,7 +1267,7 @@ SDL_Surface * Gamestate::GetSurface( int WhichSurface )
 void Gamestate::FLIP()
 {
 	SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
-	SDL_Rect destRect = {	0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
+	SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
 					
 	gamestate.PasteScreenToAnother( srcRect, destRect );
 
@@ -1807,7 +1808,7 @@ void Gamestate::DrawSprite()
 			{
 				CurrentFrame = 0;
 			}
-
+			
 			SDL_BlitSurface(	Gfx.GetSurface( demon.DemonSurface ), 
 				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
 				gamestate.BackBuffer, &demon.GetPosition() );

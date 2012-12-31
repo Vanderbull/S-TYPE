@@ -200,7 +200,7 @@ void Demon::InitiateDemon(	int surface, int Xpos, int Ypos,
 // updates player animations and moving
 int Demon::UpdatePlayer()
 {
-	float JumpSpeed = 10.0f;
+	float JumpSpeed = 2500.0f;
 
 	float speed = 2500.0f * ( gamestate.dt / 1000.0f );
 	float speedJump = 2500.0f * ( gamestate.dt / 1000.0f );
@@ -214,27 +214,27 @@ int Demon::UpdatePlayer()
 	if( CROUCHING == demon.GetState() )
 	{
 		//cout << "Character is crouching...." << endl;
-		demon.SetState(demon.IDLE);
+		//demon.SetState(demon.IDLE);
 	}
 	if( KICKING == demon.GetState() )
 	{
 		//cout << "Character is kicking...." << endl;
-		demon.SetState(demon.IDLE);
+		//demon.SetState(demon.IDLE);
 	}
 	if( JUMPING == demon.GetState() )
 	{
 		//cout << "Character is jumping...." << endl;
-		demon.SetState(demon.IDLE);
+		//demon.SetState(demon.IDLE);
 	}
 	if( PUNCHING == demon.GetState() )
 	{
 		//cout << "Character is punching...." << endl;
-		demon.SetState(demon.IDLE);
+		//demon.SetState(demon.IDLE);
 	}
 	if( GETTING_UP == demon.GetState() )
 	{
 		//cout << "Character is getting up after falling...." << endl;
-		demon.SetState(demon.IDLE);
+		//demon.SetState(demon.IDLE);
 		if( demon.Right )
 		{
 			return 46;
@@ -247,14 +247,14 @@ int Demon::UpdatePlayer()
 	if( GETTING_HIT == demon.GetState() )
 	{
 		//cout << "Character is getting hit by the enemy...." << endl;
-		demon.SetState(demon.IDLE);
+		//demon.SetState(demon.IDLE);
 	}
 	// checks which animation to play
 	if( isCrouching )
 	{
 		isKicking      = false;
 		isJumping      = false;
-		//isCrouching    = true;
+		isCrouching    = true;
 		isPunching     = false;
 		CrouchFireBall = false;
 		TriangleAttack = false;
@@ -262,7 +262,7 @@ int Demon::UpdatePlayer()
 
 	else if( isKicking )
 	{
-		//isKicking      = true;
+		isKicking      = true;
 		isJumping      = false;
 		isCrouching    = false;
 		isPunching     = false;
@@ -273,7 +273,7 @@ int Demon::UpdatePlayer()
 	else if( isJumping )
 	{
 		isKicking      = false;
-		//isJumping      = true;
+		isJumping      = true;
 		isCrouching    = false;
 		isPunching     = false;
 		CrouchFireBall = false;
@@ -281,7 +281,7 @@ int Demon::UpdatePlayer()
 	}
 	else if( isPunching )
 	{
-		//isPunching     = true;
+		isPunching     = true;
 		isKicking      = false;
 		isJumping      = false;
 		isCrouching    = false;
@@ -1159,7 +1159,7 @@ void Demon::UpdateXPos()
 
 void Demon::Set_clips()
 {
-	for( int i = 0; i < 4; i++ )
+	for( int i = 0; i < 9; i++ )
 	{
 		for( int j = 0; j < 48; j++ )
 		{
