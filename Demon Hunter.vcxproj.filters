@@ -9,7 +9,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Timers.cpp" />
-    <ClCompile Include="Animals.cpp" />
     <ClCompile Include="Intro.cpp" />
     <ClCompile Include="FirstScreen.cpp" />
     <ClCompile Include="Collision.cpp" />
@@ -17,6 +16,12 @@
     <ClCompile Include="GetInput.cpp" />
     <ClCompile Include="HighScore.cpp" />
     <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="Animals.cpp">
+      <Filter>Animals</Filter>
+    </ClCompile>
+    <ClCompile Include="DancingDragon\DancingDragon.cpp">
+      <Filter>DancingDragon</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="characters.h" />
@@ -28,7 +33,6 @@
     <ClInclude Include="Objects.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Timers.h" />
-    <ClInclude Include="Animals.h" />
     <ClInclude Include="Intro.h" />
     <ClInclude Include="FirstScreen.h" />
     <ClInclude Include="Collision.h" />
@@ -36,8 +40,22 @@
     <ClInclude Include="GetInput.h" />
     <ClInclude Include="HighScore.h" />
     <ClInclude Include="Audio.h" />
+    <ClInclude Include="Animals.h">
+      <Filter>Animals</Filter>
+    </ClInclude>
+    <ClInclude Include="DancingDragon\DancingDragon.h">
+      <Filter>DancingDragon</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Demon Hunter.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Animals">
+      <UniqueIdentifier>{6a6ca93d-ed7f-4192-a684-d363e0d8b038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DancingDragon">
+      <UniqueIdentifier>{3670a4ae-5645-4469-93e3-d32ebeaabd82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

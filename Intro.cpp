@@ -3,46 +3,44 @@
 #include "Game.h"
 
 // @date 2012-08-07
-
+/*
 void DancingDragon::SetFrame()
 {
 	if( Frame == 21 )
 	{
-		Frame = 0;
+		DancingDragon::Frame = 0;
 	}
 	else
 	{
-		Frame++;
+		DancingDragon::Frame++;
 	}
 }
 
 void DancingDragon::SetClips()
 {
-	for( int i = 0; i < 23; i++ )
+	for( int index = 0; index < 23; index++ )
 	{
-		Clips[ i ].x = i * Width;
-		Clips[ i ].y = 0;
-		Clips[ i ].h = Height;
-		Clips[ i ].w = Width;
+		DancingDragon::Clips[ index ].x = index * DancingDragon::Width;
+		DancingDragon::Clips[ index ].y = 0;
+		DancingDragon::Clips[ index ].h = DancingDragon::Height;
+		DancingDragon::Clips[ index ].w = DancingDragon::Width;
 	}
-
 }
 
 DancingDragon::DancingDragon( int Surface )
 {
-	Frame = 0;
-	PrevFrame = 0;
-	StateCounter = 0;
-
-	xPos = 0;
-	yPos = 0;
-	surface = Surface;
-	Width = 64;
-	Height = 64;
-	SetClips();
-	AnimationTimestamp = GetTickCount();
+	DancingDragon::Frame = 0;
+	DancingDragon::PrevFrame = 0;
+	DancingDragon::StateCounter = 0;
+	DancingDragon::xPos = 0;
+	DancingDragon::yPos = 0;
+	DancingDragon::surface = Surface;
+	DancingDragon::Width = 64;
+	DancingDragon::Height = 64;
+	DancingDragon::SetClips();
+	DancingDragon::AnimationTimestamp = GetTickCount();
 }
-
+*/
 // sets up the intro where the dudes talk
 IntroTalk::IntroTalk( int Surface )
 {

@@ -8,6 +8,7 @@ using namespace std;
 
 enum{ MYDUDE, MYDUDE_DEMON, FATHER };
 
+/*
 class DancingDragon
 {
 public:
@@ -22,6 +23,7 @@ public:
 	SDL_Rect Clips[ 23 ];
 	int AnimationTimestamp;
 };
+*/
 
 class IntroTalk
 {

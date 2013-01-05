@@ -20,7 +20,7 @@
 #include "OutroFinish.h"
 #include "GetInput.h"
 #include "HighScore.h"
-
+#include "DancingDragon\DancingDragon.h"
 // @date 2012-08-07
 
 enum{	GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO, 

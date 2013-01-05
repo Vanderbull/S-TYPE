@@ -1,11 +1,11 @@
 Name:
 0
+Name:
+20
 Score:
 0
 Name:
 0
-Name:
-20
 Score:
 0
 Score:
