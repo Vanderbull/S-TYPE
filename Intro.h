@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum{ MYDUDE, MYDUDE_DEMON, FATHER };
+enum{ CENTURION, MYDUDE_DEMON, ZEUS };
 
 /*
 class DancingDragon
@@ -42,24 +42,24 @@ public:
 	int Frame;
 	int Line;
 
-	string My_DudeTalks[ 4 ];
-	string My_FatherTalks[ 4 ];
+	string CenturionTalks[ 4 ];
+	string ZeusTalks[ 4 ];
 
 	void DrawBackground();
 
-	string My_DudeTalksSlow[ 5 ];
-	string My_DudeTalksSlow2[ 5 ];
-	string My_DudeTalksSlow3[ 5 ];
-	string My_DudeTalksSlow4[ 5 ];
+	string CenturionTalksSlow[ 5 ];
+	string CenturionTalksSlow2[ 5 ];
+	string CenturionTalksSlow3[ 5 ];
+	string CenturionTalksSlow4[ 5 ];
 
-	string My_FatherTalksSlow[ 5 ];
-	string My_FatherTalksSlow2[ 5 ];
-	string My_FatherTalksSlow3[ 5 ];
-	string My_FatherTalksSlow4[ 5 ];
+	string ZeusTalksSlow[ 5 ];
+	string ZeusTalksSlow2[ 5 ];
+	string ZeusTalksSlow3[ 5 ];
+	string ZeusTalksSlow4[ 5 ];
 
 	void DoTalk();
 
-	bool MyDude, Father, MyDude_Demon, FirstLine, SecondLine, ThirdLine, FourthLine, Fifth,
+	bool Centurion, Zeus, MyDude_Demon, FirstLine, SecondLine, ThirdLine, FourthLine, Fifth,
 		Sixth, Seventh, Eight;
 
 	SDL_Surface * IntroSurfaces[ 1 ];
