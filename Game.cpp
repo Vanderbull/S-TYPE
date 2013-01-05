@@ -1310,7 +1310,7 @@ void Gamestate::MainScreen()
 			gamestate.HighScoreList[ i ] = temp;
 		}
 	}
-	
+
 	if( TitleScreen->ButtonOptions == false )
 	{
 		for( int i = 0; i < 4; i++ )
@@ -1324,21 +1324,23 @@ void Gamestate::MainScreen()
 	}
 	else if( TitleScreen->ButtonHighScore == true )
 	{
+		/*
 		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
 							&TitleScreen->ButtonClips[ 4 ],
 							gamestate.BackBuffer, &TitleScreen->DestClips[ 8 ] ); 	
+							*/
 
 		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
 							&TitleScreen->ButtonClips[ 7 ],
 							gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
 
-		SDL_Color textColor = { 255,255,255 };
+		SDL_Color textColor = { 0,0,0 };
 		
 		for( int i = 0; i < 5; i++ )
 		{
 			Surface_HighScore =		TTF_RenderText_Solid( gamestate.font, 
 									gamestate.HighScoreList[ i ].c_str(), textColor );
-			apply_surface( 50, 70 + i * 40, Surface_HighScore, gamestate.BackBuffer );
+			apply_surface( 50, 270 + i * 40, Surface_HighScore, gamestate.BackBuffer );
 		}
 
 	}
@@ -1353,12 +1355,12 @@ void Gamestate::MainScreen()
 							gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
 
 		
-		SDL_Color textColor = { 255,255,255 };
+		SDL_Color textColor = { 0,0,0 };
 		
 	
 		Surface_Credits =		TTF_RenderText_Solid( gamestate.font, 
 								" A Risk Production ", textColor );
-		apply_surface( 50, 100, Surface_Credits, gamestate.BackBuffer );
+		apply_surface( 50, 270, Surface_Credits, gamestate.BackBuffer );
 	}
 	else
 	{
@@ -1417,13 +1419,16 @@ void Gamestate::MainScreen()
 void Gamestate::EnterName()
 {
 	bool Name =  false;
-	SDL_Color textColor = { 255,255,255 };
+	SDL_Color textColor = { 0,0,0 };
 	SDL_Event input;
 	gamestate.IntroDone = false;
 	SDL_Surface * srfEnter;
 	
 	while( Name != true )
 	{
+		SDL_Rect scRect = {	0, 0, 800, 600 };
+		SDL_Rect dtRect = {	0, 0, 800, 600 };
+		SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
 		if( timer.Timer_Name > 2 )
 		{
 			timer.Timer_Name = 0;
@@ -1432,7 +1437,7 @@ void Gamestate::EnterName()
 			{
 				Name = true;
 			}
-			gamestate.DrawBackgroundBlack();
+			//gamestate.DrawBackgroundBlack();
 			gamestate.Loading();
 			gamestate.name->handle_input( input );
 			Sleep(100);
@@ -1440,12 +1445,12 @@ void Gamestate::EnterName()
 		timer.Timer_Name++;
 
 		
-		TypeName = TTF_RenderText_Solid( font, " Enter your name ", textColor ); 
+		//TypeName = TTF_RenderText_Solid( font, " Enter your name ", textColor ); 
 		gamestate.name->show_centered();
-		gamestate.apply_surface( 250, 200, TypeName, gamestate.BackBuffer );
+		//gamestate.apply_surface( 250, 200, TypeName, gamestate.BackBuffer );
 
 		srfEnter = TTF_RenderText_Solid( font, " Press Enter To Finish ", textColor );
-		gamestate.apply_surface( 200, 500, srfEnter, gamestate.BackBuffer );
+		gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
 
 		gamestate.FLIP();
 	}

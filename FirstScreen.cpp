@@ -182,17 +182,17 @@ FirstScreen::FirstScreen( int ButtonX, int Surface, int SurfaceButtons )
 	ButtonClips[ 9 ].h = 0;
 
 	DestClips[ 0 ].x = 0;
-	DestClips[ 0 ].y = 0;
+	DestClips[ 0 ].y = 200;
 	DestClips[ 0 ].w = 325;
 	DestClips[ 0 ].h = 70;
 
 	DestClips[ 1 ].x = 0;
-	DestClips[ 1 ].y = 70;
+	DestClips[ 1 ].y = 270;
 	DestClips[ 1 ].w = 325;
 	DestClips[ 1 ].h = 70;
 
 	DestClips[ 2 ].x = 0;
-	DestClips[ 2 ].y = 140;
+	DestClips[ 2 ].y = 340;
 	DestClips[ 2 ].w = 325;
 	DestClips[ 2 ].h = 70;
 
@@ -202,17 +202,17 @@ FirstScreen::FirstScreen( int ButtonX, int Surface, int SurfaceButtons )
 	DestClips[ 3 ].h = 0;
 
 	DestClips[ 4 ].x = 325;
-	DestClips[ 4 ].y = 0;
+	DestClips[ 4 ].y = 200;
 	DestClips[ 4 ].w = 325;
 	DestClips[ 4 ].h = 70;
 
 	DestClips[ 5 ].x = 325;
-	DestClips[ 5 ].y = 70;
+	DestClips[ 5 ].y = 270;
 	DestClips[ 5 ].w = 325;
 	DestClips[ 5 ].h = 70;
 
 	DestClips[ 6 ].x = 325;
-	DestClips[ 6 ].y = 70;
+	DestClips[ 6 ].y = 270;
 	DestClips[ 6 ].w = 325;
 	DestClips[ 6 ].h = 70;
 

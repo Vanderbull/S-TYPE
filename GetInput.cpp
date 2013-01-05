@@ -27,10 +27,21 @@ StringInput::~StringInput()
 // checks for input max three letters
 void StringInput::handle_input(  SDL_Event event )
 {
-	SDL_Color textColor = { 255,255,255 };
+	SDL_Color textColor = { 0,0,0 };
     //If a key was pressed
     if( event.type == SDL_KEYDOWN )
     {
+		if( str.length() > 2 )
+		{
+						//If backspace was pressed and the string isn't blank
+			if( ( event.key.keysym.sym == SDLK_BACKSPACE ) && ( str.length() != 0 ) )
+			{
+				//Remove a character from the end
+				str.erase( str.length() - 1 );
+			}
+
+			return;
+		}
         //Keep a copy of the current version of the string
         std::string temp = str;
         
