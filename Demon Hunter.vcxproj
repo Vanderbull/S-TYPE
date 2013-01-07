@@ -101,46 +101,46 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="characters.cpp" />
-    <ClCompile Include="ControlGfx.cpp" />
-    <ClCompile Include="DancingDragon\DancingDragon.cpp" />
-    <ClCompile Include="Paralaxlayers.cpp" />
-    <ClCompile Include="Enemies.cpp" />
-    <ClCompile Include="Objects.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Timers.cpp" />
-    <ClCompile Include="Animals.cpp" />
-    <ClCompile Include="Intro.cpp" />
-    <ClCompile Include="FirstScreen.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="OutroFinish.cpp" />
-    <ClCompile Include="GetInput.cpp" />
-    <ClCompile Include="HighScore.cpp" />
-    <ClCompile Include="Audio.cpp" />
+    <ClCompile Include="src\Animals.cpp" />
+    <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\characters.cpp" />
+    <ClCompile Include="src\Collision.cpp" />
+    <ClCompile Include="src\ControlGfx.cpp" />
+    <ClCompile Include="src\DancingDragon.cpp" />
+    <ClCompile Include="src\Enemies.cpp" />
+    <ClCompile Include="src\FirstScreen.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GetInput.cpp" />
+    <ClCompile Include="src\HighScore.cpp" />
+    <ClCompile Include="src\Intro.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Objects.cpp" />
+    <ClCompile Include="src\OutroFinish.cpp" />
+    <ClCompile Include="src\Paralaxlayers.cpp" />
+    <ClCompile Include="src\Timers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="characters.h" />
     <ClInclude Include="ConfigFileConverter.h" />
-    <ClInclude Include="ControlGfx.h" />
-    <ClInclude Include="DancingDragon\DancingDragon.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Paralaxlayers.h" />
-    <ClInclude Include="Enemies.h" />
-    <ClInclude Include="Objects.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Timers.h" />
-    <ClInclude Include="Animals.h" />
-    <ClInclude Include="Intro.h" />
-    <ClInclude Include="FirstScreen.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="OutroFinish.h" />
-    <ClInclude Include="GetInput.h" />
-    <ClInclude Include="HighScore.h" />
-    <ClInclude Include="Audio.h" />
+    <ClInclude Include="src\Animals.h" />
+    <ClInclude Include="src\Audio.h" />
+    <ClInclude Include="src\characters.h" />
+    <ClInclude Include="src\Collision.h" />
+    <ClInclude Include="src\ControlGfx.h" />
+    <ClInclude Include="src\DancingDragon.h" />
+    <ClInclude Include="src\Enemies.h" />
+    <ClInclude Include="src\FirstScreen.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\GetInput.h" />
+    <ClInclude Include="src\HighScore.h" />
+    <ClInclude Include="src\Intro.h" />
+    <ClInclude Include="src\Objects.h" />
+    <ClInclude Include="src\OutroFinish.h" />
+    <ClInclude Include="src\Paralaxlayers.h" />
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Timers.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Demon Hunter.rc" />
+    <ResourceCompile Include="src\Demon Hunter.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

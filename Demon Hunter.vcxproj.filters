@@ -1,54 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="characters.cpp" />
-    <ClCompile Include="ControlGfx.cpp" />
-    <ClCompile Include="Paralaxlayers.cpp" />
-    <ClCompile Include="Enemies.cpp" />
-    <ClCompile Include="Objects.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Timers.cpp" />
-    <ClCompile Include="Intro.cpp" />
-    <ClCompile Include="FirstScreen.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="OutroFinish.cpp" />
-    <ClCompile Include="GetInput.cpp" />
-    <ClCompile Include="HighScore.cpp" />
-    <ClCompile Include="Audio.cpp" />
-    <ClCompile Include="Animals.cpp">
+    <ClCompile Include="src\Animals.cpp">
       <Filter>Animals</Filter>
     </ClCompile>
-    <ClCompile Include="DancingDragon\DancingDragon.cpp">
+    <ClCompile Include="src\DancingDragon.cpp">
       <Filter>DancingDragon</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\characters.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ControlGfx.cpp">
+      <Filter>ControlGfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FirstScreen.cpp">
+      <Filter>FirstScreen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GetInput.cpp">
+      <Filter>GetInput</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HighScore.cpp">
+      <Filter>Highscore</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Intro.cpp">
+      <Filter>Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Timers.cpp">
+      <Filter>Timers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OutroFinish.cpp">
+      <Filter>OutroFinished</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Paralaxlayers.cpp">
+      <Filter>ParallaxLayers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="characters.h" />
     <ClInclude Include="ConfigFileConverter.h" />
-    <ClInclude Include="ControlGfx.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="Paralaxlayers.h" />
-    <ClInclude Include="Enemies.h" />
-    <ClInclude Include="Objects.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Timers.h" />
-    <ClInclude Include="Intro.h" />
-    <ClInclude Include="FirstScreen.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="OutroFinish.h" />
-    <ClInclude Include="GetInput.h" />
-    <ClInclude Include="HighScore.h" />
-    <ClInclude Include="Audio.h" />
-    <ClInclude Include="Animals.h">
+    <ClInclude Include="src\Animals.h">
       <Filter>Animals</Filter>
     </ClInclude>
-    <ClInclude Include="DancingDragon\DancingDragon.h">
+    <ClInclude Include="src\DancingDragon.h">
       <Filter>DancingDragon</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Demon Hunter.rc" />
+    <ClInclude Include="src\Audio.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\characters.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ControlGfx.h">
+      <Filter>ControlGfx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FirstScreen.h">
+      <Filter>FirstScreen</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GetInput.h">
+      <Filter>GetInput</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HighScore.h">
+      <Filter>Highscore</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Intro.h">
+      <Filter>Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Timers.h">
+      <Filter>Timers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OutroFinish.h">
+      <Filter>OutroFinished</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Paralaxlayers.h">
+      <Filter>ParallaxLayers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">
@@ -57,5 +112,53 @@
     <Filter Include="DancingDragon">
       <UniqueIdentifier>{3670a4ae-5645-4469-93e3-d32ebeaabd82}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{15c50117-fcc0-4fc9-b403-4964ef809b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{443d06f8-aa95-4847-b42a-0d46eb5713aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Characters">
+      <UniqueIdentifier>{178f93e9-18ea-4b41-813a-0f2b20ec20db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ControlGfx">
+      <UniqueIdentifier>{bc288d61-9723-4477-af4e-556fac0388fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{26c78456-8dc3-4bf5-b9ac-1142d7bb479e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{84dd5aa4-eb8d-4e19-9bdc-55544e0a4f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FirstScreen">
+      <UniqueIdentifier>{67d9a765-4e40-43b2-bafd-8b3d275e40fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GetInput">
+      <UniqueIdentifier>{b493b229-983e-4607-ab04-3c88c8acb3d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Highscore">
+      <UniqueIdentifier>{3bb813d7-e72b-44ca-a2b4-4f42c1793846}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Intro">
+      <UniqueIdentifier>{a12cf371-3418-42de-bf60-554b3a62233c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{b09540d1-2926-40f7-a57b-3fa80d114054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{e2a856dd-9e78-4b01-ba4b-774a010bcc26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timers">
+      <UniqueIdentifier>{fb3823d0-1bbd-42eb-b74f-8e16f3406c84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OutroFinished">
+      <UniqueIdentifier>{ba71ba1a-5e9e-4364-9420-31c2cd17d5c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParallaxLayers">
+      <UniqueIdentifier>{5ddeeddd-5c9d-436b-99a2-e8ed79427abb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\Demon Hunter.rc" />
   </ItemGroup>
 </Project>
