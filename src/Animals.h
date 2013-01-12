@@ -13,6 +13,7 @@ public:
 	int Height, Width;
 	int Radius;
 	int Surface;
+	SDL_Rect CrowDest;
 };
 
 class Animal : public AnimalState
@@ -25,6 +26,9 @@ public:
 	
 
 	void Setframe();
+	void Update();
+	void Draw();
+	SDL_Rect GetDestination();
 	int PrevFrameCrow;
 	
 

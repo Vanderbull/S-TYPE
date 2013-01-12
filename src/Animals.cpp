@@ -17,6 +17,29 @@ void Animal::Setframe()
 		Frame++;
 	}
 }
+void Animal::Update()
+{
+		float Speed = 2.5f;//2000.0f * ( gamestate.dt / 1000.0f );
+		this->xPos -= Speed;
+		this->CrowDest.h = this->Height;
+		this->CrowDest.w = this->Width;
+		this->CrowDest.x = this->xPos;
+		this->CrowDest.y = this->yPos; 
+
+		this->Setframe();
+		this->PrevFrameCrow = this->Frame;
+}
+
+void Animal::Draw()
+{
+		SDL_BlitSurface(	gamestate.GetSurface( this->Surface ),&this->Clips[ this->PrevFrameCrow ], 
+			gamestate.BackBuffer, &this->GetDestination() );
+}
+
+SDL_Rect Animal::GetDestination()
+{
+	return this->CrowDest;
+}
 
 Animal::Animal()
 {
@@ -56,17 +79,21 @@ void ControlAnimals::Draw_Animals()
 	i = My_Animals.begin();
 	while(i != My_Animals.end() )
 	{
+		(*i)->Update();
+		(*i)->Draw();
+		/*
 		(*i)->xPos -= Speed;
-		SDL_Rect CrowDest = {	(*i)->xPos, (*i)->yPos, 	
-						(*i)->Width, 
-						(*i)->Height };  
-
+		
+		
+		SDL_Rect CrowDest = (*i)->GetDestination();
+		
 		SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->Clips[ (*i)->PrevFrameCrow ], 
-							gamestate.BackBuffer, &CrowDest );
-
+			gamestate.BackBuffer, &(*i)->GetDestination() );
+			*/
+		/*
 		(*i)->Setframe();
 		(*i)->PrevFrameCrow = (*i)->Frame;
-
+		*/
 		++i;
 	}
 
