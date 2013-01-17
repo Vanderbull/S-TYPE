@@ -123,6 +123,7 @@
     <ClInclude Include="ConfigFileConverter.h" />
     <ClInclude Include="src\Animals.h" />
     <ClInclude Include="src\Audio.h" />
+    <ClInclude Include="src\BaseController.h" />
     <ClInclude Include="src\characters.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\ControlGfx.h" />

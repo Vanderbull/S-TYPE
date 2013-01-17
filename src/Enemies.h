@@ -122,7 +122,7 @@ private:
 
 	std::list< Enemy* > My_Enemies_dead;
 	
-	int Zombie, Skeleton;
+	int Zombie, Skeleton, Skull;
 
 	bool Collide;
 	bool CollideFire;

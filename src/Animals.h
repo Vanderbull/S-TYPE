@@ -5,6 +5,7 @@
 
 // @date 2012-08-07
 
+
 class AnimalState
 {
 public:
@@ -23,8 +24,6 @@ public:
 	Animal();
 
 	SDL_Rect Clips[ 16 ];
-	
-
 	void Setframe();
 	void Update();
 	void Draw();
@@ -40,6 +39,7 @@ class ControlAnimals
 {
 public:
 	ControlAnimals();
+	~ControlAnimals();
 	void Draw_Animals();
 	void Create_Animals();
 
@@ -50,7 +50,6 @@ public:
 	
 private:
 	std::list< Animal* > My_Animals;
-
 };
 
 extern ControlAnimals AnimalController;

@@ -16,6 +16,7 @@ void Animal::Setframe()
 	{
 		Frame++;
 	}
+
 }
 void Animal::Update()
 {
@@ -26,8 +27,8 @@ void Animal::Update()
 		this->CrowDest.x = this->xPos;
 		this->CrowDest.y = this->yPos; 
 
-		this->Setframe();
 		this->PrevFrameCrow = this->Frame;
+		this->Setframe();
 }
 
 void Animal::Draw()
@@ -43,10 +44,10 @@ SDL_Rect Animal::GetDestination()
 
 Animal::Animal()
 {
-	Frame = 0;
 	PrevFrameCrow = 0;
-	Height =	64;
-	Width =		64;
+	Frame = 0;
+	Height = 64;
+	Width =	64;
 
 	for( int i = 0; i < 16; i++ )
 	{
@@ -62,12 +63,13 @@ void ControlAnimals::Draw_Animals()
 	float Speed = 2.5f;//2000.0f * ( gamestate.dt / 1000.0f );
 
  	list< Animal* >::iterator i;
+	/*
 	i = My_Animals.begin();
 	while(i != My_Animals.end() )
 	{
 		if( (*i)->xPos <= -200.0f )
 		{
-        			// cout << "The Bird is no longer..." << endl;
+        		// cout << "The Bird is no longer..." << endl;
       			i = My_Animals.erase(i);
 		}
   		else
@@ -75,12 +77,16 @@ void ControlAnimals::Draw_Animals()
 			++i;
 		}
 	}
-
+	*/
 	i = My_Animals.begin();
 	while(i != My_Animals.end() )
 	{
 		(*i)->Update();
 		(*i)->Draw();
+		if( (*i)->xPos <= 200.0f )
+			i = My_Animals.erase(i);
+		else
+			++i;
 		/*
 		(*i)->xPos -= Speed;
 		
@@ -94,7 +100,7 @@ void ControlAnimals::Draw_Animals()
 		(*i)->Setframe();
 		(*i)->PrevFrameCrow = (*i)->Frame;
 		*/
-		++i;
+		//++i;
 	}
 
 	// Draws the Crow and sets the frame
@@ -151,4 +157,8 @@ void ControlAnimals::Create_Animals()
 ControlAnimals::ControlAnimals()
 {
 	CrowTurf = 200;
+}
+
+ControlAnimals::~ControlAnimals()
+{
 }

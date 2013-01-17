@@ -1,6 +1,7 @@
+#include "BaseController.h"
 #include <SDL.h>
 
-class DancingDragon
+class DancingDragon : virtual public BaseController,public Renderable
 {
 public:
 	DancingDragon( int Surface );
@@ -13,4 +14,5 @@ public:
 	void SetClips();
 	SDL_Rect Clips[ 23 ];
 	int AnimationTimestamp;
+	virtual void CreateAnimal(){};
 };

@@ -556,7 +556,6 @@ Heads::Heads()
 // draws all enemies skeleton, skull, zombies, checks collision and updates frame
 void Control_Enemies::Draw_Enemies()
 {
-
 	list< Enemy* > vRemoveFiende;
 	list< Enemy* >::iterator vRemoveIterFienden;
 	Collide = false;
@@ -767,7 +766,7 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 
 void Control_Enemies::Create_Enemies()
 {
-	/*
+	
 	if( demon.WhereIsEnd > 200 )
 	{
 		if( rand() % 40 == 2 &&  timer.AttackTimer_Zombie >= 35 )
@@ -800,7 +799,6 @@ void Control_Enemies::Create_Enemies()
 		}
 		timer.AttackTimer_Head++;
 	}
-	*/
 }
 
 Control_Enemies::Control_Enemies()

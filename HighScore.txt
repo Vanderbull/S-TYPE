@@ -4,9 +4,9 @@ Name:
 0
 Score:
 0
+
+400
+
+400
 Name:
-0
-Score:
-0
-Score:
 0
