@@ -3,38 +3,46 @@
 #include <stack>
 #include <SDL.h>
 
-// @date 2012-08-07
-
-
+/*
+   Class: AnimalState
+   A class
+*/
 class AnimalState
 {
 public:
-	float xPos, yPos;
+	int xPos, yPos;
 	int Frame, State;
 	int Height, Width;
 	int Radius;
 	int Surface;
-	SDL_Rect CrowDest;
+	SDL_Rect Destination;
 };
 
+/*
+   Class: Animal
+   A class
+*/
 class Animal : public AnimalState
 {
 
 public:
 	Animal();
-
-	SDL_Rect Clips[ 16 ];
+	
 	void Setframe();
 	void Update();
 	void Draw();
-	SDL_Rect GetDestination();
-	int PrevFrameCrow;
 	
+	SDL_Rect GetDestination();
 
 private:
+	SDL_Rect Clips[ 16 ];
+	int PrevFrame;
 };
 
-// the class that controls the animals
+/*
+   Class: ControlAnimals
+   A class that controls the animals
+*/ 
 class ControlAnimals
 {
 public:
@@ -43,7 +51,7 @@ public:
 	void Draw_Animals();
 	void Create_Animals();
 
-	int CrowTurf;
+	int Turf;
 
 	Animal * CreateAnimal( int xPos, int yPos, int surface );
 

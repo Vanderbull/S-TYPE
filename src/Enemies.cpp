@@ -651,8 +651,9 @@ void Control_Enemies::Draw_Enemies()
 						{
 							enemy->xPos -= 3;
 						}
+						/*
 						SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ),&enemy->ZombieClips[0], 
-											gamestate.BackBuffer, &EnemyDest );
+											gamestate.BackBuffer, &EnemyDest );*/
 					}
 					else if( enemy->Surface == Skeleton )
 					{
@@ -662,6 +663,8 @@ void Control_Enemies::Draw_Enemies()
 							{
 								if( Collide == false )
 								{
+									enemy->xPos -= speed;
+									/*
 									if( enemy->LeftOf_Demon )
 									{
 										enemy->xPos += speed;
@@ -670,11 +673,12 @@ void Control_Enemies::Draw_Enemies()
 									{
 										enemy->xPos -= speed;
 									}
+									*/
 								}
 							
-
+/*
 							SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
-												gamestate.BackBuffer, &EnemyDest );
+												gamestate.BackBuffer, &EnemyDest );*/
 							enemy->SetFrame();
 							//enemy->PrevFrame = enemy->Frame;
 							}

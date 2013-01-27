@@ -10,7 +10,7 @@ public:
 
 	int Initialize(float _xPos, float _yPos, int _Width, int _Height,int Frame, int _Radius);
 	int Object::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
-	float xPos, yPos;
+	int xPos, yPos;
 	int Width, Height;
 	int surface;
 	int Frame;

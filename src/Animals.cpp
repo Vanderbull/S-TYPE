@@ -16,35 +16,38 @@ void Animal::Setframe()
 	{
 		Frame++;
 	}
-
 }
 void Animal::Update()
 {
-		float Speed = 2.5f;//2000.0f * ( gamestate.dt / 1000.0f );
+		int Speed = 4;//2000.0f * ( gamestate.dt / 1000.0f );
 		this->xPos -= Speed;
-		this->CrowDest.h = this->Height;
-		this->CrowDest.w = this->Width;
-		this->CrowDest.x = this->xPos;
-		this->CrowDest.y = this->yPos; 
+		this->Destination.h = this->Height;
+		this->Destination.w = this->Width;
+		this->Destination.x = this->xPos;
+		this->Destination.y = this->yPos; 
 
-		this->PrevFrameCrow = this->Frame;
+		this->PrevFrame = this->Frame;
 		this->Setframe();
 }
 
 void Animal::Draw()
 {
-		SDL_BlitSurface(	gamestate.GetSurface( this->Surface ),&this->Clips[ this->PrevFrameCrow ], 
-			gamestate.BackBuffer, &this->GetDestination() );
+		SDL_BlitSurface( 
+			gamestate.GetSurface( this->Surface ),
+			&this->Clips[ this->PrevFrame ], 
+			gamestate.BackBuffer, 
+			&this->GetDestination() 
+			);
 }
 
 SDL_Rect Animal::GetDestination()
 {
-	return this->CrowDest;
+	return this->Destination;
 }
 
 Animal::Animal()
 {
-	PrevFrameCrow = 0;
+	PrevFrame = 0;
 	Frame = 0;
 	Height = 64;
 	Width =	64;
@@ -93,12 +96,12 @@ void ControlAnimals::Draw_Animals()
 		
 		SDL_Rect CrowDest = (*i)->GetDestination();
 		
-		SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->Clips[ (*i)->PrevFrameCrow ], 
+		SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->Clips[ (*i)->PrevFrame ], 
 			gamestate.BackBuffer, &(*i)->GetDestination() );
 			*/
 		/*
 		(*i)->Setframe();
-		(*i)->PrevFrameCrow = (*i)->Frame;
+		(*i)->PrevFrame = (*i)->Frame;
 		*/
 		//++i;
 	}
@@ -150,13 +153,13 @@ Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
   
 void ControlAnimals::Create_Animals()
 {
-	if( My_Animals.size() < rand()%25 )
-	My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % CrowTurf ) , gamestate.m_srfCrow ) );
+	if( My_Animals.size() < rand() % 25 )
+	My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % Turf ) , gamestate.m_srfCrow ) );
 }
 
 ControlAnimals::ControlAnimals()
 {
-	CrowTurf = 200;
+	Turf = 200;
 }
 
 ControlAnimals::~ControlAnimals()
