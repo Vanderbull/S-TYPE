@@ -458,6 +458,7 @@ void Gamestate::DrawObjects()
 	else
 	{
 		AnimalController.Draw_Animals();
+		Control_ENEMY.Update();
 		Control_ENEMY.Draw_Enemies();
 		Control_OBJ.DrawObjects();
 	}	
@@ -632,9 +633,9 @@ void Gamestate::ResetBoss()
 
 void Gamestate::ResetEnemies()
 {
-	if( Control_ENEMY.My_Enemies.size() != NULL )
+	if( Control_ENEMY.Enemies.size() != NULL )
 	{
-		Control_ENEMY.My_Enemies.clear();
+		Control_ENEMY.Enemies.clear();
 	}
 }
 

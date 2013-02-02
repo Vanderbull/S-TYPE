@@ -105,6 +105,15 @@
       <Filter>ParallaxLayers</Filter>
     </ClInclude>
     <ClInclude Include="src\BaseController.h" />
+    <ClInclude Include="src\Enemies\CSkeleton.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\MovingThings.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CZombie.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">

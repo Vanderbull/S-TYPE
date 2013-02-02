@@ -196,8 +196,8 @@ void Control_Objects::DrawObjects()
 	list< FireBall* > vRemoveFireBall;
 	list< FireBall* >::iterator vRemoveIterFireBall;
 
-	list< Enemy* >vRemoveEnemy;
-	list< Enemy* >::iterator vRemoveIterEnemy; 
+	list< CEnemy* >vRemoveEnemy;
+	list< CEnemy* >::iterator vRemoveIterEnemy; 
 
 	list< Heads* > vRemoveHead;
 	list< Heads* >::iterator vRemoveIterHead;
@@ -339,12 +339,12 @@ void Control_Objects::DrawObjects()
 
 
 
-			if( Control_ENEMY.My_Enemies.size() != 0 )
+			if( Control_ENEMY.Enemies.size() != 0 )
 			{
-				std::list< Enemy* >::iterator e = Control_ENEMY.My_Enemies.begin();
-				for( ; e != Control_ENEMY.My_Enemies.end(); ++e )
+				std::list< CEnemy* >::iterator e = Control_ENEMY.Enemies.begin();
+				for( ; e != Control_ENEMY.Enemies.end(); ++e )
 				{
-					Enemy * enemy = (*e);
+					CEnemy * enemy = (*e);
 
 					if( ( *e )->Die != true )
 					{
@@ -427,7 +427,7 @@ void Control_Objects::DrawObjects()
 		vRemoveIterEnemy = vRemoveEnemy.begin();
 		for( ; vRemoveIterEnemy != vRemoveEnemy.end(); ++vRemoveIterEnemy )
 		{
-			Control_ENEMY.My_Enemies.remove( ( *vRemoveIterEnemy ) );
+			Control_ENEMY.Enemies.remove( ( *vRemoveIterEnemy ) );
 		}
 
 		vRemoveIterHead = vRemoveHead.begin();
@@ -480,7 +480,7 @@ void Control_Objects::DrawObjects()
 			if( temp->Frame == 11 )
 			{
 				
-				Control_ENEMY.My_Enemies.push_back( Control_ENEMY.CreateEnemy( temp->xPos, temp->yPos - 30, gamestate.m_srfSkeleton ) );
+				Control_ENEMY.Enemies.push_back( Control_ENEMY.CreateEnemy( temp->xPos, temp->yPos - 30, gamestate.m_srfSkeleton ) );
 				vRemoveCoffin.push_back( (*i) );
 			}
 

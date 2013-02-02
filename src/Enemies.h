@@ -3,94 +3,14 @@
 #include <SDL_image.h>
 #include <list>
 #include "Objects.h"
-
+#include "Enemies\MovingThings.h"
+#include "Enemies\CSkeleton.h"
+#include "Enemies\CZombie.h"
 // @date 2012-08-07
 
 enum{ ENEMY_ZOMBIE, ENEMY_SKELETON };
-
-// holds info for all the enemies
-class CZombie
-{
-public:
-	
-	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
-	void SetFrame();
-
-	int xPos, yPos;
-	int Width, Height;
-	int Surface;
-	int PrevFrame, Frame, Radius, 
-		WalkFrameLeft, WalkFrameRight, 
-		AttackFrameRight, AttackFrameLeft, 
-		DieFrameLeft, DieFrameRight, 
-		AnimCounter;
-
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
-
-	
-
-	SDL_Rect SkeletonClips[ 4 ][ 14 ];
-	SDL_Rect ZombieClips[ 10 ];
-
-private:
-};
-
-// holds info for all the enemies
-class CSkeleton
-{
-public:
-	
-	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
-	void SetFrame();
-
-	int xPos, yPos;
-	int Width, Height;
-	int Surface;
-	int PrevFrame, Frame, Radius, 
-		WalkFrameLeft, WalkFrameRight, 
-		AttackFrameRight, AttackFrameLeft, 
-		DieFrameLeft, DieFrameRight, 
-		AnimCounter;
-
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
-
-	
-
-	SDL_Rect SkeletonClips[ 4 ][ 14 ];
-	SDL_Rect ZombieClips[ 10 ];
-
-private:
-};
-
-
-// holds info for all the enemies
-
-class Enemy
-{
-public:
-	
-	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
-	void SetFrame();
-
-	int xPos, yPos;
-	int Width, Height;
-	int Surface;
-	int PrevFrame, Frame, Radius, 
-		WalkFrameLeft, WalkFrameRight, 
-		AttackFrameRight, AttackFrameLeft, 
-		DieFrameLeft, DieFrameRight, 
-		AnimCounter;
-
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
-
-	
-
-	SDL_Rect SkeletonClips[ 4 ][ 14 ];
-	SDL_Rect ZombieClips[ 10 ];
-
-private:
-};
-
+enum{ ZOMBIE = 7, SKELETON = 8, SKULL = 9};
+/*
 class MovingThings
 {
 public:
@@ -98,10 +18,95 @@ public:
 	int Frame;
 	int Radius;
 	int Width, Height;
+	int Speed;
 	
 	int surface;
 	SDL_Rect Clips[ 16 ];
 };
+*/
+/*
+class CZombie : public MovingThings
+{
+public:
+	
+	CZombie();
+	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
+	void SetFrame();
+
+	int xPos, yPos;
+	int Width, Height;
+	int Surface;
+	int PrevFrame, Frame, Radius, 
+		WalkFrameLeft, WalkFrameRight, 
+		AttackFrameRight, AttackFrameLeft, 
+		DieFrameLeft, DieFrameRight, 
+		AnimCounter;
+
+	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+
+	SDL_Rect ZombieClips[ 10 ];
+
+private:
+};
+*/
+/*
+class CSkeleton : public MovingThings
+{
+public:
+	
+	CSkeleton();
+	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
+	void SetFrame();
+
+	int xPos, yPos;
+	int Width, Height;
+	int Surface;
+	int PrevFrame, Frame, Radius, 
+		WalkFrameLeft, WalkFrameRight, 
+		AttackFrameRight, AttackFrameLeft, 
+		DieFrameLeft, DieFrameRight, 
+		AnimCounter;
+
+	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+
+	
+
+	SDL_Rect SkeletonClips[ 4 ][ 14 ];
+
+private:
+};
+*/
+
+// holds info for all the enemies
+
+class CEnemy : public MovingThings
+{
+public:
+	
+	CEnemy();
+	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
+	void SetFrame();
+
+	int xPos, yPos;
+	int Width, Height;
+	int Surface;
+	int PrevFrame, Frame, Radius, 
+		WalkFrameLeft, WalkFrameRight, 
+		AttackFrameRight, AttackFrameLeft, 
+		DieFrameLeft, DieFrameRight, 
+		AnimCounter;
+
+	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+
+	
+
+	SDL_Rect SkeletonClips[ 4 ][ 14 ];
+	SDL_Rect ZombieClips[ 10 ];
+
+private:
+};
+
+
 
 class Heads : public MovingThings
 {
@@ -169,19 +174,20 @@ class Control_Enemies
 {
 public:
 	Control_Enemies();
+	void Update();
 	void Draw_Enemies();
 	void Create_Enemies();
 	std::list<CZombie*> _Zombies;
 	std::list<CSkeleton*> _Skeletons;
-	std::list< Enemy* > My_Enemies;
-	Enemy * CreateEnemy( int xPos, int yPos, int surface );	
+	std::list< CEnemy* > Enemies;
+	CEnemy * CreateEnemy( int xPos, int yPos, int surface );	
 private:
 
-	std::list< CZombie* > _DeadZombies;
-	std::list< CSkeleton* > _DeadSkeletons;
-	std::list< Enemy* > My_Enemies_dead;
+	//std::list< CZombie* > _DeadZombies;
+	//std::list< CSkeleton* > _DeadSkeletons;
+	//std::list< CEnemy* > Enemies_dead;
 	
-	int Zombie, Skeleton, Skull;
+	//int Zombie, Skeleton, Skull;
 
 	bool Collide;
 	bool CollideFire;

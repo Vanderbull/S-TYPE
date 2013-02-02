@@ -129,6 +129,9 @@
     <ClInclude Include="src\ControlGfx.h" />
     <ClInclude Include="src\DancingDragon.h" />
     <ClInclude Include="src\Enemies.h" />
+    <ClInclude Include="src\Enemies\CSkeleton.h" />
+    <ClInclude Include="src\Enemies\CZombie.h" />
+    <ClInclude Include="src\Enemies\MovingThings.h" />
     <ClInclude Include="src\FirstScreen.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GetInput.h" />

@@ -6,7 +6,7 @@
 ControlCollision CollisionController;
 
 // checks collision
-bool ControlCollision::CollisionCircle( Demon *MyDemon, Enemy *MyEnemy, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Show )
 {
 	// Cache
 	double	dx = ( ( MyDemon->xPos + DEMONWIDTHREAL / 2 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
@@ -396,7 +396,7 @@ bool ControlCollision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool
 }
 
 // checks collision
-bool ControlCollision::CollisionCircle( FireBall *MyFire, Enemy * MyEnemy, bool Show )
+bool ControlCollision::CollisionCircle( FireBall *MyFire, CEnemy * MyEnemy, bool Show )
 {
 	// Cache
 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
@@ -517,7 +517,7 @@ void ControlCollision::SetPixelMine( int xPos, int yPos  )
 // ----------------------------------------------------------------------------
 // ChecksCollision - test if any collision occurs
 // ----------------------------------------------------------------------------
-bool ControlCollision::CheckCollisionWithPlayer( Enemy *MyEnemy, int WhichCollisionToUse )
+bool ControlCollision::CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichCollisionToUse )
 {
 	bool temp = false;
 
@@ -546,7 +546,7 @@ bool ControlCollision::CheckCollisionWithPlayer( Enemy *MyEnemy, int WhichCollis
 // ----------------------------------------------------------------------------
 // CheckBoxCollision - test if box collision occurs
 // ----------------------------------------------------------------------------
-bool ControlCollision::CollisionBox( Demon *MyDemon, Enemy *MyEnemy, bool Show )
+bool ControlCollision::CollisionBox( Demon *MyDemon, CEnemy *MyEnemy, bool Show )
 {
     int left1, left2;
     int right1, right2;
@@ -572,7 +572,7 @@ bool ControlCollision::CollisionBox( Demon *MyDemon, Enemy *MyEnemy, bool Show )
 
 };
 
-bool ControlCollision::CollisionPixel( Demon *MyDemon, Enemy *MyEnemy )
+bool ControlCollision::CollisionPixel( Demon *MyDemon, CEnemy *MyEnemy )
 {
 	return false;
 }

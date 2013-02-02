@@ -10,7 +10,22 @@
 
 Control_Enemies Control_ENEMY;
 
-void Enemy::Set_Clips( int WhichTypeOfEnemy )
+CZombie::CZombie()
+{
+	CZombie::Speed = 100;
+}
+
+CSkeleton::CSkeleton()
+{
+	CSkeleton::Speed = 100;
+}
+
+CEnemy::CEnemy()
+{
+	CEnemy::Speed = 100;
+}
+
+void CEnemy::Set_Clips( int WhichTypeOfEnemy )
 {
 	// enemy type zombie
 	if( WhichTypeOfEnemy == 0 )
@@ -41,7 +56,7 @@ void Enemy::Set_Clips( int WhichTypeOfEnemy )
 }
 
 // sets frame for skeleton
-void Enemy::SetFrame()
+void CEnemy::SetFrame()
 {
 	PrevFrame = Frame;
 
@@ -552,23 +567,38 @@ Heads::Heads()
 
 }
 
+void Control_Enemies::Update()
+{
+	Collide = false;
+	list< CEnemy* >::iterator i = Enemies.begin();
 
+	i = Enemies.begin();
+	while(i != Enemies.end() )
+	{
+		if( (*i)->xPos <= 200 )
+		{
+			i = Enemies.erase(i);
+		}
+		else
+		{
+			++i;
+		}
+	}
+}
 // draws all enemies skeleton, skull, zombies, checks collision and updates frame
 void Control_Enemies::Draw_Enemies()
 {
-	list< Enemy* > vRemoveFiende;
-	list< Enemy* >::iterator vRemoveIterFienden;
-	Collide = false;
+	//list< Enemy* > vRemoveEnemy;
+	//list< Enemy* >::iterator vRemoveIterEnemy;
+	//float speed = 100.0f * ( gamestate.dt / 1000.0f );
 
-	int speed = 100.0f * ( gamestate.dt / 1000.0f );
-
-	if( My_Enemies.size() != 0 )
+	if( Enemies.size() != 0 )
 	{
-		list< Enemy* >::iterator i = My_Enemies.begin();
-		for( ; i != My_Enemies.end(); ++i )
+		list< CEnemy* >::iterator i = Enemies.begin();
+		for( ; i != Enemies.end(); ++i )
 		{
 				// Check to see if collision occurs and if demon is in any kind of attack state
-				Enemy * enemy = (*i);
+				CEnemy * enemy = (*i);
 
 				// checks collision with player using circlecollision
 				//Collide = CollisionController.CheckCollisionWithPlayer( enemy, 1 );
@@ -578,25 +608,22 @@ void Control_Enemies::Draw_Enemies()
 				
 				if( Collide == true && demon.IsInStateAttack() ) // && Attack == true
 				{
-					demon.Score += 200;
-						//gamestate.Score += 200;
-
-						if( (*i)->Surface == Zombie )
+						if( (*i)->Surface == ZOMBIE )
 						{
-							vRemoveFiende.push_back( ( *i ) );
+							//vRemoveEnemy.push_back( ( *i ) );
 							if( Control_OBJ.PowerUpMan == false && demon.DemonHunter == false )
 							{
 								Control_OBJ.PowerUpMan = true;
 								Control_OBJ.WereWolf = new PowerUp( (*i)->xPos, (*i)->yPos + 20, gamestate.m_srfDemonLife );
 							}
 						}
-						else if( (*i)->Surface == Skeleton )
+						else if( (*i)->Surface == SKELETON )
 						{
 							(*i)->Die = true;
 							(*i)->Walk = false;
 							if( (*i)->Frame == 28 || (*i)->Frame == 56 )
 							{
-								vRemoveFiende.push_back( ( *i ) );
+								//vRemoveEnemy.push_back( ( *i ) );
 							}
 						}
 				}
@@ -635,27 +662,27 @@ void Control_Enemies::Draw_Enemies()
 				}
 
 				SDL_Rect EnemyDest = {	enemy->xPos, enemy->yPos, 
-										gamestate.GetSurface( Zombie )->w, 
-										gamestate.GetSurface( Zombie )->h }; 
+										gamestate.GetSurface( ZOMBIE )->w, 
+										gamestate.GetSurface( ZOMBIE )->h }; 
 
 				
 				if(  (*i)->xPos < 0 )
 				{
-					vRemoveFiende.push_back( (*i) );
+					//vRemoveEnemy.push_back( (*i) );
 				}
 				else
 				{
-					if( enemy->Surface == Zombie )
+					if( enemy->Surface == ZOMBIE )
 					{	
 						if( Collide == false )
 						{
 							enemy->xPos -= 3;
 						}
-						/*
+						
 						SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ),&enemy->ZombieClips[0], 
-											gamestate.BackBuffer, &EnemyDest );*/
+											gamestate.BackBuffer, &EnemyDest );
 					}
-					else if( enemy->Surface == Skeleton )
+					else if( enemy->Surface == SKELETON )
 					{
 						if( gamestate.OK_PaceEnemy() )
 						{
@@ -663,7 +690,7 @@ void Control_Enemies::Draw_Enemies()
 							{
 								if( Collide == false )
 								{
-									enemy->xPos -= speed;
+									enemy->xPos -= enemy->Speed;
 									/*
 									if( enemy->LeftOf_Demon )
 									{
@@ -686,11 +713,11 @@ void Control_Enemies::Draw_Enemies()
 							{
 								if( demon.isMovingLeft && demon.xVelocity >= gamestate.SCREEN_WIDTH - 350 )
 								{
-									enemy->xPos += speed;
+									enemy->xPos += enemy->Speed;
 								}
 								else if( demon.isMovingRight )
 								{
-									enemy->xPos -= speed;
+									enemy->xPos -= enemy->Speed;
 								}
 
 								SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
@@ -710,17 +737,17 @@ void Control_Enemies::Draw_Enemies()
 
 	}
 
-	vRemoveIterFienden = vRemoveFiende.begin();
-	for( ; vRemoveIterFienden != vRemoveFiende.end() ; ++vRemoveIterFienden )
-	{
-		My_Enemies.remove(*vRemoveIterFienden);
-	}	
+	//vRemoveIterEnemy = vRemoveEnemy.begin();
+	//for( ; vRemoveIterEnemy != vRemoveEnemy.end() ; ++vRemoveIterEnemy )
+	//{
+	//	Enemies.remove(*vRemoveIterEnemy);
+	//}	
 }
 
 // gives the enemy the attributes he should have
-Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
+CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 {
-	Enemy * temp = new Enemy;
+	CEnemy * temp = new CEnemy;
 	temp->Surface = surface;
 	temp->AnimCounter = 1;
 	temp->PrevFrame = 0;
@@ -748,12 +775,12 @@ Enemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	Width = temp->Width / 2;
 
 
-	if( temp->Surface == Zombie )
+	if( temp->Surface == ZOMBIE )
 	{
 		temp->Radius = ( Width > Height ) ? Width / 2 - 10 : Height / 2 - 10 ;
 		temp->Set_Clips( ENEMY_ZOMBIE );
 	}
-	else if( temp->Surface == Skeleton )
+	else if( temp->Surface == SKELETON )
 	{
 		if( temp->xPos <= demon.xPos )
 		{
@@ -775,7 +802,7 @@ void Control_Enemies::Create_Enemies()
 	{
 		if( rand() % 40 == 2 &&  timer.AttackTimer_Zombie >= 35 )
 		{
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, Zombie ) );
+			Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, ZOMBIE ) );
 			timer.AttackTimer_Zombie = 0;
 		}
 		timer.AttackTimer_Zombie++;
@@ -783,7 +810,7 @@ void Control_Enemies::Create_Enemies()
 		if( rand() % 50 == 2 &&  timer.AttackTimer_Head >= 50 )
 		{
 			timer.AttackTimer_Head = 0;
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y, Skull ) );
+			Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y, SKULL ) );
 		}
 		timer.AttackTimer_Head++;
 	}
@@ -791,7 +818,7 @@ void Control_Enemies::Create_Enemies()
 	{
 		if( rand() % 100 == 2 &&  timer.AttackTimer_Zombie >= 50 )
 		{
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, Zombie ) );
+			Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, ZOMBIE ) );
 			timer.AttackTimer_Zombie = 0;
 		}
 		timer.AttackTimer_Zombie++;
@@ -799,7 +826,7 @@ void Control_Enemies::Create_Enemies()
 		if( rand() % 100 == 2 &&  timer.AttackTimer_Head >= 100 )
 		{
 			timer.AttackTimer_Head = 0;
-			My_Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y, Skull ) );
+			Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH - 40, GROUND_Y, SKULL ) );
 		}
 		timer.AttackTimer_Head++;
 	}
@@ -811,7 +838,7 @@ Control_Enemies::Control_Enemies()
 	Collide = false;
 	CollideFire = false;
 
-	Zombie = 7;
-	Skeleton = 8;
+	//Zombie = 7;
+	//Skeleton = 8;
 }
 
