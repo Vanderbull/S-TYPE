@@ -11,6 +11,6 @@ public:
 	int Width, Height;
 	int Speed;
 	
-	int surface;
+	int Surface;
 	SDL_Rect Clips[ 16 ];
 };

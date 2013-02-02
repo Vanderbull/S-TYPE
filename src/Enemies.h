@@ -9,7 +9,7 @@
 // @date 2012-08-07
 
 enum{ ENEMY_ZOMBIE, ENEMY_SKELETON };
-enum{ ZOMBIE = 7, SKELETON = 8, SKULL = 9};
+enum{ ZOMBIE = 6, SKELETON = 7, SKULL = 8};
 /*
 class MovingThings
 {
@@ -87,9 +87,9 @@ public:
 	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
 	void SetFrame();
 
-	int xPos, yPos;
-	int Width, Height;
-	int Surface;
+	//int xPos, yPos;
+	//int Width, Height;
+	//int Surface;
 	int PrevFrame, Frame, Radius, 
 		WalkFrameLeft, WalkFrameRight, 
 		AttackFrameRight, AttackFrameLeft, 
@@ -98,15 +98,12 @@ public:
 
 	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
 
-	
-
+	std::list<SDL_Rect> Clips;
 	SDL_Rect SkeletonClips[ 4 ][ 14 ];
 	SDL_Rect ZombieClips[ 10 ];
 
 private:
 };
-
-
 
 class Heads : public MovingThings
 {

@@ -23,10 +23,13 @@ CSkeleton::CSkeleton()
 CEnemy::CEnemy()
 {
 	CEnemy::Speed = 100;
+	memset(ZombieClips, 0, sizeof(ZombieClips));
+	memset(SkeletonClips, 0, sizeof(SkeletonClips));
 }
 
 void CEnemy::Set_Clips( int WhichTypeOfEnemy )
 {
+
 	// enemy type zombie
 	if( WhichTypeOfEnemy == 0 )
 	{
@@ -36,12 +39,13 @@ void CEnemy::Set_Clips( int WhichTypeOfEnemy )
 			ZombieClips[ i ].y = 0;
 			ZombieClips[ i ].h = this->Height;
 			ZombieClips[ i ].w = this->Width;
+			Clips.push_back(ZombieClips[ i ]);
 		}
 	}
 	// enemy type 1 Skelton
 	else if( WhichTypeOfEnemy == 1 )
 	{
-		Frame = 0;
+		//Frame = 0;
 		for( int i = 0; i < 4; i++ )
 		{
 			for( int j = 0; j < 14; j++ )
@@ -290,7 +294,7 @@ void Boss::UpdateBoss()
 				}
 				My_BossHead.push_back(	CreateBossHeads(	xPos, 
 													yPos + 10, 
-													surface,
+													Surface,
 													Length ) );
 				SizeHeads++;
 			}
@@ -320,19 +324,19 @@ void Boss::UpdateBoss()
 	{
 		case BOSS_IDLE:
 			{
-				SDL_BlitSurface( gamestate.GetSurface( surface ), 
+				SDL_BlitSurface( gamestate.GetSurface( Surface ), 
 					&GetClips( GetFrame() ),
 								gamestate.BackBuffer, &ReturnDestRect() );
 			}
 		case BOSS_ATTACK:
 			{
-				SDL_BlitSurface( gamestate.GetSurface( surface ),
+				SDL_BlitSurface( gamestate.GetSurface( Surface ),
 				&GetClips( GetFrame() ), 
 				gamestate.BackBuffer, &ReturnDestRect() );
 			}
 		case BOSS_DIE:
 			{
-				SDL_BlitSurface( gamestate.GetSurface( surface ),
+				SDL_BlitSurface( gamestate.GetSurface( Surface ),
 				&GetClips( GetFrame() ), 
 				gamestate.BackBuffer, &ReturnDestRect() );
 			}
@@ -441,7 +445,7 @@ void Boss::UpdateHeads()
 
 			SDL_Rect HeadDest = { temp->xPos, temp->yPos, temp->Width, temp->Height };
 			
-			SDL_BlitSurface(	gamestate.GetSurface( temp->surface ), &temp->GetClips( temp->GetFrame() ),
+			SDL_BlitSurface(	gamestate.GetSurface( temp->Surface ), &temp->GetClips( temp->GetFrame() ),
 								gamestate.BackBuffer, &HeadDest );
 	
 		}
@@ -461,13 +465,12 @@ Heads * Boss::CreateBossHeads( int xPos, int yPos, int surface, int lengthOfTrav
 	Heads * temp = new Heads;
 	temp->xPos = xPos;
 	temp->yPos = yPos;
-	temp->surface = surface;
+	temp->Surface = surface;
 	temp->length = lengthOfTravel;
 
 	temp->Radius = ( temp->HeadWidth > temp->HeadHeight ) ? temp->HeadWidth / 2 : temp->HeadHeight;
 
 	return temp;
-
 }
 
 SDL_Rect Boss::ReturnDestRect()
@@ -516,7 +519,6 @@ Boss::Boss()
 		Clips[ i ].y = 0;
 		Clips[ i ].h = Height;
 		Clips[ i ].w = Width;
-
 	}
 }
 
@@ -564,7 +566,6 @@ Heads::Heads()
 	Clips[5].y = 80;
 	Clips[5].h = 54;
 	Clips[5].w = 70;
-
 }
 
 void Control_Enemies::Update()
@@ -673,7 +674,7 @@ void Control_Enemies::Draw_Enemies()
 				else
 				{
 					if( enemy->Surface == ZOMBIE )
-					{	
+					{
 						if( Collide == false )
 						{
 							enemy->xPos -= 3;

@@ -368,8 +368,8 @@ void Gamestate::load_files()
 	m_srfSky = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
 	m_srfTrees = Gfx.Load_imageAlpha( "Graphics/srfTrees.png", 2, 2, 2 );
 	demon.DemonSurface = Gfx.Load_imageAlpha( "Graphics/DemonSurface.png", 255, 255, 255 );
-	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 106, 76, 48 );
-	m_srfSkeleton = Gfx.Load_imageAlpha( "Graphics/srfSkeleton.png", 106, 76, 48  );
+	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
+	m_srfSkeleton = Gfx.Load_imageAlpha( "Graphics/srfSkeleton.png", 255, 0, 255  );
 	m_srfCrow = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
 	m_srfCoffin  = Gfx.Load_imageAlpha( "Graphics/srfCoffin.png", 97, 68, 43 );
 	m_srfBoss = Gfx.Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
@@ -388,12 +388,12 @@ void Gamestate::load_files()
 	m_srfClouds = Load_imageAlpha( "Graphics/srfClouds.png", 0, 0, 0 );
 	m_srfBlack = Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
 	m_srfSky = Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
-	m_srfTrees = Load_imageAlpha( "Graphics/srfTrees.png", 2, 2, 2 );
+	m_srfTrees = Load_imageAlpha( "Graphics/srfTrees.png", 0, 0, 0 );
 	demon.DemonSurface = Load_imageAlpha( "Graphics/DemonSurface.png", 255, 255, 255 );
-	m_srfEnemyZombie = Load_imageAlpha( "Graphics/srfEnemyZombie.png", 106, 76, 48 );
-	m_srfSkeleton = Load_imageAlpha( "Graphics/srfSkeleton.png", 106, 76, 48  );
+	m_srfEnemyZombie = Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
+	m_srfSkeleton = Load_imageAlpha( "Graphics/srfSkeleton.png", 255, 0, 255  );
 	m_srfCrow = Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
-	m_srfCoffin  = Load_imageAlpha( "Graphics/srfCoffin.png", 97, 68, 43 );
+	m_srfCoffin  = Load_imageAlpha( "Graphics/srfCoffin.png", 255, 0, 255 );
 	m_srfBoss = Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
 	m_srfDemonLife = Load_imageAlpha( "Graphics/srfDemonLife.png", 255, 255, 255 );
 	m_srfDemonHealthAndFire = Load_imageAlpha( "Graphics/srfDemonHealthAndFire.png", 0, 0, 0 );
@@ -469,7 +469,7 @@ void Gamestate::DrawObjects()
 Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 {
 	Boss * temp = new Boss;
-	temp->surface = surface;
+	temp->Surface = surface;
 	temp->xPos = xPos;
 	temp->yPos = yPos;
 
