@@ -22,7 +22,6 @@ public:
 		MOVING_RIGHT,
 		MOVING_LEFT,
 		JUMPING,
-		CROUCHING,
 		KICKING,
 		PUNCHING,
 		GETTING_UP,
@@ -65,14 +64,12 @@ public:
 	bool isMovingRight;
 	bool isMovingLeft;
 	bool isJumping;
-	bool isCrouching;
 	bool isKicking;
 	bool isPunching;
 	bool isGettingUp;
 	bool isHit;
 	bool isImmortal;
 
-	bool CrouchFireBall;
 	bool TriangleAttack;
 
 	bool LifeFull_Small;
@@ -80,7 +77,7 @@ public:
 	bool LifeLittle_Small;
 
 	//bool Crouch, Jump, Punch, FireBall, CrouchFire, Triangle;
-	bool FireBall, CrouchFire, Triangle;
+	bool FireBall, Triangle;
 
 	bool DieOneLife, Demon_Dead;
 	
@@ -109,7 +106,6 @@ public:
 	int WhereWalkRight, WhereWalkLeft;
 	int WhereJumpLeft, WhereJumpRight;
 	int KickRight, KickLeft;
-	int CrouchRight, CrouchLeft;
 	int PunchRight, PunchLeft;
 	int TriangleFireLeft, TriangleFireRight;
 	int DieRightDemon, DieLeftDemon;
@@ -117,7 +113,6 @@ public:
 	int WalkLeft_Demon, WalkRight_Demon;
 	int FireBallRight_Demon, FireBallLeft_Demon;
 	int JumpRight_Demon, JumpLeft_Demon;
-	int CrouchRightFire, CrouchLeftFire;
 	int FireBallRight, FireBallLeft;
 	
 	int Radius, RadiusFist, RadiusFeet;

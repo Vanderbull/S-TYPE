@@ -17,10 +17,8 @@ Demon::Demon()
 	isMovingRight    = false;
 	isMovingLeft     = false;
 	isJumping        = false;
-	isCrouching      = false;
 	isKicking        = false;
 	isPunching       = false;
-	CrouchFireBall   = false;
 	Right            = false;
 	Left             = false;
 	isImmortal       = false;
@@ -39,12 +37,7 @@ Demon::Demon()
 
 	Demon_Dead       = false;
 
-	//Crouch           = false;
-	//Kick             = false; 
-	//Jump             = false;
-	//Punch            = false;
 	FireBall         = false;
-	CrouchFire       = false;
 	TriangleAttack   = false;
 	Triangle         = false;
 	isGettingUp      = false;
@@ -55,8 +48,6 @@ Demon::Demon()
 	WhereWalkRight   = 0;
 	WhereJumpLeft    = 35;
 	WhereJumpRight   = 12;
-	CrouchRight      = 19;
-	CrouchLeft       = 41;
 	PunchRight       = 8; 
 	PunchLeft        = 31;
 
@@ -66,8 +57,6 @@ Demon::Demon()
 	FireBallLeft_Demon = 30;
 	JumpRight_Demon  = 5;
 	JumpLeft_Demon   = 26;
-	CrouchRightFire  = 14;
-	CrouchLeftFire   = 35;
 	FireBallRight    = 39;
 	FireBallLeft     = 42;
 	Score = 0;
@@ -170,7 +159,7 @@ bool Demon::CheckBoundaries()
 bool Demon::IsInStateAttack()
 {
 	if( demon.isKicking == true || demon.isPunching == true ||
-		demon.CrouchFireBall == true || demon.TriangleAttack == true || demon.Triangle == true)
+		demon.TriangleAttack == true || demon.Triangle == true)
 	{
 		return true;
 	}
@@ -211,11 +200,6 @@ int Demon::UpdatePlayer()
 	{
 		//cout << "Character is standing around doing nothing...." << endl;
 	}
-	if( CROUCHING == demon.GetState() )
-	{
-		//cout << "Character is crouching...." << endl;
-		//demon.SetState(demon.IDLE);
-	}
 	if( KICKING == demon.GetState() )
 	{
 		//cout << "Character is kicking...." << endl;
@@ -250,23 +234,13 @@ int Demon::UpdatePlayer()
 		//demon.SetState(demon.IDLE);
 	}
 	// checks which animation to play
-	if( isCrouching )
-	{
-		isKicking      = false;
-		isJumping      = false;
-		isCrouching    = true;
-		isPunching     = false;
-		CrouchFireBall = false;
-		TriangleAttack = false;
-	}
+
 
 	else if( isKicking )
 	{
 		isKicking      = true;
 		isJumping      = false;
-		isCrouching    = false;
 		isPunching     = false;
-		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 
@@ -274,9 +248,7 @@ int Demon::UpdatePlayer()
 	{
 		isKicking      = false;
 		isJumping      = true;
-		isCrouching    = false;
 		isPunching     = false;
-		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 	else if( isPunching )
@@ -284,8 +256,6 @@ int Demon::UpdatePlayer()
 		isPunching     = true;
 		isKicking      = false;
 		isJumping      = false;
-		isCrouching    = false;
-		CrouchFireBall = false;
 		TriangleAttack = false;
 	}
 	else if( FireBall )
@@ -293,25 +263,13 @@ int Demon::UpdatePlayer()
 		isPunching     = false;
 		isKicking      = true;
 		isJumping      = false;
-		isCrouching    = false;
-		CrouchFireBall = false;
   		TriangleAttack = false;
-	}
-	else if( CrouchFire )
-	{
-		isJumping      = false;
-		isKicking      = true;
-		isJumping      = false;
-		isCrouching    = true;
-		TriangleAttack = false;
 	}
 	else if( Triangle )
 	{
 		isPunching     = false;
 		isKicking      = false;
 		isJumping      = false;
-		isCrouching    = false;
-		CrouchFireBall = false;
 		TriangleAttack = true;
 	}
 
@@ -553,7 +511,7 @@ int Demon::UpdatePlayer()
 		}
 	}
 
-	if( isJumping || isPunching || isCrouching || isKicking || isMovingLeft || isMovingRight || FireBall || CrouchFireBall || TriangleAttack || Triangle )
+	if( isJumping || isPunching || isKicking || isMovingLeft || isMovingRight || FireBall || TriangleAttack || Triangle )
 	{
 		if(!demon.isJumping)
 		{
@@ -561,91 +519,11 @@ int Demon::UpdatePlayer()
 			demon.isJumping = false;
 		}
 	// checks which sprites to use
-		if( isJumping || isPunching || isCrouching || demon.isKicking || FireBall || CrouchFireBall || TriangleAttack || Triangle )
+		if( isJumping || isPunching || demon.isKicking || FireBall || TriangleAttack || Triangle )
 		{
-			// Crouching kick action
-			if( isCrouching == true && isKicking == true )
-			{
-				CrouchFire = true;
-				isCrouching = false;
-				isKicking = false;
-
-				if( Right )
-				{
-					if( CrouchRightFire == 17 )
-					{
-						CrouchRightFire = 14;
-						CrouchFire = false;
-						demon.isCrouching = true;
-					}
-					else if( CrouchRightFire == 16 )
-					{
-						Control_OBJ.List_FireBalls.push_back( Control_OBJ.CreateFireBall( demon.xPos + 40, demon.yPos + 55, gamestate.m_srfDemonHealthAndFire, Right, Left ) );
-						CrouchRightFire++;
-					}
-					else
-					{
-						CrouchRightFire++;
-					}
-					return CrouchRightFire;
-				}
-				else
-				{
-					if( CrouchLeftFire == 38 )
-					{
-						CrouchLeftFire = 35;
-						CrouchFire = false;
-						demon.isCrouching = true;
-						
-					}
-					else if( CrouchLeftFire == 37 )
-					{
-						Control_OBJ.List_FireBalls.push_back(	Control_OBJ.CreateFireBall( demon.xPos - 40, 
-																demon.yPos + 55, gamestate.m_srfDemonHealthAndFire, 
-																Right, Left ) );
-						CrouchLeftFire++;
-					}
-					else
-					{
-						CrouchLeftFire++;
-					}
-					return CrouchLeftFire;
-				}
-			}
-			else if( isCrouching )
-			{
-
-				if( Right )
-				{
-					if( demon.SmallHunter )
-					{
-						CrouchRight = 19;
-						return CrouchRight;
-					}
-					else
-					{
-						CrouchRight = 14;
-						return CrouchRight;
-					}
-				}
-				else if( Left )
-				{
-					if( demon.SmallHunter )
-					{
-						CrouchLeft = 41;
-						return CrouchLeft;
-					}
-					else
-					{
-						CrouchLeft = 35;
-						return CrouchLeft;
-					}
-				}
-			}
-
 			// checks if demon is kicking if animation pace is higher than 150
 			// continue to check2, play the animation 3 times for a full kick
-			else if( isKicking )
+			if( isKicking )
 			{
 				if( demon.SmallHunter )
 				{

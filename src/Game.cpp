@@ -97,7 +97,6 @@ void Game::Handle_events( SDL_Event input )
 			}
 		case SDLK_DOWN:
 			{
-				demon.isCrouching = false;
 				break;
 			}
 		case SDLK_SPACE:
@@ -131,8 +130,7 @@ void Game::Handle_events( SDL_Event input )
 			{
 				demon.SetState(Demon::State::MOVING_RIGHT);
 				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isCrouching == false && demon.isKicking == false 
-					&& demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+					demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{	
 					demon.isMovingRight = true;
 				}
@@ -142,8 +140,7 @@ void Game::Handle_events( SDL_Event input )
 			{
 				demon.SetState(Demon::State::MOVING_LEFT);
 				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isCrouching == false && demon.isKicking == false 
-					&& demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+					demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{
 					demon.isMovingLeft = true;
 				}
@@ -158,7 +155,7 @@ void Game::Handle_events( SDL_Event input )
 				}
 
 				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isCrouching == false && demon.isPunching == false 
+					demon.isPunching == false 
 					&& demon.isKicking == false && demon.isJumping == false 
 					&& demon.yPos == GROUND_Y )
 				{
@@ -168,13 +165,6 @@ void Game::Handle_events( SDL_Event input )
 			}
 		case SDLK_DOWN:
 			{
-				demon.SetState(demon.CROUCHING);
-				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isJumping == false && demon.isKicking == false && demon.isPunching == false 
-					&& demon.isMovingLeft == false && demon.isMovingRight == false )
-				{
-					demon.isCrouching = true;
-				}
 				break;
 			}
 		case SDLK_SPACE:
@@ -575,7 +565,6 @@ void Gamestate::MorphMyDude()
 	demon.DemonHunter = true;
 	demon.isJumping = false;
 	demon.isPunching = false;
-	demon.isCrouching = false;
 	demon.isKicking = false;
 	//demon.Crouch = false;
 	//demon.Kick = false;
@@ -584,7 +573,6 @@ void Gamestate::MorphMyDude()
 	demon.isMovingLeft = false;
 	demon.isMovingRight = false;
 	demon.FireBall = false;
-	demon.CrouchFireBall = false;
 }
 
 // ----------------------------------------------------------------------------
@@ -680,10 +668,8 @@ void Gamestate::ResetPlayer()
 	demon.isMovingRight = false;
 	demon.isMovingLeft = false;
 	demon.isJumping = false;
-	demon.isCrouching = false;
 	demon.isKicking = false;
 	demon.isPunching = false;
-	demon.CrouchFireBall = false;
 	demon.Right = false;
 	demon.Left = false;
 	demon.isImmortal = false;
@@ -703,12 +689,7 @@ void Gamestate::ResetPlayer()
 
 	demon.Demon_Dead = false;
 
-	//demon.Crouch = false;
-	//demon.Kick = false; 
-	//demon.Jump = false;
-	//demon.Punch = false;
 	demon.FireBall = false;
-	demon.CrouchFire = false;
 	demon.TriangleAttack = false;
 	demon.Triangle = false;
 	demon.isGettingUp = false;
@@ -719,8 +700,6 @@ void Gamestate::ResetPlayer()
 	demon.WhereWalkRight = 0;
 	demon.WhereJumpLeft = 35;
 	demon.WhereJumpRight = 12;
-	demon.CrouchRight = 19;
-	demon.CrouchLeft = 41;
 	demon.PunchRight = 8; 
 	demon.PunchLeft = 31;
 
@@ -730,8 +709,6 @@ void Gamestate::ResetPlayer()
 	demon.FireBallLeft_Demon = 30;
 	demon.JumpRight_Demon = 5;
 	demon.JumpLeft_Demon = 26;
-	demon.CrouchRightFire = 14;
-	demon.CrouchLeftFire = 35;
 	demon.FireBallRight = 39;
 	demon.FireBallLeft = 42;
 
@@ -905,14 +882,9 @@ void Gamestate::PlayOutro()
 {	
 	demon.isKicking = false;
 	demon.isJumping = false;
-	demon.isCrouching = false;
 	demon.isPunching = false;
-	demon.CrouchFireBall = false;
 	demon.TriangleAttack = false;
 	demon.isMovingRight = true;
-	//demon.Crouch = false;
-	demon.CrouchFire = false;
-	demon.CrouchFireBall = false;
 
 	demon.UpdatePlayer();
 
