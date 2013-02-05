@@ -743,10 +743,6 @@ void Gamestate::ResetPlayer()
 // ----------------------------------------------------------------------------
 void Game::upDate( SDL_Event input )
 {
-	gamestate.LevelProgress++;
-	cout << gamestate.LevelProgress << endl;
-	demon.UpdateEndPosition();
-
 	if( demon.isImmortal )
 	{
 		//start countdown to vulnerability
@@ -808,6 +804,10 @@ void Game::upDate( SDL_Event input )
 		// Level1 Loop
 		case GS_LEVEL1:
 			{
+				gamestate.LevelProgress++;
+				cout << gamestate.LevelProgress << endl;
+				demon.UpdateEndPosition();
+
 				if( Audio.MusicPaused == true )
 				{
 					Audio.UnpauseMusic();
