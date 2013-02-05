@@ -23,7 +23,7 @@ public:
 	bool CollisionBox( Demon *MyDemon, CEnemy *MyEnemy, bool Show );
 	bool CollisionPixel( Demon *MyDemon, CEnemy *MyEnemy );
 
-	bool CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichCollisionToUse );
+	bool CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichCollisionToUse, Demon *MyDemon );
 	bool CheckCollisionWithPlayer( PowerUp *TransForm, int WhichCollisionToUse );
 
 	void Circle( long centerx, long centery, long radius );

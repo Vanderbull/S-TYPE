@@ -12,17 +12,17 @@ Control_Enemies Control_ENEMY;
 
 CZombie::CZombie()
 {
-	CZombie::Speed = 100;
+	CZombie::Speed = 3;
 }
 
 CSkeleton::CSkeleton()
 {
-	CSkeleton::Speed = 100;
+	CSkeleton::Speed = 3;
 }
 
 CEnemy::CEnemy()
 {
-	CEnemy::Speed = 100;
+	CEnemy::Speed = 3;
 	memset(ZombieClips, 0, sizeof(ZombieClips));
 	memset(SkeletonClips, 0, sizeof(SkeletonClips));
 }
@@ -576,6 +576,7 @@ void Control_Enemies::Update()
 	i = Enemies.begin();
 	while(i != Enemies.end() )
 	{
+		(*i)->Update();
 		if( (*i)->xPos <= 200 )
 		{
 			i = Enemies.erase(i);
@@ -599,11 +600,11 @@ void Control_Enemies::Draw_Enemies()
 		for( ; i != Enemies.end(); ++i )
 		{
 				// Check to see if collision occurs and if demon is in any kind of attack state
-				CEnemy * enemy = (*i);
+				//CEnemy * enemy = (*i);
 
 				// checks collision with player using circlecollision
 				//Collide = CollisionController.CheckCollisionWithPlayer( enemy, 1 );
-				Collide = CollisionController.CheckCollisionWithPlayer( (*i), 1);
+				Collide = CollisionController.CheckCollisionWithPlayer( (*i), 1, &demon);
 
 				//Attack = demon.IsInStateAttack();
 				
@@ -630,7 +631,9 @@ void Control_Enemies::Draw_Enemies()
 				}
 				else if( Collide == true )
 				{
-					if( enemy->Surface == 8 )
+					demon.xPos -=100;
+
+					if( (*i)->Surface == 8 )
 					{
 						timer.Timer_Hit++;
 						demon.Demon_Health -= 50;
@@ -640,7 +643,7 @@ void Control_Enemies::Draw_Enemies()
 							timer.Timer_Hit = 0;
 							demon.isHit = true;
 						}
-						enemy->Attack = true;
+						(*i)->Attack = true;
 
 					}
 					else
@@ -656,13 +659,13 @@ void Control_Enemies::Draw_Enemies()
 						}	
 					}		
 				}
-				if( enemy->Frame == 18 || enemy->Frame == 46 )
+				if( (*i)->Frame == 18 || (*i)->Frame == 46 )
 				{
 					(*i)->Attack = false;
 					(*i)->Walk = true;
 				}
 
-				SDL_Rect EnemyDest = {	enemy->xPos, enemy->yPos, 
+				SDL_Rect EnemyDest = {	(*i)->xPos, (*i)->yPos, 
 										gamestate.GetSurface( ZOMBIE )->w, 
 										gamestate.GetSurface( ZOMBIE )->h }; 
 
@@ -673,65 +676,25 @@ void Control_Enemies::Draw_Enemies()
 				}
 				else
 				{
-					if( enemy->Surface == ZOMBIE )
+					if( (*i)->Surface == ZOMBIE )
 					{
 						if( Collide == false )
 						{
-							enemy->xPos -= 3;
+							(*i)->xPos -= (*i)->Speed;
 						}
 						
-						SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ),&enemy->ZombieClips[0], 
+						SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->ZombieClips[0], 
 											gamestate.BackBuffer, &EnemyDest );
 					}
-					else if( enemy->Surface == SKELETON )
+					else if( (*i)->Surface == SKELETON )
 					{
-						if( gamestate.OK_PaceEnemy() )
+						if( Collide == false )
 						{
-							if( enemy->Die == false )
-							{
-								if( Collide == false )
-								{
-									enemy->xPos -= enemy->Speed;
-									/*
-									if( enemy->LeftOf_Demon )
-									{
-										enemy->xPos += speed;
-									}
-									else
-									{
-										enemy->xPos -= speed;
-									}
-									*/
-								}
-							
-/*
-							SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
-												gamestate.BackBuffer, &EnemyDest );*/
-							enemy->SetFrame();
-							//enemy->PrevFrame = enemy->Frame;
-							}
-							else
-							{
-								if( demon.isMovingLeft && demon.xVelocity >= gamestate.SCREEN_WIDTH - 350 )
-								{
-									enemy->xPos += enemy->Speed;
-								}
-								else if( demon.isMovingRight )
-								{
-									enemy->xPos -= enemy->Speed;
-								}
-
-								SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->Frame ],
-												gamestate.BackBuffer, &EnemyDest );
-								enemy->SetFrame();
-								//enemy->PrevFrame = enemy->Frame;
-							}
+							(*i)->xPos -= (*i)->Speed;
 						}
-						else
-						{
-							SDL_BlitSurface(	gamestate.GetSurface( enemy->Surface ), &enemy->SkeletonClips[ 0 ][ enemy->PrevFrame ],
-												gamestate.BackBuffer, &EnemyDest );
-						}
+						
+						SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ), &(*i)->SkeletonClips[ 0 ][ 0 ],
+											gamestate.BackBuffer, &EnemyDest );
 					}
 				}
 		}
@@ -783,12 +746,6 @@ CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	}
 	else if( temp->Surface == SKELETON )
 	{
-		if( temp->xPos <= demon.xPos )
-		{
-			temp->LeftOf_Demon = true;
-		}
-
-		temp->RightOf_Demon = true;
 		temp->Radius = ( Width > Height ) ? Width / 2 : Height / 2;
 		temp->Set_Clips( ENEMY_SKELETON );
 	}
@@ -798,7 +755,13 @@ CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 
 void Control_Enemies::Create_Enemies()
 {
-	
+	if( rand() % 350 == 2)
+		Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, ZOMBIE ) );
+	if( rand() % 500 == 2)
+		Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, SKELETON ) );
+	if( rand() % 1000 == 2)
+		Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, SKULL ) );
+	/*
 	if( demon.WhereIsEnd > 200 )
 	{
 		if( rand() % 40 == 2 &&  timer.AttackTimer_Zombie >= 35 )
@@ -831,6 +794,7 @@ void Control_Enemies::Create_Enemies()
 		}
 		timer.AttackTimer_Head++;
 	}
+	*/
 }
 
 Control_Enemies::Control_Enemies()

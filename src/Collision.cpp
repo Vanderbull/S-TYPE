@@ -6,7 +6,7 @@
 ControlCollision CollisionController;
 
 // checks collision
-bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Show = true )
 {
 	// Cache
 	double	dx = ( ( MyDemon->xPos + DEMONWIDTHREAL / 2 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
@@ -159,7 +159,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Sh
 }
 
 // checks collision
-bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool Show = true)
 {
 	if( demon.Triangle == true || demon.TriangleAttack == true && demon.isMovingLeft == true )
 	{
@@ -272,7 +272,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool S
 }
 
 // checks collision
-bool ControlCollision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show = true )
 {
 	// Cache
 	double	dx =	( ( MyDemon->xPos + DEMONWIDTHREAL / 2 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 100 ) ),
@@ -343,7 +343,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show 
 }
 
 // checks collision
-bool ControlCollision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool Show )
+bool ControlCollision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool Show = true)
 {
 	// Cache
 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( My_boss->xPos + My_boss->BossWidth / 2 + 100 ) ),
@@ -372,7 +372,7 @@ bool ControlCollision::CollisionCircle( FireBall *MyFire, Boss *My_boss, bool Sh
 
 
 // checks collision
-bool ControlCollision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool Show )
+bool ControlCollision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool Show = true )
 {
 	// Cache
  	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 ) ),
@@ -396,7 +396,7 @@ bool ControlCollision::CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool
 }
 
 // checks collision
-bool ControlCollision::CollisionCircle( FireBall *MyFire, CEnemy * MyEnemy, bool Show )
+bool ControlCollision::CollisionCircle( FireBall *MyFire, CEnemy * MyEnemy, bool Show = true)
 {
 	// Cache
 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
@@ -420,7 +420,7 @@ bool ControlCollision::CollisionCircle( FireBall *MyFire, CEnemy * MyEnemy, bool
 }
 
 // checks collision
-bool ControlCollision::CollisionCircle( Demon *MyDemon, PowerUp *TransForm, bool Show )
+bool ControlCollision::CollisionCircle( Demon *MyDemon, PowerUp *TransForm, bool Show = true)
 {
 	// Cache
 	double	dx = ( ( MyDemon->xPos + DEMONWIDTHREAL / 2 - 10 ) - ( TransForm->xPos + TransForm->Width / 2 ) ),
@@ -517,10 +517,14 @@ void ControlCollision::SetPixelMine( int xPos, int yPos  )
 // ----------------------------------------------------------------------------
 // ChecksCollision - test if any collision occurs
 // ----------------------------------------------------------------------------
-bool ControlCollision::CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichCollisionToUse )
+bool ControlCollision::CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichCollisionToUse, Demon *MyDemon )
 {
 	bool temp = false;
 
+	return CollisionBox( &demon, MyEnemy, true );
+
+	return false;
+	/*
 	if( MyEnemy->xPos - demon.xPos >= 150 )
 	{
 		return temp;
@@ -541,35 +545,44 @@ bool ControlCollision::CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichColli
 	}
 
 	return temp;
+	*/
 }
 
 // ----------------------------------------------------------------------------
 // CheckBoxCollision - test if box collision occurs
 // ----------------------------------------------------------------------------
-bool ControlCollision::CollisionBox( Demon *MyDemon, CEnemy *MyEnemy, bool Show )
+bool ControlCollision::CollisionBox( Demon *MyDemon, CEnemy *MyEnemy, bool Show = true)
 {
-    int left1, left2;
+	SDL_Rect DemonCollisionBox = MyDemon->GetPosition();
+	DemonCollisionBox.w += 10;
+	SDL_Rect EnemyCollisionBox = MyEnemy->GetPosition();
+	SDL_FillRect(gamestate.BackBuffer, &DemonCollisionBox, 0xFFFFFF);
+	SDL_FillRect(gamestate.BackBuffer, &EnemyCollisionBox, 0xFFFFFF);
+ /*
+	int left1, left2;
     int right1, right2;
     int top1, top2;
     int bottom1, bottom2;
 
-	left1 = MyDemon->xPos - 10;
+  	left1 = MyDemon->xPos - 10;
 	left2 = MyEnemy->xPos;
 	right1 = MyDemon->xPos + MyDemon->Demon_Width - 10;
 	right2 = MyEnemy->xPos + MyEnemy->Width;
 	top1 = MyDemon->yPos;
     top2 = MyEnemy->yPos;
 	bottom1 = MyDemon->yPos + MyDemon->Demon_Height;
-	bottom2 = MyEnemy->yPos + MyEnemy->Height;
+   	bottom2 = MyEnemy->yPos + MyEnemy->Height;
 
     if ( bottom1 < top2 ) return false;
     if ( top1 > bottom2 ) return false;
 
     if ( right1 < left2 ) return false;
     if ( left1 > right2 ) return false;
-
-    return true;
-
+*/
+	if( EnemyCollisionBox.x < (DemonCollisionBox.x + DemonCollisionBox.w) )
+		return true;
+	else
+		return false;
 };
 
 bool ControlCollision::CollisionPixel( Demon *MyDemon, CEnemy *MyEnemy )

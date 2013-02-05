@@ -86,6 +86,19 @@ public:
 	CEnemy();
 	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
 	void SetFrame();
+	
+	// New update functionality
+	SDL_Rect GetPosition()
+	{
+		return CEnemy::_Position;
+	}
+	void Update()
+	{
+		CEnemy::_Position.x = CEnemy::xPos;
+		CEnemy::_Position.y = CEnemy::yPos;
+		CEnemy::_Position.w = CEnemy::Width;
+		CEnemy::_Position.h = CEnemy::Height;
+	}
 
 	//int xPos, yPos;
 	//int Width, Height;
@@ -103,6 +116,7 @@ public:
 	SDL_Rect ZombieClips[ 10 ];
 
 private:
+		SDL_Rect _Position;
 };
 
 class Heads : public MovingThings
