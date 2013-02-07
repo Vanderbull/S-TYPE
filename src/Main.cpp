@@ -17,7 +17,7 @@ bool Quit = false;
 
 int main( int argc, char * arg[] )
 {
-	SDL_Event event;
+	SDL_Event event = {0};
 	ConfigFile cfg("config.cfg");
 
 	bool exists = false;
@@ -58,20 +58,29 @@ int main( int argc, char * arg[] )
 		{
 			Quit = true;
 		}		
-
-
+		
 		while( SDL_PollEvent( &event ) )
-		{		
-			if( event.type == SDL_QUIT  )
+		{
+			            //If a key was pressed
+            if( event.type == SDL_KEYDOWN )
+            {
+                //Set the proper message surface
+                switch( event.key.keysym.sym )
+                {
+                    case SDLK_UP: cout << "UP UP AND AWAY" << endl; break;
+                    case SDLK_DOWN: cout << "UP UP AND AWAY" << endl; break;
+                    case SDLK_LEFT: cout << "UP UP AND AWAY" << endl; break;
+                    case SDLK_RIGHT: cout << "UP UP AND AWAY" << endl; break;
+                }
+            }
+            
+			//If the user has Xed out the window
+		else if( event.type == SDL_QUIT  )
 			{
 				Quit = true;
 			}
-			else if( ( event.type == SDL_KEYDOWN ) && ( event.key.keysym.sym == SDLK_ESCAPE ) )
-			{
-				//quit the program
-				gamestate.GameCondition = GS_INTRO;
-			}
 		}		
+		
 		
 		CurTick = SDL_GetTicks();
 		gamestate.dt = float(CurTick - PrevTick);

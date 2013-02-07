@@ -24,13 +24,10 @@
 #include "OutroFinish.h"
 #include "GetInput.h"
 
-// @date 2012-08-07
-
 Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
-
 	cout << "Initializing Gamestate" << endl;
 	SCREEN_HEIGHT = 600;
 	SCREEN_WIDTH = 800;
@@ -82,30 +79,39 @@ void Game::Handle_events( SDL_Event input )
 		{
 		case SDLK_RIGHT:
 			{
+				demon.SetState(Demon::State::IDLE);
+				cout << "Released the RIGHT arrow key" << endl;
 				demon.isMovingRight = false;
-				break;
-			}
+				demon.isMovingLeft = false;
+			} break;
 		case SDLK_LEFT:
 			{
+				demon.SetState(Demon::State::IDLE);
+				cout << "Released the LEFT arrow key" << endl;
+				demon.isMovingRight = false;
 				demon.isMovingLeft = false;
-				break;
-			}
+			} break;
 		case SDLK_UP:
 			{
+				demon.SetState(Demon::State::IDLE);
+				cout << "Released the UP arrow key" << endl;
 				demon.isJumping = false;
-				break;
-			}
+			} break;
 		case SDLK_DOWN:
 			{
-				break;
-			}
+				demon.SetState(Demon::State::IDLE);
+				cout << "Release the DOWN arrow key" << endl;
+			} break;
 		case SDLK_SPACE:
 			{
+				demon.SetState(Demon::State::IDLE);
+				cout << "Released SPACEBAR key" << endl;
 				demon.isKicking = false;
-				break;
-			}
+			} break;
 		case SDLK_LALT:
 			{
+				demon.SetState(Demon::State::IDLE);
+				cout << "Released the LEFT ALT key" << endl;
 				if( demon.SmallHunter )
 				{
 					demon.isPunching = false;
@@ -114,12 +120,7 @@ void Game::Handle_events( SDL_Event input )
 				{
 					demon.TriangleAttack = false;
 				}
-				break;
-			}
-		default:
-			{
-				break;
-			}
+			} break;
 		}
 	}
 	else if( input.type == SDL_KEYDOWN )
@@ -128,26 +129,27 @@ void Game::Handle_events( SDL_Event input )
 		{
 		case SDLK_RIGHT:
 			{
+				cout << "Pressing down right arrow" << endl;
 				demon.SetState(Demon::State::MOVING_RIGHT);
 				if( demon.isHit == false && demon.DieOneLife == false && 
 					demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{	
 					demon.isMovingRight = true;
 				}
-				break;
-			}
+			} break;
 		case SDLK_LEFT:
 			{
+				cout << "Pressing down left arrow" << endl;
 				demon.SetState(Demon::State::MOVING_LEFT);
 				if( demon.isHit == false && demon.DieOneLife == false && 
 					demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{
 					demon.isMovingLeft = true;
 				}
-				break;
-			}
+			} break;
 		case SDLK_UP:
 			{
+				cout << "Pressing down up arrow" << endl;
 				if( !demon.isJumping )
 				{
 					demon.JumpingSpeed = 20;
@@ -161,14 +163,14 @@ void Game::Handle_events( SDL_Event input )
 				{
 					demon.isJumping = true;
 				}
-				break;
-			}
+			} break;
 		case SDLK_DOWN:
 			{
-				break;
-			}
+					cout << "Pressing down down arrow" << endl;
+			} break;
 		case SDLK_SPACE:
 			{
+				cout << "Pressing down spacebar arrow" << endl;
 				demon.SetState(Demon::State::KICKING);
 				if( demon.isHit == false && demon.DieOneLife == false && 
 					demon.isPunching == false  
@@ -192,10 +194,10 @@ void Game::Handle_events( SDL_Event input )
 											
 					break;
 				}
-				break;
-			}
+			} break;
 		case SDLK_LALT:
 			{
+				cout << "Pressing down lalt arrow" << endl;
 				demon.SetState(Demon::State::PUNCHING);
 				if( demon.isHit == false && demon.DieOneLife == false && 
 					demon.isPunching == false 
@@ -218,22 +220,17 @@ void Game::Handle_events( SDL_Event input )
 
 					}
 				}
-				break;
-			}
-		default:
-			{
-				break;
-			}
+			} break;
 		}
 	}
 	else
 	{
+		cout << "no key presses or releases are made" << endl;
 		demon.SetState(Demon::State::IDLE);
 	}
 	// if intro checks mouseposition and checks for presses
 	if( gamestate.GameCondition == GS_INTRO )
 	{
-		// checks for mouseMotion
 		if( input.type == SDL_MOUSEMOTION || input.type == SDL_MOUSEBUTTONDOWN )
 		{
 			int x, y;
