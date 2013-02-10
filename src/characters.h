@@ -50,7 +50,6 @@ public:
 	void Set_clips();
 	void UpdateEndPosition();
 	int  UpdatePlayer();
-	void UpdateXPos();
 	bool IsInStateAttack();
 	bool CheckBoundaries();
 	bool Alive();
@@ -70,14 +69,12 @@ public:
 	bool isHit;
 	bool isImmortal;
 
-	bool TriangleAttack;
-
 	bool LifeFull_Small;
 	bool LifeMedium_Small;
 	bool LifeLittle_Small;
 
 	//bool Crouch, Jump, Punch, FireBall, CrouchFire, Triangle;
-	bool FireBall, Triangle;
+	//bool FireBall;
 
 	bool DieOneLife, Demon_Dead;
 	
@@ -90,6 +87,8 @@ public:
 	int LastEnd_Pos;
 	int Score;
 	int JumpingSpeed;
+	int JumpingVelocity;
+	int JumpingGravity;
 	//int xPosHotSpot;
 
 	int AlphaImmortal;
@@ -101,7 +100,7 @@ public:
 	int WhichFrame;
 	int WhereAnimation;
 	int WhereIsEnd;
-	int DieState, TriangleState;
+	int DieState;
 
 	int WhereWalkRight, WhereWalkLeft;
 	int WhereJumpLeft, WhereJumpRight;

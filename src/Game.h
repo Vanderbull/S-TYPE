@@ -27,6 +27,7 @@ enum{	GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO,
 		GS_LOADING, GS_INTROSTORY, GS_MORPH, GS_DEAD, GS_ENTERNAME };
 enum{ BOSS_IDLE, BOSS_ATTACK, BOSS_DIE };
 enum{ HEAD_GO, HEAD_DOWN, HEAD_CRASH };
+enum{ BUTTON_NEW_GAME, BUTTON_OPTIONS, BUTTON_QUIT };
 
 const int MAX_SURFACE = 128;
 const int ANIMPACE = 150;
@@ -108,6 +109,9 @@ public:
 	void setUpParallaxLayers();
 	void load_files();
 
+	// Key Mapping trial
+	void KeyMapping(SDL_Event _event);
+
 	void FLIP();
 	SDL_Surface * GetSurface( int WhichSurface );
 
@@ -140,8 +144,6 @@ public:
 	FillHighScore * ListHighScore;
 	DancingDragon * Dragon;
 	FirstScreen * TitleScreen;
-
-	
 
 	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
 		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 

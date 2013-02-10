@@ -64,68 +64,77 @@ Gamestate::Gamestate()
 	// Loading files
 
 }
+void Gamestate::KeyMapping(SDL_Event _event)
+{
 
-void Game::Handle_events( SDL_Event input )
+bool KEYS[322];  // 322 is the number of SDLK_DOWN events
+
+
+for(int i = 0; i < 322; i++) { // init them all to false
+   KEYS[i] = false;
+}
+
+SDL_EnableKeyRepeat(0,0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
+
+	if( demon.GetState() == Demon::State::MOVING_RIGHT)
+		cout << "DO DA MOVA MOVA!!!!!" << endl;
+
+	            switch (_event.type) {
+					// check for keypresses
+            case SDL_KEYDOWN:
+                KEYS[_event.key.keysym.sym] = true;
+                break;
+            case SDL_KEYUP:
+                KEYS[_event.key.keysym.sym] = false;
+                break;
+					}
+      
+}
+
+void Game::Handle_events( SDL_Event _event )
 {	
-	// checks input for keypresses and releases, sets the appropriate settings for
-	// the player updating his animations and attacks
+	// What the blip are these???
+	//timer.Timer_FireBall++;
+	//timer.Timer_TriangleAttackOK++;
 
-	timer.Timer_FireBall++;
-	timer.Timer_TriangleAttackOK++;
-
-	if( input.type == SDL_KEYUP )
+	if( _event.type == SDL_KEYUP )
 	{
-		switch( input.key.keysym.sym )
+		demon.SetState(Demon::State::IDLE);
+
+		switch( _event.key.keysym.sym )		
 		{
 		case SDLK_RIGHT:
 			{
-				demon.SetState(Demon::State::IDLE);
 				cout << "Released the RIGHT arrow key" << endl;
 				demon.isMovingRight = false;
 				demon.isMovingLeft = false;
 			} break;
 		case SDLK_LEFT:
 			{
-				demon.SetState(Demon::State::IDLE);
 				cout << "Released the LEFT arrow key" << endl;
 				demon.isMovingRight = false;
 				demon.isMovingLeft = false;
 			} break;
 		case SDLK_UP:
 			{
-				demon.SetState(Demon::State::IDLE);
 				cout << "Released the UP arrow key" << endl;
 				demon.isJumping = false;
 			} break;
-		case SDLK_DOWN:
-			{
-				demon.SetState(Demon::State::IDLE);
-				cout << "Release the DOWN arrow key" << endl;
-			} break;
 		case SDLK_SPACE:
 			{
-				demon.SetState(Demon::State::IDLE);
 				cout << "Released SPACEBAR key" << endl;
 				demon.isKicking = false;
 			} break;
 		case SDLK_LALT:
 			{
-				demon.SetState(Demon::State::IDLE);
 				cout << "Released the LEFT ALT key" << endl;
-				if( demon.SmallHunter )
-				{
-					demon.isPunching = false;
-				}
-				else
-				{
-					demon.TriangleAttack = false;
-				}
+				demon.isPunching = false;
 			} break;
 		}
 	}
-	else if( input.type == SDL_KEYDOWN )
+	else if( _event.type == SDL_KEYDOWN )
 	{
-		switch( input.key.keysym.sym )
+		switch( _event.key.keysym.sym )
 		{
 		case SDLK_RIGHT:
 			{
@@ -152,7 +161,7 @@ void Game::Handle_events( SDL_Event input )
 				cout << "Pressing down up arrow" << endl;
 				if( !demon.isJumping )
 				{
-					demon.JumpingSpeed = 20;
+					demon.JumpingSpeed = 150;
 					demon.SetState(Demon::State::JUMPING);
 				}
 
@@ -163,10 +172,6 @@ void Game::Handle_events( SDL_Event input )
 				{
 					demon.isJumping = true;
 				}
-			} break;
-		case SDLK_DOWN:
-			{
-					cout << "Pressing down down arrow" << endl;
 			} break;
 		case SDLK_SPACE:
 			{
@@ -202,7 +207,7 @@ void Game::Handle_events( SDL_Event input )
 				if( demon.isHit == false && demon.DieOneLife == false && 
 					demon.isPunching == false 
 				 && demon.isKicking == false && demon.isJumping == false && 
-				 demon.Triangle == false && demon.TriangleAttack == false && demon.yPos == GROUND_Y )
+				 demon.yPos == GROUND_Y )
 				{
 					if( demon.SmallHunter )
 					{ 
@@ -214,7 +219,6 @@ void Game::Handle_events( SDL_Event input )
 						if( timer.Timer_TriangleAttackOK > 15 )
 						{
 							timer.Timer_TriangleAttackOK = 0;
-							demon.TriangleAttack = true; 
 							Audio.PlaySoundEffect( SOUND_FIRE );
 						}
 
@@ -231,39 +235,30 @@ void Game::Handle_events( SDL_Event input )
 	// if intro checks mouseposition and checks for presses
 	if( gamestate.GameCondition == GS_INTRO )
 	{
-		if( input.type == SDL_MOUSEMOTION || input.type == SDL_MOUSEBUTTONDOWN )
+		if( _event.type == SDL_MOUSEMOTION || _event.type == SDL_MOUSEBUTTONDOWN )
 		{
-			int x, y;
-			x = input.button.x;
-			y = input.button.y;
-
 			// check if mouse is over something
 			if( gamestate.TitleScreen->ButtonOptions == true )
 			{
 				for( int i = 4; i < 8; i++ )
 				{
-					if( x > gamestate.TitleScreen->DestClips[ i ].x && 
-					x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
-					y > gamestate.TitleScreen->DestClips[ i ].y &&
-					y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+					if( _event.button.x > gamestate.TitleScreen->DestClips[ i ].x && 
+					_event.button.x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
+					_event.button.y > gamestate.TitleScreen->DestClips[ i ].y &&
+					_event.button.y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
 					
-					if( input.type == SDL_MOUSEBUTTONDOWN )
+					if( _event.type == SDL_MOUSEBUTTONDOWN )
 					{
 						switch( i )
 						{
-						case 4:
-							gamestate.TitleScreen->ButtonHighScore = true;
-							gamestate.CheckingHighScore = true;
-							break;
-						case 5:
-							gamestate.TitleScreen->ButtonCredits = true;
-							break;
-						case 6:
-							gamestate.TitleScreen->ButtonSound = true;
-							break;
-						case 7:
-							gamestate.TitleScreen->ButtonBack = true;
-							break;
+							case 4:
+							{
+									gamestate.TitleScreen->ButtonHighScore = true;
+									gamestate.CheckingHighScore = true;
+							} break;
+							case 5: gamestate.TitleScreen->ButtonCredits = true; break;
+							case 6: gamestate.TitleScreen->ButtonSound = true; break;
+							case 7: gamestate.TitleScreen->ButtonBack = true; break;
 
 						}
 					}
@@ -275,24 +270,25 @@ void Game::Handle_events( SDL_Event input )
 				// checks if musebutton is pressed at newgame, options or quit
 				for( int i = 0; i < 3; i++ )
 				{
-					if( x > gamestate.TitleScreen->DestClips[ i ].x && 
-						x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
-						y > gamestate.TitleScreen->DestClips[ i ].y &&
-						y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+					if( _event.button.x > gamestate.TitleScreen->DestClips[ i ].x && 
+						_event.button.x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
+						_event.button.y > gamestate.TitleScreen->DestClips[ i ].y &&
+						_event.button.y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
 					{
-						if( input.type == SDL_MOUSEBUTTONDOWN )
+						//hoovering effect
+						switch( i )
+						{
+							case BUTTON_NEW_GAME: cout << "Hoovering new game"; break;
+							case BUTTON_OPTIONS: break;
+							case BUTTON_QUIT: break;
+						}
+						if( _event.type == SDL_MOUSEBUTTONDOWN )
 						{
 							switch( i )
 							{
-							case 0:
-								gamestate.TitleScreen->ButtonNewgame = true;
-								break;
-							case 1:
-								gamestate.TitleScreen->ButtonOptions = true;
-								break;
-							case 2:
-								gamestate.TitleScreen->ButtonQuit = true;
-								break;
+								case BUTTON_NEW_GAME: gamestate.TitleScreen->ButtonNewgame = true; break;
+								case BUTTON_OPTIONS: gamestate.TitleScreen->ButtonOptions = true; break;
+								case BUTTON_QUIT: gamestate.TitleScreen->ButtonQuit = true; break;
 							}
 						}
 					}					
@@ -569,7 +565,6 @@ void Gamestate::MorphMyDude()
 	//demon.Jump = false;
 	demon.isMovingLeft = false;
 	demon.isMovingRight = false;
-	demon.FireBall = false;
 }
 
 // ----------------------------------------------------------------------------
@@ -686,9 +681,6 @@ void Gamestate::ResetPlayer()
 
 	demon.Demon_Dead = false;
 
-	demon.FireBall = false;
-	demon.TriangleAttack = false;
-	demon.Triangle = false;
 	demon.isGettingUp = false;
 
 	demon.KickRight = 5;
@@ -732,7 +724,6 @@ void Gamestate::ResetPlayer()
 	demon.Fist_H = 15;
 
 	demon.WhereIsEnd = 0;
-	demon.TriangleState = 0;
 }
 
 // ----------------------------------------------------------------------------
@@ -880,7 +871,6 @@ void Gamestate::PlayOutro()
 	demon.isKicking = false;
 	demon.isJumping = false;
 	demon.isPunching = false;
-	demon.TriangleAttack = false;
 	demon.isMovingRight = true;
 
 	demon.UpdatePlayer();

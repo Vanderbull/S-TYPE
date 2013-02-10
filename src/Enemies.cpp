@@ -239,11 +239,6 @@ void Boss::UpdateBoss()
 				//gamestate.Score += 10;
 				gamestate.boss->BossLife -= 50;
 
-				if( demon.Triangle )
-				{
-					demon.TriangleState = 1;
-				}
-
 				if( gamestate.boss->BossLife < 0 )
 				{
 					gamestate.boss->BossDead = true;

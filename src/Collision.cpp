@@ -20,51 +20,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Sh
 
 	if( demon.DemonHunter )
 	{
-		if( demon.Triangle == true || demon.TriangleAttack == true )
-		{
-			if( demon.Right == true )
-			{
-				// Cache
-				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 98 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 )+ 60 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
-				int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-				if( dist3 < MyDemon->Radius + MyEnemy->Radius )
-				{
-				return true;	// Yep, collision
-				}
 
-			}
-			else
-			{
-				// Cache
-				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 ) ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 65 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
-				int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-				if( dist3 < MyDemon->Radius + MyEnemy->Radius )
-				{
-					return true;	// Yep, collision
-				}
-			}
-		}
-			
-			// Cache
-			dx1 = ( ( ( MyDemon->xPos + demon.Feet_W / 2 )+ 15 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-			dy1 = ( ( ( MyDemon->yPos + demon.Feet_H / 2 ) + 80 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
-
-		if( Show )
-		{
-			if( demon.Triangle == true || demon.TriangleAttack == true )
-			{
-				if( demon.Right == true )
-				{
-					Circle( MyDemon->xPos + demon.Fist_W / 2 + 98, MyDemon->yPos + demon.Fist_H / 2 + 60, MyDemon->RadiusFeet );
-				}
-				else
-				{
-					Circle( MyDemon->xPos + demon.Fist_W / 2, MyDemon->yPos + demon.Fist_H / 2 + 65, MyDemon->RadiusFeet );
-				}
-			}
-		}
 	}
 	else
 	{
@@ -161,7 +117,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Sh
 // checks collision
 bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool Show = true)
 {
-	if( demon.Triangle == true || demon.TriangleAttack == true && demon.isMovingLeft == true )
+	if( demon.isMovingLeft == true )
 	{
 		// Cache
 		double	dx = ( ( MyDemon->xPos + DEMONWIDTHREAL / 2 + 70) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 + 18) ),
@@ -203,32 +159,10 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool S
 		double	dx2 = 0,
 				dy2 = 0;
 
-		if( demon.Triangle == true || demon.TriangleAttack == true )
-		{
-			if( demon.Right )
-			{
-				// Cache
-				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 88 ) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 + 18 ) ),
-				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 )+ 60 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 + 35 ) );
-			}
-			else
-			{
-				// Cache
-				dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 ) ) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 + 18 ) ),
-				dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 65 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 + 35 ) );
-			}
-
-			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-			// Do circles overlap?
-			if( dist3 < MyDemon->Radius + EnemyHead->Radius )	
-			{
-				return true;	// Yep, collision
-			}
-		}
 
 		if( Show )
 		{
-			if( demon.Triangle == true || demon.TriangleAttack == true && demon.isMovingLeft == true )
+			if( demon.isMovingLeft == true )
 			{
 				Circle( MyDemon->xPos + DEMONWIDTHREAL / 2 + 70, 
 						MyDemon->yPos + DEMONHEIGHTREAL / 2 + 45,
@@ -247,22 +181,6 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool S
 				Circle( MyDemon->xPos + DEMONWIDTHREAL / 2 + 5, 
 						MyDemon->yPos + DEMONHEIGHTREAL / 2 + 45,
 						MyDemon->Radius );
-			}
-
-			if( demon.Triangle == true || demon.TriangleAttack == true )
-			{
-				if( demon.Right )
-				{
-					Circle( MyDemon->xPos + demon.Fist_W / 2 + 98, 
-							MyDemon->yPos + demon.Fist_H / 2 + 60, 
-							MyDemon->RadiusFeet );
-				}
-				else
-				{
-					Circle( MyDemon->xPos + demon.Fist_W / 2 , 
-							MyDemon->yPos + demon.Fist_H / 2 + 65, 
-							MyDemon->RadiusFeet );
-				}
 			}
 		}
 	}
@@ -289,33 +207,17 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show 
 				dx3 = 0,
 				dy3 = 0;
 
-		if( demon.Triangle == true || demon.TriangleAttack == true && demon.Right == true )
-		{
-			// Cache
-			dx2 =	( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 98 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 100 ) ),
-			dy2 =	( ( ( MyDemon->yPos + demon.Fist_H / 2 )+ 60 ) - ( Myboss->yPos + Myboss->BossHeight / 2 - 30) );
-			dx3 =	( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 98 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 95 ) ),
-			dy3 =	( ( ( MyDemon->yPos + demon.Fist_H / 2 )+ 60 ) - ( Myboss->yPos + Myboss->BossHeight / 2 + 220 ) );
-		}
-		else
-		{
+
 			// Cache
 			dx2 = ( ( ( MyDemon->xPos + demon.Fist_W / 2 ) - 35) - ( Myboss->xPos + Myboss->BossWidth / 2 ) + 100 ),
 			dy2 = ( ( ( MyDemon->yPos + demon.Fist_H / 2 ) + 65 ) - ( Myboss->yPos + Myboss->BossHeight / 2 ) - 30 );
 			dx3 =	( ( ( MyDemon->xPos + demon.Fist_W / 2 )+ 35 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 95 ) ),
 			dy3 =	( ( ( MyDemon->yPos + demon.Fist_H / 2 )+ 65 ) - ( Myboss->yPos + Myboss->BossHeight / 2 + 220 ) );
-		}
+
 			
 		if( Show )
 		{
-			if( demon.Triangle == true || demon.TriangleAttack == true && demon.Right == true )
-			{
-				Circle( MyDemon->xPos + demon.Fist_W / 2 + 98, MyDemon->yPos + demon.Fist_H / 2 + 60, MyDemon->RadiusFeet );
-			}
-			else
-			{
 				Circle( MyDemon->xPos + demon.Fist_W / 2 - 35, MyDemon->yPos + demon.Fist_H / 2 + 65, MyDemon->RadiusFeet );
-			}
 		}
 
 		int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
