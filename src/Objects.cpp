@@ -548,6 +548,14 @@ void Control_Objects::DrawObjects()
 							gamestate.BackBuffer, &dstRect );
 	}
 
+	// x,y,w,h
+	SDL_Rect srfHealth = {384,0,192,64};
+	SDL_Rect Viewport_srfHealth = {0,0,192,64};
+
+	SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfHealth ), &srfHealth,
+					gamestate.BackBuffer, &Viewport_srfHealth );
+
+	// Remove the switch statement it is not needed WhichLifeToShow keeps track of the value
 	switch( WhichLifeToShow )
 	{
 	case 0:

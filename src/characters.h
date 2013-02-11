@@ -99,7 +99,6 @@ public:
 
 	int WhichFrame;
 	int WhereAnimation;
-	int WhereIsEnd;
 	int DieState;
 
 	int WhereWalkRight, WhereWalkLeft;

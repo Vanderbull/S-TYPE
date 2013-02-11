@@ -93,10 +93,6 @@ SDL_EnableKeyRepeat(0,0); // you can configure this how you want, but it makes i
 
 void Game::Handle_events( SDL_Event _event )
 {	
-	// What the blip are these???
-	//timer.Timer_FireBall++;
-	//timer.Timer_TriangleAttackOK++;
-
 	if( _event.type == SDL_KEYUP )
 	{
 		demon.SetState(Demon::State::IDLE);
@@ -225,6 +221,27 @@ void Game::Handle_events( SDL_Event _event )
 					}
 				}
 			} break;
+		case SDLK_BACKSPACE:
+			{
+				if( gamestate.PlayerName.length() != 0 )
+				{
+					gamestate.PlayerName.erase( gamestate.PlayerName.length() - 1 );
+				}
+			} break;
+		case SDLK_RETURN:
+			{
+				if( gamestate.GameCondition == GS_ENTERNAME )
+				{
+					gamestate.GameCondition = GS_INTROSTORY;
+				}
+			} break;
+		default:
+			{
+				if( gamestate.GameCondition == GS_ENTERNAME )
+				{
+					gamestate.PlayerName +=  _event.key.keysym.unicode;
+				}
+			}
 		}
 	}
 	else
@@ -388,6 +405,7 @@ void Gamestate::load_files()
 	m_srfReaper = Load_imageAlpha( "Graphics/srfReaper.png", 255, 255, 255 );
 	m_srfOutro = Load_imageAlpha( "Graphics/srfOutro.png", 255, 255, 255 );
 	m_srfButton = Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
+	m_srfHealth = Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 
 	gamestate.CreateNewThings();
 
@@ -722,8 +740,6 @@ void Gamestate::ResetPlayer()
 	demon.Feet_H = 10;
 	demon.Fist_W = 15;
 	demon.Fist_H = 15;
-
-	demon.WhereIsEnd = 0;
 }
 
 // ----------------------------------------------------------------------------
@@ -731,71 +747,54 @@ void Gamestate::ResetPlayer()
 // ----------------------------------------------------------------------------
 void Game::upDate( SDL_Event input )
 {
-	if( demon.isImmortal )
-	{
-		//start countdown to vulnerability
-		timer.Timer_Immortal++;
-		if( timer.Timer_Immortal > 120 )
-		{
-			timer.Timer_Immortal = 0;
-			demon.isImmortal = false;
-		}
-	}
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 	//if( demon.WhereIsEnd >= 5700 ) 
 	if( gamestate.LevelProgress >= 6100 )
 	{
 		gamestate.GameCondition = GS_LEVEL1BOSS;
-		demon.WhereIsEnd = 0;
 		//Audio.PlaySoundEffect( SOUND_BOSS );
 	}
 
-		// Check game state
+	// Check game state
 	switch( gamestate.GameCondition )
 	{
-
 		// Intro sequence
 		case GS_INTRO:
 			{
 				//Audio.PlayIntroSong();
-				Handle_events( input );
+				//Handle_events( input );
 				gamestate.MainScreen();
-				break;
-			}
+				gamestate.FLIP();
+			} break;
 		case GS_ENTERNAME:
 			{
 				//Audio.PlayIntroSong();
 				gamestate.EnterName();
-
-				break;
-			}	
+				gamestate.FLIP();
+			} break;	
 		case GS_INTROSTORY:
 			{
 				//Audio.PlayIntroSong();
 				gamestate.DoIntroTalk();
 				gamestate.FLIP();
-				break;
-			}
+			} break;
 		case GS_LOADING:
 			{
 				Audio.PauseMusic();
 				gamestate.Loading();
-				break;
-			}
+			} break;
 		case GS_MORPH:
 			{
 				Audio.PauseMusic();
 				gamestate.MorphMyDude();
-				break;
-			}
-
-		// Level1 Loop
+			} break;
 		case GS_LEVEL1:
 			{
 				gamestate.LevelProgress++;
 				cout << gamestate.LevelProgress << endl;
 				demon.UpdateEndPosition();
 
+				/*
 				if( Audio.MusicPaused == true )
 				{
 					Audio.UnpauseMusic();
@@ -805,9 +804,9 @@ void Game::upDate( SDL_Event input )
 				{
 					Audio.PlayMusic( 0 );
 				}
-
+				*/
 				// handles events what the user does with the character
-				Handle_events( input );
+				//Handle_events( input );
 				
 				//draws layers
 				gamestate.drawParallaxLayers();
@@ -817,9 +816,7 @@ void Game::upDate( SDL_Event input )
 				gamestate.DrawAllText();
 				
 				gamestate.FLIP();
-			
-				break;
-			}
+			} break;
 		case GS_LEVEL1BOSS:
 			{
 				if( Audio.MusicPaused == true )
@@ -828,7 +825,7 @@ void Game::upDate( SDL_Event input )
 				}
 
 				// handles events what the user does with the character
-				Handle_events( input );
+				//Handle_events( input );
 
 				//draws layers
 				gamestate.drawParallaxLayers();
@@ -842,23 +839,19 @@ void Game::upDate( SDL_Event input )
 				{
 					gamestate.GameCondition = GS_OUTRO;
 				}
-				break;
-			}
-
+			} break;
 		case GS_OUTRO:
 			{
-				Audio.PauseMusic();
-				Audio.PlayMusic( 2 );
+				//Audio.PauseMusic();
+				//Audio.PlayMusic( 2 );
 				gamestate.PlayOutro();
-				break;
-			}
+			} break;
 		case GS_DEAD:
 			{
-				Audio.PauseMusic();
-				Audio.PlaySoundEffect( SOUND_DIE );
+				//Audio.PauseMusic();
+				//Audio.PlaySoundEffect( SOUND_DIE );
 				gamestate.PlayerDied();
-				break;
-			}
+			} break;
 	}
 	
 }
@@ -1133,17 +1126,7 @@ void Gamestate::DrawAllText()
 	Audio.PauseMusic();
 	if( GameCondition == GS_INTROSTORY || GameCondition == GS_DEAD )
 	{
-		if( timer.Timer_Color > 2 )
-		{
-			timer.Timer_R += 20 + rand() % 100;
-			timer.Timer_G += ( rand() % 6 )* ( rand() % 40 ); 
-			timer.Timer_B += ( rand() % 10 ) * ( rand() * 20 );
-			timer.Timer_Color = 0;
-		}
-			timer.Timer_Color++;
-
-		//The color of the font
-		SDL_Color textColor = { timer.Timer_R, timer.Timer_G, timer.Timer_B };
+		SDL_Color textColor = { 255, 255, 255 };
 		SDL_Color textColor2 = { 0, 0, 0 };
 		
 		if( GameCondition == GS_DEAD )
@@ -1370,9 +1353,6 @@ void Gamestate::MainScreen()
 		TitleScreen->ButtonCredits = false;
 		TitleScreen->ButtonBack = false;
 	}
-	
-	// Render frame
-	gamestate.FLIP();
 }
 
 // ----------------------------------------------------------------------------
@@ -1380,6 +1360,20 @@ void Gamestate::MainScreen()
 // ----------------------------------------------------------------------------
 void Gamestate::EnterName()
 {
+	cout << "EnterName gamestate..." << endl;
+		SDL_Rect scRect = {	0, 0, 800, 600 };
+		SDL_Rect dtRect = {	0, 0, 800, 600 };
+		SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
+			SDL_Color textColor = { 0,0,0 };
+			SDL_Surface * srfEnter;
+			srfEnter = TTF_RenderText_Solid( font, gamestate.PlayerName.c_str(), textColor );
+		gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
+		//gamestate.name->show_centered();
+	if( gamestate.name->handle_input(  ) == false )
+	{
+		gamestate.GameCondition = GS_INTROSTORY;
+	}
+	/*
 	bool Name =  false;
 	SDL_Event input;
 	SDL_Color textColor = { 0,0,0 };
@@ -1391,22 +1385,8 @@ void Gamestate::EnterName()
 		SDL_Rect scRect = {	0, 0, 800, 600 };
 		SDL_Rect dtRect = {	0, 0, 800, 600 };
 		SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
-		gamestate.name->handle_input(  );
-		SDL_Delay(1000 / 60);
-		/*
-		if( timer.Timer_Name > 2 )
-		{
-			timer.Timer_Name = 0;
-			SDL_PollEvent( &input );	
-			if( ( input.type == SDL_KEYDOWN ) && ( input.key.keysym.sym == SDLK_RETURN ) )
-			{
-				Name = true;
-			}
-			//gamestate.DrawBackgroundBlack();
-			//gamestate.Loading();
-			//gamestate.name->handle_input( input );
-			//Sleep(100);
-		}*/
+		//gamestate.name->handle_input(  );
+		//SDL_Delay(1000 / 60);
 		timer.Timer_Name++;
 
 		
@@ -1421,6 +1401,7 @@ void Gamestate::EnterName()
 	}
 
 	gamestate.GameCondition = GS_INTROSTORY;
+	*/
 }
 
 void Gamestate::RestartGame()

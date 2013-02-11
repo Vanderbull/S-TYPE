@@ -61,32 +61,19 @@ int main( int argc, char * arg[] )
 		
 		while( SDL_PollEvent( &event ) )
 		{
-			            //If a key was pressed
-            if( event.type == SDL_KEYDOWN )
-            {
-                //Set the proper message surface
-                switch( event.key.keysym.sym )
-                {
-                    case SDLK_UP: cout << "UP UP AND AWAY" << endl; break;
-                    case SDLK_DOWN: cout << "UP UP AND AWAY" << endl; break;
-                    case SDLK_LEFT: cout << "UP UP AND AWAY" << endl; break;
-                    case SDLK_RIGHT: cout << "UP UP AND AWAY" << endl; break;
-                }
-            }
-            
-			//If the user has Xed out the window
-		else if( event.type == SDL_QUIT  )
+			New_Game.Handle_events( event );
+			if( event.type == SDL_QUIT  )
 			{
 				Quit = true;
 			}
 		}		
 		
-		
+		New_Game.upDate( event );
 		CurTick = SDL_GetTicks();
 		gamestate.dt = float(CurTick - PrevTick);
 		PrevTick = CurTick;
 		
-		New_Game.upDate( event );
+		
 
 	    //Cap the frame rate
         while( fps.get_ticks() < 1000 / FRAMES_PER_SECOND )

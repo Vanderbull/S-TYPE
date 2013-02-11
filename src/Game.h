@@ -148,7 +148,7 @@ public:
 	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
 		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
 		m_srfDemonLife, m_srfDemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
-		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro, m_srfButton;
+		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro, m_srfButton, m_srfHealth;
 
 	SDL_Surface * srfText;
 	SDL_Surface * textIntro;
@@ -157,6 +157,9 @@ public:
 
 	// Level progress counter
 	int LevelProgress;
+
+	// Player name
+	std::string PlayerName;
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];

@@ -79,7 +79,6 @@ Demon::Demon()
 	Fist_W           = 15;
 	Fist_H           = 15;
 
-	WhereIsEnd       = 0;
 	LastEnd_Pos      = 0;
 
 	demon.xVelocity = 15.0f;
@@ -106,9 +105,6 @@ Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 //What is end position and what is it used for???
 void Demon::UpdateEndPosition()
 {
-	//demon.WhereIsEnd += demon.xPosHotSpot - LastEnd_Pos;
-	//LastEnd_Pos = demon.xPosHotSpot;
-	demon.WhereIsEnd += gamestate.LevelProgress - LastEnd_Pos;
 	LastEnd_Pos = gamestate.LevelProgress;
 }
 
@@ -249,6 +245,7 @@ int Demon::UpdatePlayer()
 		demon.Demon_Life--;
 		Audio.PlaySoundEffect( SOUND_GETS_HIT );
 		demon.isHit = false;
+		Control_OBJ.WhichLifeToShow++;
 
 		if( demon.Demon_Health <= 50 )
 		{
