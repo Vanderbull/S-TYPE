@@ -313,8 +313,7 @@ void Control_Objects::DrawObjects()
 						Heads * head = ( *h );
 						if( CollisionController.CollisionCircle( temp, head, false ) )
 						{
-							demon.Score += 5;
-							//gamestate.Score += 5;
+							gamestate.AddScore(5);
 							vRemoveHead.push_back( ( *h ) );
 							vRemoveFireBall.push_back( ( *i ) );
 							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
@@ -327,8 +326,7 @@ void Control_Objects::DrawObjects()
 				{
 					vRemoveFireBall.push_back( ( *i ) ); 
 					Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
-					demon.Score += 5;
-					//gamestate.Score += 5;
+					gamestate.AddScore(5);
 					gamestate.boss->BossLife -= 50;
 					if( gamestate.boss->BossLife < 0 )
 					{
@@ -353,8 +351,8 @@ void Control_Objects::DrawObjects()
 						{
 							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
 
-							demon.Score += 2;
-							//gamestate.Score += 2;
+							gamestate.AddScore(2);
+
 							if( (*e)->Surface == Zombie )
 							{
 								vRemoveEnemy.push_back( ( *e ) );

@@ -54,7 +54,7 @@ Demon::Demon()
 	JumpLeft_Demon   = 26;
 	FireBallRight    = 39;
 	FireBallLeft     = 42;
-	Score = 0;
+	//Score = 0;
 
 	AlphaImmortal    = SDL_ALPHA_OPAQUE;
 

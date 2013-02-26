@@ -1007,7 +1007,7 @@ void Gamestate::DoIntroTalk()
 // ----------------------------------------------------------------------------
 void Gamestate::PlayerDied()
 {
-	ListHighScore->sort( gamestate.name->str.c_str(), demon.Score );
+	ListHighScore->sort( gamestate.name->str.c_str(), _Score );
 	ListHighScore->Save();
 
 	int PlayerDieState = 0;
@@ -1146,7 +1146,7 @@ void Gamestate::DrawAllText()
 		SDL_Color textColor = { 251, 245, 32 };
 
 		// print out the score
-		sprintf_s(gamestate.Text, 256, "%i ", demon.Score );		
+		sprintf_s(gamestate.Text, 256, "%i ", gamestate.GetScore() );		
 		gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, textColor );
 		gamestate.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer ); 
 	}
@@ -1239,7 +1239,7 @@ void Gamestate::MainScreen()
 	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect ); 
 	if( CheckingHighScore == true )
 	{
-		ListHighScore->sort( gamestate.name->str.c_str(), demon.Score );
+		ListHighScore->sort( gamestate.name->str.c_str(), gamestate.GetScore() );
 		ListHighScore->Save();
 
 		delete ListHighScore;
@@ -1466,7 +1466,7 @@ void Gamestate::EndAll()
 	}
 
 
-	ListHighScore->sort( gamestate.name->str, demon.Score );
+	ListHighScore->sort( gamestate.name->str, gamestate.GetScore() );
 	ListHighScore->Save();
 
 	if( gamestate.name != NULL )
@@ -2049,4 +2049,14 @@ void Gamestate::setUpParallaxLayers()
 						gamestate.BackBuffer->h );
 
 	//gamestate.RecordAllData();
+}
+
+void Gamestate::AddScore(int value)
+{
+	_Score += value;	
+}
+
+int Gamestate::GetScore()
+{
+	return _Score;
 }

@@ -128,6 +128,8 @@ public:
 	void ResetPlayer();
 	void ResetRest();
 	void PlayOutro();
+	void AddScore(int value);
+	int GetScore();
 
 	string HighScoreList[ 6 ];
 
@@ -163,6 +165,7 @@ public:
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
+	int _Score;
 	
 };
 

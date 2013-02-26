@@ -235,8 +235,7 @@ void Boss::UpdateBoss()
 			bool CheckAttack = false;
 			if( CheckAttack = demon.IsInStateAttack() )
 			{
-				demon.Score += 10;
-				//gamestate.Score += 10;
+				gamestate.AddScore(10);
 				gamestate.boss->BossLife -= 50;
 
 				if( gamestate.boss->BossLife < 0 )
@@ -365,8 +364,7 @@ void Boss::UpdateHeads()
 			{	
 				if( demon.IsInStateAttack() )
 				{
-					demon.Score += 5;
-					//gamestate.Score += 5;
+					gamestate.AddScore(5);
 					vRemoveHead.push_back((*i));
 				}
 				else

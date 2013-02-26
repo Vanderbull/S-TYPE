@@ -87,7 +87,7 @@ public:
 	//int Demon_Life;
 	int Last_Xpos;
 	int LastEnd_Pos;
-	int Score;
+	//int Score;
 	int JumpingSpeed;
 	int JumpingVelocity;
 	int JumpingGravity;
