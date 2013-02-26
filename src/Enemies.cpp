@@ -625,7 +625,6 @@ void Control_Enemies::Draw_Enemies()
 				}
 				else if( Collide == true )
 				{
-					demon.xPos -=100;
 					//demon.isHit = true;
 					if( (*i)->Surface == 8 )
 					{

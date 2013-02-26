@@ -86,20 +86,22 @@ Demon::Demon()
 
 Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 {
-	demon.Demon_Height = height;
-	demon.Demon_Width = width;
+	this->Demon_Height = height;
+	this->Demon_Width = width;
 
-	demon.Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
-	RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
-	RadiusFeet  = ( Fist_W > Fist_H ) ? Fist_W / 2 : Fist_H / 2;
+	this->Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
+	this->RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
+	this->RadiusFeet  = ( Fist_W > Fist_H ) ? Fist_W / 2 : Fist_H / 2;
 
-	demon.xPos = Xpos;
-	demon.yPos = Ypos;
+	//this->xPos = Xpos;
+	//this->yPos = Ypos;
+	this->_Position.x = Xpos;
+	this->_Position.y = Ypos;
 
-	demon.DemonSurface = surface;
+	this->DemonSurface = surface;
 
-	demon.xVelocity = 15.0f; 
-	demon.yVelocity = 0;
+	this->xVelocity = 15.0f; 
+	this->yVelocity = 0;
 }
 
 // checks if OK to move
@@ -153,20 +155,22 @@ bool Demon::IsInStateAttack()
 void Demon::InitiateDemon(	int surface, int Xpos, int Ypos, 
 							int height, int width )
 {
-	demon.Demon_Height = height;
-	demon.Demon_Width = width;
+	this->Demon_Height = height;
+	this->Demon_Width = width;
 
-	demon.Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
-	RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
-	RadiusFeet  = ( Fist_W > Fist_H ) ? Fist_W / 2 : Fist_H / 2;
+	this->Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
+	this->RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
+	this->RadiusFeet  = ( Fist_W > Fist_H ) ? Fist_W / 2 : Fist_H / 2;
 
-	demon.xPos = Xpos;
-	demon.yPos = Ypos;
+	//this->xPos = Xpos;
+	//this->yPos = Ypos;
+	this->_Position.x = Xpos;
+	this->_Position.y = Ypos;
 
-	demon.DemonSurface = surface;
+	this->DemonSurface = surface;
 
-	demon.xVelocity = 15.0f;
-	demon.yVelocity = 0;
+	this->xVelocity = 15.0f;
+	this->yVelocity = 0;
 }
 
 // updates player animations and moving, moved code to Update function
@@ -179,20 +183,30 @@ int Demon::UpdatePlayer()
 
 void Demon::Update()
 {
-	Demon::_Position.y = 400;
+	//Demon::_Position.y = GROUND_Y;
 	if( this->isMovingRight )
-		Demon::_Position.x = xPos += 500 * gamestate.dt;
+		Demon::_Position.x += 500.0f * gamestate.dt;
  	if( this->isMovingLeft )
-		Demon::_Position.x = xPos -= 500 * gamestate.dt;
+		Demon::_Position.x -= 500.0f * gamestate.dt;
+	if( this->isJumping )
+		Demon::_Position.y -= 10.0f * gamestate.dt;
+	else if( Demon::_Position.y < GROUND_Y )
+	{
+		Demon::_Position.y += 5.0f;
+	}
+	else
+	{
+		Demon::_Position.y = GROUND_Y;
+	}
 	Demon::_Position.w = Demon::Demon_Width;
 	Demon::_Position.h = Demon::Demon_Height;
 
-	float JumpSpeed = 2500.0f;
+	//float JumpSpeed = 2500.0f;
 
-	float speed = 2500.0f * ( gamestate.dt / 1000.0f );
-	float speedJump = 2500.0f * ( gamestate.dt / 1000.0f );
-	float speedJumpDemon = 800.0f * ( gamestate.dt / 1000.0f );
-	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
+	//float speed = 2500.0f * ( gamestate.dt / 1000.0f );
+	//float speedJump = 2500.0f * ( gamestate.dt / 1000.0f );
+	//float speedJumpDemon = 800.0f * ( gamestate.dt / 1000.0f );
+	//float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
 
 	if( IDLE == demon.GetState() )
 	{
@@ -225,31 +239,30 @@ void Demon::Update()
 	}
 	// checks which animation to play
 
-	if( isKicking )
+	if( this->isKicking )
 	{
 		isKicking      = true;
 		isJumping      = false;
 		isPunching     = false;
 	}
-	if( isJumping )
+	if( this->isJumping )
 	{
 		isKicking      = false;
 		isJumping      = true;
 		isPunching     = false;
 	}
-	if( isPunching )
+	if( this->isPunching )
 	{
 		isPunching     = true;
 		isKicking      = false;
 		isJumping      = false;
 	}
-
-	if( demon.isGettingUp )
+	if( this->isGettingUp )
 	{
 		// cout << "demon is getting backup from falling..." << endl;
 	}
 
-	if( demon.isHit )
+	if( this->isHit )
 	{
 		//demon.Demon_Life--;
 		Audio.PlaySoundEffect( SOUND_GETS_HIT );
@@ -292,6 +305,7 @@ void Demon::Update()
 		*/
 	}
 
+	/*
 	if(!demon.isJumping)
 	{
 		demon.yPos = GROUND_Y;
@@ -306,13 +320,14 @@ void Demon::Update()
 		demon.yPos -= demon.JumpingVelocity;
 		demon.JumpingVelocity -= demon.JumpingGravity;
 
-		if(demon.yPos > 400)
+		if(demon.yPos > GROUND_Y)
 		{
-			demon.yPos = 400;
+			demon.yPos = GROUND_Y;
 			demon.isJumping = false;
 			demon.JumpingVelocity = 2;
 		}
 	}
+	*/
 }
 
 
@@ -335,24 +350,24 @@ void Demon::SetClips()
 
 void Demon::UpdatePosition(float xUnits, float yUnits)
 {
-	Demon::_Position.x += xUnits * gamestate.dt;
-	Demon::_Position.y += xUnits * gamestate.dt;
-	Demon::_Position.w = Demon::Demon_Width;
-	Demon::_Position.h = Demon::Demon_Height;
+	this->_Position.x += xUnits * gamestate.dt;
+	this->_Position.y += xUnits * gamestate.dt;
+	this->_Position.w = this->Demon_Width;
+	this->_Position.h = this->Demon_Height;
 
-	Demon::_Position.x = xPos += xUnits * gamestate.dt;
-	Demon::_Position.y = yPos += yUnits * gamestate.dt;
+	this->_Position.x += xUnits * gamestate.dt;
+	this->_Position.y += yUnits * gamestate.dt;
 
 	
-	if( xPos < 0.0f )
+	if( this->_Position.x < 0.0f )
 	{
 		// Bumps the character to the right a bit if the player isn't moving and to far to the left
-		xPos += 100.0f*gamestate.dt;
+		this->_Position.x += 100.0f * gamestate.dt;
 	}
 	else
 	{
 		// Makes the character follow the parallax scrolling speed to make it look like he is standing still
-		xPos -= 2.0f*gamestate.dt;
+		this->_Position.x -= 2.0f * gamestate.dt;
 	}
 }
 
@@ -376,12 +391,4 @@ int Demon::GetLives()
 
 void Demon::Died()
 {
-	if( _Lives > 0 )
-	{
-		_Lives--;
-	}
-	else
-	{
-		//Change gamestate to Outro
-	}
 }

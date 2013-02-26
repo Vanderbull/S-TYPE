@@ -136,7 +136,7 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down right arrow" << endl;
 				demon.SetState(Demon::State::MOVING_RIGHT);
-				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
 				{	
 					demon.isMovingRight = true;
 				}
@@ -145,7 +145,7 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down left arrow" << endl;
 				demon.SetState(Demon::State::MOVING_LEFT);
-				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
 				{
 					demon.isMovingLeft = true;
 				}
@@ -159,7 +159,7 @@ void Game::Handle_events( SDL_Event _event )
 					demon.SetState(Demon::State::JUMPING);
 				}
 
-				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
 				{
 					demon.isJumping = true;
 				}
@@ -168,7 +168,7 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down spacebar arrow" << endl;
 				demon.SetState(Demon::State::KICKING);
-				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
 				{
 					/*
 					if( demon.DemonHunter == true )
@@ -194,7 +194,7 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down lalt arrow" << endl;
 				demon.SetState(Demon::State::PUNCHING);
-				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
 				{
 					demon.isPunching = true; 
 					Audio.PlaySoundEffect( SOUND_HIT );
@@ -871,7 +871,6 @@ void Gamestate::PlayOutro()
 	string FinishLine = "On Marjuras northwestern coast claimed that there are graves after a fallen kingdom. Grave Robber think there is gold and riches and Marjuras indigenous kvurerna believe that somewhere in the graves is a powerful weapon that can relieve Marjura from evil. Are you up for the task?";
 	string FinishSlow[ 7 ];
 	int Counter = 0;
-	demon.xPos = 530;
 	SDL_Surface * FinishSurface;
 
 	bool Walk = true;
@@ -903,7 +902,7 @@ void Gamestate::PlayOutro()
 
 		case 0:
 			{
-				if( demon.xPos > 580 )
+				if( demon.GetPosition().x > 580 )
 				{
 					Walk = false;
 					if( JumpUp ) 
@@ -923,14 +922,14 @@ void Gamestate::PlayOutro()
 					{
 						//demon.yPos += abs( 10 * cos( speedJumpDemon ) );
 						//demon.yVel += abs( 10 * cos( speedJumpDemon ) );
-						if( demon.yPos > GROUND_Y + 80 )
+						if( demon.GetPosition().y > GROUND_Y + 80 )
 						{
 							IntroState = 1;
 						}
 					}
 					
 				}
-				else if( demon.xPos < 580 && Walk == true )
+				else if( demon.GetPosition().x < 580 && Walk == true )
 				{
     					demon.isMovingRight = true;
 				}

@@ -40,7 +40,7 @@ const int DEMONWIDTH = 130;
 const int DEMONWIDTHREAL = 25;
 const int DEMONHEIGHTREAL = 25;
 
-const int GROUND_Y = 450;
+const int GROUND_Y = 500;
 const int GROUND_X = 400;
 const int STARTSCROLLING = 400;
 const int BOSS_ATTACK_START = 150;

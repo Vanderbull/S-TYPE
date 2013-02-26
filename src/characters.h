@@ -120,7 +120,7 @@ public:
 	bool Right, Left;
 	bool MovementDirection; // false = left, true = right
 
-	float xPos, yPos;
+	//float xPos, yPos;
 	float xVelocity, yVelocity;
 
 	SDL_Rect AnimationArrays[ 9 ][ 48 ];
@@ -159,13 +159,11 @@ public:
 	   return _AliveState;
 	}
 
-
 private:
 	Demon::State _State;
 	Demon::MorphState _MorphState;
 	Demon::AliveState _AliveState;
 	SDL_Rect _Position;
-	int _Lives;
 };
 
 extern Demon demon;
