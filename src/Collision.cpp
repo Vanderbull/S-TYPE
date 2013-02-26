@@ -18,12 +18,6 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Sh
 	double	dx2 = 0,
 			dy2 = 0;
 
-	if( demon.DemonHunter )
-	{
-
-	}
-	else
-	{
 		if( demon.isKicking )
 		{
 			if( demon.Right )
@@ -98,7 +92,6 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Sh
 				Circle( MyDemon->xPos + demon.Fist_W / 2 + 20, MyDemon->yPos + demon.Fist_H / 2 + 40, MyDemon->RadiusFist );
 			}
 		}
-	}
 
 	int dist = ( int )sqrt( dx * dx + dy * dy );
 	int dist2 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
@@ -154,6 +147,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool S
 		}
 	}
 	// test boss against the triangle attack and the demon itself.
+	/*
 	if( demon.DemonHunter )
 	{
 		double	dx2 = 0,
@@ -184,7 +178,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool S
 			}
 		}
 	}
- 
+ 	 */
 	// No collision
 	return false;
 }
@@ -200,6 +194,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show 
 			dy1 =	( ( MyDemon->yPos + DEMONHEIGHTREAL / 2 + 45 ) - ( Myboss->yPos + Myboss->BossHeight / 2 + 220 ) );
 
 	// test boss against the triangle attack and the demon itself.
+	/*
 	if( demon.DemonHunter )
 	{
 		double	dx2 = 0,
@@ -229,7 +224,7 @@ bool ControlCollision::CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show 
 		}
 
 	}
-
+	  */
 	int dist = ( int )sqrt( dx * dx + dy * dy );
 	int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
 	

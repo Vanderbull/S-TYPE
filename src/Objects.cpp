@@ -279,11 +279,12 @@ void Control_Objects::DrawObjects()
 		}
 
 		// kolla om han har blivit demon annars så sätt till false igen så den kan skapas en gång till
+		// Triggering morphing of character
 		bool GettingSpooky = CollisionController.CheckCollisionWithPlayer( Control_OBJ.WereWolf, 1 );
 		if( GettingSpooky == true )
 		{
-			demon.DemonHunter = true;
-			demon.SmallHunter = false;
+			//demon.DemonHunter = true;
+			//demon.SmallHunter = false;
 			GettingSpooky = false;
 			//delete Control_OBJ.WereWolf;
 			Control_OBJ.PowerUpMan = false;
@@ -338,7 +339,7 @@ void Control_Objects::DrawObjects()
 			}
 
 
-
+			// This part might be removed due to the fact RemoveEnemy is being removed
 			if( Control_ENEMY.Enemies.size() != 0 )
 			{
 				std::list< CEnemy* >::iterator e = Control_ENEMY.Enemies.begin();
@@ -370,11 +371,14 @@ void Control_Objects::DrawObjects()
 							else if( (*e)->Surface ==  Skull )
 							{
 								vRemoveEnemy.push_back( ( *e ) );
+								// Creating the PowerUp object
+								/*
 								if( Control_OBJ.PowerUpMan == false && demon.DemonHunter == false )
 								{
 									Control_OBJ.PowerUpMan = true;
 									Control_OBJ.WereWolf = new PowerUp( (*e)->xPos, (*e)->yPos + 20, gamestate.m_srfDemonLife );
 								}
+								*/
 							}
 						
 							vRemoveFireBall.push_back( *i );
@@ -507,42 +511,21 @@ void Control_Objects::DrawObjects()
 
 	if( demon.LifeFull_Small )
 	{
-		if( demon.DemonHunter )
-		{
-			DemonLife->Frame = 5;
-		}
-		else
-		{
-			DemonLife->Frame = 2;
-		}
+		DemonLife->Frame = 2;
 
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
 	}
 	else if( demon.LifeMedium_Small )
 	{
-		if( demon.DemonHunter )
-		{
-			DemonLife->Frame = 4;
-		}
-		else
-		{
-			DemonLife->Frame = 1;
-		}
+		DemonLife->Frame = 1;
 
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
 	}
 	else if( demon.LifeLittle_Small )
 	{
-		if( demon.DemonHunter )
-		{
-			DemonLife->Frame = 3;
-		}
-		else
-		{
-			DemonLife->Frame = 0;
-		}
+		DemonLife->Frame = 0;
 
 		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );

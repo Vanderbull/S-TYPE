@@ -10,7 +10,7 @@
 class AnimalState
 {
 public:
-	int xPos, yPos;
+	float xPos, yPos;
 	int Frame, State;
 	int Height, Width;
 	int Radius;

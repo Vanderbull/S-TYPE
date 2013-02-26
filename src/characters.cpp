@@ -12,7 +12,7 @@ Demon demon(0,GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH);
 Demon::Demon()
 {
 	Demon::SetAliveState(AliveState::ALIVE);
-	Demon::SetLives(3);
+	//Demon::SetLives(3);
 
 	isMovingRight    = false;
 	isMovingLeft     = false;
@@ -22,18 +22,18 @@ Demon::Demon()
 	isImmortal       = false;
 
 	isHit            = false; 
-	DieOneLife       = false;
+	//DieOneLife       = false;
 
-	SmallHunter      = true;
-	MediumHunter     = false;
-	LargeHunter      = false;
-	DemonHunter      = false;
+	//SmallHunter      = true;
+	//MediumHunter     = false;
+	//LargeHunter      = false;
+	//DemonHunter      = false;
 
 	LifeFull_Small   = true;
 	LifeMedium_Small = false;
 	LifeLittle_Small = false;
 
-	Demon_Dead       = false;
+	//Demon_Dead       = false;
 
 	isGettingUp      = false;
 
@@ -58,7 +58,7 @@ Demon::Demon()
 
 	AlphaImmortal    = SDL_ALPHA_OPAQUE;
 
-	Demon_Life       = 2;
+	//Demon_Life       = 2;
 	LengthOfTriangle = 0;
 
 	TriangleFireLeft = 34;
@@ -100,12 +100,6 @@ Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 
 	demon.xVelocity = 15.0f; 
 	demon.yVelocity = 0;
-}
-
-//What is end position and what is it used for???
-void Demon::UpdateEndPosition()
-{
-	LastEnd_Pos = gamestate.LevelProgress;
 }
 
 // checks if OK to move
@@ -175,9 +169,24 @@ void Demon::InitiateDemon(	int surface, int Xpos, int Ypos,
 	demon.yVelocity = 0;
 }
 
-// updates player animations and moving
+// updates player animations and moving, moved code to Update function
+/*
 int Demon::UpdatePlayer()
 {
+	return 0;
+}
+*/
+
+void Demon::Update()
+{
+	Demon::_Position.y = 400;
+	if( this->isMovingRight )
+		Demon::_Position.x = xPos += 500 * gamestate.dt;
+ 	if( this->isMovingLeft )
+		Demon::_Position.x = xPos -= 500 * gamestate.dt;
+	Demon::_Position.w = Demon::Demon_Width;
+	Demon::_Position.h = Demon::Demon_Height;
+
 	float JumpSpeed = 2500.0f;
 
 	float speed = 2500.0f * ( gamestate.dt / 1000.0f );
@@ -242,23 +251,24 @@ int Demon::UpdatePlayer()
 
 	if( demon.isHit )
 	{
-		demon.Demon_Life--;
+		//demon.Demon_Life--;
 		Audio.PlaySoundEffect( SOUND_GETS_HIT );
 		demon.isHit = false;
 		Control_OBJ.WhichLifeToShow++;
 
 		if( demon.Demon_Health <= 50 )
 		{
-			Control_OBJ.WhichLifeToShow++;
-
 			if( Control_OBJ.WhichLifeToShow >= 6 )
 			{
 				Control_OBJ.WhichLifeToShow = 0;
 				demon.Died();	
-				demon.DieOneLife = true;
+				//demon.DieOneLife = true;
 				demon.isImmortal = true;
+				//demon.Demon_Dead = true;
+				gamestate.GameCondition = GS_DEAD;
 			}
-		}	
+		}
+		/*
 		if( Demon::GetLives() == 3 )
 		{
 			LifeFull_Small = true;
@@ -279,6 +289,7 @@ int Demon::UpdatePlayer()
 			demon.Demon_Dead = true;
 			gamestate.GameCondition = GS_DEAD;
 		}
+		*/
 	}
 
 	if(!demon.isJumping)
@@ -302,73 +313,46 @@ int Demon::UpdatePlayer()
 			demon.JumpingVelocity = 2;
 		}
 	}
-
-	if( demon.isMovingRight )
-	{
-		if( demon.xPos < 600.0f )
-		{
-			demon.xPos += demon.xVelocity;
-		}
-	}
-
-	if( demon.isMovingLeft )
-	{
-		// Character maximum distance to the left edge of the screen
-		if( demon.xPos > 15.0f )
-		{
-			demon.xPos -= demon.xVelocity;
-		}				
-	}
-
-	return 0;
 }
 
-void Demon::Set_clips()
-{
-	for( int i = 0; i < 9; i++ )
-	{
-		for( int j = 0; j < 48; j++ )
-		{
-			demon.AnimationArrays[ i ][ j ].x = j * demon.Demon_Width;
-			demon.AnimationArrays[ i ][ j ].y = i * demon.Demon_Height;
-			demon.AnimationArrays[ i ][ j ].h = demon.Demon_Height;
-			demon.AnimationArrays[ i ][ j ].w = demon.Demon_Width;
-		}
-	}
-}
-
-void Demon::Update()
-{
-}
 
 void Demon::SetClips()
 {
-	int ArraySize = sizeof(AnimationArrays) / sizeof(AnimationArrays[0]);
-	for( int i = 0; i < ArraySize; i++ )
+	int ArraySizeColumns = sizeof(AnimationArrays) / sizeof(AnimationArrays[0]);
+	int ArraySizeRows = sizeof(AnimationArrays[0]) / sizeof(AnimationArrays[0][0]);
+	for( int Column = 0; Column < ArraySizeColumns; Column++ )
 	{
+		for( int Row = 0; Row < ArraySizeRows; Row++ )
+		{
+			demon.AnimationArrays[ Column ][ Row ].x = Row * demon.Demon_Width;
+			demon.AnimationArrays[ Column ][ Row ].y = Column * demon.Demon_Height;
+			demon.AnimationArrays[ Column ][ Row ].h = demon.Demon_Height;
+			demon.AnimationArrays[ Column ][ Row ].w = demon.Demon_Width;
+		}
 	}
 }
 
+
 void Demon::UpdatePosition(float xUnits, float yUnits)
 {
-	Demon::_Position.x += xUnits;
-	Demon::_Position.y += yUnits;
+	Demon::_Position.x += xUnits * gamestate.dt;
+	Demon::_Position.y += xUnits * gamestate.dt;
 	Demon::_Position.w = Demon::Demon_Width;
 	Demon::_Position.h = Demon::Demon_Height;
 
-	Demon::_Position.x = xPos += xUnits;
-	Demon::_Position.y = yPos += yUnits;
+	Demon::_Position.x = xPos += xUnits * gamestate.dt;
+	Demon::_Position.y = yPos += yUnits * gamestate.dt;
 
 	
 	if( xPos < 0.0f )
 	{
 		// Bumps the character to the right a bit if the player isn't moving and to far to the left
-		xPos += 10.0f;
+		xPos += 100.0f*gamestate.dt;
 	}
 	else
 	{
 		// Makes the character follow the parallax scrolling speed to make it look like he is standing still
-		xPos -= 2.0f;
+		xPos -= 2.0f*gamestate.dt;
 	}
 }
 
@@ -377,15 +361,18 @@ bool Demon::Alive()
 	return true;
 }
 
+/*
 void Demon::SetLives(int Lives)
 {
 	_Lives = Lives;
 }
 
+
 int Demon::GetLives()
 {
 	return _Lives;
 }
+*/
 
 void Demon::Died()
 {

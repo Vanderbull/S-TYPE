@@ -42,8 +42,8 @@ public:
 	int Frame;
 	int Line;
 
-	string CenturionTalks[ 4 ];
-	string ZeusTalks[ 4 ];
+	string CenturionTalks[ 8 ];
+	string ZeusTalks[ 8 ];
 
 	void DrawBackground();
 

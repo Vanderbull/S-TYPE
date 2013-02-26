@@ -60,12 +60,22 @@ IntroTalk::IntroTalk( int Surface )
 
 	CenturionTalks[ 0 ] = "Please all mighty gods help me revenge my family and get my sister back.";
 	CenturionTalks[ 1 ] = "I will do anything you ask as long as I get my belowed sister back from those demons.";
-	ZeusTalks[ 0 ]		= "My son, I hear your prayers. I will fullfill your wishes, but just so you know your humanity will be lost in the process.";
-	CenturionTalks[ 2 ] = "My humanity was lost the minute my family was butchered.";
-	CenturionTalks[ 1 ] = "OK, Centurion you will get the powers of an ancient god, the possibility to transform into beasts";
-	ZeusTalks[ 2 ]		= "This is however nothing you control and you might turn into the beast at any time along your journey.";
-	ZeusTalks[ 3 ]		= "Now go Centurion and rescue your sister before your humanity is totally lost and you no longer care.";
-	CenturionTalks[ 3 ] = "I swear to return and claim my humantiy back.";
+	CenturionTalks[ 2 ] = "";
+	CenturionTalks[ 3 ] = "My humanity was lost the minute my family was butchered.";
+	CenturionTalks[ 4 ] = "";
+	CenturionTalks[ 5 ] = "";
+	CenturionTalks[ 6 ] = "";
+	CenturionTalks[ 7 ] = "I swear to return and claim my humanity back.";
+
+	ZeusTalks[ 0 ]		= "";
+	ZeusTalks[ 1 ]		= "";
+	ZeusTalks[ 2 ]		= "My son, I hear your prayers. I will fullfill your wishes, but just so you know your humanity will be lost in the process.";
+	ZeusTalks[ 3 ]		= "";
+	ZeusTalks[ 4 ]		= "OK, Centurion you will get the powers of an ancient god, the possibility to transform into beasts";
+	ZeusTalks[ 5 ]		= "This is however nothing you control and you might turn into the beast at any time along your journey.";
+	ZeusTalks[ 6 ]		= "Now go Centurion and rescue your sister before your humanity is totally lost and you no longer care.";
+	ZeusTalks[ 7 ]		= "";
+
 
 	CounterWords = 0;
 	CounterNextTalker = 0;
@@ -92,518 +102,96 @@ IntroTalk::IntroTalk( int Surface )
 void IntroTalk::DrawBackground()
 {
 	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
-	/*
-	ParallaxLayer  * MyParaBackGround;
-	MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
-
-	SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 600 };
-
-	SDL_Rect dtRect = {	0, 0, MyParaBackGround->m_width, 600 };
-
-	SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
-	*/
 }
 
 // all the talking
 void IntroTalk::DoTalk()
 {
-	int IntroState = 0;
+	int DialogScene = 0;
 
 	//The color of the font
 	SDL_Color textColor = { 255, 255, 255 };
 	SDL_Event input;
 	
-	while( IntroState < 4 )
+	SDL_Rect destRect = { Width/2, Height/2, Width, Height };
+
+	bool ZeusDialog[8] = {false,false,true,false,true,true,true,false};
+	bool CenturionDialog[8] = {true,true,false,true,false,false,false,true};
+
+	std::string Dialog[10];
+	LetterHeight  = 0;
+
+	while( DialogScene < 8 )
 	{
 		DrawBackground();
 
-		if( Centurion )
+		if( CenturionDialog[DialogScene] )
 		{
-			
-			SDL_Rect destRect = { 0, 0, Width, Height };
+			if( Letter < CenturionTalks[ DialogScene ].length() )
+			{
+				if( Letter < 40 )
+				{
+					Dialog[0] += CenturionTalks[ DialogScene ][ Letter++ ];
+				}
+				else
+				{
+					Dialog[1] += CenturionTalks[ DialogScene ][ Letter++ ];
+					LetterHeight = 1;
+				}
+			}
+			else
+			{
+				LetterHeight = 0;
+				Dialog[0] = "";
+				Dialog[1] = "";
+				Letter = 0;
+				DialogScene++;
+			}
 			SDL_BlitSurface(	gamestate.GetSurface( surface ), &srcClips[ CENTURION ], 
-								gamestate.BackBuffer, &destRect );
-								
+								gamestate.BackBuffer, &destRect );	
+			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
+			gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
 		}
-		if( MyDude_Demon )
+		if( ZeusDialog[DialogScene] )
 		{
-			
-			SDL_Rect destRect = { 800 - Width, 0, Width, Height };
-			SDL_BlitSurface(	gamestate.GetSurface( surface ), &srcClips[ MYDUDE_DEMON ], 
-								gamestate.BackBuffer, &destRect );
-								
-		}
-
-		if( Zeus )
-		{
-			
-			SDL_Rect destRect = { 800 - Width, 600 - Height, Width, Height };
+			if( Letter < ZeusTalks[ DialogScene ].length() )
+			{
+				if(Letter < 40)
+				{
+					Dialog[0] += ZeusTalks[ DialogScene ][ Letter++ ];
+				}
+				else
+				{
+					Dialog[1] += ZeusTalks[ DialogScene ][ Letter++ ];
+					LetterHeight = 1;
+				}
+			}
+			else
+			{
+				LetterHeight = 0;
+				Dialog[0] = "";
+				Dialog[1] = "";
+				Letter = 0;
+				DialogScene++;
+			}
 			SDL_BlitSurface(	gamestate.GetSurface( surface ), &srcClips[ ZEUS ], 
 								gamestate.BackBuffer, &destRect );
-								
+			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
+			gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
 		}
-
 
 		SDL_PollEvent( &input );
 		if( input.type == SDL_KEYDOWN )
 		{
 			switch( input.key.keysym.sym )
 			{
-			case SDLK_SPACE:
-				IntroState = 5;
-				break;
-			}
+				case SDLK_SPACE:
+					DialogScene = 8;
+			} break;
 		}
-
-		int SpeedOfWords = 25;//500.0f * ( gamestate.dt / 1000 ) ;
-		Counter += SpeedOfWords;
-		
-		//DrawBackground();
-		gamestate.DrawAllText();
-
-		if( Counter > 400 )
-		{
-			Counter = 0;
-			switch( IntroState )
-			{
-			case 0:
-				{
-					/*
-					if( FirstLine )
-					{
-						
-						if( Letter < CenturionTalks[ 0 ].length() )
-						{
-							++Letter;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							FirstLine = false;
-							SecondLine = true;
-						}
-						
-					}
-					else
-					{
-						
-						if( Letter < CenturionTalks[ 1 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							IntroState = 1;
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							SecondLine = false;
-							ThirdLine = true;
-							Zeus = true;
-						}
-						
-					}
-					*/
-					
-					if( FirstLine )
-					{
-						CenturionTalksSlow[ Line ] += CenturionTalks[ 0 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow[ i ].c_str(), textColor );
-							gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter < CenturionTalks[ 0 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							FirstLine = false;
-							SecondLine = true;
-						}
-					}
-					else
-					{
-						CenturionTalksSlow2[ Line ] += CenturionTalks[ 1 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow2[ i ].c_str(), textColor );
-							gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter < CenturionTalks[ 1 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							IntroState = 1;
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							SecondLine = false;
-							ThirdLine = true;
-							Zeus = true;
-						}
-					}
-
-					LetterWidth++;
-			
-					break;
-
-		
-				}
-			case 1:
-				{
-					/*
-					if( ThirdLine )
-					{
-						if( Letter < ZeusTalks[ 0 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							ThirdLine = false;
-							FourthLine = true;
-						}
-					}
-					else
-					{
-						if( Letter <CenturionTalks[ 2 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-							FourthLine = false;
-							LetterWidth = 0;
-							Fifth = true;
-							IntroState = 2;
-						}
-					}
-					*/
-					if( ThirdLine )
-					{
-						ZeusTalksSlow[ Line ] += ZeusTalks[ 0 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow[ i ].c_str(), textColor );
-							gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter < ZeusTalks[ 0 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							ThirdLine = false;
-							FourthLine = true;
-						}
-					}
-					else
-					{
-						CenturionTalksSlow3[ Line ] += CenturionTalks[ 2 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow3[ i ].c_str(), textColor );
-							gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter <CenturionTalks[ 2 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-							FourthLine = false;
-							LetterWidth = 0;
-							Fifth = true;
-							IntroState = 2;
-						}
-					}
-
-					LetterWidth++;
-			
-					break;
-
-				}
-			case 2:
-				{
-					/*
-					if( Fifth )
-					{
-						if( Letter < ZeusTalks[ 1 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							MyDude_Demon = true;
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							Fifth = false;
-							Sixth = true;
-						}
-					}
-					else
-					{
-						if( Letter < ZeusTalks[ 2 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-						
-							LetterWidth = 0;
-							Sixth = false;
-							Seventh = true;
-							IntroState = 3;
-						}
-					}
-					*/
-					if( Fifth )
-					{
-						ZeusTalksSlow2[ Line ] +=ZeusTalks[ 1 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow2[ i ].c_str(), textColor );
-							gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter < ZeusTalks[ 1 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							MyDude_Demon = true;
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							Fifth = false;
-							Sixth = true;
-						}
-					}
-					else
-					{
-						ZeusTalksSlow3[ Line ] += ZeusTalks[ 2 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow3[ i ].c_str(), textColor );
-							gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter < ZeusTalks[ 2 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-						
-							LetterWidth = 0;
-							Sixth = false;
-							Seventh = true;
-							IntroState = 3;
-						}
-					}
-
-					LetterWidth++;
-			
-					break;
-
-
-
-				}
-			case 3:
-				{
-					/*
-					if( Seventh )
-					{
-						if( Letter < ZeusTalks[ 3 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							Seventh = false;
-							Eight = true;
-						}
-					}
-					else
-					{
-						if( Letter < CenturionTalks[ 3 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-						
-							LetterWidth = 0;
-							IntroState = 5;
-							
-								
-						}
-					}
-					*/
-					if( Seventh )
-					{
-						ZeusTalksSlow4[ Line ] += ZeusTalks[ 3 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow4[ i ].c_str(), textColor );
-							gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter < ZeusTalks[ 3 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-							LetterWidth = 0;
-							Seventh = false;
-							Eight = true;
-						}
-					}
-					else
-					{
-						CenturionTalksSlow4[ Line ] += CenturionTalks[ 3 ][ Letter ];
-						for( int i = 0; i < 5; i++ )
-						{
-							IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow4[ i ].c_str(), textColor );
-							gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-						}
-						if( Letter < CenturionTalks[ 3 ].length() )
-						{
-							Letter++;
-						}
-						else
-						{
-							Letter = 0;
-							Line = 0;	
-						
-							LetterWidth = 0;
-							IntroState = 5;		
-						}
-					}
-
-					LetterWidth++;
-			
-					
-					break;
-
-
-
-				}
-			}
-
-			if( LetterWidth > 27 )
-			{
-				y += 100;
-				LetterWidth = 0;
-				Line++;
-			}
-		}
-		else
-		{
-			if( FirstLine )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow[ i ].c_str(), textColor );
-					gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-			}
-			else if( SecondLine )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow2[ i ].c_str(), textColor );
-					gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-			}
-			else if( ThirdLine )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow[ i ].c_str(), textColor );
-					gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-			}
-			else if( FourthLine )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow3[ i ].c_str(), textColor );
-					gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-
-			}
-			else if( Fifth )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow2[ i ].c_str(), textColor );
-					gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-			}
-			else if( Sixth )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow3[ i ].c_str(), textColor );
-					gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-			}
-			else if( Seventh )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, ZeusTalksSlow4[ i ].c_str(), textColor );
-					gamestate.apply_surface( 0, 300 + i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-			}
-			else if( Eight )
-			{
-				for( int i = 0; i < 5; i++ )
-				{
-					IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, CenturionTalksSlow4[ i ].c_str(), textColor );
-					gamestate.apply_surface( 128, i * 40, IntroSurfaces[ 0 ], gamestate.BackBuffer ); 
-				}
-			}
-
-	
-		}
-
 		gamestate.FLIP();
+		Sleep(50);
 	}
-
 	gamestate.GameCondition = GS_LEVEL1;
 }
 	

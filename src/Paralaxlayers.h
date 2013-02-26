@@ -18,7 +18,7 @@ struct ParallaxLayer
 	int DX, DY, DW, DH;
 	int Xpos;
 	int HowFarGone;
-	int AnimClouds;
+	float AnimClouds;
 };
 
 

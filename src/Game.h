@@ -61,7 +61,7 @@ public:
 	int CurrentFrame, PreviousFrame;
 	
 	int GameCondition;
-	int m_parallax;
+	float m_parallax;
 	int WhichMorphType();
 	//int Score;
 

@@ -12,17 +12,17 @@ Control_Enemies Control_ENEMY;
 
 CZombie::CZombie()
 {
-	CZombie::Speed = 3;
+	CZombie::Speed = 300;
 }
 
 CSkeleton::CSkeleton()
 {
-	CSkeleton::Speed = 3;
+	CSkeleton::Speed = 3000;
 }
 
 CEnemy::CEnemy()
 {
-	CEnemy::Speed = 3;
+	CEnemy::Speed = 300;
 	memset(ZombieClips, 0, sizeof(ZombieClips));
 	memset(SkeletonClips, 0, sizeof(SkeletonClips));
 }
@@ -246,8 +246,7 @@ void Boss::UpdateBoss()
 			}
 			else
 			{		
-				if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-					demon.isImmortal == false )
+				if( timer.Timer_Hit > 3 && demon.isImmortal == false )
 				{
 					timer.Timer_Hit = 0;
 					demon.Right = true;
@@ -372,8 +371,7 @@ void Boss::UpdateHeads()
 				}
 				else
 				{
-					if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-					demon.isImmortal == false )
+					if( timer.Timer_Hit > 3 && demon.isImmortal == false )
 					{
 						timer.Timer_Hit = 0;
 						demon.isHit = true;
@@ -608,11 +606,14 @@ void Control_Enemies::Draw_Enemies()
 						if( (*i)->Surface == ZOMBIE )
 						{
 							//vRemoveEnemy.push_back( ( *i ) );
+							// Creating PowerUp object
+							/*
 							if( Control_OBJ.PowerUpMan == false && demon.DemonHunter == false )
 							{
 								Control_OBJ.PowerUpMan = true;
 								Control_OBJ.WereWolf = new PowerUp( (*i)->xPos, (*i)->yPos + 20, gamestate.m_srfDemonLife );
 							}
+							*/
 						}
 						else if( (*i)->Surface == SKELETON )
 						{
@@ -632,8 +633,7 @@ void Control_Enemies::Draw_Enemies()
 					{
 						timer.Timer_Hit++;
 						demon.Demon_Health -= 50;
-						if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-							demon.isImmortal == false )
+						if( timer.Timer_Hit > 3 && demon.isImmortal == false )
 						{
 							timer.Timer_Hit = 0;
 							demon.isHit = true;
@@ -646,8 +646,7 @@ void Control_Enemies::Draw_Enemies()
 						timer.Timer_Hit++;
 						demon.Demon_Health -= 50;
 							
-						if( demon.DieOneLife != true && timer.Timer_Hit > 3 && 
-							demon.isImmortal == false )
+						if( timer.Timer_Hit > 3 && demon.isImmortal == false )
 						{
 							timer.Timer_Hit = 0;
 							demon.isHit = true;
@@ -675,7 +674,7 @@ void Control_Enemies::Draw_Enemies()
 					{
 						if( Collide == false )
 						{
-							(*i)->xPos -= (*i)->Speed;
+							(*i)->xPos -= (*i)->Speed * gamestate.dt;
 						}
 						
 						SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->ZombieClips[0], 
@@ -685,7 +684,7 @@ void Control_Enemies::Draw_Enemies()
 					{
 						if( Collide == false )
 						{
-							(*i)->xPos -= (*i)->Speed;
+							(*i)->xPos -= (*i)->Speed * gamestate.dt;
 						}
 						
 						SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ), &(*i)->SkeletonClips[ 0 ][ 0 ],

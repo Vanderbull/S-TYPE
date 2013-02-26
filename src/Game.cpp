@@ -136,8 +136,7 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down right arrow" << endl;
 				demon.SetState(Demon::State::MOVING_RIGHT);
-				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{	
 					demon.isMovingRight = true;
 				}
@@ -146,8 +145,7 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down left arrow" << endl;
 				demon.SetState(Demon::State::MOVING_LEFT);
-				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{
 					demon.isMovingLeft = true;
 				}
@@ -161,10 +159,7 @@ void Game::Handle_events( SDL_Event _event )
 					demon.SetState(Demon::State::JUMPING);
 				}
 
-				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isPunching == false 
-					&& demon.isKicking == false && demon.isJumping == false 
-					&& demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{
 					demon.isJumping = true;
 				}
@@ -173,10 +168,9 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down spacebar arrow" << endl;
 				demon.SetState(Demon::State::KICKING);
-				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isPunching == false  
-				 && demon.isKicking == false && demon.isJumping == false && demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{
+					/*
 					if( demon.DemonHunter == true )
 					{
 						
@@ -189,7 +183,7 @@ void Game::Handle_events( SDL_Event _event )
 
 						break;
 					}
-
+					 */
 					demon.isKicking = true;
 					Audio.PlaySoundEffect( SOUND_HIT );
 											
@@ -200,11 +194,11 @@ void Game::Handle_events( SDL_Event _event )
 			{
 				cout << "Pressing down lalt arrow" << endl;
 				demon.SetState(Demon::State::PUNCHING);
-				if( demon.isHit == false && demon.DieOneLife == false && 
-					demon.isPunching == false 
-				 && demon.isKicking == false && demon.isJumping == false && 
-				 demon.yPos == GROUND_Y )
+				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{
+					demon.isPunching = true; 
+					Audio.PlaySoundEffect( SOUND_HIT );
+					/*
 					if( demon.SmallHunter )
 					{ 
 						demon.isPunching = true; 
@@ -217,8 +211,8 @@ void Game::Handle_events( SDL_Event _event )
 							timer.Timer_TriangleAttackOK = 0;
 							Audio.PlaySoundEffect( SOUND_FIRE );
 						}
-
 					}
+					*/
 				}
 			} break;
 		case SDLK_BACKSPACE:
@@ -340,7 +334,7 @@ Game::Game()
 	}
 	else
 	{
-		gamestate.font = TTF_OpenFont( "Fonts/cour.ttf", 28 );
+		gamestate.font = TTF_OpenFont( "Fonts/PressStart2P.ttf", 14 );
 		SDL_Quit();
 
 	}
@@ -356,7 +350,9 @@ Game::Game()
 	//demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH ); 
 
 	gamestate.load_files();
-	demon.Set_clips();
+	//demon.Set_clips();
+	//new setclips function
+	demon.SetClips();
 }
 
 // loads all graphic files and all new files and the font
@@ -457,7 +453,8 @@ void Gamestate::DrawObjects()
 		Control_OBJ.DrawObjects();
 	}
 	else
-	{
+	{						  
+		demon.Update();
 		AnimalController.Draw_Animals();
 		Control_ENEMY.Update();
 		Control_ENEMY.Draw_Enemies();
@@ -572,8 +569,8 @@ void Gamestate::MorphMyDude()
 	gamestate.GameCondition = GS_LEVEL1;
 
 	// safety Check
-	demon.SmallHunter = false;
-	demon.DemonHunter = true;
+	//demon.SmallHunter = false;
+	//demon.DemonHunter = true;
 	demon.isJumping = false;
 	demon.isPunching = false;
 	demon.isKicking = false;
@@ -686,18 +683,18 @@ void Gamestate::ResetPlayer()
 	
 
 	demon.isHit = false; 
-	demon.DieOneLife = false;
+	//demon.DieOneLife = false;
 
-	demon.SmallHunter = true;
-	demon.MediumHunter = false;
-	demon.LargeHunter = false;
-	demon.DemonHunter = false;
+	//demon.SmallHunter = true;
+	//demon.MediumHunter = false;
+	//demon.LargeHunter = false;
+	//demon.DemonHunter = false;
 
 	demon.LifeFull_Small = true;
 	demon.LifeMedium_Small = false;
 	demon.LifeLittle_Small = false;
 
-	demon.Demon_Dead = false;
+	//demon.Demon_Dead = false;
 
 	demon.isGettingUp = false;
 
@@ -721,7 +718,7 @@ void Gamestate::ResetPlayer()
 
 	demon.AlphaImmortal = SDL_ALPHA_OPAQUE;
 
-	demon.Demon_Life = 2;
+	//demon.Demon_Life = 2;
 
 	demon.TriangleFireLeft = 34;
 	demon.TriangleFireRight = 13;
@@ -790,9 +787,9 @@ void Game::upDate( SDL_Event input )
 			} break;
 		case GS_LEVEL1:
 			{
-				gamestate.LevelProgress++;
+				//gamestate.LevelProgress++;
+				gamestate.LevelProgress = gamestate.LevelProgress + (60*gamestate.dt);
 				cout << gamestate.LevelProgress << endl;
-				demon.UpdateEndPosition();
 
 				/*
 				if( Audio.MusicPaused == true )
@@ -866,11 +863,12 @@ void Gamestate::PlayOutro()
 	demon.isPunching = false;
 	demon.isMovingRight = true;
 
-	demon.UpdatePlayer();
+	demon.Update();
+	//demon.UpdatePlayer();
 
 	int IntroState = 0;
 	int Letter = 0, LetterWidth = 0, Line = 0;
-	string FinishLine = " There is Still Work To Be Done, This Autumn The Battle Continues In Hell, Do You Have What It Takes To Open A Can Of Whoopassss On The Devil ";
+	string FinishLine = "On Marjuras northwestern coast claimed that there are graves after a fallen kingdom. Grave Robber think there is gold and riches and Marjuras indigenous kvurerna believe that somewhere in the graves is a powerful weapon that can relieve Marjura from evil. Are you up for the task?";
 	string FinishSlow[ 7 ];
 	int Counter = 0;
 	demon.xPos = 530;
@@ -901,7 +899,7 @@ void Gamestate::PlayOutro()
 		
 		switch( IntroState )
 		{
-		speedJumpDemon += 100.0f * ( gamestate.dt / 1000 );
+			speedJumpDemon += 100.0f * ( gamestate.dt / 1000 );
 
 		case 0:
 			{
@@ -1148,9 +1146,9 @@ void Gamestate::DrawAllText()
 		SDL_Color textColor = { 251, 245, 32 };
 
 		// print out the score
-		sprintf_s(gamestate.Text, 256, "Score: %i ", demon.Score );		
+		sprintf_s(gamestate.Text, 256, "%i ", demon.Score );		
 		gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, textColor );
-		gamestate.apply_surface( 600, 20, gamestate.srfText, gamestate.BackBuffer ); 
+		gamestate.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer ); 
 	}
 }
 
@@ -1604,9 +1602,6 @@ bool Game::Init(SDL_Surface * &screen)
 // ----------------------------------------------------------------------------
 void Gamestate::drawParallaxLayers()
 {
-	//demon.xPosHotSpot++;
-
-
 	if( gamestate.GameCondition != GS_LEVEL1BOSS && gamestate.GameCondition != GS_OUTRO )
 	{
 		/*
@@ -1629,8 +1624,8 @@ void Gamestate::drawParallaxLayers()
 	{
 		if( !BossStart )
 		{
-			demon.DemonHunter = true;
-			demon.SmallHunter = false;
+			//demon.DemonHunter = true;
+			//demon.SmallHunter = false;
 			gamestate.boss = gamestate.CreateBoss( SCREEN_WIDTH - 180, GROUND_Y - 210, m_srfBoss );
 			BossStart = true;
 		}
@@ -1657,7 +1652,7 @@ void Gamestate::drawParallaxLayers()
 			MyParaBackGround = Parallax->getLayer( i );
 			if( MyParaBackGround->m_surface == m_srfClouds )
 			{
-				MyParaBackGround->AnimClouds++;
+				MyParaBackGround->AnimClouds += 100.0f * gamestate.dt;
 
 				//////// Calc parallax position
 				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
@@ -1710,7 +1705,7 @@ void Gamestate::drawParallaxLayers()
 			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
 
 		}
-		gamestate.m_parallax++;
+		gamestate.m_parallax += 500 * gamestate.dt;
 }
 
 void Gamestate::CreateAll()
@@ -1723,8 +1718,8 @@ void Gamestate::CreateAll()
 // draws MyFellow on the screen and changes animations
 void Gamestate::DrawSprite()
 {
-		SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.Demon_Width, demon.Demon_Height };
-		demonDest = demon.GetPosition();
+		//SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.Demon_Width, demon.Demon_Height };
+		//demonDest = demon.GetPosition();
 		if( demon.isImmortal )
 		{
 			if( demon.AlphaImmortal < SDL_ALPHA_OPAQUE - 100 )
@@ -1743,12 +1738,10 @@ void Gamestate::DrawSprite()
 		}
 
 		
-		////////////////////////////////////////////////////////////
-		if( gamestate.OK_Pace() )
-		{			
 			//Current_AnimArray = gamestate.WhichMorphType();
 			//Current_Frame = demon.UpdatePlayer();
-			demon.UpdatePlayer();
+			//demon.UpdatePlayer();
+			demon.Update();
 		
 			// Rendering Demon Character
 			/*
@@ -1776,30 +1769,6 @@ void Gamestate::DrawSprite()
 			{
 				gamestate.resetAnimationPace();
 			}
-		}
-		else
-		{
-			if( CurrentFrame == 3 )
-			{
-				CurrentFrame = 0;
-			}
-
-			SDL_BlitSurface( Gfx.GetSurface( demon.DemonSurface ), 
-				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
-								gamestate.BackBuffer, &demonDest );
-			/*
-			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
-				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
-								gamestate.BackBuffer, &demonDest );*/
-
-			/*SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
-								&demon.AnimationArrays[ Previous_AnimArray ][ Previous_Frame ],
-								gamestate.BackBuffer, &demonDest );*/
-			//demon.UpdateXPos();
-			demon.UpdatePosition(0,0);
-			gamestate.AddTick();
-		}
-
 }
 
 // checks which state the demon is in which animation to use

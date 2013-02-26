@@ -9,7 +9,6 @@ Movement
 Right Arrow key - Moves right
 Left Arrow key - Moves left
 Up Arrow key - Jump
-Down Arrow key - Crouch
 
 Attack
 
@@ -21,6 +20,7 @@ Left Alt - Punch attack
 233 MB 2012-08-17
 
 225 MB 2012-10-15
+339 MB 2012-02-13
 
 Objects
 -------

@@ -9,7 +9,7 @@ public:
 	int Frame;
 	int Radius;
 	int Width, Height;
-	int Speed;
+	float Speed;
 	
 	int Surface;
 	SDL_Rect Clips[ 16 ];

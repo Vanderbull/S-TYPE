@@ -19,25 +19,24 @@ void Animal::Setframe()
 }
 void Animal::Update()
 {
-		int Speed = 4;//2000.0f * ( gamestate.dt / 1000.0f );
-		this->xPos -= Speed;
-		this->Destination.h = this->Height;
-		this->Destination.w = this->Width;
-		this->Destination.x = this->xPos;
-		this->Destination.y = this->yPos; 
+	this->xPos -= (500.0f * gamestate.dt);
+	this->Destination.h = this->Height;
+	this->Destination.w = this->Width;
+	this->Destination.x = this->xPos;
+	this->Destination.y = this->yPos; 
 
-		this->PrevFrame = this->Frame;
-		this->Setframe();
+	this->PrevFrame = this->Frame;
+	this->Setframe();
 }
 
 void Animal::Draw()
 {
-		SDL_BlitSurface( 
-			gamestate.GetSurface( this->Surface ),
-			&this->Clips[ this->PrevFrame ], 
-			gamestate.BackBuffer, 
-			&this->GetDestination() 
-			);
+	SDL_BlitSurface( 
+		gamestate.GetSurface( this->Surface ),
+		&this->Clips[ this->PrevFrame ], 
+		gamestate.BackBuffer, 
+		&this->GetDestination() 
+		);
 }
 
 SDL_Rect Animal::GetDestination()

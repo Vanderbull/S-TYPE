@@ -47,17 +47,18 @@ public:
 	Demon(int surface, int Xpos, int Ypos, int height, int width);
 	void InitiateDemon( int surface, int Xpos, int Ypos, int height, int width ); 
 
-	void Set_clips();
-	void UpdateEndPosition();
-	int  UpdatePlayer();
+	//int  UpdatePlayer();
 	bool IsInStateAttack();
 	bool CheckBoundaries();
 	bool Alive();
-	void SetLives(int Lives);
-	int GetLives();
+	//void SetLives(int Lives);
+	//int GetLives();
 	void Died();
 
-	bool SmallHunter, MediumHunter, LargeHunter, DemonHunter;
+	//bool SmallHunter;
+	//bool MediumHunter; 
+	//bool LargeHunter;
+	//bool DemonHunter;
 
 	// States the character can be in
 	bool isMovingRight;
@@ -76,13 +77,14 @@ public:
 	//bool Crouch, Jump, Punch, FireBall, CrouchFire, Triangle;
 	//bool FireBall;
 
-	bool DieOneLife, Demon_Dead;
+	//bool DieOneLife, 
+	//bool Demon_Dead;
 	
 	int Demon_Height;
 	int Demon_Width;
 	int DemonSurface;
 	int Demon_Health;
-	int Demon_Life;
+	//int Demon_Life;
 	int Last_Xpos;
 	int LastEnd_Pos;
 	int Score;
