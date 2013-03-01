@@ -5,6 +5,7 @@
 #include "Timers.h"
 #include "Objects.h"
 #include "Collision.h"
+#include "ControlGfx.h"
 
 // @date 2012-08-07
 
@@ -317,19 +318,19 @@ void Boss::UpdateBoss()
 	{
 		case BOSS_IDLE:
 			{
-				SDL_BlitSurface( gamestate.GetSurface( Surface ), 
+				SDL_BlitSurface( Gfx.GetSurface( Surface ), 
 					&GetClips( GetFrame() ),
 								gamestate.BackBuffer, &ReturnDestRect() );
 			}
 		case BOSS_ATTACK:
 			{
-				SDL_BlitSurface( gamestate.GetSurface( Surface ),
+				SDL_BlitSurface( Gfx.GetSurface( Surface ),
 				&GetClips( GetFrame() ), 
 				gamestate.BackBuffer, &ReturnDestRect() );
 			}
 		case BOSS_DIE:
 			{
-				SDL_BlitSurface( gamestate.GetSurface( Surface ),
+				SDL_BlitSurface( Gfx.GetSurface( Surface ),
 				&GetClips( GetFrame() ), 
 				gamestate.BackBuffer, &ReturnDestRect() );
 			}
@@ -436,7 +437,7 @@ void Boss::UpdateHeads()
 
 			SDL_Rect HeadDest = { temp->xPos, temp->yPos, temp->Width, temp->Height };
 			
-			SDL_BlitSurface(	gamestate.GetSurface( temp->Surface ), &temp->GetClips( temp->GetFrame() ),
+			SDL_BlitSurface(	Gfx.GetSurface( temp->Surface ), &temp->GetClips( temp->GetFrame() ),
 								gamestate.BackBuffer, &HeadDest );
 	
 		}
@@ -657,8 +658,8 @@ void Control_Enemies::Draw_Enemies()
 				}
 
 				SDL_Rect EnemyDest = {	(*i)->xPos, (*i)->yPos, 
-										gamestate.GetSurface( ZOMBIE )->w, 
-										gamestate.GetSurface( ZOMBIE )->h }; 
+										Gfx.GetSurface( ZOMBIE )->w, 
+										Gfx.GetSurface( ZOMBIE )->h }; 
 
 				
 				if(  (*i)->xPos < 0 )
@@ -673,8 +674,8 @@ void Control_Enemies::Draw_Enemies()
 						{
 							(*i)->xPos -= (*i)->Speed * gamestate.dt;
 						}
-						
-						SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->ZombieClips[0], 
+									 
+						SDL_BlitSurface(	Gfx.GetSurface( (*i)->Surface ),&(*i)->ZombieClips[0], 
 											gamestate.BackBuffer, &EnemyDest );
 					}
 					else if( (*i)->Surface == SKELETON )
@@ -684,7 +685,7 @@ void Control_Enemies::Draw_Enemies()
 							(*i)->xPos -= (*i)->Speed * gamestate.dt;
 						}
 						
-						SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ), &(*i)->SkeletonClips[ 0 ][ 0 ],
+						SDL_BlitSurface(	Gfx.GetSurface( (*i)->Surface ), &(*i)->SkeletonClips[ 0 ][ 0 ],
 											gamestate.BackBuffer, &EnemyDest );
 					}
 				}
@@ -746,12 +747,12 @@ CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 
 void Control_Enemies::Create_Enemies()
 {
-	if( rand() % 350 == 2)
-		Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, ZOMBIE ) );
+	//if( rand() % 350 == 2)
+		//Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, ZOMBIE ) );
 	if( rand() % 500 == 2)
 		Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, SKELETON ) );
-	if( rand() % 1000 == 2)
-		Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, SKULL ) );
+	//if( rand() % 1000 == 2)
+		//Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, SKULL ) );
 	/*
 	if( demon.WhereIsEnd > 200 )
 	{

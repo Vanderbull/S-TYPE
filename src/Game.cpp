@@ -66,29 +66,27 @@ Gamestate::Gamestate()
 }
 void Gamestate::KeyMapping(SDL_Event _event)
 {
+	bool KEYS[322];  // 322 is the number of SDLK_DOWN events
 
-bool KEYS[322];  // 322 is the number of SDLK_DOWN events
 
+	for(int i = 0; i < 322; i++) { // init them all to false
+	   KEYS[i] = false;
+	}
 
-for(int i = 0; i < 322; i++) { // init them all to false
-   KEYS[i] = false;
-}
-
-SDL_EnableKeyRepeat(0,0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
+	SDL_EnableKeyRepeat(0,0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
 
 	if( demon.GetState() == Demon::State::MOVING_RIGHT)
 		cout << "DO DA MOVA MOVA!!!!!" << endl;
 
-	            switch (_event.type) {
-					// check for keypresses
-            case SDL_KEYDOWN:
-                KEYS[_event.key.keysym.sym] = true;
-                break;
-            case SDL_KEYUP:
-                KEYS[_event.key.keysym.sym] = false;
-                break;
-					}
-      
+	switch (_event.type) 
+	{
+		case SDL_KEYDOWN:
+			KEYS[_event.key.keysym.sym] = true;
+            break;
+        case SDL_KEYUP:
+            KEYS[_event.key.keysym.sym] = false;
+            break;
+	}  
 }
 
 void Game::Handle_events( SDL_Event _event )
@@ -357,7 +355,8 @@ Game::Game()
 
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
-{	
+{
+	
 	m_srfCity = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
@@ -379,7 +378,10 @@ void Gamestate::load_files()
 	m_srfReaper = Gfx.Load_imageAlpha( "Graphics/srfReaper.png", 255, 255, 255 );
 	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 255, 255, 255 );
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
-
+	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
+	
+ 
+ /*
 	m_srfCity = Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
 	m_srfClouds = Load_imageAlpha( "Graphics/srfClouds.png", 0, 0, 0 );
 	m_srfBlack = Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
@@ -402,6 +404,7 @@ void Gamestate::load_files()
 	m_srfOutro = Load_imageAlpha( "Graphics/srfOutro.png", 255, 255, 255 );
 	m_srfButton = Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
+*/	
 
 	gamestate.CreateNewThings();
 
@@ -496,14 +499,14 @@ void Gamestate::MorphMyDude()
 			{
 				if( timer.Timer_MorphPics > 10 )
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
 					timer.Timer_MorphPics = 0;
 				}
 				else
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
 					timer.Timer_MorphPics++;
 				}
@@ -514,14 +517,14 @@ void Gamestate::MorphMyDude()
 			{
 				if( timer.Timer_MorphPics > 10 )
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
 					timer.Timer_MorphPics = 0;
 				}
 				else
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
 					timer.Timer_MorphPics++;
 				}
@@ -532,14 +535,14 @@ void Gamestate::MorphMyDude()
 			{
 				if( timer.Timer_MorphPics > 10 )
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
 					timer.Timer_MorphPics = 0;
 				}
 				else
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
 					timer.Timer_MorphPics++;
 				}
@@ -549,14 +552,14 @@ void Gamestate::MorphMyDude()
 			{
 				if( timer.Timer_MorphPics > 10 )
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
 					timer.Timer_MorphPics = 0;
 				}
 				else
 				{
-					SDL_BlitSurface(	m_surfaceList[ m_srfMorphing ], &MorphingPics[ State ], 
+					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
 					timer.Timer_MorphPics++;
 				}
@@ -941,7 +944,7 @@ void Gamestate::PlayOutro()
 			}
 		case 1:
 			{
-				SDL_BlitSurface(	gamestate.m_surfaceList[ gamestate.m_srfOutro ],
+				SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
 									&srcRect, gamestate.BackBuffer, &destRect );
 				if( Counter > 2 )
 				{
@@ -1051,7 +1054,7 @@ void Gamestate::PlayerDied()
 				}
 
 				timer.Timer_ShowDead++;
-				SDL_BlitSurface(	m_surfaceList[ outro->surface ], &outro->ClipsOutro[ 0 ],
+				SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
 									gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
 				break;
 			}
@@ -1080,7 +1083,7 @@ void Gamestate::PlayerDied()
 					LetterWidth++;
 				}
 						
-				SDL_BlitSurface(	m_surfaceList[ outro->surface ], &outro->ClipsOutro[ 0 ],
+				SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
 									gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
 
 				for( int i = 0; i < 8; i++ )
@@ -1163,7 +1166,7 @@ void Gamestate::Loading()
 	SDL_Rect dstRect = { Dragon->xPos, Dragon->yPos, Dragon->Width, Dragon->Height };
 	if ( gamestate.IntroDone == false )
 	{
-					SDL_BlitSurface(	m_surfaceList[ Dragon->surface ], &Dragon->Clips[ Dragon->Frame ],
+					SDL_BlitSurface(	Gfx.GetSurface( Dragon->surface ), &Dragon->Clips[ Dragon->Frame ],
 								gamestate.BackBuffer, &dstRect );
 			//Dragon->PrevFrame = Dragon->Frame;
 			Dragon->SetFrame();		
@@ -1235,7 +1238,7 @@ void Gamestate::MainScreen()
 
 	SDL_Rect dtRect = {	0, 0, 800, 600 };
 
-	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect ); 
+	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect ); 
 	if( CheckingHighScore == true )
 	{
 		ListHighScore->sort( gamestate.name->str.c_str(), gamestate.GetScore() );
@@ -1259,7 +1262,7 @@ void Gamestate::MainScreen()
 		{
 			//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
 			
-			SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ), 
+			SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
 								&TitleScreen->ButtonClips[ i ],
 								gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
 		}
@@ -1272,7 +1275,7 @@ void Gamestate::MainScreen()
 							gamestate.BackBuffer, &TitleScreen->DestClips[ 8 ] ); 	
 							*/
 
-		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
+		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
 							&TitleScreen->ButtonClips[ 7 ],
 							gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
 
@@ -1288,11 +1291,11 @@ void Gamestate::MainScreen()
 	}
 	else if( TitleScreen->ButtonCredits == true )
 	{
-		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
+		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
 							&TitleScreen->ButtonClips[ 8 ],
 							gamestate.BackBuffer, &TitleScreen->DestClips[ 9 ] ); 
 
-		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
+		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
 							&TitleScreen->ButtonClips[ 7 ],
 							gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
 
@@ -1314,7 +1317,7 @@ void Gamestate::MainScreen()
 			}
 			else
 			{
-				SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ), &TitleScreen->ButtonClips[ i ],
+				SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), &TitleScreen->ButtonClips[ i ],
 									gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
 			}
 		}
@@ -1360,7 +1363,7 @@ void Gamestate::EnterName()
 	cout << "EnterName gamestate..." << endl;
 		SDL_Rect scRect = {	0, 0, 800, 600 };
 		SDL_Rect dtRect = {	0, 0, 800, 600 };
-		SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
+		SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
 			SDL_Color textColor = { 0,0,0 };
 			SDL_Surface * srfEnter;
 			srfEnter = TTF_RenderText_Solid( font, gamestate.PlayerName.c_str(), textColor );
@@ -1733,7 +1736,7 @@ void Gamestate::DrawSprite()
 		}
 		else
 		{
-			SDL_SetAlpha( m_surfaceList[ demon.DemonSurface ], SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
+			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
 		}
 
 		

@@ -1,6 +1,7 @@
 #include "Animals.h"
 #include <SDL.h>
 #include "game.h"
+#include "ControlGfx.h"
 
 // @date 2012-08-07
 
@@ -32,7 +33,7 @@ void Animal::Update()
 void Animal::Draw()
 {
 	SDL_BlitSurface( 
-		gamestate.GetSurface( this->Surface ),
+		Gfx.GetSurface( this->Surface ),
 		&this->Clips[ this->PrevFrame ], 
 		gamestate.BackBuffer, 
 		&this->GetDestination() 

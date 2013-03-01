@@ -1,6 +1,7 @@
 #include "Intro.h"
 #include <SDL.h>
 #include "Game.h"
+#include "ControlGfx.h"
 
 // @date 2012-08-07
 /*
@@ -147,7 +148,7 @@ void IntroTalk::DoTalk()
 				Letter = 0;
 				DialogScene++;
 			}
-			SDL_BlitSurface(	gamestate.GetSurface( surface ), &srcClips[ CENTURION ], 
+			SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], 
 								gamestate.BackBuffer, &destRect );	
 			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
 			gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
@@ -174,7 +175,7 @@ void IntroTalk::DoTalk()
 				Letter = 0;
 				DialogScene++;
 			}
-			SDL_BlitSurface(	gamestate.GetSurface( surface ), &srcClips[ ZEUS ], 
+			SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ ZEUS ], 
 								gamestate.BackBuffer, &destRect );
 			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
 			gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );

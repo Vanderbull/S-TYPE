@@ -5,6 +5,7 @@
 #include "Timers.h"
 #include "Collision.h"
 #include "Audio.h"
+#include "ControlGfx.h"
 
 // @date 2012-08-07
 
@@ -243,7 +244,7 @@ void Control_Objects::DrawObjects()
 									Control_OBJ.WereWolf->Width,
 									Control_OBJ.WereWolf->Height };
 
-			SDL_BlitSurface(	gamestate.GetSurface( Control_OBJ.WereWolf->surface ),
+			SDL_BlitSurface(	Gfx.GetSurface( Control_OBJ.WereWolf->surface ),
 								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
 								gamestate.BackBuffer,
 								&destRect );
@@ -256,7 +257,7 @@ void Control_Objects::DrawObjects()
 									Control_OBJ.WereWolf->Width,
 									Control_OBJ.WereWolf->Height };
 
-			SDL_BlitSurface(	gamestate.GetSurface( Control_OBJ.WereWolf->surface ),
+			SDL_BlitSurface(	Gfx.GetSurface( Control_OBJ.WereWolf->surface ),
 								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
 								gamestate.BackBuffer,
 								&destRect );
@@ -271,7 +272,7 @@ void Control_Objects::DrawObjects()
 									Control_OBJ.WereWolf->yPos,
 									Control_OBJ.WereWolf->Width,
 									Control_OBJ.WereWolf->Height };
-			SDL_BlitSurface(	gamestate.GetSurface( Control_OBJ.WereWolf->surface ),
+			SDL_BlitSurface(	Gfx.GetSurface( Control_OBJ.WereWolf->surface ),
 								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
 								gamestate.BackBuffer,
 								&destRect );
@@ -389,7 +390,7 @@ void Control_Objects::DrawObjects()
 			
 			if( temp->FireLeft == true )
 			{
-				SDL_BlitSurface(	gamestate.GetSurface( temp->surface ), &temp->Clips[ temp->FrameLeft ],
+				SDL_BlitSurface(	Gfx.GetSurface( temp->surface ), &temp->Clips[ temp->FrameLeft ],
 									gamestate.BackBuffer, &destRect );
 				temp->xPos -= speed;
 				if( temp->FrameLeft == 5 )
@@ -403,7 +404,7 @@ void Control_Objects::DrawObjects()
 			}
 			else
 			{
-				SDL_BlitSurface(	gamestate.GetSurface( temp->surface ), &temp->Clips[ temp->FrameRight ],
+				SDL_BlitSurface(	Gfx.GetSurface( temp->surface ), &temp->Clips[ temp->FrameRight ],
 									gamestate.BackBuffer, &destRect );
 
 				temp->xPos += speed;
@@ -487,7 +488,7 @@ void Control_Objects::DrawObjects()
 			}
 
 
-				SDL_BlitSurface(	gamestate.GetSurface( temp->surface ), &srcRect,
+				SDL_BlitSurface(	Gfx.GetSurface( temp->surface ), &srcRect,
 									gamestate.BackBuffer, &dstRect );	
 		}
 	}
@@ -511,21 +512,21 @@ void Control_Objects::DrawObjects()
 	{
 		DemonLife->Frame = 2;
 
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
 	}
 	else if( demon.LifeMedium_Small )
 	{
 		DemonLife->Frame = 1;
 
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
 	}
 	else if( demon.LifeLittle_Small )
 	{
 		DemonLife->Frame = 0;
 
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
 							gamestate.BackBuffer, &dstRect );
 	}
 
@@ -533,7 +534,7 @@ void Control_Objects::DrawObjects()
 	SDL_Rect srfHealth = {384,0,192,64};
 	SDL_Rect Viewport_srfHealth = {0,0,192,64};
 
-	SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfHealth ), &srfHealth,
+	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfHealth ), &srfHealth,
 					gamestate.BackBuffer, &Viewport_srfHealth );
 
 	// Remove the switch statement it is not needed WhichLifeToShow keeps track of the value
@@ -541,32 +542,32 @@ void Control_Objects::DrawObjects()
 	{
 	case 0:
 		//FrameHealth = 0;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 1:
 		//FrameHealth = 1;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 2:
 		//FrameHealth = 2;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 3:
 		//FrameHealth = 3;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 4:
 		//FrameHealth = 4;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	case 5:
 		//FrameHealth = 5;
-		SDL_BlitSurface(	gamestate.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
+		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
 							gamestate.BackBuffer, &Control_OBJ.destHealth );
 		break;
 	}	
