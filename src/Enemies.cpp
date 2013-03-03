@@ -251,7 +251,7 @@ void Boss::UpdateBoss()
 					timer.Timer_Hit = 0;
 					demon.Right = true;
 					demon.isHit = true;
-					demon.Demon_Health -= 50;
+					demon.DemonHealth -= 50;
 				}
 				timer.Timer_Hit++;
 				
@@ -374,7 +374,7 @@ void Boss::UpdateHeads()
 					{
 						timer.Timer_Hit = 0;
 						demon.isHit = true;
-						demon.Demon_Health -= 50;
+						demon.DemonHealth -= 50;
 					}
 					timer.Timer_Hit++;
 				}
@@ -630,7 +630,7 @@ void Control_Enemies::Draw_Enemies()
 					if( (*i)->Surface == 8 )
 					{
 						timer.Timer_Hit++;
-						demon.Demon_Health -= 50;
+						demon.DemonHealth -= 50;
 						if( timer.Timer_Hit > 3 && demon.isImmortal == false )
 						{
 							timer.Timer_Hit = 0;
@@ -642,7 +642,7 @@ void Control_Enemies::Draw_Enemies()
 					else
 					{
 						timer.Timer_Hit++;
-						demon.Demon_Health -= 50;
+						demon.DemonHealth -= 50;
 							
 						if( timer.Timer_Hit > 3 && demon.isImmortal == false )
 						{

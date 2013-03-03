@@ -5,11 +5,14 @@
 #include <cmath>
 #include "Audio.h"
 
-// @date 2012-08-07
-
 Demon demon(0,GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH);
 
 Demon::Demon()
+{
+	// Not used
+}
+
+Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 {
 	Demon::SetAliveState(AliveState::ALIVE);
 	//Demon::SetLives(3);
@@ -37,57 +40,50 @@ Demon::Demon()
 
 	isGettingUp      = false;
 
-	KickRight        = 5;
-	KickLeft         = 28;
-	WhereWalkLeft    = 24;
-	WhereWalkRight   = 0;
-	WhereJumpLeft    = 35;
-	WhereJumpRight   = 12;
-	PunchRight       = 8; 
-	PunchLeft        = 31;
+	//KickRight        = 5;
+	//KickLeft         = 28;
+	//WhereWalkLeft    = 24;
+	//WhereWalkRight   = 0;
+	//WhereJumpLeft    = 35;
+	//WhereJumpRight   = 12;
+	//PunchRight       = 8; 
+	//PunchLeft        = 31;
 
-	WalkLeft_Demon   = 22;
-	WalkRight_Demon  = 1;
-	FireBallRight_Demon = 9;
-	FireBallLeft_Demon = 30;
-	JumpRight_Demon  = 5;
-	JumpLeft_Demon   = 26;
-	FireBallRight    = 39;
-	FireBallLeft     = 42;
+	//WalkLeft_Demon   = 22;
+	//WalkRight_Demon  = 1;
+	//FireBallRight_Demon = 9;
+	//FireBallLeft_Demon = 30;
+	//JumpRight_Demon  = 5;
+	//JumpLeft_Demon   = 26;
+	//FireBallRight    = 39;
+	//FireBallLeft     = 42;
 	//Score = 0;
 
 	AlphaImmortal    = SDL_ALPHA_OPAQUE;
 
 	//Demon_Life       = 2;
-	LengthOfTriangle = 0;
 
-	TriangleFireLeft = 34;
-	TriangleFireRight = 13;
+	//TriangleFireLeft = 34;
+	//TriangleFireRight = 13;
 
-	DieRightDemon    = 44;
-	DieLeftDemon     = 40;
-
-	DieState         = 0;
+	//DieRightDemon    = 44;
+	//DieLeftDemon     = 40;
 
 	Radius           = 0;
 	RadiusFist       = 0;
 	RadiusFeet       = 0;
-	Demon_Health     = 100;
+	DemonHealth     = 100;
 
 	Feet_W           = 10;
 	Feet_H           = 10;
 	Fist_W           = 15;
 	Fist_H           = 15;
 
-	LastEnd_Pos      = 0;
-
 	demon.xVelocity = 15.0f;
-}
-
-Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
-{
-	this->Demon_Height = height;
-	this->Demon_Width = width;
+	_LeftMostPosition = 0;
+	_RightMostPosition = 800;
+	//this->Demon_Height = height;
+	//this->Demon_Width = width;
 
 	this->Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
 	this->RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
@@ -97,6 +93,8 @@ Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 	//this->yPos = Ypos;
 	this->_Position.x = Xpos;
 	this->_Position.y = Ypos;
+	this->_Position.h = 100;
+	this->_Position.w = 130;
 
 	this->DemonSurface = surface;
 
@@ -155,8 +153,8 @@ bool Demon::IsInStateAttack()
 void Demon::InitiateDemon(	int surface, int Xpos, int Ypos, 
 							int height, int width )
 {
-	this->Demon_Height = height;
-	this->Demon_Width = width;
+	//this->Demon_Height = height;
+	//this->Demon_Width = width;
 
 	this->Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
 	this->RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
@@ -184,9 +182,9 @@ int Demon::UpdatePlayer()
 void Demon::Update()
 {
 	//Demon::_Position.y = GROUND_Y;
-	if( this->isMovingRight )
+	if( this->isMovingRight && _Position.x <= _RightMostPosition )
 		Demon::_Position.x += 500.0f * gamestate.dt;
- 	if( this->isMovingLeft )
+	if( this->isMovingLeft && _Position.x >= _LeftMostPosition )
 		Demon::_Position.x -= 500.0f * gamestate.dt;
 	if( this->isJumping )
 		Demon::_Position.y -= 10.0f * gamestate.dt;
@@ -198,8 +196,8 @@ void Demon::Update()
 	{
 		Demon::_Position.y = GROUND_Y;
 	}
-	Demon::_Position.w = Demon::Demon_Width;
-	Demon::_Position.h = Demon::Demon_Height;
+	Demon::_Position.w = 64; //Demon::Demon_Width;
+	Demon::_Position.h = 64;//Demon::Demon_Height;
 
 	//float JumpSpeed = 2500.0f;
 
@@ -269,7 +267,7 @@ void Demon::Update()
 		demon.isHit = false;
 		Control_OBJ.WhichLifeToShow++;
 
-		if( demon.Demon_Health <= 50 )
+		if( demon.DemonHealth <= 50 )
 		{
 			if( Control_OBJ.WhichLifeToShow >= 6 )
 			{
@@ -339,10 +337,10 @@ void Demon::SetClips()
 	{
 		for( int Row = 0; Row < ArraySizeRows; Row++ )
 		{
-			demon.AnimationArrays[ Column ][ Row ].x = Row * demon.Demon_Width;
-			demon.AnimationArrays[ Column ][ Row ].y = Column * demon.Demon_Height;
-			demon.AnimationArrays[ Column ][ Row ].h = demon.Demon_Height;
-			demon.AnimationArrays[ Column ][ Row ].w = demon.Demon_Width;
+			demon.AnimationArrays[ Column ][ Row ].x = Row * this->_Position.w;//demon.Demon_Width;
+			demon.AnimationArrays[ Column ][ Row ].y = Column * this->_Position.h;//demon.Demon_Height;
+			demon.AnimationArrays[ Column ][ Row ].h = this->_Position.h;//demon.Demon_Height;
+			demon.AnimationArrays[ Column ][ Row ].w = this->_Position.w;//demon.Demon_Width;
 		}
 	}
 }
@@ -352,8 +350,8 @@ void Demon::UpdatePosition(float xUnits, float yUnits)
 {
 	this->_Position.x += xUnits * gamestate.dt;
 	this->_Position.y += xUnits * gamestate.dt;
-	this->_Position.w = this->Demon_Width;
-	this->_Position.h = this->Demon_Height;
+	this->_Position.w = 64;//this->Demon_Width;
+	this->_Position.h = 64;//this->Demon_Height;
 
 	this->_Position.x += xUnits * gamestate.dt;
 	this->_Position.y += yUnits * gamestate.dt;

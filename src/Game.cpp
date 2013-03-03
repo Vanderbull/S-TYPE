@@ -153,7 +153,6 @@ void Game::Handle_events( SDL_Event _event )
 				cout << "Pressing down up arrow" << endl;
 				if( !demon.isJumping )
 				{
-					demon.JumpingSpeed = 150;
 					demon.SetState(Demon::State::JUMPING);
 				}
 
@@ -701,40 +700,38 @@ void Gamestate::ResetPlayer()
 
 	demon.isGettingUp = false;
 
-	demon.KickRight = 5;
-	demon.KickLeft = 28;
-	demon.WhereWalkLeft = 24;
-	demon.WhereWalkRight = 0;
-	demon.WhereJumpLeft = 35;
-	demon.WhereJumpRight = 12;
-	demon.PunchRight = 8; 
-	demon.PunchLeft = 31;
+	//demon.KickRight = 5;
+	//demon.KickLeft = 28;
+	//demon.WhereWalkLeft = 24;
+	//demon.WhereWalkRight = 0;
+	//demon.WhereJumpLeft = 35;
+	//demon.WhereJumpRight = 12;
+	//demon.PunchRight = 8; 
+	//demon.PunchLeft = 31;
 
-	demon.WalkLeft_Demon = 22;
-	demon.WalkRight_Demon = 1;
-	demon.FireBallRight_Demon = 9;
-	demon.FireBallLeft_Demon = 30;
-	demon.JumpRight_Demon = 5;
-	demon.JumpLeft_Demon = 26;
-	demon.FireBallRight = 39;
-	demon.FireBallLeft = 42;
+	//demon.WalkLeft_Demon = 22;
+	//demon.WalkRight_Demon = 1;
+	//demon.FireBallRight_Demon = 9;
+	//demon.FireBallLeft_Demon = 30;
+	//demon.JumpRight_Demon = 5;
+	//demon.JumpLeft_Demon = 26;
+	//demon.FireBallRight = 39;
+	//demon.FireBallLeft = 42;
 
 	demon.AlphaImmortal = SDL_ALPHA_OPAQUE;
 
 	//demon.Demon_Life = 2;
 
-	demon.TriangleFireLeft = 34;
-	demon.TriangleFireRight = 13;
+	//demon.TriangleFireLeft = 34;
+	//demon.TriangleFireRight = 13;
 
-	demon.DieRightDemon = 44;
-	demon.DieLeftDemon = 40;
-
-	demon.DieState = 0;
+	//demon.DieRightDemon = 44;
+	//demon.DieLeftDemon = 40;
 
 	demon.Radius = 0;
 	demon.RadiusFist = 0;
 	demon.RadiusFeet = 0;
-	demon.Demon_Health = 100;
+	demon.DemonHealth = 100;
 
 	demon.Feet_W = 10;
 	demon.Feet_H = 10;

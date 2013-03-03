@@ -80,40 +80,40 @@ public:
 	//bool DieOneLife, 
 	//bool Demon_Dead;
 	
-	int Demon_Height;
-	int Demon_Width;
+	//int Demon_Height;
+	//int Demon_Width;
 	int DemonSurface;
-	int Demon_Health;
+	int DemonHealth;
 	//int Demon_Life;
-	int Last_Xpos;
-	int LastEnd_Pos;
+	//int Last_Xpos;
+	//int LastEnd_Pos;
 	//int Score;
-	int JumpingSpeed;
-	int JumpingVelocity;
-	int JumpingGravity;
+	//int JumpingSpeed;
+	//int JumpingVelocity;
+	//int JumpingGravity;
 	//int xPosHotSpot;
 
 	int AlphaImmortal;
-	int LengthOfTriangle;
+	//int LengthOfTriangle;
 
 
 	int Feet_W, Feet_H, Fist_W, Fist_H;
 
 	int WhichFrame;
-	int WhereAnimation;
-	int DieState;
+	//int WhereAnimation;
+	//int DieState;
 
-	int WhereWalkRight, WhereWalkLeft;
-	int WhereJumpLeft, WhereJumpRight;
-	int KickRight, KickLeft;
-	int PunchRight, PunchLeft;
-	int TriangleFireLeft, TriangleFireRight;
-	int DieRightDemon, DieLeftDemon;
+	//int WhereWalkRight, WhereWalkLeft;
+	//int WhereJumpLeft, WhereJumpRight;
+	//int KickRight, KickLeft;
+	//int PunchRight, PunchLeft;
+	//int TriangleFireLeft, TriangleFireRight;
+	//int DieRightDemon, DieLeftDemon;
 
-	int WalkLeft_Demon, WalkRight_Demon;
-	int FireBallRight_Demon, FireBallLeft_Demon;
-	int JumpRight_Demon, JumpLeft_Demon;
-	int FireBallRight, FireBallLeft;
+	//int WalkLeft_Demon, WalkRight_Demon;
+	//int FireBallRight_Demon, FireBallLeft_Demon;
+	//int JumpRight_Demon, JumpLeft_Demon;
+	//int FireBallRight, FireBallLeft;
 	
 	int Radius, RadiusFist, RadiusFeet;
 
@@ -164,6 +164,8 @@ private:
 	Demon::MorphState _MorphState;
 	Demon::AliveState _AliveState;
 	SDL_Rect _Position;
+	int _LeftMostPosition;
+	int _RightMostPosition;
 };
 
 extern Demon demon;
