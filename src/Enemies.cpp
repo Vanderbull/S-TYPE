@@ -180,7 +180,7 @@ void Heads::UpdateFrame()
 
 float Boss::GetTimerAttack()
 {
-	return timer.Timer_AttackBoss;
+	return timer.TimerAttackBoss;
 }
 
 int Boss::GetState()
@@ -190,13 +190,13 @@ int Boss::GetState()
 
 void Boss::ResetAttackTimer()
 {
-	timer.Timer_AttackBoss = 0;
+	timer.TimerAttackBoss = 0;
 }
 
 void Boss::UpdateAttackTimer()
 {
 	float Speed = 200.0f * ( gamestate.dt / 1000.0f );
-	timer.Timer_AttackBoss += Speed;
+	timer.TimerAttackBoss += Speed;
 }
 
 void Boss::SetState( int WhichState )
@@ -246,14 +246,14 @@ void Boss::UpdateBoss()
 			}
 			else
 			{		
-				if( timer.Timer_Hit > 3 && demon.isImmortal == false )
+				if( timer.TimerHit > 3 && demon.isImmortal == false )
 				{
-					timer.Timer_Hit = 0;
+					timer.TimerHit = 0;
 					demon.Right = true;
 					demon.isHit = true;
 					demon.DemonHealth -= 50;
 				}
-				timer.Timer_Hit++;
+				timer.TimerHit++;
 				
 			}
 
@@ -262,25 +262,25 @@ void Boss::UpdateBoss()
 		HeadsComing = true;
 
 		float BOSSpeed = 150.0f * ( gamestate.dt / 1000.0f );
-		timer.Timer_BossAnim += BOSSpeed;
+		timer.TimerBossAnim += BOSSpeed;
 
 		float BOSSpeedHead = 70.0f * ( gamestate.dt / 1000.0f );
-		timer.Timer_BossHead += BOSSpeedHead;
+		timer.TimerBossHead += BOSSpeedHead;
 
 		ResetAttackTimer();
 
 		SetState( BOSS_ATTACK );
-		if( timer.Timer_BossAnim >= ANIMPACEBOSSHEAD )
+		if( timer.TimerBossAnim >= ANIMPACEBOSSHEAD )
 		{
 			UpdateFrame();
-			timer.Timer_BossAnim = 0.0f;
+			timer.TimerBossAnim = 0.0f;
 		}
 
-		if( timer.Timer_BossHead >= 20 )
+		if( timer.TimerBossHead >= 20 )
 		{
 			if( HeadAnimation == true )
 			{
-				timer.Timer_BossHead = 0;
+				timer.TimerBossHead = 0;
 				int Length = rand() % ( gamestate.SCREEN_WIDTH - 100 ) + 50 ;
 				if( Length < 50 )
 				{
@@ -370,13 +370,13 @@ void Boss::UpdateHeads()
 				}
 				else
 				{
-					if( timer.Timer_Hit > 3 && demon.isImmortal == false )
+					if( timer.TimerHit > 3 && demon.isImmortal == false )
 					{
-						timer.Timer_Hit = 0;
+						timer.TimerHit = 0;
 						demon.isHit = true;
 						demon.DemonHealth -= 50;
 					}
-					timer.Timer_Hit++;
+					timer.TimerHit++;
 				}
 
 			}
@@ -629,11 +629,11 @@ void Control_Enemies::Draw_Enemies()
 					//demon.isHit = true;
 					if( (*i)->Surface == 8 )
 					{
-						timer.Timer_Hit++;
+						timer.TimerHit++;
 						demon.DemonHealth -= 50;
-						if( timer.Timer_Hit > 3 && demon.isImmortal == false )
+						if( timer.TimerHit > 3 && demon.isImmortal == false )
 						{
-							timer.Timer_Hit = 0;
+							timer.TimerHit = 0;
 							demon.isHit = true;
 						}
 						(*i)->Attack = true;
@@ -641,12 +641,12 @@ void Control_Enemies::Draw_Enemies()
 					}
 					else
 					{
-						timer.Timer_Hit++;
+						timer.TimerHit++;
 						demon.DemonHealth -= 50;
 							
-						if( timer.Timer_Hit > 3 && demon.isImmortal == false )
+						if( timer.TimerHit > 3 && demon.isImmortal == false )
 						{
-							timer.Timer_Hit = 0;
+							timer.TimerHit = 0;
 							demon.isHit = true;
 						}	
 					}		

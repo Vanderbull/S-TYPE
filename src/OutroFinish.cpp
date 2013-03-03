@@ -1,8 +1,6 @@
 #include "OutroFinish.h"
 #include "Game.h"
 
-// @date 2012-08-07
-
 Outro::Outro()
 {
 	surface = gamestate.m_srfReaper;

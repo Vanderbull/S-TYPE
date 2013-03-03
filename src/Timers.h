@@ -1,7 +1,5 @@
 #pragma once
 
-// @date 2012-08-07
-
 class Timer
 {
 public:
@@ -9,66 +7,35 @@ public:
 
 	bool IsPaused();
 	bool IsStarted();
-	int GetTicks();
 	bool Unpause();
 	bool Pause();
 	bool Stop();
 	bool Start();
 	void RestartTimers();
+	int GetTicks();
 
-	bool is_paused();
-	bool is_started();
-	int	 get_ticks();
-	void unpause();
-	void pause();
-	void stop();
-	void start();
-	void RestartAllTimers();
-
-	float AttackTimer_Skeleton;
-	float AttackTimer_Zombie;
-	float AttackTimer_Head;
-	float Timer_CreateCoffin;
-
-	float Timer_AttackBoss;
-	float Timer_BossAnim;
-	float Timer_BossHead;
-	float Timer_CoffinTimer;
-
-	float Timer_PowerUp;
-	float Timer_PowerUpRoll;
-
-	float Timer_MorphPics;
-	float Timer_TriangleAttack;
-
-	float Timer_Health;
-	float Timer_UpdateGame;
-
-	float Timer_Hit;
-	float Timer_Immortal;
-
-	float Timer_R; 
-	float Timer_G; 
-	float Timer_B;
-	float Timer_Color;
-
-	float Timer_ShowDead;
-	float Timer_Name;
-	float Timer_Dancing;
-
-	float Timer_FireBall;
-	float Timer_TriangleAttackOK;
+	float AttackTimerSkeleton;
+	float AttackTimerZombie;
+	float AttackTimerHead;
+	float TimerAttackBoss;
+	float TimerBossAnim;
+	float TimerBossHead;
+	float TimerCoffinTimer;
+	float TimerPowerUp;
+	float TimerPowerUpRoll;
+	float TimerMorphPics;
+	float TimerHit;
 
 private:
 	//The clock time when the timer started
-    int startTicks;
+    int _StartTicks;
     
     //The ticks stored when the timer was paused
-    int pausedTicks;
+    int _PausedTicks;
     
     //The timer status
-    bool paused;
-    bool started;
+    bool _Paused;
+    bool _Started;
 };
 
 extern Timer timer;

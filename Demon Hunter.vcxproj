@@ -120,7 +120,6 @@
     <ClCompile Include="src\Timers.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConfigFileConverter.h" />
     <ClInclude Include="src\Animals.h" />
     <ClInclude Include="src\Audio.h" />
     <ClInclude Include="src\BaseController.h" />

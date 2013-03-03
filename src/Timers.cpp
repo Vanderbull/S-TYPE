@@ -2,77 +2,95 @@
 #include <SDL.h>
 Timer timer;
 
-// @date 2012-08-07
-
 Timer::Timer()
 {
-	AttackTimer_Skeleton = 0.0f;
-	AttackTimer_Zombie = 0.0f;
-	AttackTimer_Head = 0.0f;
+	AttackTimerSkeleton = 0.0f;
+	AttackTimerZombie = 0.0f;
+	AttackTimerHead = 0.0f;
 
-	Timer_AttackBoss = 0.0f;
-	Timer_BossAnim = 0.0f;
-	Timer_BossHead = 0.0f;
-	Timer_Dancing = 0.0f;
+	TimerAttackBoss = 0.0f;
+	TimerBossAnim = 0.0f;
+	TimerBossHead = 0.0f;
 
-	Timer_PowerUp = 0.0f;
-	Timer_CoffinTimer = 0.0f;
-	Timer_PowerUpRoll = 0.0f;
-	Timer_MorphPics = 0.0f;
+	TimerPowerUp = 0.0f;
+	TimerCoffinTimer = 0.0f;
+	TimerPowerUpRoll = 0.0f;
+	TimerMorphPics = 0.0f;
 
-	Timer_TriangleAttack = 0.0f;
-	Timer_Health = 0.0f;
-	Timer_UpdateGame = 0.0f;
-	Timer_CreateCoffin = 0.0f;
+	TimerHit = 0.0f;
 
-	Timer_Hit = 0.0f;
-	Timer_Immortal = 0.0f;
-
-	Timer_R = 0.0f; 
-	Timer_G = 0.0f; 
-	Timer_B = 0.0f;
-	Timer_Color = 0.0f;
-
-	Timer_ShowDead = 0.0f;
-	Timer_Name = 0.0f;
-
-	Timer_FireBall = 0.0f;
-	Timer_TriangleAttack = 0.0f;
-
-	startTicks = 0;
-    pausedTicks = 0;
-    paused = false;
-    started = false;
+	_StartTicks = 0;
+    _PausedTicks = 0;
+    _Paused = false;
+    _Started = false;
 }
 
 bool Timer::IsPaused()
 {
-	return paused;
+	return _Paused;
 }
 
 bool Timer::IsStarted()
 {
-	return started;
+	return _Started;
 }
 
 int Timer::GetTicks()
 {
-	return 0;
+    //If the timer is running
+    if( _Started == true )
+    {
+        //If the timer is paused
+        if( _Paused == true )
+        {
+            //Return the number of ticks when the the timer was paused
+            return _PausedTicks;
+        }
+        else
+        {
+            //Return the current time minus the start time
+			return SDL_GetTicks() - _StartTicks;
+        }    
+    }
+    
+    //If the timer isn't running
+    return 0;  
 };
 bool Timer::Unpause()
 {
-	return false;
+    //If the timer is paused
+    if( _Paused == true )
+    {
+        //Unpause the timer
+        _Paused = false;
+    
+        //Reset the starting ticks
+        _StartTicks = SDL_GetTicks() - _PausedTicks;
+        
+        //Reset the paused ticks
+        _PausedTicks = 0;
+    }
+	return _Paused;
 };
 bool Timer::Pause()
 {
-	return false;
+    //If the timer is running and isn't already paused
+    if( ( _Started == true ) && ( _Paused == false ) )
+    {
+        //Pause the timer
+        _Paused = true;
+    
+        //Calculate the paused ticks
+        _PausedTicks = SDL_GetTicks() - _StartTicks;
+    }
+	return _Paused;
 };
 bool Timer::Stop()
 {
 	if( IsStarted() )
 	{
-		started = false;
-		paused = false;
+		_Started = false;
+		_Paused = false;
 		return true;
 	}
 	else
@@ -91,15 +109,15 @@ bool Timer::Start()
 {
 	if( IsStarted() )
 	{
-		paused = false;
+		_Paused = false;
 		return true;
 	}
 	else
 	{
 	    //Get the current clock time
-	    startTicks = SDL_GetTicks();    
+	    _StartTicks = SDL_GetTicks();    
 
-		paused = true;
+		_Paused = true;
 		return false;
 	}
 
@@ -114,130 +132,25 @@ bool Timer::Start()
 
 	//return false;
 };
-void RestartTimers()
+void Timer::RestartTimers()
 {
+	AttackTimerSkeleton = 0.0f;
+	AttackTimerZombie = 0.0f;
+	AttackTimerHead = 0.0f;
+
+	TimerAttackBoss = 0.0f;
+	TimerBossAnim = 0.0f;
+	TimerBossHead = 0.0f;
+
+	TimerPowerUp = 0.0f;
+	TimerCoffinTimer = 0.0f;
+	TimerPowerUpRoll = 0.0f;
+	TimerMorphPics = 0.0f;
+
+	TimerHit = 0.0f;
+
+	_StartTicks = 0;
+	_PausedTicks = 0;
+    _Paused = false;
+    _Started = false;
 };
-
-void Timer::RestartAllTimers()
-{
-	AttackTimer_Skeleton = 0.0f;
-	AttackTimer_Zombie = 0.0f;
-	AttackTimer_Head = 0.0f;
-
-	Timer_AttackBoss = 0.0f;
-	Timer_BossAnim = 0.0f;
-	Timer_BossHead = 0.0f;
-
-	Timer_PowerUp = 0.0f;
-	Timer_CoffinTimer = 0.0f;
-	Timer_PowerUpRoll = 0.0f;
-	Timer_MorphPics = 0.0f;
-
-	Timer_TriangleAttack = 0.0f;
-	Timer_Health = 0.0f;
-	Timer_UpdateGame = 0.0f;
-	Timer_CreateCoffin = 0.0f;
-
-	Timer_Hit = 0.0f;
-	Timer_Immortal = 0.0f;
-
-	Timer_R = 0.0f; 
-	Timer_G = 0.0f; 
-	Timer_B = 0.0f;
-	Timer_Color = 0.0f;
-
-	Timer_ShowDead = 0.0f;
-
-	startTicks = 0;
-    pausedTicks = 0;
-    paused = false;
-    started = false;
-}
-
-void Timer::start()
-{
-    //Start the timer
-    started = true;
-    
-    //Unpause the timer
-    paused = false;
-    
-    //Get the current clock time
-    startTicks = SDL_GetTicks();    
-}
-
-void Timer::stop()
-{
-    //Stop the timer
-    started = false;
-    
-    //Unpause the timer
-    paused = false;    
-}
-
-/*
-Prerequisits:
-started = true
-paused = false
-
-*/
-void Timer::pause()
-{
-    //If the timer is running and isn't already paused
-    if( ( started == true ) && ( paused == false ) )
-    {
-        //Pause the timer
-        paused = true;
-    
-        //Calculate the paused ticks
-        pausedTicks = SDL_GetTicks() - startTicks;
-    }
-}
-
-void Timer::unpause()
-{
-    //If the timer is paused
-    if( paused == true )
-    {
-        //Unpause the timer
-        paused = false;
-    
-        //Reset the starting ticks
-        startTicks = SDL_GetTicks() - pausedTicks;
-        
-        //Reset the paused ticks
-        pausedTicks = 0;
-    }
-}
-
-int Timer::get_ticks()
-{
-    //If the timer is running
-    if( started == true )
-    {
-        //If the timer is paused
-        if( paused == true )
-        {
-            //Return the number of ticks when the the timer was paused
-            return pausedTicks;
-        }
-        else
-        {
-            //Return the current time minus the start time
-            return SDL_GetTicks() - startTicks;
-        }    
-    }
-    
-    //If the timer isn't running
-    return 0;    
-}
-
-bool Timer::is_started()
-{
-    return started;    
-}
-
-bool Timer::is_paused()
-{
-    return paused;    
-}

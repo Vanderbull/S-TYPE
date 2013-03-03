@@ -50,10 +50,8 @@ public:
 	//int  UpdatePlayer();
 	bool IsInStateAttack();
 	bool CheckBoundaries();
-	bool Alive();
 	//void SetLives(int Lives);
 	//int GetLives();
-	void Died();
 
 	//bool SmallHunter;
 	//bool MediumHunter; 
@@ -99,7 +97,7 @@ public:
 
 	int Feet_W, Feet_H, Fist_W, Fist_H;
 
-	int WhichFrame;
+	//int WhichFrame;
 	//int WhereAnimation;
 	//int DieState;
 
@@ -118,7 +116,7 @@ public:
 	int Radius, RadiusFist, RadiusFeet;
 
 	bool Right, Left;
-	bool MovementDirection; // false = left, true = right
+	//bool MovementDirection; // false = left, true = right
 
 	//float xPos, yPos;
 	float xVelocity, yVelocity;

@@ -375,7 +375,7 @@ void Gamestate::load_files()
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
 	m_srfMorphing = Gfx.Load_imageAlpha( "Graphics/srfMorphing.png", 255, 255, 241 );
 	m_srfReaper = Gfx.Load_imageAlpha( "Graphics/srfReaper.png", 255, 255, 255 );
-	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 255, 255, 255 );
+	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	
@@ -496,71 +496,71 @@ void Gamestate::MorphMyDude()
 		{
 		case 0:
 			{
-				if( timer.Timer_MorphPics > 10 )
+				if( timer.TimerMorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.Timer_MorphPics = 0;
+					timer.TimerMorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.Timer_MorphPics++;
+					timer.TimerMorphPics++;
 				}
 
 				break;
 			}
 		case 1:
 			{
-				if( timer.Timer_MorphPics > 10 )
+				if( timer.TimerMorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.Timer_MorphPics = 0;
+					timer.TimerMorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.Timer_MorphPics++;
+					timer.TimerMorphPics++;
 				}
 
 				break;
 			}
 		case 2:
 			{
-				if( timer.Timer_MorphPics > 10 )
+				if( timer.TimerMorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.Timer_MorphPics = 0;
+					timer.TimerMorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.Timer_MorphPics++;
+					timer.TimerMorphPics++;
 				}
 				break;
 			}
 		case 3:
 			{
-				if( timer.Timer_MorphPics > 10 )
+				if( timer.TimerMorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.Timer_MorphPics = 0;
+					timer.TimerMorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.Timer_MorphPics++;
+					timer.TimerMorphPics++;
 				}
 				break;
 			}
@@ -882,7 +882,7 @@ void Gamestate::PlayOutro()
 	bool JumpDown = false, JumpUp = true;
 
 	Timer speed;
-	speed.start();
+	speed.Start();
 
 	SDL_Rect srcRect = { 0, 0, 800, 600 };
 	SDL_Rect destRect = { 0, 0, 800, 600 };
@@ -890,7 +890,7 @@ void Gamestate::PlayOutro()
 	bool Finish = false;
 	while( Finish != true )
 	{
-		while( speed.get_ticks() < 1000 / 40 )
+		while( speed.GetTicks() < 1000 / 40 )
         {
             //wait    
 			
@@ -1006,6 +1006,25 @@ void Gamestate::DoIntroTalk()
 // ----------------------------------------------------------------------------
 void Gamestate::PlayerDied()
 {
+	SDL_Rect srcRect = { 0, 0, 800, 600 };
+	SDL_Rect destRect = { 0, 0, 800, 600 };
+
+	SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, gamestate.BackBuffer, &destRect );
+
+	SDL_Event input;
+
+	SDL_PollEvent( &input );
+	if( input.type == SDL_KEYDOWN )
+	{
+		switch( input.key.keysym.sym )
+		{
+		case SDLK_SPACE:
+			gamestate.GameCondition = GS_INTRO;
+			break;
+		}
+	}
+	gamestate.FLIP();
+	/*
 	ListHighScore->sort( gamestate.name->str.c_str(), _Score );
 	ListHighScore->Save();
 
@@ -1024,7 +1043,7 @@ void Gamestate::PlayerDied()
 	SDL_Color Stone = { 105, 105, 136 };
 	SDL_Color StoneFront = { 0, 0, 0, 255 };
 
-	bool PlayDeadAnimation = true;
+	bool PlayDeadAnimation = true; 
 	while( PlayDeadAnimation == true )
 	{
 		SDL_PollEvent( &input );
@@ -1051,8 +1070,8 @@ void Gamestate::PlayerDied()
 				}
 
 				timer.Timer_ShowDead++;
-				SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
-									gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
+				//SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
+				//					gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
 				break;
 			}
 		case 1:
@@ -1111,7 +1130,7 @@ void Gamestate::PlayerDied()
 		gamestate.FLIP();
 	}
 
-	gamestate.GameCondition = GS_INTRO;
+	gamestate.GameCondition = GS_INTRO;	*/
 
 }
 
@@ -1409,7 +1428,7 @@ void Gamestate::RestartGame()
 	ResetObjects();
 	ResetRest();
 
-	timer.RestartAllTimers();
+	timer.RestartTimers();
 
 	demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH );
 	//gamestate.Score = 0;

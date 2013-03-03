@@ -54,7 +54,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ConfigFileConverter.h" />
     <ClInclude Include="src\Animals.h">
       <Filter>Animals</Filter>
     </ClInclude>

@@ -147,7 +147,9 @@ bool Demon::IsInStateAttack()
 		return true;
 	}
 	else
+	{
 		return false;
+	}
 }
 
 void Demon::InitiateDemon(	int surface, int Xpos, int Ypos, 
@@ -196,8 +198,8 @@ void Demon::Update()
 	{
 		Demon::_Position.y = GROUND_Y;
 	}
-	Demon::_Position.w = 64; //Demon::Demon_Width;
-	Demon::_Position.h = 64;//Demon::Demon_Height;
+	//Demon::_Position.w = 64; //Demon::Demon_Width;
+	//Demon::_Position.h = 64;//Demon::Demon_Height;
 
 	//float JumpSpeed = 2500.0f;
 
@@ -258,8 +260,7 @@ void Demon::Update()
 	if( this->isGettingUp )
 	{
 		// cout << "demon is getting backup from falling..." << endl;
-	}
-
+	}			
 	if( this->isHit )
 	{
 		//demon.Demon_Life--;
@@ -272,7 +273,7 @@ void Demon::Update()
 			if( Control_OBJ.WhichLifeToShow >= 6 )
 			{
 				Control_OBJ.WhichLifeToShow = 0;
-				demon.Died();	
+				demon.SetAliveState(DEAD);	
 				//demon.DieOneLife = true;
 				demon.isImmortal = true;
 				//demon.Demon_Dead = true;
@@ -350,8 +351,8 @@ void Demon::UpdatePosition(float xUnits, float yUnits)
 {
 	this->_Position.x += xUnits * gamestate.dt;
 	this->_Position.y += xUnits * gamestate.dt;
-	this->_Position.w = 64;//this->Demon_Width;
-	this->_Position.h = 64;//this->Demon_Height;
+	//this->_Position.w = 64;//this->Demon_Width;
+	//this->_Position.h = 64;//this->Demon_Height;
 
 	this->_Position.x += xUnits * gamestate.dt;
 	this->_Position.y += yUnits * gamestate.dt;
@@ -369,11 +370,6 @@ void Demon::UpdatePosition(float xUnits, float yUnits)
 	}
 }
 
-bool Demon::Alive()
-{
-	return true;
-}
-
 /*
 void Demon::SetLives(int Lives)
 {
@@ -386,7 +382,3 @@ int Demon::GetLives()
 	return _Lives;
 }
 */
-
-void Demon::Died()
-{
-}

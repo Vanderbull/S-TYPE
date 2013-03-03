@@ -218,24 +218,24 @@ void Control_Objects::DrawObjects()
 		if( Control_OBJ.WereWolf->Left )
 		{	
 			Control_OBJ.WereWolf->xPos -= 2 * cos( CoffinTim );
-			if( timer.Timer_PowerUpRoll > 20 )
+			if( timer.TimerPowerUpRoll > 20 )
 			{
 				Control_OBJ.WereWolf->Right = true;
 				Control_OBJ.WereWolf->Left = false;
-				timer.Timer_PowerUpRoll = 0.0f;
+				timer.TimerPowerUpRoll = 0.0f;
 			}
-			timer.Timer_PowerUpRoll++;
+			timer.TimerPowerUpRoll++;
 		}
 		else if( Control_OBJ.WereWolf->Right )
 		{
 			Control_OBJ.WereWolf->xPos += 2 * cos( CoffinTim );
-			if( timer.Timer_PowerUpRoll > 20 )
+			if( timer.TimerPowerUpRoll > 20 )
 			{
 				Control_OBJ.WereWolf->Left = true;
 				Control_OBJ.WereWolf->Right = false;
-				timer.Timer_PowerUpRoll = 0.0f;
+				timer.TimerPowerUpRoll = 0.0f;
 			}
-			timer.Timer_PowerUpRoll++;
+			timer.TimerPowerUpRoll++;
 		}
 		
 			// draw the powerup here when its created
@@ -249,7 +249,7 @@ void Control_Objects::DrawObjects()
 								gamestate.BackBuffer,
 								&destRect );
 
-		if( timer.Timer_PowerUp > 2 )
+		if( timer.TimerPowerUp > 2 )
 		{
 			// draw the powerup here when its created
 			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
@@ -263,7 +263,7 @@ void Control_Objects::DrawObjects()
 								&destRect );
 
 			Control_OBJ.WereWolf->SetFrame();
-			timer.Timer_PowerUp = 0;
+			timer.TimerPowerUp = 0;
 		}
 		else
 		{
@@ -276,7 +276,7 @@ void Control_Objects::DrawObjects()
 								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
 								gamestate.BackBuffer,
 								&destRect );
-			timer.Timer_PowerUp++;
+			timer.TimerPowerUp++;
 		}
 
 		// kolla om han har blivit demon annars så sätt till false igen så den kan skapas en gång till
@@ -470,14 +470,14 @@ void Control_Objects::DrawObjects()
 									temp->Width, 
 									temp->Height };
 
-			if( timer.Timer_CoffinTimer > 5 )
+			if( timer.TimerCoffinTimer > 5 )
 			{
-				timer.Timer_CoffinTimer = 0.0f;
+				timer.TimerCoffinTimer = 0.0f;
 				temp->SetFrames();
 			}
 			else
 			{
-				timer.Timer_CoffinTimer++;
+				timer.TimerCoffinTimer++;
 			}
 
 			if( temp->Frame == 11 )
