@@ -496,71 +496,71 @@ void Gamestate::MorphMyDude()
 		{
 		case 0:
 			{
-				if( timer.TimerMorphPics > 10 )
+				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.TimerMorphPics = 0;
+					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.TimerMorphPics++;
+					timer.MorphPics++;
 				}
 
 				break;
 			}
 		case 1:
 			{
-				if( timer.TimerMorphPics > 10 )
+				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.TimerMorphPics = 0;
+					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.TimerMorphPics++;
+					timer.MorphPics++;
 				}
 
 				break;
 			}
 		case 2:
 			{
-				if( timer.TimerMorphPics > 10 )
+				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.TimerMorphPics = 0;
+					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.TimerMorphPics++;
+					timer.MorphPics++;
 				}
 				break;
 			}
 		case 3:
 			{
-				if( timer.TimerMorphPics > 10 )
+				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 										gamestate.BackBuffer, &destRect );
 					State--;
-					timer.TimerMorphPics = 0;
+					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
 					gamestate.BackBuffer, &destRect );
-					timer.TimerMorphPics++;
+					timer.MorphPics++;
 				}
 				break;
 			}
@@ -1009,21 +1009,30 @@ void Gamestate::PlayerDied()
 	SDL_Rect srcRect = { 0, 0, 800, 600 };
 	SDL_Rect destRect = { 0, 0, 800, 600 };
 
-	SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, gamestate.BackBuffer, &destRect );
 
 	SDL_Event input;
 
-	SDL_PollEvent( &input );
-	if( input.type == SDL_KEYDOWN )
+	while( gamestate.GameCondition == GS_DEAD )
 	{
-		switch( input.key.keysym.sym )
+		SDL_PollEvent( &input );
+		if( input.type == SDL_KEYDOWN )
 		{
-		case SDLK_SPACE:
-			gamestate.GameCondition = GS_INTRO;
-			break;
+  			switch( input.key.keysym.sym )
+			{
+			case SDLK_SPACE:
+				gamestate.GameCondition = GS_INTRO;
+				break;
+			}
 		}
+		DrawBackgroundBlack();
+		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, gamestate.BackBuffer, &destRect );
+		SDL_Color textColor = { 255, 255, 255 };
+		SDL_Color textColor2 = { 0, 0, 0 };
+		sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
+		gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, textColor, textColor2 );
+		gamestate.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
+		gamestate.FLIP();
 	}
-	gamestate.FLIP();
 	/*
 	ListHighScore->sort( gamestate.name->str.c_str(), _Score );
 	ListHighScore->Save();

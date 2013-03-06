@@ -17,14 +17,14 @@ public:
 	float AttackTimerSkeleton;
 	float AttackTimerZombie;
 	float AttackTimerHead;
-	float TimerAttackBoss;
-	float TimerBossAnim;
-	float TimerBossHead;
-	float TimerCoffinTimer;
-	float TimerPowerUp;
-	float TimerPowerUpRoll;
-	float TimerMorphPics;
-	float TimerHit;
+	float AttackBoss;
+	float BossAnim;
+	float BossHead;
+	float CoffinTimer;
+	float PowerUp;
+	float PowerUpRoll;
+	float MorphPics;
+	float Hit;
 
 private:
 	//The clock time when the timer started

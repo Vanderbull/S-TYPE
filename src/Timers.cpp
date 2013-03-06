@@ -8,16 +8,16 @@ Timer::Timer()
 	AttackTimerZombie = 0.0f;
 	AttackTimerHead = 0.0f;
 
-	TimerAttackBoss = 0.0f;
-	TimerBossAnim = 0.0f;
-	TimerBossHead = 0.0f;
+	AttackBoss = 0.0f;
+	BossAnim = 0.0f;
+	BossHead = 0.0f;
 
-	TimerPowerUp = 0.0f;
-	TimerCoffinTimer = 0.0f;
-	TimerPowerUpRoll = 0.0f;
-	TimerMorphPics = 0.0f;
+	PowerUp = 0.0f;
+	CoffinTimer = 0.0f;
+	PowerUpRoll = 0.0f;
+	MorphPics = 0.0f;
 
-	TimerHit = 0.0f;
+	Hit = 0.0f;
 
 	_StartTicks = 0;
     _PausedTicks = 0;
@@ -138,16 +138,16 @@ void Timer::RestartTimers()
 	AttackTimerZombie = 0.0f;
 	AttackTimerHead = 0.0f;
 
-	TimerAttackBoss = 0.0f;
-	TimerBossAnim = 0.0f;
-	TimerBossHead = 0.0f;
+	AttackBoss = 0.0f;
+	BossAnim = 0.0f;
+	BossHead = 0.0f;
 
-	TimerPowerUp = 0.0f;
-	TimerCoffinTimer = 0.0f;
-	TimerPowerUpRoll = 0.0f;
-	TimerMorphPics = 0.0f;
+	PowerUp = 0.0f;
+	CoffinTimer = 0.0f;
+	PowerUpRoll = 0.0f;
+	MorphPics = 0.0f;
 
-	TimerHit = 0.0f;
+	Hit = 0.0f;
 
 	_StartTicks = 0;
 	_PausedTicks = 0;
