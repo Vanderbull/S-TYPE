@@ -21,7 +21,6 @@
 #include "GetInput.h"
 #include "HighScore.h"
 #include "DancingDragon.h"
-// @date 2012-08-07
 
 enum{	GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO, 
 		GS_LOADING, GS_INTROSTORY, GS_MORPH, GS_DEAD, GS_ENTERNAME };
@@ -72,7 +71,6 @@ public:
 	float UpdateAnimationSpeed;
 
 	bool GameOK;
-	bool FirstLevel;
 	bool OK_Pace();
 	bool OK_PaceEnemy();
 
@@ -139,7 +137,7 @@ public:
 
 	TTF_Font * font;
 
-	Boss * boss;
+	Boss * pBoss;
 	IntroTalk * Intro;
 	Outro * outro;
 	StringInput * name;
@@ -175,12 +173,12 @@ class Game
 {
 public:
 	Game();
-	void upDate( SDL_Event input );
+	void Update( SDL_Event input );
 	bool Init( SDL_Surface * &screen );
-	void Handle_events( SDL_Event input );
-	void cleanUp();
+	void HandleEvents( SDL_Event input );
+	void Cleanup();
 
 private:
-
+	Gamestate _State;
 };
 

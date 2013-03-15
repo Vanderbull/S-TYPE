@@ -1,6 +1,7 @@
 #pragma once
 #include <SDL.h>
 #include <string>
+#include <vector>
 
 // @date 2012-08-07
 
@@ -58,6 +59,7 @@ public:
 	string ZeusTalksSlow4[ 5 ];
 
 	void DoTalk();
+	void Story();
 
 	bool Centurion, Zeus, MyDude_Demon, FirstLine, SecondLine, ThirdLine, FourthLine, Fifth,
 		Sixth, Seventh, Eight;

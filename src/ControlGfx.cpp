@@ -1,8 +1,6 @@
 #include "ControlGfx.h"
 #include "Game.h"
 
-// @date 2012-08-07
-
 ControlGfx Gfx;
 
 ControlGfx::ControlGfx()

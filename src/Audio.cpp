@@ -1,7 +1,6 @@
 #include "Audio.h"
+#include <SDL.h>
 #include <SDL_mixer.h>
-
-// @date 2012-08-07
 
 ControlAudio Audio;
 
@@ -10,6 +9,73 @@ ControlAudio Audio;
  
 ControlAudio::ControlAudio()
 {
+ 
+ 	
+SDL_version compile_version;
+const SDL_version *link_version=Mix_Linked_Version();
+SDL_MIXER_VERSION(&compile_version);
+printf("compiled with SDL_mixer version: %d.%d.%d\n", 
+        compile_version.major,
+        compile_version.minor,
+        compile_version.patch);
+printf("running with SDL_mixer version: %d.%d.%d\n", 
+        link_version->major,
+        link_version->minor,
+        link_version->patch);
+
+// load support for the OGG and MOD sample/music formats
+int flags=MIX_INIT_OGG|MIX_INIT_MOD;
+int initted=Mix_Init(flags);
+if(initted&flags != flags) {
+    printf("Mix_Init: Failed to init required ogg and mod support!\n");
+    printf("Mix_Init: %s\n", Mix_GetError());
+    // handle error
+}
+
+ 	
+// start SDL with audio support
+if(SDL_Init(SDL_INIT_AUDIO)==-1) {
+    printf("SDL_Init: %s\n", SDL_GetError());
+    exit(1);
+}
+// open 44.1KHz, signed 16bit, system byte order,
+//      stereo audio, using 1024 byte chunks
+if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024)==-1) {
+    printf("Mix_OpenAudio: %s\n", Mix_GetError());
+    exit(2);
+}
+	Mix_Music *musica = NULL;
+
+musica = Mix_LoadMUS( "Music/musicMenu.ogg" );
+
+	Mix_PlayMusic( musica, 0 ) ;
+
+while ( Mix_PlayingMusic() == 1 )
+{
+// get and print the audio format in use
+int numtimesopened, frequency, channels;
+Uint16 format;
+numtimesopened=Mix_QuerySpec(&frequency, &format, &channels);
+if(!numtimesopened) {
+    printf("Mix_QuerySpec: %s\n",Mix_GetError());
+}
+else {
+    char *format_str="Unknown";
+    switch(format) {
+        case AUDIO_U8: format_str="U8"; break;
+        case AUDIO_S8: format_str="S8"; break;
+        case AUDIO_U16LSB: format_str="U16LSB"; break;
+        case AUDIO_S16LSB: format_str="S16LSB"; break;
+        case AUDIO_U16MSB: format_str="U16MSB"; break;
+        case AUDIO_S16MSB: format_str="S16MSB"; break;
+    }
+    printf("opened=%d times  frequency=%dHz  format=%s  channels=%d",
+            numtimesopened, frequency, format_str, channels);
+}
+printf("volume is now : %d\n", Mix_VolumeMusic(1));
+}
+Mix_FreeMusic( musica ) ;
+
 	Mix_Music *music = NULL;
 	Mix_Music *musicMenu = NULL;
 	Mix_Music *musicOutro = NULL;
@@ -93,7 +159,8 @@ void ControlAudio::PlaySoundEffect( int effect )
 }
 
 void ControlAudio::PlayIntroSong()
-{
+{				  
+	PlayMusic( 1 );
 	if( LevelSong == true )
 	{
 		PauseMusic();

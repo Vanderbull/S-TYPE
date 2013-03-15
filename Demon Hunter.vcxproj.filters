@@ -52,6 +52,9 @@
     <ClCompile Include="src\Paralaxlayers.cpp">
       <Filter>ParallaxLayers</Filter>
     </ClCompile>
+    <ClCompile Include="src\CBoss.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -112,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="src\Enemies\CZombie.h">
       <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CBoss.h">
+      <Filter>Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

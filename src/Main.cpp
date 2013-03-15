@@ -84,14 +84,14 @@ int main( int argc, char * arg[] )
 		
 		while( SDL_PollEvent( &event ) )
 		{
-			New_Game.Handle_events( event );
+			New_Game.HandleEvents( event );
 			if( event.type == SDL_QUIT  )
 			{
 				Quit = true;
 			}
 		}		
 		
-		New_Game.upDate( event );
+		New_Game.Update( event );
 		//CurTick = SDL_GetTicks();
 		//gamestate.dt = float(CurTick - PrevTick);
 		//PrevTick = CurTick;
@@ -125,7 +125,7 @@ int main( int argc, char * arg[] )
 		//printf ("It took me %d clicks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 	}
 
-	New_Game.cleanUp();
+	New_Game.Cleanup();
 	gamestate.EndAll();
 
 	return 0;

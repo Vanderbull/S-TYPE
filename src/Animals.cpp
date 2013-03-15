@@ -3,8 +3,6 @@
 #include "game.h"
 #include "ControlGfx.h"
 
-// @date 2012-08-07
-
 ControlAnimals AnimalController;
 
 void Animal::Setframe()

@@ -264,7 +264,6 @@ void Demon::Update()
 	if( this->isHit )
 	{
 		//demon.Demon_Life--;
-		Audio.PlaySoundEffect( SOUND_GETS_HIT );
 		demon.isHit = false;
 		Control_OBJ.WhichLifeToShow++;
 

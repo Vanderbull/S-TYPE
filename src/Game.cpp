@@ -23,46 +23,41 @@
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
+#include "CBoss.h"
 
 Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
-	cout << "Initializing Gamestate" << endl;
-	SCREEN_HEIGHT = 600;
+	cout << "Initializing Gamestate...." << endl;
 	SCREEN_WIDTH = 800;
+	SCREEN_HEIGHT = 600;
 	SCREEN_BPP = 32;
-	cout << "Resolution: " << SCREEN_HEIGHT << "x" << SCREEN_WIDTH << "x" << SCREEN_BPP << endl;
-	dt = 0.0f;
-	CheckingHighScore = false;
-	BossStart = false;
-	IntroDone = false;
-
-	FirstLevel = true;
-	cout << "Setting FirstLevel" << endl;
+	cout << "Resolution: " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << "x" << SCREEN_BPP << endl;
 
 	GameCondition = GS_INTRO;
 	cout << "GameCondition: GS_INTRO" << endl;
 
-	boss = NULL;
-	Intro = NULL;
-	outro = NULL;
-	
+	CheckingHighScore = false; // Determine if Highscore is shown
+	BossStart = false;	// Tells game if you have reached the boss
+	IntroDone = false;	// Used in Gamestate::Loading might be removed
+			
+	gBoss.SetSurface(1);
+
+	pBoss = NULL; // Pointer to Boss object
+	Intro = NULL; // Pointer to introtalk object
+	outro = NULL; // Pointer to outro object
+	font = NULL;  //Pointer to font
+	srfText = NULL;	// Pointer to Text surface
+
 	PreviousAnimArray = 0;
 	PreviousFrame = 0;
 	CurrentAnimArray = 0;
 	CurrentFrame = 0;
-
-	font = NULL;
-	srfText = NULL;
-
 	m_parallax = 0;
-
-	//Score = 0;
 	LevelProgress = 0;
 
-	// Loading files
-
+	dt = 0.0f;
 }
 void Gamestate::KeyMapping(SDL_Event _event)
 {
@@ -89,7 +84,7 @@ void Gamestate::KeyMapping(SDL_Event _event)
 	}  
 }
 
-void Game::Handle_events( SDL_Event _event )
+void Game::HandleEvents( SDL_Event _event )
 {	
 	if( _event.type == SDL_KEYUP )
 	{
@@ -182,7 +177,6 @@ void Game::Handle_events( SDL_Event _event )
 					}
 					 */
 					demon.isKicking = true;
-					Audio.PlaySoundEffect( SOUND_HIT );
 											
 					break;
 				}
@@ -194,22 +188,6 @@ void Game::Handle_events( SDL_Event _event )
 				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
 				{
 					demon.isPunching = true; 
-					Audio.PlaySoundEffect( SOUND_HIT );
-					/*
-					if( demon.SmallHunter )
-					{ 
-						demon.isPunching = true; 
-						Audio.PlaySoundEffect( SOUND_HIT );
-					}
-					else
-					{ 
-						if( timer.Timer_TriangleAttackOK > 15 )
-						{
-							timer.Timer_TriangleAttackOK = 0;
-							Audio.PlaySoundEffect( SOUND_FIRE );
-						}
-					}
-					*/
 				}
 			} break;
 		case SDLK_BACKSPACE:
@@ -375,7 +353,7 @@ void Gamestate::load_files()
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
 	m_srfMorphing = Gfx.Load_imageAlpha( "Graphics/srfMorphing.png", 255, 255, 241 );
 	m_srfReaper = Gfx.Load_imageAlpha( "Graphics/srfReaper.png", 255, 255, 255 );
-	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
+	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro2.png", 0, 0, 0 );
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	
@@ -483,8 +461,6 @@ Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 // ----------------------------------------------------------------------------
 void Gamestate::MorphMyDude()
 {
-	Audio.PlaySoundEffect( SOUND_MORPH );
-
 	int State = 3;
 	SDL_Rect destRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	while( State != -1 )
@@ -622,9 +598,9 @@ void Gamestate::DrawBackgroundBlack()
 
 void Gamestate::ResetBoss()
 {
-	if( gamestate.boss != NULL )
+	if( gamestate.pBoss != NULL )
 	{
-		delete gamestate.boss;
+		delete gamestate.pBoss;
 	}
 }
 
@@ -742,14 +718,13 @@ void Gamestate::ResetPlayer()
 // ----------------------------------------------------------------------------
 // Update() - Updates the whole game depending on which state it is in
 // ----------------------------------------------------------------------------
-void Game::upDate( SDL_Event input )
+void Game::Update( SDL_Event input )
 {
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 	//if( demon.WhereIsEnd >= 5700 ) 
 	if( gamestate.LevelProgress >= 6100 )
 	{
 		gamestate.GameCondition = GS_LEVEL1BOSS;
-		//Audio.PlaySoundEffect( SOUND_BOSS );
 	}
 
 	// Check game state
@@ -758,31 +733,26 @@ void Game::upDate( SDL_Event input )
 		// Intro sequence
 		case GS_INTRO:
 			{
-				//Audio.PlayIntroSong();
 				//Handle_events( input );
 				gamestate.MainScreen();
 				gamestate.FLIP();
 			} break;
 		case GS_ENTERNAME:
 			{
-				//Audio.PlayIntroSong();
 				gamestate.EnterName();
 				gamestate.FLIP();
 			} break;	
 		case GS_INTROSTORY:
 			{
-				//Audio.PlayIntroSong();
 				gamestate.DoIntroTalk();
 				gamestate.FLIP();
 			} break;
 		case GS_LOADING:
 			{
-				Audio.PauseMusic();
 				gamestate.Loading();
 			} break;
 		case GS_MORPH:
 			{
-				Audio.PauseMusic();
 				gamestate.MorphMyDude();
 			} break;
 		case GS_LEVEL1:
@@ -791,17 +761,6 @@ void Game::upDate( SDL_Event input )
 				gamestate.LevelProgress = gamestate.LevelProgress + (60*gamestate.dt);
 				cout << gamestate.LevelProgress << endl;
 
-				/*
-				if( Audio.MusicPaused == true )
-				{
-					Audio.UnpauseMusic();
-				}
-
-				if( Audio.LevelSong == false )
-				{
-					Audio.PlayMusic( 0 );
-				}
-				*/
 				// handles events what the user does with the character
 				//Handle_events( input );
 				
@@ -816,11 +775,6 @@ void Game::upDate( SDL_Event input )
 			} break;
 		case GS_LEVEL1BOSS:
 			{
-				if( Audio.MusicPaused == true )
-				{
-					Audio.UnpauseMusic();
-				}
-
 				// handles events what the user does with the character
 				//Handle_events( input );
 
@@ -832,21 +786,17 @@ void Game::upDate( SDL_Event input )
 				gamestate.DrawSprite();
 				gamestate.FLIP();
 
-				if( gamestate.boss->BossDead == true )
+				if( gamestate.pBoss->BossDead == true )
 				{
 					gamestate.GameCondition = GS_OUTRO;
 				}
 			} break;
 		case GS_OUTRO:
 			{
-				//Audio.PauseMusic();
-				//Audio.PlayMusic( 2 );
 				gamestate.PlayOutro();
 			} break;
 		case GS_DEAD:
 			{
-				//Audio.PauseMusic();
-				//Audio.PlaySoundEffect( SOUND_DIE );
 				gamestate.PlayerDied();
 			} break;
 	}
@@ -998,7 +948,8 @@ void Gamestate::PlayOutro()
 // ----------------------------------------------------------------------------
 void Gamestate::DoIntroTalk()
 {
-	Intro->DoTalk();
+	Intro->Story();
+	//Intro->DoTalk();
 }
 
 // ----------------------------------------------------------------------------
@@ -1148,7 +1099,6 @@ void Gamestate::PlayerDied()
 // ----------------------------------------------------------------------------
 void Gamestate::DrawAllText()
 {
-	Audio.PauseMusic();
 	if( GameCondition == GS_INTROSTORY || GameCondition == GS_DEAD )
 	{
 		SDL_Color textColor = { 255, 255, 255 };
@@ -1220,7 +1170,7 @@ void Gamestate::Loading()
 // ----------------------------------------------------------------------------
 void Gamestate::DrawBoss()
 {
-	gamestate.boss->UpdateBoss();
+	gamestate.pBoss->UpdateBoss();
 }
 
 // ----------------------------------------------------------------------------
@@ -1350,7 +1300,7 @@ void Gamestate::MainScreen()
 	
 	if( TitleScreen->ButtonNewgame == true )
 	{
-		gamestate.GameCondition = GS_ENTERNAME;
+		gamestate.GameCondition = GS_INTROSTORY;
 		TitleScreen->ButtonNewgame = false;
 
 		if( Surface_Credits != NULL )
@@ -1479,9 +1429,9 @@ void Gamestate::EndAll()
 	{
 		delete Intro;
 	}
-	if( gamestate.boss != NULL )
+	if( gamestate.pBoss != NULL )
 	{
-		delete boss;
+		delete gamestate.pBoss;
 	}
 	if( gamestate.outro != NULL )
 	{ 
@@ -1503,7 +1453,7 @@ void Gamestate::EndAll()
 
 }
 
-void Game::cleanUp()
+void Game::Cleanup()
 {
 	TTF_Quit();
 	SDL_Quit();
@@ -1653,7 +1603,7 @@ void Gamestate::drawParallaxLayers()
 		{
 			//demon.DemonHunter = true;
 			//demon.SmallHunter = false;
-			gamestate.boss = gamestate.CreateBoss( SCREEN_WIDTH - 180, GROUND_Y - 210, m_srfBoss );
+			gamestate.pBoss = gamestate.CreateBoss( SCREEN_WIDTH - 180, GROUND_Y - 210, m_srfBoss );
 			BossStart = true;
 		}
 	}

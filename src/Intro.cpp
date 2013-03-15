@@ -105,6 +105,33 @@ void IntroTalk::DrawBackground()
 	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
 }
 
+void IntroTalk::Story()
+{
+	SDL_Rect destRect = { 0, 0, 800, 600 };
+	SDL_Color textColor = { 255, 255, 255 };
+
+	std::string StoryText[8];
+	StoryText[ 0 ] = "On one of the polar ice protruding rock is Kmorda temple";
+	StoryText[ 1 ] = " where Druids worship nature and the cold, 'Kmorda'.";
+	StoryText[ 2 ] = " Kmordadruiderna also has a chapel in Arhem.";
+	StoryText[ 3 ] = " Matron in Arhem begins, however, ";
+	StoryText[ 4 ] = "be worried about what may have happened";
+	StoryText[ 5 ] = " brothers and sisters in the temple because";
+	StoryText[ 6 ] = "she has not heard from them in a long time.";
+	StoryText[ 7 ] = "";
+
+	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
+	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	NULL, gamestate.BackBuffer, &destRect );
+	for(int i=0; i< 5; i++)
+	{
+	IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, StoryText[i].c_str(), textColor );
+	gamestate.apply_surface( 0,i*40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+	}
+	//SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], gamestate.BackBuffer, &destRect );
+	gamestate.FLIP();
+	Sleep(3000);
+	gamestate.GameCondition = GS_LEVEL1;
+}
 // all the talking
 void IntroTalk::DoTalk()
 {

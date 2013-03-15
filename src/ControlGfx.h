@@ -4,7 +4,6 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "Paralaxlayers.h"
-// @date 2012-08-07
 
 const int MAX_SURFACES = 128;
 

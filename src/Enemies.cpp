@@ -230,18 +230,18 @@ void Boss::UpdateBoss()
 	if( x >= BOSS_ATTACK_START || HeadsComing == true )
 	{
 		bool CollideWithPlayer = false;
-		CollideWithPlayer = CollisionController.CollisionCircle( &demon, gamestate.boss, false );
+		CollideWithPlayer = CollisionController.CollisionCircle( &demon, gamestate.pBoss, false );
 		if( CollideWithPlayer )
 		{	
 			bool CheckAttack = false;
 			if( CheckAttack = demon.IsInStateAttack() )
 			{
 				gamestate.AddScore(10);
-				gamestate.boss->BossLife -= 50;
+				gamestate.pBoss->BossLife -= 50;
 
-				if( gamestate.boss->BossLife < 0 )
+				if( gamestate.pBoss->BossLife < 0 )
 				{
-					gamestate.boss->BossDead = true;
+					gamestate.pBoss->BossDead = true;
 				}
 			}
 			else

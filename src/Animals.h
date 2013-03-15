@@ -3,10 +3,7 @@
 #include <stack>
 #include <SDL.h>
 
-/*
-   Class: AnimalState
-   A class
-*/
+/// <summary>Keeps the state of any animal</summary>
 class AnimalState
 {
 public:
@@ -18,10 +15,7 @@ public:
 	SDL_Rect Destination;
 };
 
-/*
-   Class: Animal
-   A class
-*/
+/// <summary>Used to create a Animal entity</summary>
 class Animal : public AnimalState
 {
 
@@ -39,10 +33,7 @@ private:
 	int PrevFrame;
 };
 
-/*
-   Class: ControlAnimals
-   A class that controls the animals
-*/ 
+/// <summary>A class the controls the animals</summary> 
 class ControlAnimals
 {
 public:

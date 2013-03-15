@@ -306,10 +306,10 @@ void Control_Objects::DrawObjects()
 			FireBall * temp = (*i);
 			if( gamestate.GameCondition == GS_LEVEL1BOSS )
 			{
-				if( gamestate.boss->My_BossHead.size() != 0 )
+				if( gamestate.pBoss->My_BossHead.size() != 0 )
 				{
-					list< Heads* >::iterator h = gamestate.boss->My_BossHead.begin();
-					for( ; h != gamestate.boss->My_BossHead.end(); ++h )
+					list< Heads* >::iterator h = gamestate.pBoss->My_BossHead.begin();
+					for( ; h != gamestate.pBoss->My_BossHead.end(); ++h )
 					{
 						Heads * head = ( *h );
 						if( CollisionController.CollisionCircle( temp, head, false ) )
@@ -317,21 +317,18 @@ void Control_Objects::DrawObjects()
 							gamestate.AddScore(5);
 							vRemoveHead.push_back( ( *h ) );
 							vRemoveFireBall.push_back( ( *i ) );
-							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
-
 						}
 					}
 				}
 
-				if( CollisionController.CollisionCircle( temp, gamestate.boss, true ) )
+				if( CollisionController.CollisionCircle( temp, gamestate.pBoss, true ) )
 				{
 					vRemoveFireBall.push_back( ( *i ) ); 
-					Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
 					gamestate.AddScore(5);
-					gamestate.boss->BossLife -= 50;
-					if( gamestate.boss->BossLife < 0 )
+					gamestate.pBoss->BossLife -= 50;
+					if( gamestate.pBoss->BossLife < 0 )
 					{
-						gamestate.boss->BossDead = true;
+						gamestate.pBoss->BossDead = true;
 					}
 				}
 
@@ -350,8 +347,6 @@ void Control_Objects::DrawObjects()
 					{
 						if( CollisionController.CollisionCircle( temp, enemy, false ) )
 						{
-							Audio.PlaySoundEffect( SOUND_FIREBALL_EXPLODE );
-
 							gamestate.AddScore(2);
 
 							if( (*e)->Surface == Zombie )
@@ -436,7 +431,7 @@ void Control_Objects::DrawObjects()
 		vRemoveIterHead = vRemoveHead.begin();
 		for( ; vRemoveIterHead != vRemoveHead.end(); ++vRemoveIterHead )
 		{
-			gamestate.boss->My_BossHead.remove( ( *vRemoveIterHead ) );
+			gamestate.pBoss->My_BossHead.remove( ( *vRemoveIterHead ) );
 		}
 			
 	}
