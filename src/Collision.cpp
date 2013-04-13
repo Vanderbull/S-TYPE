@@ -1,8 +1,6 @@
 #include "Collision.h"
 #include <cmath>
 
-// @date 2012-08-07
-
 ControlCollision CollisionController;
 
 // checks collision
@@ -412,15 +410,12 @@ void ControlCollision::SetPixelMine( int xPos, int yPos  )
 
 
 // ----------------------------------------------------------------------------
-// ChecksCollision - test if any collision occurs
+// ChecksCollision - test if any collision occurs with player
 // ----------------------------------------------------------------------------
 bool ControlCollision::CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichCollisionToUse, Demon *MyDemon )
 {
-	bool temp = false;
+	return CollisionBox( MyDemon, MyEnemy, true );
 
-	return CollisionBox( &demon, MyEnemy, true );
-
-	return false;
 	/*
 	if( MyEnemy->xPos - demon.xPos >= 150 )
 	{
@@ -451,35 +446,12 @@ bool ControlCollision::CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichColli
 bool ControlCollision::CollisionBox( Demon *MyDemon, CEnemy *MyEnemy, bool Show = true)
 {
 	SDL_Rect DemonCollisionBox = MyDemon->GetPosition();
-	DemonCollisionBox.w += 10;
 	SDL_Rect EnemyCollisionBox = MyEnemy->GetPosition();
 	SDL_FillRect(gamestate.BackBuffer, &DemonCollisionBox, 0xFFFFFF);
 	SDL_FillRect(gamestate.BackBuffer, &EnemyCollisionBox, 0xFFFFFF);
- /*
-	int left1, left2;
-    int right1, right2;
-    int top1, top2;
-    int bottom1, bottom2;
-
-  	left1 = MyDemon->xPos - 10;
-	left2 = MyEnemy->xPos;
-	right1 = MyDemon->xPos + MyDemon->Demon_Width - 10;
-	right2 = MyEnemy->xPos + MyEnemy->Width;
-	top1 = MyDemon->yPos;
-    top2 = MyEnemy->yPos;
-	bottom1 = MyDemon->yPos + MyDemon->Demon_Height;
-   	bottom2 = MyEnemy->yPos + MyEnemy->Height;
-
-    if ( bottom1 < top2 ) return false;
-    if ( top1 > bottom2 ) return false;
-
-    if ( right1 < left2 ) return false;
-    if ( left1 > right2 ) return false;
-*/
-	if( EnemyCollisionBox.x < (DemonCollisionBox.x + DemonCollisionBox.w) )
-		return true;
-	else
-		return false;
+	
+	return (abs(EnemyCollisionBox.x - DemonCollisionBox.x) * 2 < (EnemyCollisionBox.w + DemonCollisionBox.w)) &&
+         (abs(EnemyCollisionBox.y - DemonCollisionBox.y) * 2 < (EnemyCollisionBox.h + DemonCollisionBox.h)); 
 };
 
 bool ControlCollision::CollisionPixel( Demon *MyDemon, CEnemy *MyEnemy )

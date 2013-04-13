@@ -178,7 +178,7 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 void ControlGfx::FLIP()
 {
 	SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
-	SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
+	SDL_Rect destRect = { 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h };
 					
 	//gamestate.PasteScreenToAnother( srcRect, destRect );
 	Gfx.PasteScreenToAnother( srcRect, destRect);

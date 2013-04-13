@@ -281,7 +281,7 @@ void Boss::UpdateBoss()
 			if( HeadAnimation == true )
 			{
 				timer.BossHead = 0;
-				int Length = rand() % ( gamestate.SCREEN_WIDTH - 100 ) + 50 ;
+				int Length = rand() % ( SDL_GetVideoSurface()->w - 100 ) + 50 ;
 				if( Length < 50 )
 				{
 					Length = 50;
@@ -750,7 +750,7 @@ void Control_Enemies::Create_Enemies()
 	//if( rand() % 350 == 2)
 		//Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, ZOMBIE ) );
 	if( rand() % 500 == 2)
-		Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, SKELETON ) );
+		Enemies.push_back( CreateEnemy( SDL_GetVideoSurface()->w, GROUND_Y, SKELETON ) );
 	//if( rand() % 1000 == 2)
 		//Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, SKULL ) );
 	/*

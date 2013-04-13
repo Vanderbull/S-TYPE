@@ -152,7 +152,7 @@ Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
 void ControlAnimals::Create_Animals()
 {
 	if( My_Animals.size() < rand() % 25 )
-	My_Animals.push_back( CreateAnimal( gamestate.SCREEN_WIDTH, 75 + ( rand() % Turf ) , gamestate.m_srfCrow ) );
+	My_Animals.push_back( CreateAnimal( SDL_GetVideoSurface()->w, 75 + ( rand() % Turf ) , gamestate.m_srfCrow ) );
 }
 
 ControlAnimals::ControlAnimals()

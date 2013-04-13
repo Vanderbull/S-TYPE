@@ -202,7 +202,7 @@ void Control_Objects::DrawObjects()
 
 	if( Control_OBJ.PowerUpMan == true )
 	{
-		if( demon.isMovingLeft && demon.xVelocity >= gamestate.SCREEN_WIDTH - 350 )
+		if( demon.isMovingLeft && demon.xVelocity >= SDL_GetVideoSurface()->w - 350 )
 		{
 			Control_OBJ.WereWolf->xPos += CoffinTim;
 		}
@@ -443,7 +443,7 @@ void Control_Objects::DrawObjects()
 		{
 			Coffin * temp = (*i);
 			/*temp->xPos -= speed;*/
-			if( demon.isMovingLeft && demon.xVelocity >= gamestate.SCREEN_WIDTH - 350 )
+			if( demon.isMovingLeft && demon.xVelocity >= SDL_GetVideoSurface()->w - 350 )
 			{
 				temp->xPos += CoffinTim;
 			}

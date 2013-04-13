@@ -179,6 +179,16 @@ int Demon::UpdatePlayer()
 	return 0;
 }
 */
+float positionX = 0.0f, positionY = 0.0f;     // Position of the character
+float velocityX = 0.0f, velocityY = -12.0f;     // Velocity of the character
+float gravity = 0.5f;           // How strong is gravity
+
+void Update(float time)
+{
+    velocityY += gravity * time;        // Apply gravity to vertical velocity
+    positionX += velocityX * time;      // Apply horizontal velocity to X position
+    positionY += velocityY * time;      // Apply vertical velocity to Y position
+}
 
 void Demon::Update()
 {
@@ -187,25 +197,24 @@ void Demon::Update()
 		Demon::_Position.x += 500.0f * gamestate.dt;
 	if( this->isMovingLeft && _Position.x >= _LeftMostPosition )
 		Demon::_Position.x -= 500.0f * gamestate.dt;
-	if( this->isJumping )
-		Demon::_Position.y -= 10.0f * gamestate.dt;
-	else if( Demon::_Position.y < GROUND_Y )
-	{
-		Demon::_Position.y += 5.0f;
-	}
-	else
-	{
-		Demon::_Position.y = GROUND_Y;
-	}
-	//Demon::_Position.w = 64; //Demon::Demon_Width;
-	//Demon::_Position.h = 64;//Demon::Demon_Height;
 
-	//float JumpSpeed = 2500.0f;
+	 if( this->isJumping )
+	 {
+		 ::Update(gamestate.dt);
+		 Demon::_Position.y -= 1;
+		 if( Demon::_Position.y < 200 )
+		 {
+			 this->isJumping = false;
+		 }
+	 }
+	 if( !this->isJumping )
+	 {
+		if( Demon::_Position.y < GROUND_Y )
+		{
+		   Demon::_Position.y += 1;
+		}
+	 }
 
-	//float speed = 2500.0f * ( gamestate.dt / 1000.0f );
-	//float speedJump = 2500.0f * ( gamestate.dt / 1000.0f );
-	//float speedJumpDemon = 800.0f * ( gamestate.dt / 1000.0f );
-	//float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
 
 	if( IDLE == demon.GetState() )
 	{
@@ -241,20 +250,14 @@ void Demon::Update()
 	if( this->isKicking )
 	{
 		isKicking      = true;
-		isJumping      = false;
-		isPunching     = false;
-	}
-	if( this->isJumping )
-	{
-		isKicking      = false;
-		isJumping      = true;
+		//isJumping      = false;
 		isPunching     = false;
 	}
 	if( this->isPunching )
 	{
 		isPunching     = true;
 		isKicking      = false;
-		isJumping      = false;
+		//isJumping      = false;
 	}
 	if( this->isGettingUp )
 	{

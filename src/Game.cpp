@@ -29,10 +29,6 @@ Gamestate gamestate;
 Gamestate::Gamestate()
 {
 	cout << "Initializing Gamestate...." << endl;
-	SCREEN_WIDTH = 800;
-	SCREEN_HEIGHT = 600;
-	SCREEN_BPP = 32;
-	cout << "Resolution: " << SCREEN_WIDTH << "x" << SCREEN_HEIGHT << "x" << SCREEN_BPP << endl;
 
 	GameCondition = GS_INTRO;
 	cout << "GameCondition: GS_INTRO" << endl;
@@ -105,7 +101,7 @@ void Game::HandleEvents( SDL_Event _event )
 		case SDLK_UP:
 			{
 				cout << "Released the UP arrow key" << endl;
-				demon.isJumping = false;
+				//demon.isJumping = false;
 			} break;
 		case SDLK_SPACE:
 			{
@@ -147,16 +143,21 @@ void Game::HandleEvents( SDL_Event _event )
 			} break;
 		case SDLK_UP:
 			{
-				cout << "Pressing down up arrow" << endl;
-				if( !demon.isJumping )
+				if( demon.GetPosition().y == GROUND_Y )
 				{
-					demon.SetState(Demon::State::JUMPING);
-				}
-
-				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
-				{
+					demon.yVelocity = 10.0f;
 					demon.isJumping = true;
 				}
+				//cout << "Pressing down up arrow" << endl;
+				//if( !demon.isJumping )
+				//{
+				//	demon.SetState(Demon::State::JUMPING);
+				//}
+
+				//if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
+				//{
+				//	demon.isJumping = true;
+				//}
 			} break;
 		case SDLK_SPACE:
 			{
@@ -372,10 +373,10 @@ void Gamestate::load_files()
 
 	for( int i = 0; i < 4; i++ )
 	{
-		MorphingPics[ i ].x = i * SCREEN_WIDTH;
+		MorphingPics[ i ].x = i * SDL_GetVideoSurface()->w;
 		MorphingPics[ i ].y = 0;
-		MorphingPics[ i ].h = SCREEN_HEIGHT;
-		MorphingPics[ i ].w = SCREEN_WIDTH;
+		MorphingPics[ i ].h = SDL_GetVideoSurface()->h;
+		MorphingPics[ i ].w = SDL_GetVideoSurface()->w;
 	}
 
 	setUpParallaxLayers();
@@ -447,7 +448,7 @@ Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 void Gamestate::MorphMyDude()
 {
 	int State = 3;
-	SDL_Rect destRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	SDL_Rect destRect = { 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h };
 	while( State != -1 )
 	{
 		
@@ -1189,11 +1190,11 @@ SDL_Surface * Gamestate::GetSurface( int WhichSurface )
 // ----------------------------------------------------------------------------
 void Gamestate::FLIP()
 {
-	SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
-	SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
+	//SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
+	//SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
 					
 	//gamestate.PasteScreenToAnother( srcRect, destRect );
-	Gfx.PasteScreenToAnother( srcRect, destRect);
+	Gfx.PasteScreenToAnother( SDL_GetVideoSurface()->clip_rect, SDL_GetVideoSurface()->clip_rect);
 	//flips screen
 	if( SDL_Flip( gamestate.screen ) == -1)
 	{
@@ -1213,10 +1214,10 @@ void Gamestate::MainScreen()
 	//ParallaxLayer  * MyParaBackGround;
 	//MyParaBackGround = Parallax->getLayer( TitleScreen->surface );
 
-	SDL_Rect scRect = { 0, 0, 800, 600 };
-	SDL_Rect dtRect = {	0, 0, 800, 600 };
+	//SDL_Rect scRect = { 0, 0, 800, 600 };
+	//SDL_Rect dtRect = {	0, 0, 800, 600 };
 
-	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
+	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &SDL_GetVideoSurface()->clip_rect, gamestate.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
 		for( int i = 0; i < 4; i++ )
 		{
@@ -1534,7 +1535,7 @@ bool Game::Init(SDL_Surface * &screen)
 	//SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
 	//set up the screen
-	gamestate.screen = SDL_SetVideoMode(gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT, gamestate.SCREEN_BPP, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	gamestate.screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
 	if( screen == NULL )
 	{
@@ -1551,7 +1552,7 @@ bool Game::Init(SDL_Surface * &screen)
 	} */
 	
 	//set window caption
-	SDL_WM_SetCaption( " Demon hunter ", NULL);
+	SDL_WM_SetCaption( " Legend of Nimbus ", NULL);
 	
 	/* Create a 32-bit surface with the bytes of each pixel in R,G,B,A order,
        as expected by OpenGL for textures */
@@ -1565,7 +1566,7 @@ bool Game::Init(SDL_Surface * &screen)
 	bmask = 0x00000000;
 	amask = 0x00000000;
 
-	gamestate.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT, gamestate.SCREEN_BPP,
+	gamestate.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel,
 								   rmask, gmask, bmask, amask);
 	
 	if( gamestate.BackBuffer == NULL )
@@ -1604,7 +1605,7 @@ void Gamestate::drawParallaxLayers()
 		{
 			//demon.DemonHunter = true;
 			//demon.SmallHunter = false;
-			gamestate.pBoss = gamestate.CreateBoss( SCREEN_WIDTH - 180, GROUND_Y - 210, m_srfBoss );
+			gamestate.pBoss = gamestate.CreateBoss( SDL_GetVideoSurface()->w - 180, GROUND_Y - 210, m_srfBoss );
 			BossStart = true;
 		}
 	}
@@ -1966,44 +1967,37 @@ void Gamestate::setUpParallaxLayers()
 
 	//Firstlayer
 	Parallax->setLayer( 0, 0.0f, m_srfBlack, 
-						0, gamestate.BackBuffer->w, gamestate.BackBuffer->h, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+						0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	////sky
 	Parallax->setLayer( 1, 0.0f, m_srfSky, 
-						0, SCREEN_WIDTH, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+						0, SDL_GetVideoSurface()->w, 400, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	// trees
 	Parallax->setLayer( 2, 0.7f, m_srfTrees, 
-						0, 1172, 170, 0, 370, gamestate.BackBuffer->w, 170 ); 
+						0, 1172, 170, 0, 370, SDL_GetVideoSurface()->w, 170 ); 
 
 	//clouds
 	Parallax->setLayer(	3, 0.5f, m_srfClouds, 
-						0, SCREEN_WIDTH, 38, 0, 0, gamestate.BackBuffer->w, 
-						gamestate.BackBuffer->h );
+						0, SDL_GetVideoSurface()->w, 38, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	Parallax->setLayer(	4, 0.4f, m_srfClouds, 
-						38, SCREEN_WIDTH, 87, 0, 38, gamestate.BackBuffer->w, 
-						gamestate.BackBuffer->h );
+						38, SDL_GetVideoSurface()->w, 87, 0, 38, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	Parallax->setLayer(	5, 0.3f, m_srfClouds, 
-						126, SCREEN_WIDTH, 46, 0, 126, gamestate.BackBuffer->w, 
-						gamestate.BackBuffer->h );
+						126, SDL_GetVideoSurface()->w, 46, 0, 126, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	Parallax->setLayer(	6, 0.2f, m_srfClouds, 
-						172, SCREEN_WIDTH, 21, 0, 172, gamestate.BackBuffer->w, 
-						gamestate.BackBuffer->h );
+						172, SDL_GetVideoSurface()->w, 21, 0, 172, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	Parallax->setLayer(	7, 0.1f, m_srfClouds, 
-						193, SCREEN_WIDTH, 12, 0, 193, gamestate.BackBuffer->w, 
-						gamestate.BackBuffer->h );
+						193, SDL_GetVideoSurface()->w, 12, 0, 193, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	// City
-	Parallax->setLayer( 8, 0.7f, m_srfCity, 0, 5100, 535, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Parallax->setLayer( 8, 0.7f, m_srfCity, 
+						0, 5100, 535, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	// WalkPath
 	Parallax->setLayer(	9, 1.0f, m_srfCity, 
-						540, 5100, 60, 0, 535, gamestate.BackBuffer->w, 
-						gamestate.BackBuffer->h );
+						540, 5100, 60, 0, 535, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 }
 
 void Gamestate::AddScore(int value)

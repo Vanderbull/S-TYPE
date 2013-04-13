@@ -54,9 +54,6 @@ public:
 	
 	ParallaxBackground *Parallax;
 
-	// Edit these to follow name standard
-	int SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_BPP;
-
 	int CurrentAnimArray, PreviousAnimArray;
 	int CurrentFrame, PreviousFrame;
 	
