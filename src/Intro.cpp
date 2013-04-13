@@ -124,11 +124,13 @@ void IntroTalk::Story()
 	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	NULL, gamestate.BackBuffer, &destRect );
 	for(int i=0; i< 5; i++)
 	{
-	IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, StoryText[i].c_str(), textColor );
-	gamestate.apply_surface( 0,i*40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+		IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, StoryText[i].c_str(), textColor );
+		//gamestate.apply_surface( 0,i*40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+		Gfx.apply_surface( 0,i*40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
 	}
 	//SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], gamestate.BackBuffer, &destRect );
-	gamestate.FLIP();
+	//gamestate.FLIP();
+	Gfx.FLIP();
 	Sleep(3000);
 	gamestate.GameCondition = GS_LEVEL1;
 }
@@ -178,7 +180,8 @@ void IntroTalk::DoTalk()
 			SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], 
 								gamestate.BackBuffer, &destRect );	
 			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
-			gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+			//gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+			Gfx.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
 		}
 		if( ZeusDialog[DialogScene] )
 		{
@@ -205,7 +208,8 @@ void IntroTalk::DoTalk()
 			SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ ZEUS ], 
 								gamestate.BackBuffer, &destRect );
 			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
-			gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+			//gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+			Gfx.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
 		}
 
 		SDL_PollEvent( &input );
@@ -217,7 +221,8 @@ void IntroTalk::DoTalk()
 					DialogScene = 8;
 			} break;
 		}
-		gamestate.FLIP();
+		//gamestate.FLIP();
+		Gfx.FLIP();
 		Sleep(50);
 	}
 	gamestate.GameCondition = GS_LEVEL1;

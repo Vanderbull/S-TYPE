@@ -27,6 +27,7 @@ enum{	GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO,
 enum{ BOSS_IDLE, BOSS_ATTACK, BOSS_DIE };
 enum{ HEAD_GO, HEAD_DOWN, HEAD_CRASH };
 enum{ BUTTON_NEW_GAME, BUTTON_OPTIONS, BUTTON_QUIT };
+enum{ MAIN_MENU, OPTIONS_MENU, CREDITS_MENU };
 
 const int MAX_SURFACE = 128;
 const int ANIMPACE = 150;
@@ -62,7 +63,6 @@ public:
 	int GameCondition;
 	float m_parallax;
 	int WhichMorphType();
-	//int Score;
 
 	int findAvailableIndex();
 	int Load_imageAlpha( std::string filename, int r, int g, int b );
@@ -76,7 +76,6 @@ public:
 
 	bool BossStart;
 	bool IntroDone;
-	bool CheckingHighScore;
 
 	char Text[ 256 ];
 	string ScoreString;
@@ -87,10 +86,8 @@ public:
 	void CreateAll();
 	void resetAnimationPace();
 	void AddTick();
-	void blit( int index, int xpos, int ypos, bool transparent );
 	void drawParallaxLayers();
 
-	void RecordAllData();
 	void Loading();
 	void DrawAllText();
 	void DoIntroTalk();
@@ -113,10 +110,10 @@ public:
 	void FLIP();
 	SDL_Surface * GetSurface( int WhichSurface );
 
-	void stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect );
-	void PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect );
-	void stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect  );
-	void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL );
+	//void stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect );
+	//void PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect );
+	//void stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect  );
+	//void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL );
 
 	void PlayerDied();
 	void RestartGame();
@@ -160,6 +157,9 @@ public:
 
 	// Player name
 	std::string PlayerName;
+
+	// Active menu
+	int ActiveMenu;
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
@@ -173,11 +173,13 @@ class Game
 {
 public:
 	Game();
+	void Audiotonic();
 	void Update( SDL_Event input );
 	bool Init( SDL_Surface * &screen );
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
 
+	bool Quit;
 private:
 	Gamestate _State;
 };

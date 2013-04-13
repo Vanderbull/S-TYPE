@@ -4,10 +4,7 @@
 #include "characters.h"
 #include "Timers.h"
 #include "Collision.h"
-#include "Audio.h"
 #include "ControlGfx.h"
-
-// @date 2012-08-07
 
 Control_Objects Control_OBJ;
 

@@ -28,7 +28,6 @@ FirstScreen::FirstScreen( int ButtonX, int Surface, int SurfaceButtons )
 	ButtonHighScore = false;
 
 	ButtonNewgame = false;
-	ButtonQuit = false;
 
 	int ArraySize = sizeof(ButtonClips) / sizeof(ButtonClips[0]);
 	for( int i = 0; i < ArraySize; i++ )

@@ -1,8 +1,6 @@
 #pragma once
 #include <SDL.h>
 
-// @date 2012-08-07
-
 class FirstScreen
 {
 public:
@@ -17,7 +15,6 @@ public:
 
 	bool ButtonOptions;
 	bool ButtonNewgame;
-	bool ButtonQuit;
 	bool ButtonBack;
 	bool ButtonSound; 
 	bool ButtonCredits;

@@ -13,7 +13,6 @@
 #include "Game.h"
 #include "characters.h"
 #include "ControlGfx.h"
-#include "Audio.h"
 #include "Objects.h"
 #include "Enemies.h"
 #include "TImers.h"
@@ -38,7 +37,6 @@ Gamestate::Gamestate()
 	GameCondition = GS_INTRO;
 	cout << "GameCondition: GS_INTRO" << endl;
 
-	CheckingHighScore = false; // Determine if Highscore is shown
 	BossStart = false;	// Tells game if you have reached the boss
 	IntroDone = false;	// Used in Gamestate::Loading might be removed
 			
@@ -121,6 +119,10 @@ void Game::HandleEvents( SDL_Event _event )
 			} break;
 		}
 	}
+	else if( _event.type == SDL_QUIT  )
+	{
+		Quit = true;
+	}
 	else if( _event.type == SDL_KEYDOWN )
 	{
 		switch( _event.key.keysym.sym )
@@ -187,7 +189,7 @@ void Game::HandleEvents( SDL_Event _event )
 				demon.SetState(Demon::State::PUNCHING);
 				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
 				{
-					demon.isPunching = true; 
+					demon.isPunching = true;
 				}
 			} break;
 		case SDLK_BACKSPACE:
@@ -221,9 +223,10 @@ void Game::HandleEvents( SDL_Event _event )
 	// if intro checks mouseposition and checks for presses
 	if( gamestate.GameCondition == GS_INTRO )
 	{
-		if( _event.type == SDL_MOUSEMOTION || _event.type == SDL_MOUSEBUTTONDOWN )
+		if( _event.type == SDL_MOUSEBUTTONDOWN )
 		{
-			// check if mouse is over something
+			if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1))
+				cout << "Mouse Button 1(left) is pressed." << endl;
 			if( gamestate.TitleScreen->ButtonOptions == true )
 			{
 				for( int i = 4; i < 8; i++ )
@@ -237,15 +240,10 @@ void Game::HandleEvents( SDL_Event _event )
 					{
 						switch( i )
 						{
-							case 4:
-							{
-									gamestate.TitleScreen->ButtonHighScore = true;
-									gamestate.CheckingHighScore = true;
-							} break;
+							case 4: gamestate.TitleScreen->ButtonHighScore = true; break;
 							case 5: gamestate.TitleScreen->ButtonCredits = true; break;
 							case 6: gamestate.TitleScreen->ButtonSound = true; break;
 							case 7: gamestate.TitleScreen->ButtonBack = true; break;
-
 						}
 					}
 				}
@@ -261,12 +259,11 @@ void Game::HandleEvents( SDL_Event _event )
 						_event.button.y > gamestate.TitleScreen->DestClips[ i ].y &&
 						_event.button.y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
 					{
-						//hoovering effect
 						switch( i )
 						{
-							case BUTTON_NEW_GAME: cout << "Hoovering new game"; break;
-							case BUTTON_OPTIONS: break;
-							case BUTTON_QUIT: break;
+							case BUTTON_NEW_GAME: cout << "Hoovering new game" << endl ; break;
+							case BUTTON_OPTIONS: cout << "Hoovering optins button" << endl; break;
+							case BUTTON_QUIT: Game::Quit = true; break;
 						}
 						if( _event.type == SDL_MOUSEBUTTONDOWN )
 						{
@@ -274,7 +271,6 @@ void Game::HandleEvents( SDL_Event _event )
 							{
 								case BUTTON_NEW_GAME: gamestate.TitleScreen->ButtonNewgame = true; break;
 								case BUTTON_OPTIONS: gamestate.TitleScreen->ButtonOptions = true; break;
-								case BUTTON_QUIT: gamestate.TitleScreen->ButtonQuit = true; break;
 							}
 						}
 					}					
@@ -292,17 +288,8 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
-	//initialize all SDL subystems
-	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1)
-	{
-		cout << "SDL INIT FAILED..." << endl;
-		SDL_Quit();
-	}
-	else
-	{
-		cout << "SDL_INIT_EVERYTHING..." << endl;
-	}
-
+	Quit = false;
+	/*
 	if( TTF_Init() == -1 )
 	{
 		cout << "TTF_INIT FAILED..." << endl;
@@ -311,9 +298,8 @@ Game::Game()
 	{
 		gamestate.font = TTF_OpenFont( "Fonts/PressStart2P.ttf", 14 );
 		SDL_Quit();
-
 	}
-
+	  */
 	// Setup of the application icons
 	SDL_WM_SetCaption("", "res/big.ico");
 	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
@@ -332,8 +318,7 @@ Game::Game()
 
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
-{
-	
+{	
 	m_srfCity = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
@@ -541,7 +526,8 @@ void Gamestate::MorphMyDude()
 				break;
 			}
 		}
-		gamestate.FLIP();
+		//gamestate.FLIP();
+		Gfx.FLIP();
 	}
 
 	gamestate.GameCondition = GS_LEVEL1;
@@ -715,6 +701,9 @@ void Gamestate::ResetPlayer()
 	demon.Fist_H = 15;
 }
 
+void Game::Audiotonic()
+{
+}
 // ----------------------------------------------------------------------------
 // Update() - Updates the whole game depending on which state it is in
 // ----------------------------------------------------------------------------
@@ -735,17 +724,20 @@ void Game::Update( SDL_Event input )
 			{
 				//Handle_events( input );
 				gamestate.MainScreen();
-				gamestate.FLIP();
+				//gamestate.FLIP();
+				Gfx.FLIP();
 			} break;
 		case GS_ENTERNAME:
 			{
 				gamestate.EnterName();
-				gamestate.FLIP();
+				//gamestate.FLIP();
+				Gfx.FLIP();
 			} break;	
 		case GS_INTROSTORY:
 			{
 				gamestate.DoIntroTalk();
-				gamestate.FLIP();
+				//gamestate.FLIP();
+				Gfx.FLIP();
 			} break;
 		case GS_LOADING:
 			{
@@ -771,7 +763,8 @@ void Game::Update( SDL_Event input )
 				
 				gamestate.DrawAllText();
 				
-				gamestate.FLIP();
+				//gamestate.FLIP();
+				Gfx.FLIP();
 			} break;
 		case GS_LEVEL1BOSS:
 			{
@@ -784,7 +777,8 @@ void Game::Update( SDL_Event input )
 				gamestate.DrawBoss();
 				gamestate.DrawAllText();
 				gamestate.DrawSprite();
-				gamestate.FLIP();
+				//gamestate.FLIP();
+				Gfx.FLIP();
 
 				if( gamestate.pBoss->BossDead == true )
 				{
@@ -825,7 +819,7 @@ void Gamestate::PlayOutro()
 
 	bool Walk = true;
 
-	SDL_Color textColor = { 255, 255, 255 };
+	//SDL_Color textColor = { 255, 255, 255 };
 
 	float speedJumpDemon = 0.0;
 
@@ -911,15 +905,17 @@ void Gamestate::PlayOutro()
 					FinishSlow[ Line ] += FinishLine[ Letter ];
 					for( int i = 0; i < 7; i++ )
 					{
-						FinishSurface = TTF_RenderText_Solid( gamestate.font, FinishSlow[ i ].c_str(), textColor );
-						gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+						FinishSurface = TTF_RenderText_Solid( gamestate.font, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
+						//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+						Gfx.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
 					}
 				}
 
 				for( int i = 0; i < 7; i++ )
 				{
-					FinishSurface = TTF_RenderText_Solid( gamestate.font, FinishSlow[ i ].c_str(), textColor );
-					gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+					FinishSurface = TTF_RenderText_Solid( gamestate.font, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
+					//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+					Gfx.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
 				}
 				
 				if( LetterWidth > 20 )
@@ -938,6 +934,7 @@ void Gamestate::PlayOutro()
 			}
 		}
 		gamestate.FLIP();
+		Gfx.FLIP();
 
 	}
 	gamestate.GameCondition = GS_INTRO;
@@ -977,12 +974,14 @@ void Gamestate::PlayerDied()
 		}
 		DrawBackgroundBlack();
 		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, gamestate.BackBuffer, &destRect );
-		SDL_Color textColor = { 255, 255, 255 };
-		SDL_Color textColor2 = { 0, 0, 0 };
+		//SDL_Color textColor = { 255, 255, 255 };
+		//SDL_Color textColor2 = { 0, 0, 0 };
 		sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-		gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, textColor, textColor2 );
-		gamestate.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
-		gamestate.FLIP();
+		gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+		//gamestate.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
+		Gfx.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
+		//gamestate.FLIP();
+		Gfx.FLIP();
 	}
 	/*
 	ListHighScore->sort( gamestate.name->str.c_str(), _Score );
@@ -1087,7 +1086,8 @@ void Gamestate::PlayerDied()
 		
 		DeathSurface[ 1 ] = TTF_RenderText_Blended( gamestate.font, gamestate.name->str.c_str(), StoneFront );
 		gamestate.apply_surface( 160, 450, DeathSurface[ 1 ], gamestate.BackBuffer );
-		gamestate.FLIP();
+		//gamestate.FLIP();
+		Gfx.FLIP();
 	}
 
 	gamestate.GameCondition = GS_INTRO;	*/
@@ -1101,31 +1101,34 @@ void Gamestate::DrawAllText()
 {
 	if( GameCondition == GS_INTROSTORY || GameCondition == GS_DEAD )
 	{
-		SDL_Color textColor = { 255, 255, 255 };
-		SDL_Color textColor2 = { 0, 0, 0 };
+		//SDL_Color textColor = { 255, 255, 255 };
+		//SDL_Color textColor2 = { 0, 0, 0 };
 		
 		if( GameCondition == GS_DEAD )
 		{
 			sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, textColor, textColor2 );
-			gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer ); 
+			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
+			Gfx.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
 		}
 		else
 		{
 			sprintf_s( gamestate.Text, 256, " Press Space To Start " );		
-			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, textColor, textColor2 );
-			gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer ); 
+			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
+			Gfx.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
 		}
 	}
 	else
 	{
 		//The color of the font
-		SDL_Color textColor = { 251, 245, 32 };
+		//SDL_Color textColor = { 251, 245, 32 };
 
 		// print out the score
 		sprintf_s(gamestate.Text, 256, "%i ", gamestate.GetScore() );		
-		gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, textColor );
-		gamestate.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer ); 
+		gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, Gfx.WhiteRGB );
+		//gamestate.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer );
+		Gfx.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer );
 	}
 }
 
@@ -1189,8 +1192,8 @@ void Gamestate::FLIP()
 	SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
 	SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
 					
-	gamestate.PasteScreenToAnother( srcRect, destRect );
-
+	//gamestate.PasteScreenToAnother( srcRect, destRect );
+	Gfx.PasteScreenToAnother( srcRect, destRect);
 	//flips screen
 	if( SDL_Flip( gamestate.screen ) == -1)
 	{
@@ -1203,36 +1206,18 @@ void Gamestate::FLIP()
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen()
 {
-	SDL_Surface * Surface_Credits = NULL;
-	SDL_Surface * Surface_HighScore = NULL;
 
-	ParallaxLayer  * MyParaBackGround;
-	MyParaBackGround = Parallax->getLayer( TitleScreen->surface );
+	//SDL_Surface * Surface_Credits = NULL;
+	//SDL_Surface * Surface_HighScore = NULL;
+
+	//ParallaxLayer  * MyParaBackGround;
+	//MyParaBackGround = Parallax->getLayer( TitleScreen->surface );
 
 	SDL_Rect scRect = { 0, 0, 800, 600 };
-
 	SDL_Rect dtRect = {	0, 0, 800, 600 };
 
-	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect ); 
-	if( CheckingHighScore == true )
-	{
-		ListHighScore->sort( gamestate.name->str.c_str(), gamestate.GetScore() );
-		ListHighScore->Save();
+	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
 
-		delete ListHighScore;
-		ListHighScore = new FillHighScore;
-		CheckingHighScore = false;
-
-		for( int i = 0; i < 5; i++ )
-		{
-			char temp[ 256 ];
-			sprintf_s(	temp, 256, "Name: %s Score: %i", ListHighScore->list[ i ].name.c_str(), ListHighScore->list[ i ].Score );	
-			gamestate.HighScoreList[ i ] = temp;
-		}
-	}
-
-	if( TitleScreen->ButtonOptions == false )
-	{
 		for( int i = 0; i < 4; i++ )
 		{
 			//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
@@ -1241,93 +1226,128 @@ void Gamestate::MainScreen()
 								&TitleScreen->ButtonClips[ i ],
 								gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
 		}
-	}
-	else if( TitleScreen->ButtonHighScore == true )
-	{
-		/*
-		SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
-							&TitleScreen->ButtonClips[ 4 ],
-							gamestate.BackBuffer, &TitleScreen->DestClips[ 8 ] ); 	
-							*/
 
-		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
-							&TitleScreen->ButtonClips[ 7 ],
-							gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
-
-		SDL_Color textColor = { 0,0,0 };
-		
-		for( int i = 0; i < 5; i++ )
-		{
-			Surface_HighScore =		TTF_RenderText_Solid( gamestate.font, 
-									gamestate.HighScoreList[ i ].c_str(), textColor );
-			apply_surface( 50, 270 + i * 40, Surface_HighScore, gamestate.BackBuffer );
-		}
-
-	}
-	else if( TitleScreen->ButtonCredits == true )
-	{
-		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
-							&TitleScreen->ButtonClips[ 8 ],
-							gamestate.BackBuffer, &TitleScreen->DestClips[ 9 ] ); 
-
-		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
-							&TitleScreen->ButtonClips[ 7 ],
-							gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
-
-		
-		SDL_Color textColor = { 0,0,0 };
-		
-	
-		Surface_Credits =		TTF_RenderText_Solid( gamestate.font, 
-								" A Risk Production ", textColor );
-		apply_surface( 50, 270, Surface_Credits, gamestate.BackBuffer );
-	}
-	else
-	{
-		for( int i = 0; i < 8; i++ )
-		{
-			if( i == 2 || i == 0 || i == 3 )
-			{
-											
-			}
-			else
-			{
-				SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), &TitleScreen->ButtonClips[ i ],
-									gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
-			}
-		}
-	}
-	
 	if( TitleScreen->ButtonNewgame == true )
 	{
 		gamestate.GameCondition = GS_INTROSTORY;
 		TitleScreen->ButtonNewgame = false;
-
-		if( Surface_Credits != NULL )
-		{
-			SDL_FreeSurface( Surface_Credits );
-		}
-		if( Surface_HighScore != NULL )
-		{
-			SDL_FreeSurface( Surface_HighScore );
-		}
-
 		gamestate.RestartGame();
 	}
-	if( TitleScreen->ButtonQuit == true )
-	{
-		gamestate.GameOK = false;
-		TitleScreen->ButtonQuit == false;
-	}
 
-	if( TitleScreen->ButtonBack == true )
-	{
-		TitleScreen->ButtonOptions = false;
-		TitleScreen->ButtonBack = false;
-		TitleScreen->ButtonHighScore = false;
-		TitleScreen->ButtonCredits = false;
-		TitleScreen->ButtonBack = false;
-	}
+	//if( gamestate.TitleScreen->ButtonHighScore == true )
+	//{
+	//	ListHighScore->sort( gamestate.name->str.c_str(), gamestate.GetScore() );
+	//	ListHighScore->Save();
+
+	//	delete ListHighScore;
+	//	ListHighScore = new FillHighScore;
+
+	//	for( int i = 0; i < 5; i++ )
+	//	{
+	//		char temp[ 256 ];
+	//		sprintf_s(	temp, 256, "Name: %s Score: %i", ListHighScore->list[ i ].name.c_str(), ListHighScore->list[ i ].Score );	
+	//		gamestate.HighScoreList[ i ] = temp;
+	//	}
+	//}
+
+	//if( TitleScreen->ButtonOptions == false )
+	//{
+	//	for( int i = 0; i < 4; i++ )
+	//	{
+	//		//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
+	//		
+	//		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
+	//							&TitleScreen->ButtonClips[ i ],
+	//							gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
+	//	}
+	//}
+	//else if( TitleScreen->ButtonHighScore == true )
+	//{
+	//	/*
+	//	SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
+	//						&TitleScreen->ButtonClips[ 4 ],
+	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 8 ] ); 	
+	//						*/
+
+	//	SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
+	//						&TitleScreen->ButtonClips[ 7 ],
+	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
+
+	//	SDL_Color textColor = { 0,0,0 };
+	//	
+	//	for( int i = 0; i < 5; i++ )
+	//	{
+	//		Surface_HighScore =		TTF_RenderText_Solid( gamestate.font, 
+	//								gamestate.HighScoreList[ i ].c_str(), textColor );
+	//		apply_surface( 50, 270 + i * 40, Surface_HighScore, gamestate.BackBuffer );
+	//	}
+
+	//}
+	//else if( TitleScreen->ButtonCredits == true )
+	//{
+	//	SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
+	//						&TitleScreen->ButtonClips[ 8 ],
+	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 9 ] ); 
+
+	//	SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
+	//						&TitleScreen->ButtonClips[ 7 ],
+	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
+
+	//	
+	//	SDL_Color textColor = { 0,255,0 };
+	//	
+	//
+	//	Surface_Credits =		TTF_RenderText_Solid( gamestate.font, 
+	//							" A Risk Production ", textColor );
+	//	apply_surface( 50, 270, Surface_Credits, gamestate.BackBuffer );
+	//}
+	//else
+	//{
+	//	for( int i = 0; i < 8; i++ )
+	//	{
+	//		if( i == 2 || i == 0 || i == 3 )
+	//		{
+	//										
+	//		}
+	//		else
+	//		{
+	//			SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), &TitleScreen->ButtonClips[ i ],
+	//								gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
+	//		}
+	//	}
+	//}
+	//
+	//if( TitleScreen->ButtonNewgame == true )
+	//{
+	//	gamestate.GameCondition = GS_INTROSTORY;
+	//	TitleScreen->ButtonNewgame = false;
+
+	//	if( Surface_Credits != NULL )
+	//	{
+	//		SDL_FreeSurface( Surface_Credits );
+	//	}
+	//	if( Surface_HighScore != NULL )
+	//	{
+	//		SDL_FreeSurface( Surface_HighScore );
+	//	}
+
+	//	gamestate.RestartGame();
+	//}
+	//if( TitleScreen->ButtonQuit == true )
+	//{
+	//	gamestate.GameOK = false;
+	//	TitleScreen->ButtonQuit == false;
+	//}
+
+	//if( TitleScreen->ButtonBack == true )
+	//{
+	//	TitleScreen->ButtonOptions = false;
+	//	TitleScreen->ButtonBack = false;
+	//	TitleScreen->ButtonHighScore = false;
+	//	TitleScreen->ButtonCredits = false;
+	//	TitleScreen->ButtonBack = false;
+	//} 					  	   
+	//
 }
 
 // ----------------------------------------------------------------------------
@@ -1336,14 +1356,16 @@ void Gamestate::MainScreen()
 void Gamestate::EnterName()
 {
 	cout << "EnterName gamestate..." << endl;
-		SDL_Rect scRect = {	0, 0, 800, 600 };
-		SDL_Rect dtRect = {	0, 0, 800, 600 };
-		SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
-			SDL_Color textColor = { 0,0,0 };
-			SDL_Surface * srfEnter;
-			srfEnter = TTF_RenderText_Solid( font, gamestate.PlayerName.c_str(), textColor );
-		gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
-		//gamestate.name->show_centered();
+	SDL_Rect scRect = {	0, 0, 800, 600 };
+	SDL_Rect dtRect = {	0, 0, 800, 600 };
+	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
+	//SDL_Color textColor = { 0,0,0 };
+	SDL_Surface * srfEnter;
+	srfEnter = TTF_RenderText_Solid( font, gamestate.PlayerName.c_str(), Gfx.BlackRGB );
+	//gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
+	Gfx.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
+	//gamestate.name->show_centered();
+
 	if( gamestate.name->handle_input(  ) == false )
 	{
 		gamestate.GameCondition = GS_INTROSTORY;
@@ -1372,7 +1394,8 @@ void Gamestate::EnterName()
 		srfEnter = TTF_RenderText_Solid( font, " Press Enter To Finish ", textColor );
 		gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
 
-		gamestate.FLIP();
+		//gamestate.FLIP();
+		Gfx.FLIP();
 	}
 
 	gamestate.GameCondition = GS_INTROSTORY;
@@ -1457,28 +1480,6 @@ void Game::Cleanup()
 {
 	TTF_Quit();
 	SDL_Quit();
-}
-
-// writes to file 
-void Gamestate::RecordAllData()
-{
-	ParallaxLayer * LayerToFile;
-	ofstream OutToFile("LevelOptions.txt");
-	for( int i = 0; i < Parallax->getLayerCount(); i++ )
-	{
-		LayerToFile = Parallax->getLayer( i );
-		OutToFile << "WhichLayer: " << i << endl;
-		OutToFile << "Layer_Surface: " << LayerToFile->m_surface << endl;
-		OutToFile << "Layer_Width: " << LayerToFile->m_width << endl;
-		OutToFile << "Layer_Height: " << LayerToFile->m_height << endl;
-		OutToFile << "Layer_WhereOn_Y: " << LayerToFile->m_surfaceYOffset << endl;
-		OutToFile << "Layer_Parallax: " << LayerToFile->m_parallax << endl;
-		OutToFile << "Destination_X: " << LayerToFile->DX << endl;
-		OutToFile << "Destination_Y: " << LayerToFile->DY << endl;
-		OutToFile << "Destination_Width: " << LayerToFile->DW << endl;
-		OutToFile << "Destination_Height: " << LayerToFile->DH << endl;
-		OutToFile << endl;
-	}
 }
 
 // loads image with chosen value to not show
@@ -1824,157 +1825,135 @@ void Gamestate::resetAnimationPace()
 	UpdateAnimationSpeed = 0;
 }
 
-void Gamestate::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
-{
-    //Holds offsets
-    SDL_Rect offset;
-    
-    //Get offsets
-    offset.x = x;
-    offset.y = y;
-    
-    //Blit
-    SDL_BlitSurface( source, clip, destination, &offset );
-}
+//void Gamestate::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
+//{
+//    //Holds offsets
+//    SDL_Rect offset;
+//    
+//    //Get offsets
+//    offset.x = x;
+//    offset.y = y;
+//    
+//    //Blit
+//    SDL_BlitSurface( source, clip, destination, &offset );
+//}
 
-void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-{			
+//void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
+//{			
+//
+//	int srcWidth = srcRect.w - srcRect.x;
+//	int srcHeight = srcRect.h - srcRect.y,
+//		DestWidth = destRect.w - destRect.x,
+//		DestHeight = destRect.h - destRect.y;
+//
+//	SDL_LockSurface( gamestate.BackBuffer );
+//	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
+//
+//	int dstPitch = gamestate.BackBuffer->pitch;
+//	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
+//
+//	DWORD * dst = ( DWORD * )gamestate.BackBuffer->pixels;
+//
+//	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
+//
+//	float scaleWidth = srcWidth / ( float )DestWidth;
+//	float scaleHeight = srcHeight / ( float )DestHeight; 
+//
+//
+//	float fSrcX = srcRect.x,
+//		  fSrcY = srcRect.y;
+//
+//	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
+//	{
+//		fSrcX = 0;
+//
+//		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
+//		{
+//			dst[ ( y * dstPitch / 4) + ( x ) ] = src[ int( ( fSrcY ) * ( pitch / 4 ) + int( fSrcX ) )];
+//
+//			fSrcX += scaleWidth;
+//		}
+//
+//		fSrcY += scaleHeight;	
+//	}
+//
+//	SDL_UnlockSurface( gamestate.BackBuffer );
+//	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
+//
+//}
 
-	int srcWidth = srcRect.w - srcRect.x;
-	int srcHeight = srcRect.h - srcRect.y,
-		DestWidth = destRect.w - destRect.x,
-		DestHeight = destRect.h - destRect.y;
+//void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
+//{			
+//	SDL_LockSurface( gamestate.BackBuffer );
+//	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
+//
+//	int dstPitch = gamestate.BackBuffer->pitch;
+//	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
+//
+//	DWORD * dst = ( DWORD * )gamestate.BackBuffer->pixels;
+//
+//	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
+//
+//	float scaleWidth = srcRect.w / ( float )destRect.w;
+//	float scaleHeight = srcRect.h / ( float )destRect.h; 
+//
+//
+//	float fSrcX = srcRect.x,
+//		  fSrcY = srcRect.y;
+//
+//	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
+//	{
+//		fSrcX = srcRect.x;
+//
+//		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
+//		{
+//			dst[ (y * dstPitch / 4) + (x) ] = src[ int((fSrcY) * (pitch / 4) + int(fSrcX) )];
+//
+//			fSrcX += scaleWidth;
+//		}
+//		fSrcY += scaleHeight;	
+//	}
+//
+//	SDL_UnlockSurface( gamestate.BackBuffer );
+//	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
+//
+//}
 
-	SDL_LockSurface( gamestate.BackBuffer );
-	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
-
-	int dstPitch = gamestate.BackBuffer->pitch;
-	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
-
-	DWORD * dst = ( DWORD * )gamestate.BackBuffer->pixels;
-
-	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
-
-	float scaleWidth = srcWidth / ( float )DestWidth;
-	float scaleHeight = srcHeight / ( float )DestHeight; 
-
-
-	float fSrcX = srcRect.x,
-		  fSrcY = srcRect.y;
-
-	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-	{
-		fSrcX = 0;
-
-		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-		{
-			dst[ ( y * dstPitch / 4) + ( x ) ] = src[ int( ( fSrcY ) * ( pitch / 4 ) + int( fSrcX ) )];
-
-			fSrcX += scaleWidth;
-		}
-
-		fSrcY += scaleHeight;	
-	}
-
-	SDL_UnlockSurface( gamestate.BackBuffer );
-	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
-
-}
-
-void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-{			
-
-	SDL_LockSurface( gamestate.BackBuffer );
-	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
-
-	int dstPitch = gamestate.BackBuffer->pitch;
-	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
-
-	DWORD * dst = ( DWORD * )gamestate.BackBuffer->pixels;
-
-	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
-
-	float scaleWidth = srcRect.w / ( float )destRect.w;
-	float scaleHeight = srcRect.h / ( float )destRect.h; 
-
-
-	float fSrcX = srcRect.x,
-		  fSrcY = srcRect.y;
-
-	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-	{
-		fSrcX = srcRect.x;
-
-		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-		{
-			dst[ (y * dstPitch / 4) + (x) ] = src[ int((fSrcY) * (pitch / 4) + int(fSrcX) )];
-
-			fSrcX += scaleWidth;
-		}
-		fSrcY += scaleHeight;	
-	}
-
-	SDL_UnlockSurface( gamestate.BackBuffer );
-	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
-
-}
-
-void Gamestate::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )	
-{			
-
-	SDL_LockSurface( gamestate.screen );
-	SDL_LockSurface( gamestate.BackBuffer );
-
-	int dstPitch = gamestate.screen->pitch;
-	int pitch = gamestate.BackBuffer->pitch;
-
-	DWORD * dst = ( DWORD * )gamestate.screen->pixels;
-	DWORD * src = ( DWORD * )gamestate.BackBuffer->pixels;
-
-	float scaleWidth = gamestate.BackBuffer->w / ( float )destRect.w;
-	float scaleHeight = gamestate.BackBuffer->h / ( float )destRect.h; 
-
-
-	float fSrcX = 0.0f,
-		  fSrcY = 0.0f;
-
-	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-	{
-		fSrcX = 0.0f;
-
-		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-		{
-			dst[ (y * dstPitch / 4) + (x) ] = src[ int(fSrcY) * (pitch / 4) + int(fSrcX) ];
-
-			fSrcX += scaleWidth;
-		}
-
-		fSrcY += scaleHeight;	
-	}
-
-	SDL_UnlockSurface( gamestate.screen );
-	SDL_UnlockSurface( gamestate.BackBuffer );
-
-}
-
-// --------------------------------------------------------------------------------------
-// blit() - blits offscreen surface to (xpos,ypos) on backbuffer
-// --------------------------------------------------------------------------------------
-void Gamestate::blit( int index, int xpos, int ypos, bool transparent )
-{
-	// Calc rects
-	SDL_Rect srcRect = { 0, 0, m_surfaceList[ index ]->w, m_surfaceList[ index ]->h };
-	SDL_Rect destRect = { xpos, ypos, xpos+m_surfaceList[ index ]->w, ypos+m_surfaceList[ index ]->h };
-
-
-	// Blit!
-	if( transparent )
-		SDL_BlitSurface(m_surfaceList[index], &destRect, gamestate.screen, &srcRect );
-		/*m_lpddsBackbuffer->Blt( &destRect, m_surfaceList[index], &srcRect, DDBLT_WAIT|DDBLT_KEYSRC, 0 );*/
-	else
-		SDL_BlitSurface(m_surfaceList[index], &destRect, gamestate.screen, &srcRect );
-
-}
+//void Gamestate::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )	
+//{
+//	SDL_LockSurface( gamestate.screen );
+//	SDL_LockSurface( gamestate.BackBuffer );
+//
+//	int dstPitch = gamestate.screen->pitch;
+//	int pitch = gamestate.BackBuffer->pitch;
+//
+//	DWORD * dst = ( DWORD * )gamestate.screen->pixels;
+//	DWORD * src = ( DWORD * )gamestate.BackBuffer->pixels;
+//
+//	float scaleWidth = gamestate.BackBuffer->w / ( float )destRect.w;
+//	float scaleHeight = gamestate.BackBuffer->h / ( float )destRect.h; 
+//
+//
+//	float fSrcX = 0.0f,
+//		  fSrcY = 0.0f;
+//
+//	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
+//	{
+//		fSrcX = 0.0f;
+//
+//		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
+//		{
+//			dst[ (y * dstPitch / 4) + (x) ] = src[ int(fSrcY) * (pitch / 4) + int(fSrcX) ];
+//
+//			fSrcX += scaleWidth;
+//		}
+//
+//		fSrcY += scaleHeight;	
+//	}
+//
+//	SDL_UnlockSurface( gamestate.screen );
+//	SDL_UnlockSurface( gamestate.BackBuffer );
+//}
 
 // ----------------------------------------------------------------------------
 // setUpParallaxLayers() - initializes parallax-struct
@@ -1982,50 +1961,49 @@ void Gamestate::blit( int index, int xpos, int ypos, bool transparent )
 void Gamestate::setUpParallaxLayers()
 {
 	// Create background
-	int i = 0;
 	Parallax = new ParallaxBackground();
 	Parallax->createLayers( 10 );
 
 	//Firstlayer
-	Parallax->setLayer( 0, 0, m_srfBlack, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Parallax->setLayer( 0, 0.0f, m_srfBlack, 
+						0, gamestate.BackBuffer->w, gamestate.BackBuffer->h, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	////sky
-	Parallax->setLayer( 1, 0.0f, m_srfSky, 0, 800, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
+	Parallax->setLayer( 1, 0.0f, m_srfSky, 
+						0, SCREEN_WIDTH, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
+	// trees
+	Parallax->setLayer( 2, 0.7f, m_srfTrees, 
+						0, 1172, 170, 0, 370, gamestate.BackBuffer->w, 170 ); 
 
 	//clouds
 	Parallax->setLayer(	3, 0.5f, m_srfClouds, 
-						0, 800, 38, 0, 0, gamestate.BackBuffer->w, 
+						0, SCREEN_WIDTH, 38, 0, 0, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
 	Parallax->setLayer(	4, 0.4f, m_srfClouds, 
-						38, 800, 87, 0, 38, gamestate.BackBuffer->w, 
+						38, SCREEN_WIDTH, 87, 0, 38, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
 	Parallax->setLayer(	5, 0.3f, m_srfClouds, 
-						126, 800, 46, 0, 126, gamestate.BackBuffer->w, 
+						126, SCREEN_WIDTH, 46, 0, 126, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
 	Parallax->setLayer(	6, 0.2f, m_srfClouds, 
-						172, 800, 21, 0, 172, gamestate.BackBuffer->w, 
+						172, SCREEN_WIDTH, 21, 0, 172, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
 	Parallax->setLayer(	7, 0.1f, m_srfClouds, 
-						193, 800, 12, 0, 193, gamestate.BackBuffer->w, 
+						193, SCREEN_WIDTH, 12, 0, 193, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
 
 	// City
 	Parallax->setLayer( 8, 0.7f, m_srfCity, 0, 5100, 535, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
-	// trees
-	Parallax->setLayer( 2, 0.7f, m_srfTrees, 0, 1172, 170, 0, 370, gamestate.BackBuffer->w, 170 ); 
-
 	// WalkPath
 	Parallax->setLayer(	9, 1.0f, m_srfCity, 
 						540, 5100, 60, 0, 535, gamestate.BackBuffer->w, 
 						gamestate.BackBuffer->h );
-
-	//gamestate.RecordAllData();
 }
 
 void Gamestate::AddScore(int value)

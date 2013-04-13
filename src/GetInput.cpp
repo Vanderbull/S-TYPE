@@ -1,8 +1,6 @@
 #include "GetInput.h"
 #include "Game.h"
 
-// @date 2012-08-07
-
 StringInput::StringInput()
 {
     //Initialize the string
@@ -134,6 +132,7 @@ void StringInput::show_centered()
     if( text != NULL )
     {
         //Show the name
-        gamestate.apply_surface( ( gamestate.SCREEN_WIDTH - text->w ) / 2, ( gamestate.SCREEN_HEIGHT - text->h ) / 2, text, gamestate.BackBuffer );
+        //gamestate.apply_surface( ( gamestate.SCREEN_WIDTH - text->w ) / 2, ( gamestate.SCREEN_HEIGHT - text->h ) / 2, text, gamestate.BackBuffer );
+		//Gfx.apply_surface( ( gamestate.SCREEN_WIDTH - text->w ) / 2, ( gamestate.SCREEN_HEIGHT - text->h ) / 2, text, gamestate.BackBuffer );
     }
 }

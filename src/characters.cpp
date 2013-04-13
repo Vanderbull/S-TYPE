@@ -3,7 +3,6 @@
 #include "characters.h"
 #include "Game.h"
 #include <cmath>
-#include "Audio.h"
 
 Demon demon(0,GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH);
 
