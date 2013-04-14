@@ -110,6 +110,7 @@
     <ClCompile Include="src\ControlGfx.cpp" />
     <ClCompile Include="src\DancingDragon.cpp" />
     <ClCompile Include="src\Enemies.cpp" />
+    <ClCompile Include="src\Enemies\CHeads.cpp" />
     <ClCompile Include="src\FirstScreen.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GetInput.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="src\ControlGfx.h" />
     <ClInclude Include="src\DancingDragon.h" />
     <ClInclude Include="src\Enemies.h" />
+    <ClInclude Include="src\Enemies\CHeads.h" />
     <ClInclude Include="src\Enemies\CSkeleton.h" />
     <ClInclude Include="src\Enemies\CZombie.h" />
     <ClInclude Include="src\Enemies\MovingThings.h" />

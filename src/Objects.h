@@ -2,8 +2,6 @@
 #include <SDL.h>
 #include <list>
 
-// @date 2012-08-07
-
 class Object
 {
 public:
@@ -63,10 +61,10 @@ public:
 	void SetFrames();
 };
 
-class Control_Objects
+class ControlObject
 {
 public:
-	Control_Objects();
+	ControlObject();
 	void DrawObjects();
 	void CreateObjects();
 
@@ -94,4 +92,4 @@ public:
 private:
 };
 
-extern Control_Objects Control_OBJ;
+extern ControlObject ControlObjects;

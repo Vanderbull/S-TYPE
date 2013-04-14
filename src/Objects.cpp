@@ -6,7 +6,7 @@
 #include "Collision.h"
 #include "ControlGfx.h"
 
-Control_Objects Control_OBJ;
+ControlObject ControlObjects;
 
 int Object::Initialize(float _xPos = 0.0f, float _yPos = 0.0f, int _Width = 0, int _Height = 0, int _Frame = 0, int _Radius = 0 )
 {
@@ -113,7 +113,7 @@ void ThingsToDemon::SetClips()
 	}
 }
 
-Control_Objects::Control_Objects()
+ControlObject::ControlObject()
 {
 	DemonLife = new ThingsToDemon;
 	DemonLife->Initialize(0,0,50,50,0,0);
@@ -142,7 +142,7 @@ Control_Objects::Control_Objects()
 	PowerUpMan = false;
 }
 
-void Control_Objects::CreateObjects()
+void ControlObject::CreateObjects()
 {
 	/*
 	if( demon.WhereIsEnd > 200 )
@@ -184,9 +184,9 @@ void PowerUp::SetFrame()
 // draws the objects coffins, fireballs etc, that exist and checks for collision 
 // fireballs against the enemies and the boss, also the powerup
 // shows life and lifeicon
-void Control_Objects::DrawObjects()
+void ControlObject::DrawObjects()
 {
-	Control_OBJ.WereWolf = new PowerUp( 50, 400, gamestate.m_srfDemonLife );
+	ControlObjects.WereWolf = new PowerUp( 50, 400, gamestate.m_srfDemonLife );
 
 	float speed = 500.0f * ( gamestate.dt / 1000.0f );
     float CoffinTim = 50.0f * ( gamestate.dt / 1000.0f );
@@ -200,77 +200,77 @@ void Control_Objects::DrawObjects()
 	list< Heads* > vRemoveHead;
 	list< Heads* >::iterator vRemoveIterHead;
 
-	if( Control_OBJ.PowerUpMan == true )
+	if( ControlObjects.PowerUpMan == true )
 	{
 		if( demon.isMovingLeft && demon.xVelocity >= SDL_GetVideoSurface()->w - 350 )
 		{
-			Control_OBJ.WereWolf->xPos += CoffinTim;
+			ControlObjects.WereWolf->xPos += CoffinTim;
 		}
 		else if( demon.isMovingRight )
 		{
-			Control_OBJ.WereWolf->xPos -= CoffinTim;
+			ControlObjects.WereWolf->xPos -= CoffinTim;
 		}
 
-		Control_OBJ.WereWolf->yPos -= abs( 2 * cos( CoffinTim ) );
-		if( Control_OBJ.WereWolf->Left )
+		ControlObjects.WereWolf->yPos -= abs( 2 * cos( CoffinTim ) );
+		if( ControlObjects.WereWolf->Left )
 		{	
-			Control_OBJ.WereWolf->xPos -= 2 * cos( CoffinTim );
+			ControlObjects.WereWolf->xPos -= 2 * cos( CoffinTim );
 			if( timer.PowerUpRoll > 20 )
 			{
-				Control_OBJ.WereWolf->Right = true;
-				Control_OBJ.WereWolf->Left = false;
+				ControlObjects.WereWolf->Right = true;
+				ControlObjects.WereWolf->Left = false;
 				timer.PowerUpRoll = 0.0f;
 			}
 			timer.PowerUpRoll++;
 		}
-		else if( Control_OBJ.WereWolf->Right )
+		else if( ControlObjects.WereWolf->Right )
 		{
-			Control_OBJ.WereWolf->xPos += 2 * cos( CoffinTim );
+			ControlObjects.WereWolf->xPos += 2 * cos( CoffinTim );
 			if( timer.PowerUpRoll > 20 )
 			{
-				Control_OBJ.WereWolf->Left = true;
-				Control_OBJ.WereWolf->Right = false;
+				ControlObjects.WereWolf->Left = true;
+				ControlObjects.WereWolf->Right = false;
 				timer.PowerUpRoll = 0.0f;
 			}
 			timer.PowerUpRoll++;
 		}
 		
 			// draw the powerup here when its created
-			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
-									Control_OBJ.WereWolf->yPos,
-									Control_OBJ.WereWolf->Width,
-									Control_OBJ.WereWolf->Height };
+			SDL_Rect destRect = {	ControlObjects.WereWolf->xPos,
+									ControlObjects.WereWolf->yPos,
+									ControlObjects.WereWolf->Width,
+									ControlObjects.WereWolf->Height };
 
-			SDL_BlitSurface(	Gfx.GetSurface( Control_OBJ.WereWolf->surface ),
-								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
+			SDL_BlitSurface(	Gfx.GetSurface( ControlObjects.WereWolf->surface ),
+								&ControlObjects.WereWolf->Clips[ ControlObjects.WereWolf->Frame ],
 								gamestate.BackBuffer,
 								&destRect );
 
 		if( timer.PowerUp > 2 )
 		{
 			// draw the powerup here when its created
-			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
-									Control_OBJ.WereWolf->yPos,
-									Control_OBJ.WereWolf->Width,
-									Control_OBJ.WereWolf->Height };
+			SDL_Rect destRect = {	ControlObjects.WereWolf->xPos,
+									ControlObjects.WereWolf->yPos,
+									ControlObjects.WereWolf->Width,
+									ControlObjects.WereWolf->Height };
 
-			SDL_BlitSurface(	Gfx.GetSurface( Control_OBJ.WereWolf->surface ),
-								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
+			SDL_BlitSurface(	Gfx.GetSurface( ControlObjects.WereWolf->surface ),
+								&ControlObjects.WereWolf->Clips[ ControlObjects.WereWolf->Frame ],
 								gamestate.BackBuffer,
 								&destRect );
 
-			Control_OBJ.WereWolf->SetFrame();
+			ControlObjects.WereWolf->SetFrame();
 			timer.PowerUp = 0;
 		}
 		else
 		{
 			// draw the powerup here when its created
-			SDL_Rect destRect = {	Control_OBJ.WereWolf->xPos,
-									Control_OBJ.WereWolf->yPos,
-									Control_OBJ.WereWolf->Width,
-									Control_OBJ.WereWolf->Height };
-			SDL_BlitSurface(	Gfx.GetSurface( Control_OBJ.WereWolf->surface ),
-								&Control_OBJ.WereWolf->Clips[ Control_OBJ.WereWolf->Frame ],
+			SDL_Rect destRect = {	ControlObjects.WereWolf->xPos,
+									ControlObjects.WereWolf->yPos,
+									ControlObjects.WereWolf->Width,
+									ControlObjects.WereWolf->Height };
+			SDL_BlitSurface(	Gfx.GetSurface( ControlObjects.WereWolf->surface ),
+								&ControlObjects.WereWolf->Clips[ ControlObjects.WereWolf->Frame ],
 								gamestate.BackBuffer,
 								&destRect );
 			timer.PowerUp++;
@@ -278,27 +278,27 @@ void Control_Objects::DrawObjects()
 
 		// kolla om han har blivit demon annars så sätt till false igen så den kan skapas en gång till
 		// Triggering morphing of character
-		bool GettingSpooky = CollisionController.CheckCollisionWithPlayer( Control_OBJ.WereWolf, 1 );
-		if( GettingSpooky == true )
-		{
-			//demon.DemonHunter = true;
-			//demon.SmallHunter = false;
-			GettingSpooky = false;
-			//delete Control_OBJ.WereWolf;
-			Control_OBJ.PowerUpMan = false;
-			gamestate.GameCondition = GS_MORPH;
-		}	
-		if( Control_OBJ.WereWolf->yPos < 50 )
+		//bool GettingSpooky = CollisionController.CheckCollisionWithPlayer( ControlObjects.WereWolf, 1 );
+		//if( GettingSpooky == true )
+		//{
+		//	demon.DemonHunter = true;
+		//	demon.SmallHunter = false;
+		//	GettingSpooky = false;
+		//	delete ControlObjects.WereWolf;
+		//	ControlObjects.PowerUpMan = false;
+		//	gamestate.GameCondition = GS_MORPH;
+		//}	
+		if( ControlObjects.WereWolf->yPos < 50 )
 		{
 			PowerUpMan = false;
 		}
 	}
 
 	// Do we have any Fireballs to draw to the screen?
-	if( Control_OBJ.List_FireBalls.size() != 0 )
+	if( ControlObjects.List_FireBalls.size() != 0 )
 	{
-		std::list< FireBall* >::iterator i = Control_OBJ.List_FireBalls.begin();
-		for( ; i != Control_OBJ.List_FireBalls.end(); ++i )  
+		std::list< FireBall* >::iterator i = ControlObjects.List_FireBalls.begin();
+		for( ; i != ControlObjects.List_FireBalls.end(); ++i )  
 		{
 			FireBall * temp = (*i);
 			if( gamestate.GameCondition == GS_LEVEL1BOSS )
@@ -364,10 +364,10 @@ void Control_Objects::DrawObjects()
 								vRemoveEnemy.push_back( ( *e ) );
 								// Creating the PowerUp object
 								/*
-								if( Control_OBJ.PowerUpMan == false && demon.DemonHunter == false )
+								if( ControlObjects.PowerUpMan == false && demon.DemonHunter == false )
 								{
-									Control_OBJ.PowerUpMan = true;
-									Control_OBJ.WereWolf = new PowerUp( (*e)->xPos, (*e)->yPos + 20, gamestate.m_srfDemonLife );
+									ControlObjects.PowerUpMan = true;
+									ControlObjects.WereWolf = new PowerUp( (*e)->xPos, (*e)->yPos + 20, gamestate.m_srfDemonLife );
 								}
 								*/
 							}
@@ -436,10 +436,10 @@ void Control_Objects::DrawObjects()
 	list< Coffin* > vRemoveCoffin;
 	list< Coffin* >::iterator vRemoveIterCoffin;
 
-	if( Control_OBJ.List_Coffins.size() != 0 )
+	if( ControlObjects.List_Coffins.size() != 0 )
 	{
-		std::list< Coffin* >::iterator i = Control_OBJ.List_Coffins.begin();
-		for( ; i != Control_OBJ.List_Coffins.end(); i++ )
+		std::list< Coffin* >::iterator i = ControlObjects.List_Coffins.begin();
+		for( ; i != ControlObjects.List_Coffins.end(); i++ )
 		{
 			Coffin * temp = (*i);
 			/*temp->xPos -= speed;*/
@@ -535,32 +535,32 @@ void Control_Objects::DrawObjects()
 	case 0:
 		//FrameHealth = 0;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &Control_OBJ.destHealth );
+							gamestate.BackBuffer, &ControlObjects.destHealth );
 		break;
 	case 1:
 		//FrameHealth = 1;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &Control_OBJ.destHealth );
+							gamestate.BackBuffer, &ControlObjects.destHealth );
 		break;
 	case 2:
 		//FrameHealth = 2;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &Control_OBJ.destHealth );
+							gamestate.BackBuffer, &ControlObjects.destHealth );
 		break;
 	case 3:
 		//FrameHealth = 3;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &Control_OBJ.destHealth );
+							gamestate.BackBuffer, &ControlObjects.destHealth );
 		break;
 	case 4:
 		//FrameHealth = 4;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow ],
-							gamestate.BackBuffer, &Control_OBJ.destHealth );
+							gamestate.BackBuffer, &ControlObjects.destHealth );
 		break;
 	case 5:
 		//FrameHealth = 5;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &Control_OBJ.destHealth );
+							gamestate.BackBuffer, &ControlObjects.destHealth );
 		break;
 	}	
 }
@@ -598,7 +598,7 @@ void Coffin::SetFrames()
 	}
 }
 
-Coffin * Control_Objects::CreateCoffin( int xPos, int yPos, int Surface )
+Coffin * ControlObject::CreateCoffin( int xPos, int yPos, int Surface )
 {
 	Coffin * TemporaryCoffin = new Coffin;
 	TemporaryCoffin->xPos = xPos;
@@ -647,7 +647,7 @@ void FireBall::SetClips()
 }
 */
 
-FireBall * Control_Objects::CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left )
+FireBall * ControlObject::CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left )
 {
 	FireBall * TemporaryFireball = new FireBall;
 	TemporaryFireball->xPos = xPos;

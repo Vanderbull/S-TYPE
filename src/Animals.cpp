@@ -84,7 +84,7 @@ void ControlAnimals::Draw_Animals()
 	{
 		(*i)->Update();
 		(*i)->Draw();
-		if( (*i)->xPos <= 200.0f )
+		if( (*i)->xPos <= 0.0f )
 			i = My_Animals.erase(i);
 		else
 			++i;
@@ -162,4 +162,5 @@ ControlAnimals::ControlAnimals()
 
 ControlAnimals::~ControlAnimals()
 {
+	cout << "Destroying the Animal Controller" << endl;
 }

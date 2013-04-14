@@ -55,6 +55,9 @@
     <ClCompile Include="src\CBoss.cpp">
       <Filter>Characters</Filter>
     </ClCompile>
+    <ClCompile Include="src\Enemies\CHeads.cpp">
+      <Filter>Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -118,6 +121,9 @@
     </ClInclude>
     <ClInclude Include="src\CBoss.h">
       <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CHeads.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

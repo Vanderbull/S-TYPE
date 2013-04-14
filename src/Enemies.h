@@ -6,7 +6,7 @@
 #include "Enemies\MovingThings.h"
 #include "Enemies\CSkeleton.h"
 #include "Enemies\CZombie.h"
-// @date 2012-08-07
+#include "Enemies\CHeads.h"
 
 enum{ ENEMY_ZOMBIE, ENEMY_SKELETON };
 enum{ ZOMBIE = 6, SKELETON = 7, SKULL = 8};
@@ -175,6 +175,7 @@ public:
 	float SizeHeads;
 
 	std::list< Heads* > My_BossHead;
+	std::list< CHeads* > _BossHeads;
 
 private:
 	int State; 

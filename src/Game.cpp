@@ -416,7 +416,7 @@ void Gamestate::DrawObjects()
 {
 	if( gamestate.GameCondition == GS_LEVEL1BOSS )
 	{
-		Control_OBJ.DrawObjects();
+		ControlObjects.DrawObjects();
 	}
 	else
 	{						  
@@ -424,7 +424,7 @@ void Gamestate::DrawObjects()
 		AnimalController.Draw_Animals();
 		Control_ENEMY.Update();
 		Control_ENEMY.Draw_Enemies();
-		Control_OBJ.DrawObjects();
+		ControlObjects.DrawObjects();
 	}	
 }
 // ----------------------------------------------------------------------------
@@ -604,30 +604,30 @@ void Gamestate::ResetEnemies()
 // ----------------------------------------------------------------------------
 void Gamestate::ResetObjects()
 {
-	if( Control_OBJ.List_Coffins.size() != NULL )
+	if( ControlObjects.List_Coffins.size() != NULL )
 	{
-		Control_OBJ.List_Coffins.clear();
+		ControlObjects.List_Coffins.clear();
 	}
 
-	if( Control_OBJ.List_FireBalls.size() != NULL )
+	if( ControlObjects.List_FireBalls.size() != NULL )
 	{
-		Control_OBJ.List_FireBalls.clear();
+		ControlObjects.List_FireBalls.clear();
 	}
 
-	if( Control_OBJ.List_PowerUps.size() != NULL )
+	if( ControlObjects.List_PowerUps.size() != NULL )
 	{
-		Control_OBJ.List_PowerUps.clear();
+		ControlObjects.List_PowerUps.clear();
 	}
 
-	Control_OBJ.FrameHealth = 0;
-	Control_OBJ.PowerUpMan = false;
-	if( Control_OBJ.WereWolf != NULL )
+	ControlObjects.FrameHealth = 0;
+	ControlObjects.PowerUpMan = false;
+	if( ControlObjects.WereWolf != NULL )
 	{
-		delete Control_OBJ.WereWolf;
-		Control_OBJ.WereWolf = NULL;
+		delete ControlObjects.WereWolf;
+		ControlObjects.WereWolf = NULL;
 	}
 
-	Control_OBJ.WhichLifeToShow = 0;
+	ControlObjects.WhichLifeToShow = 0;
 	
 	return;
 }
@@ -712,7 +712,7 @@ void Game::Update( SDL_Event input )
 {
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 	//if( demon.WhereIsEnd >= 5700 ) 
-	if( gamestate.LevelProgress >= 6100 )
+	if( gamestate.LevelProgress >= 0 )
 	{
 		gamestate.GameCondition = GS_LEVEL1BOSS;
 	}
@@ -1174,7 +1174,14 @@ void Gamestate::Loading()
 // ----------------------------------------------------------------------------
 void Gamestate::DrawBoss()
 {
+	//SDL_Rect srcRect = { 0, 0, 150, 300 };
+	//gamestate.pBoss->UpdateFrame();
+	//				SDL_BlitSurface( Gfx.GetSurface( gamestate.pBoss->Surface ), 
+	//				&gamestate.pBoss->GetClips( gamestate.pBoss->GetFrame() ),
+	//							gamestate.BackBuffer, &srcRect );
+	//Sleep(100);
 	gamestate.pBoss->UpdateBoss();
+	//gBoss.Update();
 }
 
 // ----------------------------------------------------------------------------
@@ -1691,7 +1698,7 @@ void Gamestate::CreateAll()
 {
 	AnimalController.Create_Animals();
 	Control_ENEMY.Create_Enemies();
-	Control_OBJ.CreateObjects();
+	ControlObjects.CreateObjects();
 }
 
 // draws MyFellow on the screen and changes animations

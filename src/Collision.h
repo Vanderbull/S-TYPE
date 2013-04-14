@@ -4,8 +4,6 @@
 #include "Objects.h"
 #include "Enemies.h"
 
-// @date 2012-08-07
-
 // holds all the info on the collisions
 class ControlCollision
 {

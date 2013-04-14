@@ -7,8 +7,6 @@
 #include "Collision.h"
 #include "ControlGfx.h"
 
-// @date 2012-08-07
-
 Control_Enemies Control_ENEMY;
 
 CZombie::CZombie()
@@ -30,7 +28,6 @@ CEnemy::CEnemy()
 
 void CEnemy::Set_Clips( int WhichTypeOfEnemy )
 {
-
 	// enemy type zombie
 	if( WhichTypeOfEnemy == 0 )
 	{
@@ -43,7 +40,7 @@ void CEnemy::Set_Clips( int WhichTypeOfEnemy )
 			Clips.push_back(ZombieClips[ i ]);
 		}
 	}
-	// enemy type 1 Skelton
+	// enemy type 1 Skeleton
 	else if( WhichTypeOfEnemy == 1 )
 	{
 		//Frame = 0;
@@ -215,7 +212,7 @@ int Boss::GetFrame()
 
 void Boss::UpdateFrame()
 {
-	if( Frame >= 4 )
+	if( Frame >= 6 )
 	{
 		Frame = 0;
 	}
@@ -225,6 +222,56 @@ void Boss::UpdateFrame()
 
 void Boss::UpdateBoss()
 {
+	list< Heads* >::iterator i = My_BossHead.begin();
+	float HeadSpeed = 70.0f * gamestate.dt;
+	int Length = rand() % ( SDL_GetVideoSurface()->w - 100 ) + 50 ;
+	if( timer.Hit > 50 )
+		timer.Hit = 0;
+
+	if( timer.Hit == 0 )
+	{
+		UpdateFrame();
+		if( GetFrame() == 5)
+		My_BossHead.push_back(	CreateBossHeads( xPos, yPos + 10, Surface, Length ) );
+	}
+
+	if( My_BossHead.size() != 0 )
+	{
+		for( ; i != My_BossHead.end(); ++i )
+		{
+			if( (*i)->HowFar >= (*i)->length )
+			{
+				(*i)->yPos += HeadSpeed;
+			}
+			else
+			{
+				(*i)->xPos -= HeadSpeed;
+				(*i)->HowFar += HeadSpeed;
+			}
+		}
+	}
+
+	timer.Hit++;
+	if( My_BossHead.size() != 0 )
+	{
+		list< Heads* >::iterator vRemoveIterHead;
+		vRemoveIterHead = My_BossHead.begin();
+		for( ; vRemoveIterHead != My_BossHead.end() ; ++vRemoveIterHead )
+		{
+			if( (*vRemoveIterHead)->xPos < 0.0f )
+			{
+				My_BossHead.remove( *vRemoveIterHead );
+				vRemoveIterHead = My_BossHead.begin();
+			}
+			if( (*vRemoveIterHead)->yPos > SDL_GetVideoSurface()->h )
+			{
+				My_BossHead.remove( *vRemoveIterHead );
+				vRemoveIterHead = My_BossHead.begin();
+			}
+		}
+	}
+
+
 	// updates boss, boss frame and checks collision against player
 	float x = GetTimerAttack();
 	if( x >= BOSS_ATTACK_START || HeadsComing == true )
@@ -248,12 +295,12 @@ void Boss::UpdateBoss()
 			{		
 				if( timer.Hit > 3 && demon.isImmortal == false )
 				{
-					timer.Hit = 0;
+					//timer.Hit = 0;
 					demon.Right = true;
 					demon.isHit = true;
 					demon.DemonHealth -= 50;
 				}
-				timer.Hit++;
+				//timer.Hit++;
 				
 			}
 
@@ -294,23 +341,23 @@ void Boss::UpdateBoss()
 			}
 
 			
-			if( GetFrame() >= 4 )
-			{
-				HeadAnimation = true;
-				SetFrame( BOSS_IDLE );
-			}
+			//if( GetFrame() >= 4 )
+			//{
+			//	HeadAnimation = true;
+			//	SetFrame( BOSS_IDLE );
+			//}
 		}
 
 		if( SizeHeads == 6 )
 		{
 			HeadsComing = false;
-			SetFrame( BOSS_IDLE );
+			//SetFrame( BOSS_IDLE );
 			SizeHeads = 1;
 		}
 	}
 	else
 	{
-		SetFrame( BOSS_IDLE );
+		//SetFrame( BOSS_IDLE );
 		UpdateAttackTimer();
 	}
 		//sanity check
@@ -345,7 +392,6 @@ void Boss::UpdateHeads()
 {
 	if( My_BossHead.size() != 0 )
 	{
-
 		float HeadSpeed = 20.0f * ( gamestate.dt / 1000.0f );
 		float Crash = 50.0f * ( gamestate.dt / 1000.0f );
 		float HowFarSpeed = 300.0f * ( gamestate.dt / 1000.0f );
@@ -607,10 +653,10 @@ void Control_Enemies::Draw_Enemies()
 							//vRemoveEnemy.push_back( ( *i ) );
 							// Creating PowerUp object
 							/*
-							if( Control_OBJ.PowerUpMan == false && demon.DemonHunter == false )
+							if( ControlObjects.PowerUpMan == false && demon.DemonHunter == false )
 							{
-								Control_OBJ.PowerUpMan = true;
-								Control_OBJ.WereWolf = new PowerUp( (*i)->xPos, (*i)->yPos + 20, gamestate.m_srfDemonLife );
+								ControlObjects.PowerUpMan = true;
+								ControlObjects.WereWolf = new PowerUp( (*i)->xPos, (*i)->yPos + 20, gamestate.m_srfDemonLife );
 							}
 							*/
 						}
