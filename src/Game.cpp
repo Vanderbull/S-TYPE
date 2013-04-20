@@ -1180,8 +1180,8 @@ void Gamestate::DrawBoss()
 	//				&gamestate.pBoss->GetClips( gamestate.pBoss->GetFrame() ),
 	//							gamestate.BackBuffer, &srcRect );
 	//Sleep(100);
-	gamestate.pBoss->UpdateBoss();
-	//gBoss.Update();
+	//gamestate.pBoss->UpdateBoss();
+	gBoss.Update();
 }
 
 // ----------------------------------------------------------------------------

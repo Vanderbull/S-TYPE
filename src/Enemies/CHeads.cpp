@@ -66,3 +66,7 @@ void CHeads::Set_Clips( int WhichTypeOfEnemy )
 void CHeads::SetFrame()
 {
 }
+SDL_Rect CHeads::GetClips( int WhichClip )
+{
+	return Clips[ WhichClip ];
+}

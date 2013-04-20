@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <list>
+using namespace std;
 #include "Objects.h"
 #include "Enemies\MovingThings.h"
 #include "Enemies\CSkeleton.h"
@@ -21,7 +22,10 @@ class CBoss : public BossInterface
 {
 public:
 	CBoss();
+	CHeads * CBoss::CreateBossHeads( int xPos, int yPos, int surface, int lengthOfTravel );
 	void Update();
+	void UpdateFrame();
+	int GetFrame();
 	void SetClips();
 	void SetSurface(int iSurface);
 
@@ -45,6 +49,8 @@ public:
 	float AnimPaceBoss;
 	float HeadTimer;
 	float SizeHeads;
+	
+	int Timer;
 
 	std::list< CHeads* > _BossHeads;
 
