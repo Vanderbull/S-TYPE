@@ -6,7 +6,7 @@
 #include "Collision.h"
 #include "ControlGfx.h"
 
-ControlObject ControlObjects;
+ControlObject ObjectController;
 
 int Object::Initialize(float _xPos = 0.0f, float _yPos = 0.0f, int _Width = 0, int _Height = 0, int _Frame = 0, int _Radius = 0 )
 {
@@ -186,7 +186,7 @@ void PowerUp::SetFrame()
 // shows life and lifeicon
 void ControlObject::DrawObjects()
 {
-	ControlObjects.WereWolf = new PowerUp( 50, 400, gamestate.m_srfDemonLife );
+	ObjectController.WereWolf = new PowerUp( 50, 400, gamestate.m_srfDemonLife );
 
 	float speed = 500.0f * ( gamestate.dt / 1000.0f );
     float CoffinTim = 50.0f * ( gamestate.dt / 1000.0f );
@@ -200,78 +200,78 @@ void ControlObject::DrawObjects()
 	list< Heads* > vRemoveHead;
 	list< Heads* >::iterator vRemoveIterHead;
 
-	if( ControlObjects.PowerUpMan == true )
+	if( ObjectController.PowerUpMan == true )
 	{
 		if( demon.isMovingLeft && demon.xVelocity >= SDL_GetVideoSurface()->w - 350 )
 		{
-			ControlObjects.WereWolf->xPos += CoffinTim;
+			ObjectController.WereWolf->xPos += CoffinTim;
 		}
 		else if( demon.isMovingRight )
 		{
-			ControlObjects.WereWolf->xPos -= CoffinTim;
+			ObjectController.WereWolf->xPos -= CoffinTim;
 		}
 
-		ControlObjects.WereWolf->yPos -= abs( 2 * cos( CoffinTim ) );
-		if( ControlObjects.WereWolf->Left )
+		ObjectController.WereWolf->yPos -= abs( 2 * cos( CoffinTim ) );
+		if( ObjectController.WereWolf->Left )
 		{	
-			ControlObjects.WereWolf->xPos -= 2 * cos( CoffinTim );
+			ObjectController.WereWolf->xPos -= 2 * cos( CoffinTim );
 			if( timer.PowerUpRoll > 20 )
 			{
-				ControlObjects.WereWolf->Right = true;
-				ControlObjects.WereWolf->Left = false;
+				ObjectController.WereWolf->Right = true;
+				ObjectController.WereWolf->Left = false;
 				timer.PowerUpRoll = 0.0f;
 			}
 			timer.PowerUpRoll++;
 		}
-		else if( ControlObjects.WereWolf->Right )
+		else if( ObjectController.WereWolf->Right )
 		{
-			ControlObjects.WereWolf->xPos += 2 * cos( CoffinTim );
+			ObjectController.WereWolf->xPos += 2 * cos( CoffinTim );
 			if( timer.PowerUpRoll > 20 )
 			{
-				ControlObjects.WereWolf->Left = true;
-				ControlObjects.WereWolf->Right = false;
+				ObjectController.WereWolf->Left = true;
+				ObjectController.WereWolf->Right = false;
 				timer.PowerUpRoll = 0.0f;
 			}
 			timer.PowerUpRoll++;
 		}
 		
 			// draw the powerup here when its created
-			SDL_Rect destRect = {	ControlObjects.WereWolf->xPos,
-									ControlObjects.WereWolf->yPos,
-									ControlObjects.WereWolf->Width,
-									ControlObjects.WereWolf->Height };
+			SDL_Rect destRect = {	ObjectController.WereWolf->xPos,
+									ObjectController.WereWolf->yPos,
+									ObjectController.WereWolf->Width,
+									ObjectController.WereWolf->Height };
 
-			SDL_BlitSurface(	Gfx.GetSurface( ControlObjects.WereWolf->surface ),
-								&ControlObjects.WereWolf->Clips[ ControlObjects.WereWolf->Frame ],
-								gamestate.BackBuffer,
+			SDL_BlitSurface(	Gfx.GetSurface( ObjectController.WereWolf->surface ),
+								&ObjectController.WereWolf->Clips[ ObjectController.WereWolf->Frame ],
+								Gfx.BackBuffer,
 								&destRect );
 
 		if( timer.PowerUp > 2 )
 		{
 			// draw the powerup here when its created
-			SDL_Rect destRect = {	ControlObjects.WereWolf->xPos,
-									ControlObjects.WereWolf->yPos,
-									ControlObjects.WereWolf->Width,
-									ControlObjects.WereWolf->Height };
+			SDL_Rect destRect = {	ObjectController.WereWolf->xPos,
+									ObjectController.WereWolf->yPos,
+									ObjectController.WereWolf->Width,
+									ObjectController.WereWolf->Height };
 
-			SDL_BlitSurface(	Gfx.GetSurface( ControlObjects.WereWolf->surface ),
-								&ControlObjects.WereWolf->Clips[ ControlObjects.WereWolf->Frame ],
-								gamestate.BackBuffer,
+			SDL_BlitSurface(	Gfx.GetSurface( ObjectController.WereWolf->surface ),
+								&ObjectController.WereWolf->Clips[ ObjectController.WereWolf->Frame ],
+								Gfx.BackBuffer,
 								&destRect );
 
-			ControlObjects.WereWolf->SetFrame();
+			ObjectController.WereWolf->SetFrame();
 			timer.PowerUp = 0;
 		}
 		else
 		{
 			// draw the powerup here when its created
-			SDL_Rect destRect = {	ControlObjects.WereWolf->xPos,
-									ControlObjects.WereWolf->yPos,
-									ControlObjects.WereWolf->Width,
-									ControlObjects.WereWolf->Height };
-			SDL_BlitSurface(	Gfx.GetSurface( ControlObjects.WereWolf->surface ),
-								&ControlObjects.WereWolf->Clips[ ControlObjects.WereWolf->Frame ],
-								gamestate.BackBuffer,
+			SDL_Rect destRect = {	ObjectController.WereWolf->xPos,
+									ObjectController.WereWolf->yPos,
+									ObjectController.WereWolf->Width,
+									ObjectController.WereWolf->Height };
+			SDL_BlitSurface(	Gfx.GetSurface( ObjectController.WereWolf->surface ),
+								&ObjectController.WereWolf->Clips[ ObjectController.WereWolf->Frame ],
+								Gfx.BackBuffer,
 								&destRect );
 			timer.PowerUp++;
 		}
@@ -288,55 +288,57 @@ void ControlObject::DrawObjects()
 		//	ControlObjects.PowerUpMan = false;
 		//	gamestate.GameCondition = GS_MORPH;
 		//}	
-		if( ControlObjects.WereWolf->yPos < 50 )
+		if( ObjectController.WereWolf->yPos < 50 )
 		{
 			PowerUpMan = false;
 		}
 	}
 
 	// Do we have any Fireballs to draw to the screen?
-	if( ControlObjects.List_FireBalls.size() != 0 )
+	if( ObjectController.List_FireBalls.size() != 0 )
 	{
-		std::list< FireBall* >::iterator i = ControlObjects.List_FireBalls.begin();
-		for( ; i != ControlObjects.List_FireBalls.end(); ++i )  
+		std::list< FireBall* >::iterator i = ObjectController.List_FireBalls.begin();
+		for( ; i != ObjectController.List_FireBalls.end(); ++i )  
 		{
 			FireBall * temp = (*i);
 			if( gamestate.GameCondition == GS_LEVEL1BOSS )
 			{
-				if( gamestate.pBoss->My_BossHead.size() != 0 )
-				{
-					list< Heads* >::iterator h = gamestate.pBoss->My_BossHead.begin();
-					for( ; h != gamestate.pBoss->My_BossHead.end(); ++h )
-					{
-						Heads * head = ( *h );
-						if( CollisionController.CollisionCircle( temp, head, false ) )
-						{
-							gamestate.AddScore(5);
-							vRemoveHead.push_back( ( *h ) );
-							vRemoveFireBall.push_back( ( *i ) );
-						}
-					}
-				}
+				
+				//if( gamestate.pBoss->My_BossHead.size() != 0 )
+				//{
+				//	list< Heads* >::iterator h = gamestate.pBoss->My_BossHead.begin();
+				//	for( ; h != gamestate.pBoss->My_BossHead.end(); ++h )
+				//	{
+				//		Heads * head = ( *h );
+				//		if( CollisionController.CollisionCircle( temp, head, false ) )
+				//		{
+				//			gamestate.AddScore(5);
+				//			vRemoveHead.push_back( ( *h ) );
+				//			vRemoveFireBall.push_back( ( *i ) );
+				//		}
+				//	}
+				//}
+				
 
-				if( CollisionController.CollisionCircle( temp, gamestate.pBoss, true ) )
-				{
-					vRemoveFireBall.push_back( ( *i ) ); 
-					gamestate.AddScore(5);
-					gamestate.pBoss->BossLife -= 50;
-					if( gamestate.pBoss->BossLife < 0 )
-					{
-						gamestate.pBoss->BossDead = true;
-					}
-				}
+				//if( CollisionController.CollisionCircle( temp, gamestate.pBoss, true ) )
+				//{
+				//	vRemoveFireBall.push_back( ( *i ) ); 
+				//	gamestate.AddScore(5);
+				//	gamestate.pBoss->BossLife -= 50;
+				//	if( gamestate.pBoss->BossLife < 0 )
+				//	{
+				//		gamestate.pBoss->BossDead = true;
+				//	}
+				//}
 
 			}
 
 
 			// This part might be removed due to the fact RemoveEnemy is being removed
-			if( Control_ENEMY.Enemies.size() != 0 )
+			if( EnemyController.Enemies.size() != 0 )
 			{
-				std::list< CEnemy* >::iterator e = Control_ENEMY.Enemies.begin();
-				for( ; e != Control_ENEMY.Enemies.end(); ++e )
+				std::list< CEnemy* >::iterator e = EnemyController.Enemies.begin();
+				for( ; e != EnemyController.Enemies.end(); ++e )
 				{
 					CEnemy * enemy = (*e);
 
@@ -344,7 +346,7 @@ void ControlObject::DrawObjects()
 					{
 						if( CollisionController.CollisionCircle( temp, enemy, false ) )
 						{
-							gamestate.AddScore(2);
+							//gamestate.AddScore(2);
 
 							if( (*e)->Surface == Zombie )
 							{
@@ -383,7 +385,7 @@ void ControlObject::DrawObjects()
 			if( temp->FireLeft == true )
 			{
 				SDL_BlitSurface(	Gfx.GetSurface( temp->surface ), &temp->Clips[ temp->FrameLeft ],
-									gamestate.BackBuffer, &destRect );
+									Gfx.BackBuffer, &destRect );
 				temp->xPos -= speed;
 				if( temp->FrameLeft == 5 )
 				{
@@ -397,7 +399,7 @@ void ControlObject::DrawObjects()
 			else
 			{
 				SDL_BlitSurface(	Gfx.GetSurface( temp->surface ), &temp->Clips[ temp->FrameRight ],
-									gamestate.BackBuffer, &destRect );
+									Gfx.BackBuffer, &destRect );
 
 				temp->xPos += speed;
 
@@ -422,24 +424,24 @@ void ControlObject::DrawObjects()
 		vRemoveIterEnemy = vRemoveEnemy.begin();
 		for( ; vRemoveIterEnemy != vRemoveEnemy.end(); ++vRemoveIterEnemy )
 		{
-			Control_ENEMY.Enemies.remove( ( *vRemoveIterEnemy ) );
+			EnemyController.Enemies.remove( ( *vRemoveIterEnemy ) );
 		}
 
-		vRemoveIterHead = vRemoveHead.begin();
-		for( ; vRemoveIterHead != vRemoveHead.end(); ++vRemoveIterHead )
-		{
-			gamestate.pBoss->My_BossHead.remove( ( *vRemoveIterHead ) );
-		}
+		//vRemoveIterHead = vRemoveHead.begin();
+		//for( ; vRemoveIterHead != vRemoveHead.end(); ++vRemoveIterHead )
+		//{
+		//	gamestate.pBoss->My_BossHead.remove( ( *vRemoveIterHead ) );
+		//}
 			
 	}
 	
 	list< Coffin* > vRemoveCoffin;
 	list< Coffin* >::iterator vRemoveIterCoffin;
 
-	if( ControlObjects.List_Coffins.size() != 0 )
+	if( ObjectController.List_Coffins.size() != 0 )
 	{
-		std::list< Coffin* >::iterator i = ControlObjects.List_Coffins.begin();
-		for( ; i != ControlObjects.List_Coffins.end(); i++ )
+		std::list< Coffin* >::iterator i = ObjectController.List_Coffins.begin();
+		for( ; i != ObjectController.List_Coffins.end(); i++ )
 		{
 			Coffin * temp = (*i);
 			/*temp->xPos -= speed;*/
@@ -475,13 +477,13 @@ void ControlObject::DrawObjects()
 			if( temp->Frame == 11 )
 			{
 				
-				Control_ENEMY.Enemies.push_back( Control_ENEMY.CreateEnemy( temp->xPos, temp->yPos - 30, gamestate.m_srfSkeleton ) );
+				EnemyController.Enemies.push_back( EnemyController.CreateEnemy( temp->xPos, temp->yPos - 30, gamestate.m_srfSkeleton ) );
 				vRemoveCoffin.push_back( (*i) );
 			}
 
 
 				SDL_BlitSurface(	Gfx.GetSurface( temp->surface ), &srcRect,
-									gamestate.BackBuffer, &dstRect );	
+									Gfx.BackBuffer, &dstRect );	
 		}
 	}
 
@@ -505,21 +507,21 @@ void ControlObject::DrawObjects()
 		DemonLife->Frame = 2;
 
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
-							gamestate.BackBuffer, &dstRect );
+							Gfx.BackBuffer, &dstRect );
 	}
 	else if( demon.LifeMedium_Small )
 	{
 		DemonLife->Frame = 1;
 
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
-							gamestate.BackBuffer, &dstRect );
+							Gfx.BackBuffer, &dstRect );
 	}
 	else if( demon.LifeLittle_Small )
 	{
 		DemonLife->Frame = 0;
 
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonLife ), &DemonLife->Clips[ DemonLife->Frame ],
-							gamestate.BackBuffer, &dstRect );
+							Gfx.BackBuffer, &dstRect );
 	}
 
 	// x,y,w,h
@@ -527,7 +529,7 @@ void ControlObject::DrawObjects()
 	SDL_Rect Viewport_srfHealth = {0,0,192,64};
 
 	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfHealth ), &srfHealth,
-					gamestate.BackBuffer, &Viewport_srfHealth );
+					Gfx.BackBuffer, &Viewport_srfHealth );
 
 	// Remove the switch statement it is not needed WhichLifeToShow keeps track of the value
 	switch( WhichLifeToShow )
@@ -535,32 +537,32 @@ void ControlObject::DrawObjects()
 	case 0:
 		//FrameHealth = 0;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &ControlObjects.destHealth );
+							Gfx.BackBuffer, &ObjectController.destHealth );
 		break;
 	case 1:
 		//FrameHealth = 1;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &ControlObjects.destHealth );
+							Gfx.BackBuffer, &ObjectController.destHealth );
 		break;
 	case 2:
 		//FrameHealth = 2;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &ControlObjects.destHealth );
+							Gfx.BackBuffer, &ObjectController.destHealth );
 		break;
 	case 3:
 		//FrameHealth = 3;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &ControlObjects.destHealth );
+							Gfx.BackBuffer, &ObjectController.destHealth );
 		break;
 	case 4:
 		//FrameHealth = 4;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow ],
-							gamestate.BackBuffer, &ControlObjects.destHealth );
+							Gfx.BackBuffer, &ObjectController.destHealth );
 		break;
 	case 5:
 		//FrameHealth = 5;
 		SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfDemonHealthAndFire ), &DemonLife->HealthClips[ WhichLifeToShow  ],
-							gamestate.BackBuffer, &ControlObjects.destHealth );
+							Gfx.BackBuffer, &ObjectController.destHealth );
 		break;
 	}	
 }

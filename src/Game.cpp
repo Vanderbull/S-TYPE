@@ -38,18 +38,16 @@ Gamestate::Gamestate()
 			
 	gBoss.SetSurface(1);
 
-	pBoss = NULL; // Pointer to Boss object
+	//pBoss = NULL; // Pointer to Boss object
 	Intro = NULL; // Pointer to introtalk object
 	outro = NULL; // Pointer to outro object
-	font = NULL;  //Pointer to font
-	srfText = NULL;	// Pointer to Text surface
+	//font = NULL;  //Pointer to font
+	//srfText = NULL;	// Pointer to Text surface
 
-	PreviousAnimArray = 0;
 	PreviousFrame = 0;
-	CurrentAnimArray = 0;
 	CurrentFrame = 0;
 	m_parallax = 0;
-	LevelProgress = 0;
+	//LevelProgress = 0;
 
 	dt = 0.0f;
 }
@@ -306,7 +304,7 @@ Game::Game()
 	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
 	gamestate.GameOK = true;
-	gamestate.GameOK = Init( gamestate.screen );
+	gamestate.GameOK = Init( Gfx.screen );
 	
 	// h 100 w 130
 	//demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH ); 
@@ -393,40 +391,23 @@ void Gamestate::CreateNewThings()
 
 
 // ----------------------------------------------------------------------------
-// findAvailableIndex() - find free slot in surface list and return its index
-// ----------------------------------------------------------------------------
-int Gamestate::findAvailableIndex()
-{
-	for( int i = 0; i < MAX_SURFACE; i++ )
-	{
-		if( !m_surfaceList[i] )
-		{
-			return i;
-		}
-	}
-
-	// None available
-	return -1;
-}
-
-// ----------------------------------------------------------------------------
 // DrawObjects() - Draws all objects, coffins, health etc.
 // ----------------------------------------------------------------------------
-void Gamestate::DrawObjects()
-{
-	if( gamestate.GameCondition == GS_LEVEL1BOSS )
-	{
-		ControlObjects.DrawObjects();
-	}
-	else
-	{						  
-		demon.Update();
-		AnimalController.Draw_Animals();
-		Control_ENEMY.Update();
-		Control_ENEMY.Draw_Enemies();
-		ControlObjects.DrawObjects();
-	}	
-}
+//void Gamestate::DrawObjects()
+//{
+//	if( gamestate.GameCondition == GS_LEVEL1BOSS )
+//	{
+//		ControlObjects.DrawObjects();
+//	}
+//	else
+//	{						  
+//		demon.Update();
+//		AnimalController.Draw_Animals();
+//		EnemyController.Update();
+//		EnemyController.Draw_Enemies();
+//		ControlObjects.DrawObjects();
+//	}	
+//}
 // ----------------------------------------------------------------------------
 // CreateBoss() - Creates the boss gives collisionCircle and pos
 // ----------------------------------------------------------------------------
@@ -452,7 +433,7 @@ void Gamestate::MorphMyDude()
 	while( State != -1 )
 	{
 		
-		DrawBackgroundBlack();
+		Gfx.DrawBackgroundBlack();
 	
 		switch( State )
 		{
@@ -461,14 +442,14 @@ void Gamestate::MorphMyDude()
 				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										gamestate.BackBuffer, &destRect );
+										Gfx.BackBuffer, &destRect );
 					State--;
 					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					gamestate.BackBuffer, &destRect );
+					Gfx.BackBuffer, &destRect );
 					timer.MorphPics++;
 				}
 
@@ -479,14 +460,14 @@ void Gamestate::MorphMyDude()
 				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										gamestate.BackBuffer, &destRect );
+										Gfx.BackBuffer, &destRect );
 					State--;
 					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					gamestate.BackBuffer, &destRect );
+					Gfx.BackBuffer, &destRect );
 					timer.MorphPics++;
 				}
 
@@ -497,14 +478,14 @@ void Gamestate::MorphMyDude()
 				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										gamestate.BackBuffer, &destRect );
+										Gfx.BackBuffer, &destRect );
 					State--;
 					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					gamestate.BackBuffer, &destRect );
+					Gfx.BackBuffer, &destRect );
 					timer.MorphPics++;
 				}
 				break;
@@ -514,14 +495,14 @@ void Gamestate::MorphMyDude()
 				if( timer.MorphPics > 10 )
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										gamestate.BackBuffer, &destRect );
+										Gfx.BackBuffer, &destRect );
 					State--;
 					timer.MorphPics = 0;
 				}
 				else
 				{
 					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					gamestate.BackBuffer, &destRect );
+					Gfx.BackBuffer, &destRect );
 					timer.MorphPics++;
 				}
 				break;
@@ -550,52 +531,52 @@ void Gamestate::MorphMyDude()
 // ----------------------------------------------------------------------------
 // DrawBackgroundBlack - draws a background black with the size of screen
 // ----------------------------------------------------------------------------
-void Gamestate::DrawBackgroundBlack()
-{
-	if( gamestate.GameCondition == GS_OUTRO )
-	{
-		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
-		/*
-		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
-
-		SDL_Rect scRect = { 0, 0,	100, 70 };
-									
-		SDL_Rect dtRect = {	600, 530, 100, 50 };
-
-		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
-		*/
-	}
-	else
-	{
-		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
-		/*
-		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
-
-		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
-									600 };
-
-		SDL_Rect dtRect = {	0, 0, MyParaBackGround->m_width, 600 };
-
-		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect );
-		*/
-	}
-}
+//void Gamestate::DrawBackgroundBlack()
+//{
+//	if( gamestate.GameCondition == GS_OUTRO )
+//	{
+//		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
+//		/*
+//		ParallaxLayer  * MyParaBackGround;
+//		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
+//
+//		SDL_Rect scRect = { 0, 0,	100, 70 };
+//									
+//		SDL_Rect dtRect = {	600, 530, 100, 50 };
+//
+//		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
+//		*/
+//	}
+//	else
+//	{
+//		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
+//		/*
+//		ParallaxLayer  * MyParaBackGround;
+//		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
+//
+//		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
+//									600 };
+//
+//		SDL_Rect dtRect = {	0, 0, MyParaBackGround->m_width, 600 };
+//
+//		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect );
+//		*/
+//	}
+//}
 
 void Gamestate::ResetBoss()
 {
-	if( gamestate.pBoss != NULL )
-	{
-		delete gamestate.pBoss;
-	}
+	//if( gamestate.pBoss != NULL )
+	//{
+	//	delete gamestate.pBoss;
+	//}
 }
 
 void Gamestate::ResetEnemies()
 {
-	if( Control_ENEMY.Enemies.size() != NULL )
+	if(EnemyController.Enemies.size() != NULL )
 	{
-		Control_ENEMY.Enemies.clear();
+		EnemyController.Enemies.clear();
 	}
 }
 
@@ -604,30 +585,30 @@ void Gamestate::ResetEnemies()
 // ----------------------------------------------------------------------------
 void Gamestate::ResetObjects()
 {
-	if( ControlObjects.List_Coffins.size() != NULL )
+	if( ObjectController.List_Coffins.size() != NULL )
 	{
-		ControlObjects.List_Coffins.clear();
+		ObjectController.List_Coffins.clear();
 	}
 
-	if( ControlObjects.List_FireBalls.size() != NULL )
+	if( ObjectController.List_FireBalls.size() != NULL )
 	{
-		ControlObjects.List_FireBalls.clear();
+		ObjectController.List_FireBalls.clear();
 	}
 
-	if( ControlObjects.List_PowerUps.size() != NULL )
+	if( ObjectController.List_PowerUps.size() != NULL )
 	{
-		ControlObjects.List_PowerUps.clear();
+		ObjectController.List_PowerUps.clear();
 	}
 
-	ControlObjects.FrameHealth = 0;
-	ControlObjects.PowerUpMan = false;
-	if( ControlObjects.WereWolf != NULL )
+	ObjectController.FrameHealth = 0;
+	ObjectController.PowerUpMan = false;
+	if( ObjectController.WereWolf != NULL )
 	{
-		delete ControlObjects.WereWolf;
-		ControlObjects.WereWolf = NULL;
+		delete ObjectController.WereWolf;
+		ObjectController.WereWolf = NULL;
 	}
 
-	ControlObjects.WhichLifeToShow = 0;
+	ObjectController.WhichLifeToShow = 0;
 	
 	return;
 }
@@ -712,10 +693,10 @@ void Game::Update( SDL_Event input )
 {
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 	//if( demon.WhereIsEnd >= 5700 ) 
-	if( gamestate.LevelProgress >= 0 )
-	{
-		gamestate.GameCondition = GS_LEVEL1BOSS;
-	}
+	//if( gamestate.LevelProgress >= 0 )
+	//{
+	//	gamestate.GameCondition = GS_LEVEL1BOSS;
+	//}
 
 	// Check game state
 	switch( gamestate.GameCondition )
@@ -751,16 +732,20 @@ void Game::Update( SDL_Event input )
 		case GS_LEVEL1:
 			{
 				//gamestate.LevelProgress++;
-				gamestate.LevelProgress = gamestate.LevelProgress + (60*gamestate.dt);
-				cout << gamestate.LevelProgress << endl;
+				//gamestate.LevelProgress = gamestate.LevelProgress + (60*gamestate.dt);
+				//cout << gamestate.LevelProgress << endl;
 
 				// handles events what the user does with the character
 				//Handle_events( input );
 				
 				//draws layers
-				gamestate.drawParallaxLayers();
-				gamestate.DrawObjects();
-				gamestate.DrawSprite();
+				//gamestate.drawParallaxLayers();
+				Gfx.DrawParallaxLayers();
+				//gamestate.DrawObjects();
+				Gfx.DrawObjects();
+				//gamestate.DrawSprite();
+				Gfx.DrawSprite();
+				Gfx.DrawScore();
 				
 				gamestate.DrawAllText();
 				
@@ -773,18 +758,23 @@ void Game::Update( SDL_Event input )
 				//Handle_events( input );
 
 				//draws layers
-				gamestate.drawParallaxLayers();
-				gamestate.DrawObjects();
-				gamestate.DrawBoss();
-				gamestate.DrawAllText();
-				gamestate.DrawSprite();
+				//gamestate.drawParallaxLayers();
+				//Gfx.DrawParallaxLayers();
+				//gamestate.DrawObjects();
+				//Gfx.DrawObjects();
+				//gamestate.DrawBoss();
+				//Gfx.DrawBoss();
+				//gamestate.DrawAllText();
+				//gamestate.DrawSprite();
+				//Gfx.DrawSprite();
+				Gfx.DrawScore();
 				//gamestate.FLIP();
 				Gfx.FLIP();
 
-				if( gamestate.pBoss->BossDead == true )
-				{
-					gamestate.GameCondition = GS_OUTRO;
-				}
+				//if( gamestate.pBoss->BossDead == true )
+				//{
+				//	gamestate.GameCondition = GS_OUTRO;
+				//}
 			} break;
 		case GS_OUTRO:
 			{
@@ -879,15 +869,18 @@ void Gamestate::PlayOutro()
     					demon.isMovingRight = true;
 				}
 
-				gamestate.drawParallaxLayers();
-				gamestate.DrawSprite();
-				gamestate.DrawBackgroundBlack();
+				//gamestate.drawParallaxLayers();
+				Gfx.DrawParallaxLayers();
+				//gamestate.DrawSprite();
+				Gfx.DrawSprite();
+				//gamestate.DrawBackgroundBlack();
+				Gfx.DrawBackgroundBlack();
 				break;
 			}
 		case 1:
 			{
 				SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
-									&srcRect, gamestate.BackBuffer, &destRect );
+									&srcRect, Gfx.BackBuffer, &destRect );
 				if( Counter > 2 )
 				{
 					Counter = 0;
@@ -906,17 +899,17 @@ void Gamestate::PlayOutro()
 					FinishSlow[ Line ] += FinishLine[ Letter ];
 					for( int i = 0; i < 7; i++ )
 					{
-						FinishSurface = TTF_RenderText_Solid( gamestate.font, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
+						FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
 						//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
-						Gfx.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+						Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
 					}
 				}
 
 				for( int i = 0; i < 7; i++ )
 				{
-					FinishSurface = TTF_RenderText_Solid( gamestate.font, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
+					FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
 					//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
-					Gfx.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+					Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
 				}
 				
 				if( LetterWidth > 20 )
@@ -934,7 +927,7 @@ void Gamestate::PlayOutro()
 				break;
 			}
 		}
-		gamestate.FLIP();
+		//gamestate.FLIP();
 		Gfx.FLIP();
 
 	}
@@ -973,14 +966,14 @@ void Gamestate::PlayerDied()
 				break;
 			}
 		}
-		DrawBackgroundBlack();
-		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, gamestate.BackBuffer, &destRect );
+		Gfx.DrawBackgroundBlack();
+		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, Gfx.BackBuffer, &destRect );
 		//SDL_Color textColor = { 255, 255, 255 };
 		//SDL_Color textColor2 = { 0, 0, 0 };
 		sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-		gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+		Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
 		//gamestate.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
-		Gfx.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
+		Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
 		//gamestate.FLIP();
 		Gfx.FLIP();
 	}
@@ -1108,16 +1101,16 @@ void Gamestate::DrawAllText()
 		if( GameCondition == GS_DEAD )
 		{
 			sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
 			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
-			Gfx.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
+			Gfx.apply_surface( 200, 500, Gfx.srfText, Gfx.BackBuffer );
 		}
 		else
 		{
 			sprintf_s( gamestate.Text, 256, " Press Space To Start " );		
-			gamestate.textIntro = TTF_RenderText_Shaded( gamestate.font, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
 			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
-			Gfx.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
+			Gfx.apply_surface( 200, 500, Gfx.srfText, Gfx.BackBuffer );
 		}
 	}
 	else
@@ -1126,10 +1119,10 @@ void Gamestate::DrawAllText()
 		//SDL_Color textColor = { 251, 245, 32 };
 
 		// print out the score
-		sprintf_s(gamestate.Text, 256, "%i ", gamestate.GetScore() );		
-		gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, Gfx.WhiteRGB );
+		//sprintf_s(gamestate.Text, 256, "%i ", gamestate.GetScore() );		
+		//gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, Gfx.WhiteRGB );
 		//gamestate.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer );
-		Gfx.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer );
+		//Gfx.apply_surface( 100, 20, gamestate.srfText, Gfx.BackBuffer );
 	}
 }
 
@@ -1146,7 +1139,7 @@ void Gamestate::Loading()
 	if ( gamestate.IntroDone == false )
 	{
 					SDL_BlitSurface(	Gfx.GetSurface( Dragon->surface ), &Dragon->Clips[ Dragon->Frame ],
-								gamestate.BackBuffer, &dstRect );
+								Gfx.BackBuffer, &dstRect );
 			//Dragon->PrevFrame = Dragon->Frame;
 			Dragon->SetFrame();		
 			/*
@@ -1172,42 +1165,42 @@ void Gamestate::Loading()
 // ----------------------------------------------------------------------------
 // DrawBoss() - hmmm.
 // ----------------------------------------------------------------------------
-void Gamestate::DrawBoss()
-{
-	//SDL_Rect srcRect = { 0, 0, 150, 300 };
-	//gamestate.pBoss->UpdateFrame();
-	//				SDL_BlitSurface( Gfx.GetSurface( gamestate.pBoss->Surface ), 
-	//				&gamestate.pBoss->GetClips( gamestate.pBoss->GetFrame() ),
-	//							gamestate.BackBuffer, &srcRect );
-	//Sleep(100);
-	//gamestate.pBoss->UpdateBoss();
-	gBoss.Update();
-}
+//void Gamestate::DrawBoss()
+//{
+//	//SDL_Rect srcRect = { 0, 0, 150, 300 };
+//	//gamestate.pBoss->UpdateFrame();
+//	//				SDL_BlitSurface( Gfx.GetSurface( gamestate.pBoss->Surface ), 
+//	//				&gamestate.pBoss->GetClips( gamestate.pBoss->GetFrame() ),
+//	//							gamestate.BackBuffer, &srcRect );
+//	//Sleep(100);
+//	//gamestate.pBoss->UpdateBoss();
+//	gBoss.Update();
+//}
 
 // ----------------------------------------------------------------------------
 // GetSurface() - hmmm.
 // ----------------------------------------------------------------------------
-SDL_Surface * Gamestate::GetSurface( int WhichSurface )
-{
-	return m_surfaceList[ WhichSurface ];	
-}
+//SDL_Surface * Gamestate::GetSurface( int WhichSurface )
+//{
+//	return m_surfaceList[ WhichSurface ];	
+//}
 
 // ----------------------------------------------------------------------------
 // GetSurface() - gives backbuffer to destination buffer streches and all
 // ----------------------------------------------------------------------------
-void Gamestate::FLIP()
-{
-	//SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
-	//SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
-					
-	//gamestate.PasteScreenToAnother( srcRect, destRect );
-	Gfx.PasteScreenToAnother( SDL_GetVideoSurface()->clip_rect, SDL_GetVideoSurface()->clip_rect);
-	//flips screen
-	if( SDL_Flip( gamestate.screen ) == -1)
-	{
-		gamestate.GameOK = false;
-	}
-}
+//void Gamestate::FLIP()
+//{
+//	//SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
+//	//SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
+//					
+//	//gamestate.PasteScreenToAnother( srcRect, destRect );
+//	Gfx.PasteScreenToAnother( SDL_GetVideoSurface()->clip_rect, SDL_GetVideoSurface()->clip_rect);
+//	//flips screen
+//	if( SDL_Flip( gamestate.screen ) == -1)
+//	{
+//		gamestate.GameOK = false;
+//	}
+//}
 
 // ----------------------------------------------------------------------------
 // MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
@@ -1224,7 +1217,7 @@ void Gamestate::MainScreen()
 	//SDL_Rect scRect = { 0, 0, 800, 600 };
 	//SDL_Rect dtRect = {	0, 0, 800, 600 };
 
-	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &SDL_GetVideoSurface()->clip_rect, gamestate.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
 		for( int i = 0; i < 4; i++ )
 		{
@@ -1232,7 +1225,7 @@ void Gamestate::MainScreen()
 			
 			SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
 								&TitleScreen->ButtonClips[ i ],
-								gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
+								Gfx.BackBuffer, &TitleScreen->DestClips[ i ] ); 
 		}
 
 	if( TitleScreen->ButtonNewgame == true )
@@ -1366,12 +1359,12 @@ void Gamestate::EnterName()
 	cout << "EnterName gamestate..." << endl;
 	SDL_Rect scRect = {	0, 0, 800, 600 };
 	SDL_Rect dtRect = {	0, 0, 800, 600 };
-	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
+	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, Gfx.BackBuffer, &dtRect );
 	//SDL_Color textColor = { 0,0,0 };
 	SDL_Surface * srfEnter;
-	srfEnter = TTF_RenderText_Solid( font, gamestate.PlayerName.c_str(), Gfx.BlackRGB );
+	srfEnter = TTF_RenderText_Solid( Gfx.DefaultFont, gamestate.PlayerName.c_str(), Gfx.BlackRGB );
 	//gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
-	Gfx.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
+	Gfx.apply_surface( 200, 400, srfEnter, Gfx.BackBuffer );
 	//gamestate.name->show_centered();
 
 	if( gamestate.name->handle_input(  ) == false )
@@ -1460,10 +1453,10 @@ void Gamestate::EndAll()
 	{
 		delete Intro;
 	}
-	if( gamestate.pBoss != NULL )
-	{
-		delete gamestate.pBoss;
-	}
+	//if( gamestate.pBoss != NULL )
+	//{
+	//	delete gamestate.pBoss;
+	//}
 	if( gamestate.outro != NULL )
 	{ 
 		delete outro;
@@ -1474,8 +1467,8 @@ void Gamestate::EndAll()
 	}
 
 
-	ListHighScore->sort( gamestate.name->str, gamestate.GetScore() );
-	ListHighScore->Save();
+	//ListHighScore->sort( gamestate.name->str, gamestate.GetScore() );
+	//ListHighScore->Save();
 
 	if( gamestate.name != NULL )
 	{
@@ -1491,46 +1484,46 @@ void Game::Cleanup()
 }
 
 // loads image with chosen value to not show
-int Gamestate::Load_imageAlpha( std::string filename, int r, int g, int b )
-{
-	//temp storage for the image loaded
-	SDL_Surface * loadedimage = NULL;
-
-	//optimized image for storage and flipping
-	SDL_Surface * optimizedImage = NULL;
-
-	//load image 
-	loadedimage = IMG_Load( filename.c_str() );
-
-	//if something went wrong
-	if( loadedimage != NULL )
-	{
-		//create an optimized image 
-		optimizedImage = SDL_DisplayFormat( loadedimage );
-
-		//free old image
-		SDL_FreeSurface( loadedimage );
-	}
-
-	if(optimizedImage != NULL)
-	{
-		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
-	}
-	
-	int index = findAvailableIndex();
-	if( index == -1 )
-	{
-		return -1;
-	}
-
-	m_surfaceList[ index ] = optimizedImage;
-	return index;
-}
+//int Gamestate::Load_imageAlpha( std::string filename, int r, int g, int b )
+//{
+//	//temp storage for the image loaded
+//	SDL_Surface * loadedimage = NULL;
+//
+//	//optimized image for storage and flipping
+//	SDL_Surface * optimizedImage = NULL;
+//
+//	//load image 
+//	loadedimage = IMG_Load( filename.c_str() );
+//
+//	//if something went wrong
+//	if( loadedimage != NULL )
+//	{
+//		//create an optimized image 
+//		optimizedImage = SDL_DisplayFormat( loadedimage );
+//
+//		//free old image
+//		SDL_FreeSurface( loadedimage );
+//	}
+//
+//	if(optimizedImage != NULL)
+//	{
+//		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
+//	}
+//	
+//	int index = findAvailableIndex();
+//	if( index == -1 )
+//	{
+//		return -1;
+//	}
+//
+//	m_surfaceList[ index ] = optimizedImage;
+//	return index;
+//}
 
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
-	gamestate.screen = 0;
+	Gfx.screen = 0;
 
 
 	//initialize all SDL subystems
@@ -1542,7 +1535,7 @@ bool Game::Init(SDL_Surface * &screen)
 	//SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
 	//set up the screen
-	gamestate.screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	Gfx.screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
 	if( screen == NULL )
 	{
@@ -1573,10 +1566,10 @@ bool Game::Init(SDL_Surface * &screen)
 	bmask = 0x00000000;
 	amask = 0x00000000;
 
-	gamestate.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel,
+	Gfx.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel,
 								   rmask, gmask, bmask, amask);
 	
-	if( gamestate.BackBuffer == NULL )
+	if( Gfx.BackBuffer == NULL )
 	{
 		return false;
 	}
@@ -1586,251 +1579,175 @@ bool Game::Init(SDL_Surface * &screen)
 // ----------------------------------------------------------------------------
 // drawParallaxLayers() - renders parallax-layers to backbuffer and gives it to Main Surface
 // ----------------------------------------------------------------------------
-void Gamestate::drawParallaxLayers()
-{
-	if( gamestate.GameCondition != GS_LEVEL1BOSS && gamestate.GameCondition != GS_OUTRO )
-	{
-		/*
-		if( demon.xVel >= STARTSCROLLING - 50 )
-		{
-			// Updating the background to scroll when character is moving
-			if( demon.isMovingRight )
-			{
-				gamestate.m_paralax += 20;
-			}
-			else if( demon.isMovingLeft )
-			{
-				gamestate.m_paralax -= 20;
-			}
-		}
-		*/
-		gamestate.CreateAll();
-	}
-	else
-	{
-		if( !BossStart )
-		{
-			//demon.DemonHunter = true;
-			//demon.SmallHunter = false;
-			gamestate.pBoss = gamestate.CreateBoss( SDL_GetVideoSurface()->w - 180, GROUND_Y - 210, m_srfBoss );
-			BossStart = true;
-		}
-	}
-
-		//// Draw parallax layers
-		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = Parallax->getLayer( 0 );
-
-		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
-									MyParaBackGround->m_height };
-
-		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
-
-		SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, gamestate.BackBuffer, &dtRect );
-		//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
-
-		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
-
-		int x = 0;
-		for( int i = 1; i < Parallax->getLayerCount(); ++i )
-		{		
-			// Calc rects
-			MyParaBackGround = Parallax->getLayer( i );
-			if( MyParaBackGround->m_surface == m_srfClouds )
-			{
-				MyParaBackGround->AnimClouds += 100.0f * gamestate.dt;
-
-				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
-				if( x < 0 )	// neg -> pos
-				{
-					x *= -1;	// invert sign, because % only works with positive integers
-					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
-				}
-				else
-				{
-					x %= MyParaBackGround->m_width;
-				}
-
-				x -= MyParaBackGround->m_width;	// move one back
-			}
-			else
-			{
-
-				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_parallax ) );  
-				if( x < 0 )	// neg -> pos
-				{
-					x *= -1;	// invert sign, because % only works with positive integers
-					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
-				}
-				else
-				{
-					x %= MyParaBackGround->m_width;
-				}
-
-				x -= MyParaBackGround->m_width;	// move one back
-			}
-
-			for( int i = 0; i < 2; i++ )
-			{
-				SDL_Rect sourceRect = { 0 + x, MyParaBackGround->m_surfaceYOffset,
-										MyParaBackGround->m_width, MyParaBackGround->m_height };
-
-				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY, 
-												MyParaBackGround->DW, MyParaBackGround->DH };
-
-				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, gamestate.BackBuffer, &destinationRect ); 			
-				//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
-				
-				
-				x += MyParaBackGround->m_width;
-			}
-
-
-			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
-
-		}
-		gamestate.m_parallax += 500 * gamestate.dt;
-}
+//void Gamestate::drawParallaxLayers()
+//{
+//	if( gamestate.GameCondition != GS_LEVEL1BOSS && gamestate.GameCondition != GS_OUTRO )
+//	{
+//		/*
+//		if( demon.xVel >= STARTSCROLLING - 50 )
+//		{
+//			// Updating the background to scroll when character is moving
+//			if( demon.isMovingRight )
+//			{
+//				gamestate.m_paralax += 20;
+//			}
+//			else if( demon.isMovingLeft )
+//			{
+//				gamestate.m_paralax -= 20;
+//			}
+//		}
+//		*/
+//		gamestate.CreateAll();
+//	}
+//	else
+//	{
+//		//if( !BossStart )
+//		//{
+//		//	//demon.DemonHunter = true;
+//		//	//demon.SmallHunter = false;
+//		//	gamestate.pBoss = gamestate.CreateBoss( SDL_GetVideoSurface()->w - 180, GROUND_Y - 210, m_srfBoss );
+//		//	BossStart = true;
+//		//}
+//	}
+//
+//		//// Draw parallax layers
+//		ParallaxLayer  * MyParaBackGround;
+//		MyParaBackGround = Parallax->getLayer( 0 );
+//
+//		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
+//									MyParaBackGround->m_height };
+//
+//		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
+//
+//		SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, gamestate.BackBuffer, &dtRect );
+//		//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
+//
+//		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
+//
+//		int x = 0;
+//		for( int i = 1; i < Parallax->getLayerCount(); ++i )
+//		{		
+//			// Calc rects
+//			MyParaBackGround = Parallax->getLayer( i );
+//			if( MyParaBackGround->m_surface == m_srfClouds )
+//			{
+//				MyParaBackGround->AnimClouds += 100.0f * gamestate.dt;
+//
+//				//////// Calc parallax position
+//				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
+//				if( x < 0 )	// neg -> pos
+//				{
+//					x *= -1;	// invert sign, because % only works with positive integers
+//					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
+//				}
+//				else
+//				{
+//					x %= MyParaBackGround->m_width;
+//				}
+//
+//				x -= MyParaBackGround->m_width;	// move one back
+//			}
+//			else
+//			{
+//
+//				//////// Calc parallax position
+//				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_parallax ) );  
+//				if( x < 0 )	// neg -> pos
+//				{
+//					x *= -1;	// invert sign, because % only works with positive integers
+//					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
+//				}
+//				else
+//				{
+//					x %= MyParaBackGround->m_width;
+//				}
+//
+//				x -= MyParaBackGround->m_width;	// move one back
+//			}
+//
+//			for( int i = 0; i < 2; i++ )
+//			{
+//				SDL_Rect sourceRect = { 0 + x, MyParaBackGround->m_surfaceYOffset,
+//										MyParaBackGround->m_width, MyParaBackGround->m_height };
+//
+//				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY, 
+//												MyParaBackGround->DW, MyParaBackGround->DH };
+//
+//				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, gamestate.BackBuffer, &destinationRect ); 			
+//				//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
+//				
+//				
+//				x += MyParaBackGround->m_width;
+//			}
+//
+//
+//			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
+//
+//		}
+//		gamestate.m_parallax += 500 * gamestate.dt;
+//}
 
 void Gamestate::CreateAll()
 {
 	AnimalController.Create_Animals();
-	Control_ENEMY.Create_Enemies();
-	ControlObjects.CreateObjects();
+	EnemyController.Create_Enemies();
+	ObjectController.CreateObjects();
 }
 
 // draws MyFellow on the screen and changes animations
-void Gamestate::DrawSprite()
-{
-		//SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.Demon_Width, demon.Demon_Height };
-		//demonDest = demon.GetPosition();
-		if( demon.isImmortal )
-		{
-			if( demon.AlphaImmortal < SDL_ALPHA_OPAQUE - 100 )
-			{
-				demon.AlphaImmortal += 50;
-			}
-			else
-			{
-				demon.AlphaImmortal -= 50;
-			}
-			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
-		}
-		else
-		{
-			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
-		}
+//void Gamestate::DrawSprite()
+//{
+//		//SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.Demon_Width, demon.Demon_Height };
+//		//demonDest = demon.GetPosition();
+//		if( demon.isImmortal )
+//		{
+//			if( demon.AlphaImmortal < SDL_ALPHA_OPAQUE - 100 )
+//			{
+//				demon.AlphaImmortal += 50;
+//			}
+//			else
+//			{
+//				demon.AlphaImmortal -= 50;
+//			}
+//			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
+//		}
+//		else
+//		{
+//			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
+//		}
+//
+//		
+//			//Current_Frame = demon.UpdatePlayer();
+//			//demon.UpdatePlayer();
+//			demon.Update();
+//		
+//			// Rendering Demon Character
+//			/*
+//			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
+//								&demon.AnimationArrays[ Current_AnimArray ][ Current_Frame ],
+//								gamestate.BackBuffer, &demonDest );*/
+//			if( CurrentFrame == 3 )
+//			{
+//				CurrentFrame = 0;
+//			}
+//			
+//			SDL_BlitSurface(	Gfx.GetSurface( demon.DemonSurface ), 
+//				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
+//				gamestate.BackBuffer, &demon.GetPosition() );
+//			/*
+//			SDL_BlitSurface(	m_surfaceList[ emon.DemonSurface ], 
+//				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
+//								gamestate.BackBuffer, &demonDest );*/
+//
+//
+//			PreviousFrame = CurrentFrame;
+//}
 
-		
-			//Current_AnimArray = gamestate.WhichMorphType();
-			//Current_Frame = demon.UpdatePlayer();
-			//demon.UpdatePlayer();
-			demon.Update();
-		
-			// Rendering Demon Character
-			/*
-			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
-								&demon.AnimationArrays[ Current_AnimArray ][ Current_Frame ],
-								gamestate.BackBuffer, &demonDest );*/
-			if( CurrentFrame == 3 )
-			{
-				CurrentFrame = 0;
-			}
-			
-			SDL_BlitSurface(	Gfx.GetSurface( demon.DemonSurface ), 
-				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
-				gamestate.BackBuffer, &demon.GetPosition() );
-			/*
-			SDL_BlitSurface(	m_surfaceList[ emon.DemonSurface ], 
-				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
-								gamestate.BackBuffer, &demonDest );*/
-
-
-			gamestate.resetAnimationPace();
-			PreviousAnimArray = CurrentAnimArray;
-			PreviousFrame = CurrentFrame;
-			if( gamestate.GameCondition == GS_OUTRO )
-			{
-				gamestate.resetAnimationPace();
-			}
-}
-
-// checks which state the demon is in which animation to use
-int Gamestate::WhichMorphType()
-{
-	return demon.GetMorphState();
-/*
-	if( demon.SmallHunter )
-	{
-		return 0;
-	}
-
-	else if( demon.MediumHunter )
-	{
-		return 1;
-	}
-
-	else if( demon.LargeHunter )
-	{
-		return 2;
-	}
-
-	else if( demon.DemonHunter )
-	{
-		return 3;
-	}
-
-	return 0;*/
-}
-
-// checks if OK to move
-bool Gamestate::OK_Pace()
-{
-	if( GameCondition != GS_OUTRO )
-	{
-		if( UpdateAnimationSpeed > ANIMPACE )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	else
-	{
-		if( UpdateAnimationSpeed > ANIMPACESLOWER )
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-}
-
-// if enemy OK to move
-bool Gamestate::OK_PaceEnemy()
-{
-	if( UpdateAnimationSpeed > ANIMPACEENEMY )
-	{
-		return true;
-	}
-	return false;
-}
 
 void Gamestate::AddTick()
 {
 	 float Speed = 1000.0f * ( gamestate.dt / 1000.0f );
 	 UpdateAnimationSpeed += Speed;
-}
-
-void Gamestate::resetAnimationPace()
-{
-	UpdateAnimationSpeed = 0;
 }
 
 //void Gamestate::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
@@ -2005,14 +1922,4 @@ void Gamestate::setUpParallaxLayers()
 
 	Parallax->setLayer(	9, 1.0f, m_srfCity, 
 						540, 5100, 60, 0, 535, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-}
-
-void Gamestate::AddScore(int value)
-{
-	_Score += value;	
-}
-
-int Gamestate::GetScore()
-{
-	return _Score;
 }

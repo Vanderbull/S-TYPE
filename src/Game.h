@@ -22,8 +22,8 @@
 #include "HighScore.h"
 #include "DancingDragon.h"
 
-enum{	GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO, 
-		GS_LOADING, GS_INTROSTORY, GS_MORPH, GS_DEAD, GS_ENTERNAME };
+enum{ GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO, 
+	  GS_LOADING, GS_INTROSTORY, GS_MORPH, GS_DEAD, GS_ENTERNAME };
 enum{ BOSS_IDLE, BOSS_ATTACK, BOSS_DIE };
 enum{ HEAD_GO, HEAD_DOWN, HEAD_CRASH };
 enum{ BUTTON_NEW_GAME, BUTTON_OPTIONS, BUTTON_QUIT };
@@ -51,39 +51,63 @@ class Gamestate
 {
 public:
 	Gamestate();
+	~Gamestate(){};
 	
 	ParallaxBackground *Parallax;
 
-	int CurrentAnimArray, PreviousAnimArray;
-	int CurrentFrame, PreviousFrame;
-	
+	int CurrentFrame, PreviousFrame;	
 	int GameCondition;
-	float m_parallax;
-	int WhichMorphType();
-
-	int findAvailableIndex();
-	int Load_imageAlpha( std::string filename, int r, int g, int b );
 
 	float dt;
 	float UpdateAnimationSpeed;
+	float m_parallax;
 
 	bool GameOK;
-	bool OK_Pace();
-	bool OK_PaceEnemy();
-
 	bool BossStart;
 	bool IntroDone;
 
 	char Text[ 256 ];
 	string ScoreString;
 
-	SDL_Surface * screen;
-	SDL_Surface * BackBuffer;
+	SDL_Rect MorphingPics[ 5 ];
+
+	//TTF_Font * font;
+
+	//Boss * pBoss;
+	IntroTalk * Intro;
+	Outro * outro;
+	StringInput * name;
+	FillHighScore * ListHighScore;
+	DancingDragon * Dragon;
+	FirstScreen * TitleScreen;
+
+	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
+		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
+		m_srfDemonLife, m_srfDemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
+		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro, m_srfButton, m_srfHealth;
+
+	//SDL_Surface * srfText;
+	//SDL_Surface * textIntro;
+	//SDL_Surface * DeathSurface[ 2 ];
+	//SDL_Surface * TypeName;
+
+	// Level progress counter
+	//int LevelProgress;
+
+	// Player name
+	std::string PlayerName;
+
+	// Active menu
+	int ActiveMenu;
+
+	//int Load_imageAlpha( std::string filename, int r, int g, int b );
+
+	//SDL_Surface * screen;
+	//SDL_Surface * BackBuffer;
 
 	void CreateAll();
-	void resetAnimationPace();
 	void AddTick();
-	void drawParallaxLayers();
+	//void drawParallaxLayers();
 
 	void Loading();
 	void DrawAllText();
@@ -93,10 +117,10 @@ public:
 	
 	void MainScreen();
 	void EnterName();
-	void DrawSprite();
-	void DrawObjects();
-	void DrawBoss();
-	void DrawBackgroundBlack();
+	//void DrawSprite();
+	//void DrawObjects();
+	//void DrawBoss();
+	//void DrawBackgroundBlack();
 	void CreateNewThings();
 	void setUpParallaxLayers();
 	void load_files();
@@ -104,8 +128,8 @@ public:
 	// Key Mapping trial
 	void KeyMapping(SDL_Event _event);
 
-	void FLIP();
-	SDL_Surface * GetSurface( int WhichSurface );
+	//void FLIP();
+	//SDL_Surface * GetSurface( int WhichSurface );
 
 	//void stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect );
 	//void PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect );
@@ -120,43 +144,9 @@ public:
 	void ResetPlayer();
 	void ResetRest();
 	void PlayOutro();
-	void AddScore(int value);
-	int GetScore();
-
-	string HighScoreList[ 6 ];
 
 	Boss * CreateBoss( int xPos, int yPos, int surface );
 
-	SDL_Rect MorphingPics[ 5 ];
-
-	TTF_Font * font;
-
-	Boss * pBoss;
-	IntroTalk * Intro;
-	Outro * outro;
-	StringInput * name;
-	FillHighScore * ListHighScore;
-	DancingDragon * Dragon;
-	FirstScreen * TitleScreen;
-
-	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
-		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
-		m_srfDemonLife, m_srfDemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
-		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro, m_srfButton, m_srfHealth;
-
-	SDL_Surface * srfText;
-	SDL_Surface * textIntro;
-	SDL_Surface * DeathSurface[ 2 ];
-	SDL_Surface * TypeName;
-
-	// Level progress counter
-	int LevelProgress;
-
-	// Player name
-	std::string PlayerName;
-
-	// Active menu
-	int ActiveMenu;
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];

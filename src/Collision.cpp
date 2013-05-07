@@ -394,17 +394,17 @@ void ControlCollision::Circle( long centerx, long centery, long radius )
 // checks collision
 void ControlCollision::SetPixelMine( int xPos, int yPos  )
 {
-  	SDL_LockSurface( gamestate.BackBuffer );
+  	SDL_LockSurface( Gfx.BackBuffer );
 
 	COLORREF color( RGB( 255, 0, 0 ) );
 
-	int dstPitch = gamestate.BackBuffer->pitch;
+	int dstPitch = Gfx.BackBuffer->pitch;
 
-	DWORD * dst = ( DWORD * )gamestate.BackBuffer->pixels;
+	DWORD * dst = ( DWORD * )Gfx.BackBuffer->pixels;
 	
 	dst[ ( yPos * dstPitch / 4 ) + ( xPos ) ] = color;
 
-	SDL_UnlockSurface( gamestate.BackBuffer );
+	SDL_UnlockSurface( Gfx.BackBuffer );
 
 }
 
@@ -447,8 +447,8 @@ bool ControlCollision::CollisionBox( Demon *MyDemon, CEnemy *MyEnemy, bool Show 
 {
 	SDL_Rect DemonCollisionBox = MyDemon->GetPosition();
 	SDL_Rect EnemyCollisionBox = MyEnemy->GetPosition();
-	SDL_FillRect(gamestate.BackBuffer, &DemonCollisionBox, 0xFFFFFF);
-	SDL_FillRect(gamestate.BackBuffer, &EnemyCollisionBox, 0xFFFFFF);
+	SDL_FillRect(Gfx.BackBuffer, &DemonCollisionBox, 0xFFFFFF);
+	SDL_FillRect(Gfx.BackBuffer, &EnemyCollisionBox, 0xFFFFFF);
 	
 	return (abs(EnemyCollisionBox.x - DemonCollisionBox.x) * 2 < (EnemyCollisionBox.w + DemonCollisionBox.w)) &&
          (abs(EnemyCollisionBox.y - DemonCollisionBox.y) * 2 < (EnemyCollisionBox.h + DemonCollisionBox.h)); 

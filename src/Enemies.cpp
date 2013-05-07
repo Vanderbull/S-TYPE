@@ -7,7 +7,7 @@
 #include "Collision.h"
 #include "ControlGfx.h"
 
-Control_Enemies Control_ENEMY;
+Control_Enemies EnemyController;
 
 CZombie::CZombie()
 {
@@ -276,37 +276,37 @@ void Boss::UpdateBoss()
 	float x = GetTimerAttack();
 	if( x >= BOSS_ATTACK_START || HeadsComing == true )
 	{
-		bool CollideWithPlayer = false;
-		CollideWithPlayer = CollisionController.CollisionCircle( &demon, gamestate.pBoss, false );
-		if( CollideWithPlayer )
-		{	
-			bool CheckAttack = false;
-			if( CheckAttack = demon.IsInStateAttack() )
-			{
-				gamestate.AddScore(10);
-				gamestate.pBoss->BossLife -= 50;
+		//bool CollideWithPlayer = false;
+		//CollideWithPlayer = CollisionController.CollisionCircle( &demon, gamestate.pBoss, false );
+		//if( CollideWithPlayer )
+		//{	
+		//	bool CheckAttack = false;
+		//	if( CheckAttack = demon.IsInStateAttack() )
+		//	{
+		//		gamestate.AddScore(10);
+		//		gamestate.pBoss->BossLife -= 50;
 
-				if( gamestate.pBoss->BossLife < 0 )
-				{
-					gamestate.pBoss->BossDead = true;
-				}
-			}
-			else
-			{		
-				if( timer.Hit > 3 && demon.isImmortal == false )
-				{
-					//timer.Hit = 0;
-					demon.Right = true;
-					demon.isHit = true;
-					demon.DemonHealth -= 50;
-				}
-				//timer.Hit++;
-				
-			}
+		//		if( gamestate.pBoss->BossLife < 0 )
+		//		{
+		//			gamestate.pBoss->BossDead = true;
+		//		}
+		//	}
+		//	else
+		//	{		
+		//		if( timer.Hit > 3 && demon.isImmortal == false )
+		//		{
+		//			//timer.Hit = 0;
+		//			demon.Right = true;
+		//			demon.isHit = true;
+		//			demon.DemonHealth -= 50;
+		//		}
+		//		//timer.Hit++;
+		//		
+		//	}
 
-		}
+		//}
 	
-		HeadsComing = true;
+		//HeadsComing = true;
 
 		float BOSSpeed = 150.0f * ( gamestate.dt / 1000.0f );
 		timer.BossAnim += BOSSpeed;
@@ -367,19 +367,19 @@ void Boss::UpdateBoss()
 			{
 				SDL_BlitSurface( Gfx.GetSurface( Surface ), 
 					&GetClips( GetFrame() ),
-								gamestate.BackBuffer, &ReturnDestRect() );
+								Gfx.BackBuffer, &ReturnDestRect() );
 			}
 		case BOSS_ATTACK:
 			{
 				SDL_BlitSurface( Gfx.GetSurface( Surface ),
 				&GetClips( GetFrame() ), 
-				gamestate.BackBuffer, &ReturnDestRect() );
+				Gfx.BackBuffer, &ReturnDestRect() );
 			}
 		case BOSS_DIE:
 			{
 				SDL_BlitSurface( Gfx.GetSurface( Surface ),
 				&GetClips( GetFrame() ), 
-				gamestate.BackBuffer, &ReturnDestRect() );
+				Gfx.BackBuffer, &ReturnDestRect() );
 			}
 	}
 
@@ -411,7 +411,7 @@ void Boss::UpdateHeads()
 			{	
 				if( demon.IsInStateAttack() )
 				{
-					gamestate.AddScore(5);
+					//gamestate.AddScore(5);
 					vRemoveHead.push_back((*i));
 				}
 				else
@@ -484,7 +484,7 @@ void Boss::UpdateHeads()
 			SDL_Rect HeadDest = { temp->xPos, temp->yPos, temp->Width, temp->Height };
 			
 			SDL_BlitSurface(	Gfx.GetSurface( temp->Surface ), &temp->GetClips( temp->GetFrame() ),
-								gamestate.BackBuffer, &HeadDest );
+								Gfx.BackBuffer, &HeadDest );
 	
 		}
 
@@ -722,7 +722,7 @@ void Control_Enemies::Draw_Enemies()
 						}
 									 
 						SDL_BlitSurface(	Gfx.GetSurface( (*i)->Surface ),&(*i)->ZombieClips[0], 
-											gamestate.BackBuffer, &EnemyDest );
+											Gfx.BackBuffer, &EnemyDest );
 					}
 					else if( (*i)->Surface == SKELETON )
 					{
@@ -732,7 +732,7 @@ void Control_Enemies::Draw_Enemies()
 						}
 						
 						SDL_BlitSurface(	Gfx.GetSurface( (*i)->Surface ), &(*i)->SkeletonClips[ 0 ][ 0 ],
-											gamestate.BackBuffer, &EnemyDest );
+											Gfx.BackBuffer, &EnemyDest );
 					}
 				}
 		}

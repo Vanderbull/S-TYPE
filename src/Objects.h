@@ -92,4 +92,4 @@ public:
 private:
 };
 
-extern ControlObject ControlObjects;
+extern ControlObject ObjectController;

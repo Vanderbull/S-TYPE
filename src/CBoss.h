@@ -22,6 +22,7 @@ class CBoss : public BossInterface
 {
 public:
 	CBoss();
+	~CBoss() {};
 	CHeads * CBoss::CreateBossHeads( int xPos, int yPos, int surface, int lengthOfTravel );
 	void Update();
 	void UpdateFrame();
@@ -32,7 +33,6 @@ public:
 	float xPos, yPos;
 	int Frame;
 	int Radius;
-	int Width, Height;
 	float Speed;
 	
 	int Surface;
@@ -55,6 +55,7 @@ public:
 	std::list< CHeads* > _BossHeads;
 
 	int State;
+	SDL_Rect CollisionBox;
 
 private:
 	enum{ BOSS_IDLE, BOSS_ATTACK, BOSS_DIE };

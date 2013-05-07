@@ -267,13 +267,13 @@ void Demon::Update()
 	{
 		//demon.Demon_Life--;
 		demon.isHit = false;
-		ControlObjects.WhichLifeToShow++;
+		ObjectController.WhichLifeToShow++;
 
 		if( demon.DemonHealth <= 50 )
 		{
-			if( ControlObjects.WhichLifeToShow >= 6 )
+			if( ObjectController.WhichLifeToShow >= 6 )
 			{
-				ControlObjects.WhichLifeToShow = 0;
+				ObjectController.WhichLifeToShow = 0;
 				demon.SetAliveState(DEAD);	
 				//demon.DieOneLife = true;
 				demon.isImmortal = true;

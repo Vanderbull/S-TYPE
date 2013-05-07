@@ -11,10 +11,33 @@ using namespace std;
 
 CBoss gBoss;
 
+// Collision code from old boss code
+//Heads * head = ( *h );
+//if( CollisionController.CollisionCircle( temp, head, false ) )
+//{
+//	gamestate.AddScore(5);
+//	vRemoveHead.push_back( ( *h ) );
+//	vRemoveFireBall.push_back( ( *i ) );
+//}
+
+// Part for damaging the boss also removed from gamestate code
+//if( CollisionController.CollisionCircle( temp, gamestate.pBoss, true ) )
+//{
+//	vRemoveFireBall.push_back( ( *i ) ); 
+//	gamestate.AddScore(5);
+//	gamestate.pBoss->BossLife -= 50;
+//	if( gamestate.pBoss->BossLife < 0 )
+//	{
+//		gamestate.pBoss->BossDead = true;
+//	}
+//}
+
 CBoss::CBoss()
 {
-	Height = 300;
-	Width = 150;
+	CollisionBox.h = 300;
+	CollisionBox.w = 150;
+	CollisionBox.x = 630;
+	CollisionBox.y = 290;
 
 	BossLife = 400;
 	BossDead = false;
@@ -33,10 +56,10 @@ CBoss::CBoss()
 
 	for( int i = 0; i < 8; i++ )
 	{
-		Clips[ i ].x = i * Width;
+		Clips[ i ].x = i * CollisionBox.w;
 		Clips[ i ].y = 0;
-		Clips[ i ].h = Height;
-		Clips[ i ].w = Width;
+		Clips[ i ].h = CollisionBox.h;
+		Clips[ i ].w = CollisionBox.w;
 	}
 	Timer = 0;
 }
@@ -56,8 +79,8 @@ CHeads * CBoss::CreateBossHeads( int xPos, int yPos, int surface, int lengthOfTr
 
 void CBoss::Update()
 {
-	SDL_Rect destRect = {	630, 290, Width, Height };
-	SDL_BlitSurface( Gfx.GetSurface( 10 ), &Clips[0], gamestate.BackBuffer, &destRect );
+	SDL_Rect destRect = {	630, 290, CollisionBox.w, CollisionBox.h };
+	SDL_BlitSurface( Gfx.GetSurface( 10 ), &Clips[0], Gfx.BackBuffer, &destRect );
 
 	list< CHeads* >::iterator i = _BossHeads.begin();
 
@@ -74,7 +97,7 @@ void CBoss::Update()
 	{
 		UpdateFrame();
 		if( GetFrame() == 5)
-		_BossHeads.push_back( CreateBossHeads( 640, 300, Surface, Length ) );
+			_BossHeads.push_back( CreateBossHeads( 640, 300, Surface, Length ) );
 	}
 
 	Timer++;
@@ -84,9 +107,10 @@ void CBoss::Update()
 	{
 		SDL_Rect HeadDest = { (*iterator)->xPos, (*iterator)->yPos, (*iterator)->Width, (*iterator)->Height };
 			
-		SDL_BlitSurface(	Gfx.GetSurface( 10 ), &(*iterator)->GetClips((*iterator)->GetFrame()), gamestate.BackBuffer, &HeadDest );
+		SDL_BlitSurface(	Gfx.GetSurface( 10 ), &(*iterator)->GetClips((*iterator)->GetFrame()), Gfx.BackBuffer, &HeadDest );
 		(*iterator)->length -= 3.0f;
-		if(  (*iterator)->length > 0 ) {
+		if(  (*iterator)->length > 0 ) 
+		{
 			(*iterator)->xPos -= 3.0f; 
 			++iterator;
 		}

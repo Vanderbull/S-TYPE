@@ -58,7 +58,7 @@ bool StringInput::handle_input(   )
             SDL_FreeSurface( text );
         
             //Render a new text surface
-            text = TTF_RenderText_Solid( gamestate.font, str.c_str(), textColor );
+			text = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), textColor );
 
 		 /*
 		if( str.length() > 2 )

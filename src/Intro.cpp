@@ -102,7 +102,7 @@ IntroTalk::IntroTalk( int Surface )
 // draws a black background
 void IntroTalk::DrawBackground()
 {
-	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
+	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGB(Gfx.BackBuffer->format, 0,0,0));
 }
 
 void IntroTalk::Story()
@@ -120,13 +120,13 @@ void IntroTalk::Story()
 	StoryText[ 6 ] = "she has not heard from them in a long time.";
 	StoryText[ 7 ] = "";
 
-	SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
-	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	NULL, gamestate.BackBuffer, &destRect );
+	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGB(Gfx.BackBuffer->format, 0,0,0));
+	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	NULL, Gfx.BackBuffer, &destRect );
 	for(int i=0; i< 5; i++)
 	{
-		IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, StoryText[i].c_str(), textColor );
+		IntroSurfaces[ 0 ] = TTF_RenderText_Solid( Gfx.DefaultFont, StoryText[i].c_str(), textColor );
 		//gamestate.apply_surface( 0,i*40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-		Gfx.apply_surface( 0,i*40, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+		Gfx.apply_surface( 0,i*40, IntroSurfaces[ 0 ], Gfx.BackBuffer );
 	}
 	//SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], gamestate.BackBuffer, &destRect );
 	//gamestate.FLIP();
@@ -178,10 +178,10 @@ void IntroTalk::DoTalk()
 				DialogScene++;
 			}
 			SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], 
-								gamestate.BackBuffer, &destRect );	
-			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
+								Gfx.BackBuffer, &destRect );	
+			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( Gfx.DefaultFont, Dialog[LetterHeight].c_str(), textColor );
 			//gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-			Gfx.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+			Gfx.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], Gfx.BackBuffer );
 		}
 		if( ZeusDialog[DialogScene] )
 		{
@@ -206,10 +206,10 @@ void IntroTalk::DoTalk()
 				DialogScene++;
 			}
 			SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ ZEUS ], 
-								gamestate.BackBuffer, &destRect );
-			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( gamestate.font, Dialog[LetterHeight].c_str(), textColor );
+								Gfx.BackBuffer, &destRect );
+			IntroSurfaces[ 0 ] = TTF_RenderText_Solid( Gfx.DefaultFont, Dialog[LetterHeight].c_str(), textColor );
 			//gamestate.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
-			Gfx.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], gamestate.BackBuffer );
+			Gfx.apply_surface( 40,LetterHeight*40+300, IntroSurfaces[ 0 ], Gfx.BackBuffer );
 		}
 
 		SDL_PollEvent( &input );

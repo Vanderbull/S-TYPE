@@ -33,7 +33,7 @@ void Animal::Draw()
 	SDL_BlitSurface( 
 		Gfx.GetSurface( this->Surface ),
 		&this->Clips[ this->PrevFrame ], 
-		gamestate.BackBuffer, 
+		Gfx.BackBuffer, 
 		&this->GetDestination() 
 		);
 }

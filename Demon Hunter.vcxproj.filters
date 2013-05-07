@@ -58,6 +58,9 @@
     <ClCompile Include="src\Enemies\CHeads.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="src\World\CWorld.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -125,6 +128,9 @@
     <ClInclude Include="src\Enemies\CHeads.h">
       <Filter>Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="src\World\CWorld.h">
+      <Filter>World</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">
@@ -177,6 +183,9 @@
     </Filter>
     <Filter Include="ParallaxLayers">
       <UniqueIdentifier>{5ddeeddd-5c9d-436b-99a2-e8ed79427abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{6f899a7f-da15-486f-b733-00d71c55b154}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,10 @@
-#include <SDL.h>
-#include <SDL_mixer.h>
-#include "Game.h"
-#include "characters.h"
 #include <cmath>
 #include <queue>
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
+#include "Game.h"
+#include "characters.h"
 #include "time.h"
 #include "Timers.h"
 #include "ConfigFileConverter.h"
@@ -48,7 +49,7 @@ int main( int argc, char * arg[] )
 	std::queue<float> DeltaHistory;
 
 	//initialize all SDL subystems
-	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) == -1)
+	if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_EVERYTHING ) == -1)
 	{
 		cout << "SDL INIT FAILED..." << endl;
 		SDL_Quit();
@@ -57,6 +58,12 @@ int main( int argc, char * arg[] )
 	{
 		cout << "SDL_INIT_EVERYTHING..." << endl;
 	}
+
+ 	//gamestate.font = TTF_OpenFont("cour.ttf", 14);
+  //  if (gamestate.font == NULL){
+  //    printf("Unable to load font: %s %s \n", "HERE FUCKER!", TTF_GetError());
+  //    // Handle the error here.
+  //  }
 
 
 	while( New_Game.Quit == false )

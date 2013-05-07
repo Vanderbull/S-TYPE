@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Objects.h"
 #include "Enemies.h"
+#include "ControlGfx.h"
 
 // holds all the info on the collisions
 class ControlCollision

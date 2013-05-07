@@ -206,6 +206,6 @@ private:
 	bool Attack;
 };
 
-extern Control_Enemies Control_ENEMY;
+extern Control_Enemies EnemyController;
 
 
