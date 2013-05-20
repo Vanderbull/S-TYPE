@@ -119,9 +119,6 @@
     <ClInclude Include="src\Enemies\MovingThings.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="src\Enemies\CZombie.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="src\CBoss.h">
       <Filter>Characters</Filter>
     </ClInclude>
@@ -130,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="src\World\CWorld.h">
       <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CDwarf.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

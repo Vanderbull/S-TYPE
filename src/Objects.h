@@ -1,36 +1,39 @@
 #pragma once
-#include <SDL.h>
 #include <list>
+#include <SDL.h>
 
 class Object
 {
 public:
 
+	Object(){};
+	~Object(){};
 	int Initialize(float _xPos, float _yPos, int _Width, int _Height,int Frame, int _Radius);
 	int Object::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
 	int xPos, yPos;
 	int Width, Height;
-	int surface;
+	int Surface;
 	int Frame;
-	int radius;
+	int Radius;
 
 	SDL_Rect Clips[ 10 ];
 	SDL_Rect SingleClip; // Tree
+	std::list<SDL_Rect> ImageClips;
 };
 
-class ThingsToDemon : public Object
-{
-public:
-	ThingsToDemon();
-	void SetClips();
-	SDL_Rect HealthClips[ 6 ];
-	int SurfaceHealth;
-};
+//class ThingsTodemon : public Object
+//{
+//public:
+//	ThingsTodemon();
+//	void SetClips();
+//	SDL_Rect HealthClips[ 6 ];
+//	int SurfaceHealth;
+//};
 
 class PowerUp : public Object
 {
 public:
-	PowerUp( int xpos, int ypos, int Surface );
+	PowerUp( int _xPos, int _yPos, int Surface );
 	//void SetClips();
 	void SetFrame();
 	bool Left, Right;
@@ -42,10 +45,10 @@ public:
 	Tree();
 };
 
-class FireBall : public Object
+class Fireball : public Object
 {
 public:
-	FireBall();
+	Fireball();
 	//void SetClips();
 	int FrameRight, FrameLeft;
 	bool FireRight, FireLeft;
@@ -77,17 +80,17 @@ public:
 
 	bool PowerUpMan;
 	
-	FireBall * CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left );
+	Fireball * CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left );
 	Coffin * CreateCoffin( int xPos, int yPos, int Surface );
 
 	PowerUp * WereWolf;
 	
 	std::list< PowerUp * > List_PowerUps;
 	std::list< Tree * > List_Trees;
-	std::list< FireBall * > List_FireBalls;
+	std::list< Fireball * > List_FireBalls;
 	std::list< Coffin * > List_Coffins;
 
-	ThingsToDemon * DemonLife;
+	//ThingsTodemon * demonLife;
 
 private:
 };

@@ -54,7 +54,7 @@ void ParallaxLayer::set( float p, int s, int sy, int w, int h, int DestX, int De
 ParallaxBackground::ParallaxBackground()
 {
 	m_layerCount = 0;
-	m_pLayers = 0;
+	m_demons = 0;
 }
 
 
@@ -64,9 +64,9 @@ ParallaxBackground::ParallaxBackground()
 // ------------------------------------------------------------
 ParallaxBackground::~ParallaxBackground()
 {
-	if( m_pLayers ) 
+	if( m_demons ) 
 	{
-		delete [] m_pLayers; 
+		delete [] m_demons; 
 	}
 }
 
@@ -78,15 +78,15 @@ ParallaxBackground::~ParallaxBackground()
 void ParallaxBackground::createLayers( int count )
 {
 	// Kill old layers
-	if( m_pLayers ) 
+	if( m_demons ) 
 	{
-		delete [] m_pLayers; 
+		delete [] m_demons; 
 	}
 
 
 	// Create new layers
 	m_layerCount = count;
-	m_pLayers = new ParallaxLayer[ count ];
+	m_demons = new ParallaxLayer[ count ];
 }
 
 
@@ -102,7 +102,7 @@ void ParallaxBackground::setLayer(	int index, float p, int s, int sy, int w, int
 		return;
 
 	// Set it!
-	m_pLayers[ index ].set( p, s, sy, w, h, DestX, DestY, DestW, DestH );
+	m_demons[ index ].set( p, s, sy, w, h, DestX, DestY, DestW, DestH );
 }
 
 
@@ -119,5 +119,5 @@ ParallaxLayer *ParallaxBackground::getLayer( int index )
 	}
 
 	// Return it!
-	return &m_pLayers[ index ];
+	return &m_demons[ index ];
 }

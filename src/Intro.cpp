@@ -84,7 +84,7 @@ IntroTalk::IntroTalk( int Surface )
 
 	Centurion = true;
 	Zeus = false;
-	MyDude_Demon = false;
+	MyDude_demon = false;
 	FirstLine = true;
 	SecondLine = false;
 	ThirdLine = false;
@@ -102,12 +102,39 @@ IntroTalk::IntroTalk( int Surface )
 // draws a black background
 void IntroTalk::DrawBackground()
 {
-	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGB(Gfx.BackBuffer->format, 0,0,0));
+	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 }
 
 void IntroTalk::Story()
 {
+
+	SDL_Rect srcRect = { 0, 0, 800, 600 };
 	SDL_Rect destRect = { 0, 0, 800, 600 };
+	SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
+					&srcRect, Gfx.BackBuffer, &destRect );
+	Gfx.FLIP();
+
+	SDL_Event input;
+
+	while( gamestate.State == GAME_STORY_STATE )
+	{
+		SDL_PollEvent( &input );
+		if( input.type == SDL_KEYDOWN )
+		{
+  			switch( input.key.keysym.sym )
+			{
+			case SDLK_SPACE:
+				gamestate.State = MENU_MAIN_STATE;
+				break;
+			}
+		}
+	}
+
+
+	return;
+
+
+	//SDL_Rect destRect = { 0, 0, 800, 600 };
 	SDL_Color textColor = { 255, 255, 255 };
 
 	std::string StoryText[8];
@@ -120,7 +147,7 @@ void IntroTalk::Story()
 	StoryText[ 6 ] = "she has not heard from them in a long time.";
 	StoryText[ 7 ] = "";
 
-	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGB(Gfx.BackBuffer->format, 0,0,0));
+	//SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	NULL, Gfx.BackBuffer, &destRect );
 	for(int i=0; i< 5; i++)
 	{
@@ -131,8 +158,7 @@ void IntroTalk::Story()
 	//SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], gamestate.BackBuffer, &destRect );
 	//gamestate.FLIP();
 	Gfx.FLIP();
-	Sleep(3000);
-	gamestate.GameCondition = GS_LEVEL1;
+	gamestate.State = GAME_RUNNING_STATE;
 }
 // all the talking
 void IntroTalk::DoTalk()
@@ -222,10 +248,10 @@ void IntroTalk::DoTalk()
 			} break;
 		}
 		//gamestate.FLIP();
-		Gfx.FLIP();
+		//Gfx.FLIP();
 		Sleep(50);
 	}
-	gamestate.GameCondition = GS_LEVEL1;
+	gamestate.State = GAME_RUNNING_STATE;
 }
 	
 

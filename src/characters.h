@@ -1,18 +1,24 @@
 #pragma once
 
-// @date 2012-08-07
-
+#include<queue>
 #include <SDL.h>
 #include <SDL_image.h>
 
-class DemonInterface
- {
+class BaseCharacterInterface
+{
 public:
-	 virtual void Update()=0;
-	 virtual void SetClips()=0;
+	int _HealthPoints;
+
+	virtual void Update()=0;
+	virtual void SetClips()=0;
+
 };
 
-class Demon : public DemonInterface
+namespace Actor
+{ 
+}
+
+class BaseCharacter : public BaseCharacterInterface
 {
 public:
 
@@ -28,13 +34,13 @@ public:
 		GETTING_HIT
 	};
 
-	enum MorphState
-	{
-		SMALL_HUNTER,
-		MEDIUM_HUNTER,
-		LARGE_HUNTER,
-		DEMON_HUNTER
-	};
+	//enum MorphState
+	//{
+	//	SMALL_HUNTER,
+	//	MEDIUM_HUNTER,
+	//	LARGE_HUNTER,
+	//	demon_HUNTER
+	//};
 
 	enum AliveState
 	{
@@ -43,11 +49,13 @@ public:
 		ALIVE
 	};
 
-	Demon();
-	Demon(int surface, int Xpos, int Ypos, int height, int width);
-	void InitiateDemon( int surface, int Xpos, int Ypos, int height, int width ); 
+	BaseCharacter();
+	BaseCharacter(int surface, int Xpos, int Ypos, int height, int width);
+	void Initiatedemon( int surface, int Xpos, int Ypos, int height, int width );
+	void Reset();
+	void Died();
 
-	//int  UpdatePlayer();
+	//int  Updatedemon();
 	bool IsInStateAttack();
 	bool CheckBoundaries();
 	//void SetLives(int Lives);
@@ -56,7 +64,7 @@ public:
 	//bool SmallHunter;
 	//bool MediumHunter; 
 	//bool LargeHunter;
-	//bool DemonHunter;
+	//bool demonHunter;
 
 	// States the character can be in
 	bool isMovingRight;
@@ -64,25 +72,25 @@ public:
 	bool isJumping;
 	bool isKicking;
 	bool isPunching;
-	bool isGettingUp;
+	//bool isGettingUp;
 	bool isHit;
 	bool isImmortal;
 
-	bool LifeFull_Small;
-	bool LifeMedium_Small;
-	bool LifeLittle_Small;
+	//bool LifeFull_Small;
+	//bool LifeMedium_Small;
+	//bool LifeLittle_Small;
 
 	//bool Crouch, Jump, Punch, FireBall, CrouchFire, Triangle;
 	//bool FireBall;
 
 	//bool DieOneLife, 
-	//bool Demon_Dead;
+	//bool demon_Dead;
 	
-	//int Demon_Height;
-	//int Demon_Width;
-	int DemonSurface;
-	int DemonHealth;
-	//int Demon_Life;
+	//int demon_Height;
+	//int demon_Width;
+	int Surface;
+	int Health;
+	//int demon_Life;
 	//int Last_Xpos;
 	//int LastEnd_Pos;
 	//int Score;
@@ -106,16 +114,16 @@ public:
 	//int KickRight, KickLeft;
 	//int PunchRight, PunchLeft;
 	//int TriangleFireLeft, TriangleFireRight;
-	//int DieRightDemon, DieLeftDemon;
+	//int DieRightdemon, DieLeftdemon;
 
-	//int WalkLeft_Demon, WalkRight_Demon;
-	//int FireBallRight_Demon, FireBallLeft_Demon;
-	//int JumpRight_Demon, JumpLeft_Demon;
+	//int WalkLeft_demon, WalkRight_demon;
+	//int FireBallRight_demon, FireBallLeft_demon;
+	//int JumpRight_demon, JumpLeft_demon;
 	//int FireBallRight, FireBallLeft;
 	
 	int Radius, RadiusFist, RadiusFeet;
 
-	bool Right, Left;
+	//bool Right, Left;
 	//bool MovementDirection; // false = left, true = right
 
 	//float xPos, yPos;
@@ -123,50 +131,76 @@ public:
 
 	SDL_Rect AnimationArrays[ 9 ][ 48 ];
 
+#define TICK_INTERVAL    125
+
+Uint32 TimeLeft(void)
+{
+    static Uint32 next_time = 0;
+    Uint32 now;
+
+    now = SDL_GetTicks();
+    if ( next_time <= now ) {
+        next_time = now+TICK_INTERVAL;
+        return(0);
+    }
+    return(next_time-now);
+}
+	int Animate()
+	{
+		if( this->_AnimationFrame > 6 )
+			this->_AnimationFrame = 0;
+		if(this->TimeLeft() == 0 )
+			++_AnimationFrame;
+		return _AnimationFrame;
+	}
 	// New update functionality
 	SDL_Rect GetPosition()
 	{
-		return Demon::_Position;
+		return BaseCharacter::_Position;
 	}
 
 	void Update();
 	void SetClips();
 	void UpdatePosition(float x, float y); 
-	void SetState( Demon::State state )
+	void SetState( BaseCharacter::State state )
 	{
 		_State = state;
 	}
-	Demon::State GetState() const
+	BaseCharacter::State GetState() const
 	{
 	   return _State;
 	}
-	void SetMorphState( Demon::MorphState state )
-	{
-		_MorphState = state;
-	}
-	Demon::MorphState GetMorphState() const
-	{
-	   return _MorphState;
-	}
-	void SetAliveState( Demon::AliveState state )
+
+	//void SetMorphState( BaseCharacter::MorphState state )
+	//{
+	//	_MorphState = state;
+	//}
+	//BaseCharacter::MorphState GetMorphState() const
+	//{
+	//   return _MorphState;
+	//}
+	void SetAliveState( BaseCharacter::AliveState state )
 	{
 		_AliveState = state;
 	}
-	Demon::AliveState GetAliveState() const
+	BaseCharacter::AliveState GetAliveState() const
 	{
 	   return _AliveState;
 	}
 
 private:
-	Demon::State _State;
-	Demon::MorphState _MorphState;
-	Demon::AliveState _AliveState;
+	BaseCharacter::State _State;
+	//BaseCharacter::MorphState _MorphState;
+	BaseCharacter::AliveState _AliveState;
 	SDL_Rect _Position;
 	int _LeftMostPosition;
 	int _RightMostPosition;
+	int _AnimationFrame;
+	std::queue<std::string> Action;
+
 };
 
-extern Demon demon;
+extern BaseCharacter BCPlayer;
 
 
 

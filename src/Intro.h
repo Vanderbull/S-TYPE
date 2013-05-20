@@ -1,13 +1,11 @@
 #pragma once
-#include <SDL.h>
 #include <string>
 #include <vector>
-
-// @date 2012-08-07
+#include <SDL.h>
 
 using namespace std;
 
-enum{ CENTURION, MYDUDE_DEMON, ZEUS };
+enum{ CENTURION, MYDUDE_demon, ZEUS };
 
 /*
 class DancingDragon
@@ -61,7 +59,7 @@ public:
 	void DoTalk();
 	void Story();
 
-	bool Centurion, Zeus, MyDude_Demon, FirstLine, SecondLine, ThirdLine, FourthLine, Fifth,
+	bool Centurion, Zeus, MyDude_demon, FirstLine, SecondLine, ThirdLine, FourthLine, Fifth,
 		Sixth, Seventh, Eight;
 
 	SDL_Surface * IntroSurfaces[ 1 ];

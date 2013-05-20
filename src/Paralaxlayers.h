@@ -2,8 +2,6 @@
 #pragma once
 #include <SDL.h>
 
-// @date 2012-08-07
-
 // struct declarations
 struct ParallaxLayer
 {
@@ -43,5 +41,5 @@ class ParallaxBackground
 
 	private:
 		int m_layerCount;
-		ParallaxLayer *m_pLayers;
+		ParallaxLayer *m_demons;
 };

@@ -17,6 +17,7 @@ class World : public WorldState
 
 public:
 	World();
+	~World(){};
 	
 	void Update();
 	void Draw();

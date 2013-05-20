@@ -5,11 +5,11 @@
 #include "Objects.h"
 #include "Enemies\MovingThings.h"
 #include "Enemies\CSkeleton.h"
-#include "Enemies\CZombie.h"
 #include "Enemies\CHeads.h"
+#include "Enemies\CDwarf.h"
 
-enum{ ENEMY_ZOMBIE, ENEMY_SKELETON };
-enum{ ZOMBIE = 6, SKELETON = 7, SKULL = 8};
+enum{ ENEMY_SKELETON,ENEMY_DWARF };
+enum{ SKELETON = 7, SKULL = 8, DWARF};
 /*
 class MovingThings
 {
@@ -42,7 +42,7 @@ public:
 		DieFrameLeft, DieFrameRight, 
 		AnimCounter;
 
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+	bool Walk, Attack, Die, LeftOf_demon, RightOf_demon;
 
 	SDL_Rect ZombieClips[ 10 ];
 
@@ -67,7 +67,7 @@ public:
 		DieFrameLeft, DieFrameRight, 
 		AnimCounter;
 
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+	bool Walk, Attack, Die, LeftOf_demon, RightOf_demon;
 
 	
 
@@ -103,17 +103,18 @@ public:
 	//int xPos, yPos;
 	//int Width, Height;
 	//int Surface;
+	 
 	int PrevFrame, Frame, Radius, 
 		WalkFrameLeft, WalkFrameRight, 
 		AttackFrameRight, AttackFrameLeft, 
 		DieFrameLeft, DieFrameRight, 
 		AnimCounter;
 
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+	bool Walk, Attack, Die, LeftOfPlayer, RightOfPlayer;
 
 	std::list<SDL_Rect> Clips;
 	SDL_Rect SkeletonClips[ 4 ][ 14 ];
-	SDL_Rect ZombieClips[ 10 ];
+	SDL_Rect DwarfClips[ 4 ][ 14 ];
 
 private:
 		SDL_Rect _Position;
@@ -189,7 +190,7 @@ public:
 	void Update();
 	void Draw_Enemies();
 	void Create_Enemies();
-	std::list<CZombie*> _Zombies;
+	std::list<CDwarf*> _Dwarves;
 	std::list<CSkeleton*> _Skeletons;
 	std::list< CEnemy* > Enemies;
 	CEnemy * CreateEnemy( int xPos, int yPos, int surface );	
@@ -200,7 +201,7 @@ private:
 	//std::list< CEnemy* > Enemies_dead;
 	
 	//int Zombie, Skeleton, Skull;
-
+	int SpawnTimer;
 	bool Collide;
 	bool CollideFire;
 	bool Attack;

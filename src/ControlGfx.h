@@ -18,7 +18,7 @@ public:
 	int findAvailableIndex();
 	SDL_Surface* GetSurface(int index);
 	void PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect );
-	void FLIP();
+	bool FLIP();
 	void stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect );
 	void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL );
 	void DrawParallaxLayers();
@@ -27,6 +27,7 @@ public:
 	void DrawBoss();
 	void DrawBackgroundBlack();
 	void DrawScore();
+	void SetAlpha( int _SurfaceIndex, int _Opacity );
 
 	SDL_Color WhiteRGB,BlackRGB;
 

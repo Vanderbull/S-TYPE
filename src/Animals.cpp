@@ -18,7 +18,7 @@ void Animal::Setframe()
 }
 void Animal::Update()
 {
-	this->xPos -= (500.0f * gamestate.dt);
+	this->xPos -= (500.0f * gamestate.DeltaTime);
 	this->Destination.h = this->Height;
 	this->Destination.w = this->Width;
 	this->Destination.x = this->xPos;
@@ -61,7 +61,7 @@ Animal::Animal()
 
 void ControlAnimals::Draw_Animals()
 {
-	float Speed = 2.5f;//2000.0f * ( gamestate.dt / 1000.0f );
+	float Speed = 2.5f;//2000.0f * ( gamestate.DeltaTime / 1000.0f );
 
  	list< Animal* >::iterator i;
 	/*
@@ -83,6 +83,7 @@ void ControlAnimals::Draw_Animals()
 	while(i != My_Animals.end() )
 	{
 		(*i)->Update();
+
 		(*i)->Draw();
 		if( (*i)->xPos <= 0.0f )
 			i = My_Animals.erase(i);

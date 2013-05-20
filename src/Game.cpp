@@ -23,18 +23,21 @@
 #include "OutroFinish.h"
 #include "GetInput.h"
 #include "CBoss.h"
+#include "World\CWorld.h"
 
 Gamestate gamestate;
 
+
 Gamestate::Gamestate()
 {
+	WorldController.CreateWorld();
 	cout << "Initializing Gamestate...." << endl;
 
-	GameCondition = GS_INTRO;
-	cout << "GameCondition: GS_INTRO" << endl;
+	State = MENU_MAIN_STATE;
+	cout << "GameCondition: MENU_MAIN_STATE" << endl;
 
-	BossStart = false;	// Tells game if you have reached the boss
-	IntroDone = false;	// Used in Gamestate::Loading might be removed
+	//BossStart = false;	// Tells game if you have reached the boss
+	//IntroDone = false;	// Used in Gamestate::Loading might be removed
 			
 	gBoss.SetSurface(1);
 
@@ -46,10 +49,12 @@ Gamestate::Gamestate()
 
 	PreviousFrame = 0;
 	CurrentFrame = 0;
-	m_parallax = 0;
+	//m_parallax = 0;
+	Parallax = 0.0f;
 	//LevelProgress = 0;
 
-	dt = 0.0f;
+	//dt = 0.0f;
+	DeltaTime = 0.0f;
 }
 void Gamestate::KeyMapping(SDL_Event _event)
 {
@@ -62,7 +67,7 @@ void Gamestate::KeyMapping(SDL_Event _event)
 
 	SDL_EnableKeyRepeat(0,0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
 
-	if( demon.GetState() == Demon::State::MOVING_RIGHT)
+	if( BCPlayer.GetState() == BaseCharacter::State::MOVING_RIGHT)
 		cout << "DO DA MOVA MOVA!!!!!" << endl;
 
 	switch (_event.type) 
@@ -80,36 +85,36 @@ void Game::HandleEvents( SDL_Event _event )
 {	
 	if( _event.type == SDL_KEYUP )
 	{
-		demon.SetState(Demon::State::IDLE);
+		BCPlayer.SetState(BaseCharacter::State::IDLE);
 
 		switch( _event.key.keysym.sym )		
 		{
 		case SDLK_RIGHT:
 			{
 				cout << "Released the RIGHT arrow key" << endl;
-				demon.isMovingRight = false;
-				demon.isMovingLeft = false;
+				BCPlayer.isMovingRight = false;
+				BCPlayer.isMovingLeft = false;
 			} break;
 		case SDLK_LEFT:
 			{
 				cout << "Released the LEFT arrow key" << endl;
-				demon.isMovingRight = false;
-				demon.isMovingLeft = false;
+				BCPlayer.isMovingRight = false;
+				BCPlayer.isMovingLeft = false;
 			} break;
 		case SDLK_UP:
 			{
 				cout << "Released the UP arrow key" << endl;
-				//demon.isJumping = false;
+				//BCPlayer.isJumping = false;
 			} break;
 		case SDLK_SPACE:
 			{
 				cout << "Released SPACEBAR key" << endl;
-				demon.isKicking = false;
+				BCPlayer.isKicking = false;
 			} break;
 		case SDLK_LALT:
 			{
 				cout << "Released the LEFT ALT key" << endl;
-				demon.isPunching = false;
+				BCPlayer.isPunching = false;
 			} break;
 		}
 	}
@@ -124,60 +129,60 @@ void Game::HandleEvents( SDL_Event _event )
 		case SDLK_RIGHT:
 			{
 				cout << "Pressing down right arrow" << endl;
-				demon.SetState(Demon::State::MOVING_RIGHT);
-				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
+				BCPlayer.SetState(BaseCharacter::State::MOVING_RIGHT);
+				if( BCPlayer.isHit == false && BCPlayer.isKicking == false && BCPlayer.isPunching == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
 				{	
-					demon.isMovingRight = true;
+					BCPlayer.isMovingRight = true;
 				}
 			} break;
 		case SDLK_LEFT:
 			{
 				cout << "Pressing down left arrow" << endl;
-				demon.SetState(Demon::State::MOVING_LEFT);
-				if( demon.isHit == false && demon.isKicking == false && demon.isPunching == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
+				BCPlayer.SetState(BaseCharacter::State::MOVING_LEFT);
+				if( BCPlayer.isHit == false && BCPlayer.isKicking == false && BCPlayer.isPunching == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
 				{
-					demon.isMovingLeft = true;
+					BCPlayer.isMovingLeft = true;
 				}
 			} break;
 		case SDLK_UP:
 			{
-				if( demon.GetPosition().y == GROUND_Y )
+				if( BCPlayer.GetPosition().y == GROUND_Y )
 				{
-					demon.yVelocity = 10.0f;
-					demon.isJumping = true;
+					BCPlayer.yVelocity = 10.0f;
+					BCPlayer.isJumping = true;
 				}
 				//cout << "Pressing down up arrow" << endl;
-				//if( !demon.isJumping )
+				//if( !BCPlayer.isJumping )
 				//{
-				//	demon.SetState(Demon::State::JUMPING);
+				//	BCPlayer.SetState(BCPlayer::State::JUMPING);
 				//}
 
-				//if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
+				//if( BCPlayer.isHit == false && BCPlayer.isPunching == false && BCPlayer.isKicking == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
 				//{
-				//	demon.isJumping = true;
+				//	BCPlayer.isJumping = true;
 				//}
 			} break;
 		case SDLK_SPACE:
 			{
 				cout << "Pressing down spacebar arrow" << endl;
-				demon.SetState(Demon::State::KICKING);
-				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
+				BCPlayer.SetState(BaseCharacter::State::KICKING);
+				if( BCPlayer.isHit == false && BCPlayer.isPunching == false && BCPlayer.isKicking == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
 				{
 					/*
-					if( demon.DemonHunter == true )
+					if( BCPlayer.demonHunter == true )
 					{
 						
 						if( timer.Timer_FireBall > 15 )
 						{
 							timer.Timer_FireBall = 0;
-							demon.isKicking = true;
+							BCPlayer.isKicking = true;
 							break;
 						}
 
 						break;
 					}
 					 */
-					demon.isKicking = true;
+					BCPlayer.isKicking = true;
 											
 					break;
 				}
@@ -185,42 +190,42 @@ void Game::HandleEvents( SDL_Event _event )
 		case SDLK_LALT:
 			{
 				cout << "Pressing down lalt arrow" << endl;
-				demon.SetState(Demon::State::PUNCHING);
-				if( demon.isHit == false && demon.isPunching == false && demon.isKicking == false && demon.isJumping == false && demon.GetPosition().y == GROUND_Y )
+				BCPlayer.SetState(BaseCharacter::State::PUNCHING);
+				if( BCPlayer.isHit == false && BCPlayer.isPunching == false && BCPlayer.isKicking == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
 				{
-					demon.isPunching = true;
+					BCPlayer.isPunching = true;
 				}
 			} break;
 		case SDLK_BACKSPACE:
 			{
-				if( gamestate.PlayerName.length() != 0 )
+				if( gamestate.demonName.length() != 0 )
 				{
-					gamestate.PlayerName.erase( gamestate.PlayerName.length() - 1 );
+					gamestate.demonName.erase( gamestate.demonName.length() - 1 );
 				}
 			} break;
 		case SDLK_RETURN:
 			{
-				if( gamestate.GameCondition == GS_ENTERNAME )
-				{
-					gamestate.GameCondition = GS_INTROSTORY;
-				}
+				//if( gamestate.State == GS_ENTERNAME )
+				//{
+				//	gamestate.State = GAME_STORY_STATE;
+				//}
 			} break;
 		default:
 			{
-				if( gamestate.GameCondition == GS_ENTERNAME )
-				{
-					gamestate.PlayerName +=  _event.key.keysym.unicode;
-				}
+				//if( gamestate.State == GS_ENTERNAME )
+				//{
+				//	gamestate.demonName +=  _event.key.keysym.unicode;
+				//}
 			}
 		}
 	}
 	else
 	{
 		cout << "no key presses or releases are made" << endl;
-		demon.SetState(Demon::State::IDLE);
+		BCPlayer.SetState(BaseCharacter::State::IDLE);
 	}
 	// if intro checks mouseposition and checks for presses
-	if( gamestate.GameCondition == GS_INTRO )
+	if( gamestate.State == MENU_MAIN_STATE )
 	{
 		if( _event.type == SDL_MOUSEBUTTONDOWN )
 		{
@@ -287,6 +292,7 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
+	LevelProgress = 0;
 	Quit = false;
 	/*
 	if( TTF_Init() == -1 )
@@ -303,34 +309,34 @@ Game::Game()
 	SDL_WM_SetCaption("", "res/big.ico");
 	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
-	gamestate.GameOK = true;
-	gamestate.GameOK = Init( Gfx.screen );
+	//gamestate.GameOK = true;
+	Init( Gfx.screen );
 	
 	// h 100 w 130
-	//demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH ); 
+	//demon.Initiatedemon( demon.demonSurface, GROUND_X, GROUND_Y, demonHEIGHT, demonWIDTH ); 
 
 	gamestate.load_files();
 	//demon.Set_clips();
 	//new setclips function
-	demon.SetClips();
+	BCPlayer.SetClips();
 }
 
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
 {	
 	m_srfCity = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
-	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 0, 0, 0 );
+	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
 	m_srfSky = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
-	m_srfTrees = Gfx.Load_imageAlpha( "Graphics/srfTrees.png", 2, 2, 2 );
-	demon.DemonSurface = Gfx.Load_imageAlpha( "Graphics/DemonSurface.png", 255, 255, 255 );
+	m_srfTrees = Gfx.Load_imageAlpha( "Graphics/srfTrees.png", 0, 0, 0 );
+	BCPlayer.Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
 	m_srfSkeleton = Gfx.Load_imageAlpha( "Graphics/srfSkeleton.png", 255, 0, 255  );
 	m_srfCrow = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
 	m_srfCoffin  = Gfx.Load_imageAlpha( "Graphics/srfCoffin.png", 97, 68, 43 );
 	m_srfBoss = Gfx.Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
-	m_srfDemonLife = Gfx.Load_imageAlpha( "Graphics/srfDemonLife.png", 255, 255, 255 );
-	m_srfDemonHealthAndFire = Gfx.Load_imageAlpha( "Graphics/srfDemonHealthAndFire.png", 0, 0, 0 );
+	m_srfdemonLife = Gfx.Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
+	m_srfdemonHealthAndFire = Gfx.Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
 	m_srfDragon = Gfx.Load_imageAlpha( "Graphics/srfDragon.png", 0, 0, 0 );
 	m_srfStart = Gfx.Load_imageAlpha( "Graphics/srfStart.png", 237, 234, 214 );
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
@@ -348,14 +354,14 @@ void Gamestate::load_files()
 	m_srfBlack = Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
 	m_srfSky = Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
 	m_srfTrees = Load_imageAlpha( "Graphics/srfTrees.png", 0, 0, 0 );
-	demon.DemonSurface = Load_imageAlpha( "Graphics/DemonSurface.png", 255, 255, 255 );
+	demon.demonSurface = Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfEnemyZombie = Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
 	m_srfSkeleton = Load_imageAlpha( "Graphics/srfSkeleton.png", 255, 0, 255  );
 	m_srfCrow = Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
 	m_srfCoffin  = Load_imageAlpha( "Graphics/srfCoffin.png", 255, 0, 255 );
 	m_srfBoss = Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
-	m_srfDemonLife = Load_imageAlpha( "Graphics/srfDemonLife.png", 255, 255, 255 );
-	m_srfDemonHealthAndFire = Load_imageAlpha( "Graphics/srfDemonHealthAndFire.png", 0, 0, 0 );
+	m_srfdemonLife = Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
+	m_srfdemonHealthAndFire = Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
 	m_srfDragon = Load_imageAlpha( "Graphics/srfDragon.png", 0, 0, 0 );
 	m_srfStart = Load_imageAlpha( "Graphics/srfStart.png", 237, 234, 214 );
 	m_srfButtons = Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
@@ -430,102 +436,102 @@ void Gamestate::MorphMyDude()
 {
 	int State = 3;
 	SDL_Rect destRect = { 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h };
-	while( State != -1 )
-	{
-		
-		Gfx.DrawBackgroundBlack();
-	
-		switch( State )
-		{
-		case 0:
-			{
-				if( timer.MorphPics > 10 )
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										Gfx.BackBuffer, &destRect );
-					State--;
-					timer.MorphPics = 0;
-				}
-				else
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					Gfx.BackBuffer, &destRect );
-					timer.MorphPics++;
-				}
+	//while( State != -1 )
+	//{
+	//	
+	//	Gfx.DrawBackgroundBlack();
+	//
+	//	switch( State )
+	//	{
+	//	case 0:
+	//		{
+	//			if( timer.MorphPics > 10 )
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//									Gfx.BackBuffer, &destRect );
+	//				State--;
+	//				timer.MorphPics = 0;
+	//			}
+	//			else
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//				Gfx.BackBuffer, &destRect );
+	//				timer.MorphPics++;
+	//			}
 
-				break;
-			}
-		case 1:
-			{
-				if( timer.MorphPics > 10 )
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										Gfx.BackBuffer, &destRect );
-					State--;
-					timer.MorphPics = 0;
-				}
-				else
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					Gfx.BackBuffer, &destRect );
-					timer.MorphPics++;
-				}
+	//			break;
+	//		}
+	//	case 1:
+	//		{
+	//			if( timer.MorphPics > 10 )
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//									Gfx.BackBuffer, &destRect );
+	//				State--;
+	//				timer.MorphPics = 0;
+	//			}
+	//			else
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//				Gfx.BackBuffer, &destRect );
+	//				timer.MorphPics++;
+	//			}
 
-				break;
-			}
-		case 2:
-			{
-				if( timer.MorphPics > 10 )
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										Gfx.BackBuffer, &destRect );
-					State--;
-					timer.MorphPics = 0;
-				}
-				else
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					Gfx.BackBuffer, &destRect );
-					timer.MorphPics++;
-				}
-				break;
-			}
-		case 3:
-			{
-				if( timer.MorphPics > 10 )
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-										Gfx.BackBuffer, &destRect );
-					State--;
-					timer.MorphPics = 0;
-				}
-				else
-				{
-					SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-					Gfx.BackBuffer, &destRect );
-					timer.MorphPics++;
-				}
-				break;
-			}
-		}
-		//gamestate.FLIP();
-		Gfx.FLIP();
-	}
+	//			break;
+	//		}
+	//	case 2:
+	//		{
+	//			if( timer.MorphPics > 10 )
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//									Gfx.BackBuffer, &destRect );
+	//				State--;
+	//				timer.MorphPics = 0;
+	//			}
+	//			else
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//				Gfx.BackBuffer, &destRect );
+	//				timer.MorphPics++;
+	//			}
+	//			break;
+	//		}
+	//	case 3:
+	//		{
+	//			if( timer.MorphPics > 10 )
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//									Gfx.BackBuffer, &destRect );
+	//				State--;
+	//				timer.MorphPics = 0;
+	//			}
+	//			else
+	//			{
+	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
+	//				Gfx.BackBuffer, &destRect );
+	//				timer.MorphPics++;
+	//			}
+	//			break;
+	//		}
+	//	}
+	//	//gamestate.FLIP();
+	//	Gfx.FLIP();
+	//}
 
-	gamestate.GameCondition = GS_LEVEL1;
+	gamestate.State = GAME_RUNNING_STATE;
 
 	// safety Check
-	//demon.SmallHunter = false;
-	//demon.DemonHunter = true;
-	demon.isJumping = false;
-	demon.isPunching = false;
-	demon.isKicking = false;
-	//demon.Crouch = false;
-	//demon.Kick = false;
-	//demon.Punch = false;
-	//demon.Jump = false;
-	demon.isMovingLeft = false;
-	demon.isMovingRight = false;
+	//BCPlayer.SmallHunter = false;
+	//BCPlayer.demonHunter = true;
+	BCPlayer.isJumping = false;
+	BCPlayer.isPunching = false;
+	BCPlayer.isKicking = false;
+	//BCPlayer.Crouch = false;
+	//BCPlayer.Kick = false;
+	//BCPlayer.Punch = false;
+	//BCPlayer.Jump = false;
+	BCPlayer.isMovingLeft = false;
+	BCPlayer.isMovingRight = false;
 }
 
 // ----------------------------------------------------------------------------
@@ -613,76 +619,6 @@ void Gamestate::ResetObjects()
 	return;
 }
 
-// ----------------------------------------------------------------------------
-// ResetPlayer() - resets the player to its starting values
-// ----------------------------------------------------------------------------
-void Gamestate::ResetPlayer()
-{
-	demon.isMovingRight = false;
-	demon.isMovingLeft = false;
-	demon.isJumping = false;
-	demon.isKicking = false;
-	demon.isPunching = false;
-	demon.Right = false;
-	demon.Left = false;
-	demon.isImmortal = false;
-	
-
-	demon.isHit = false; 
-	//demon.DieOneLife = false;
-
-	//demon.SmallHunter = true;
-	//demon.MediumHunter = false;
-	//demon.LargeHunter = false;
-	//demon.DemonHunter = false;
-
-	demon.LifeFull_Small = true;
-	demon.LifeMedium_Small = false;
-	demon.LifeLittle_Small = false;
-
-	//demon.Demon_Dead = false;
-
-	demon.isGettingUp = false;
-
-	//demon.KickRight = 5;
-	//demon.KickLeft = 28;
-	//demon.WhereWalkLeft = 24;
-	//demon.WhereWalkRight = 0;
-	//demon.WhereJumpLeft = 35;
-	//demon.WhereJumpRight = 12;
-	//demon.PunchRight = 8; 
-	//demon.PunchLeft = 31;
-
-	//demon.WalkLeft_Demon = 22;
-	//demon.WalkRight_Demon = 1;
-	//demon.FireBallRight_Demon = 9;
-	//demon.FireBallLeft_Demon = 30;
-	//demon.JumpRight_Demon = 5;
-	//demon.JumpLeft_Demon = 26;
-	//demon.FireBallRight = 39;
-	//demon.FireBallLeft = 42;
-
-	demon.AlphaImmortal = SDL_ALPHA_OPAQUE;
-
-	//demon.Demon_Life = 2;
-
-	//demon.TriangleFireLeft = 34;
-	//demon.TriangleFireRight = 13;
-
-	//demon.DieRightDemon = 44;
-	//demon.DieLeftDemon = 40;
-
-	demon.Radius = 0;
-	demon.RadiusFist = 0;
-	demon.RadiusFeet = 0;
-	demon.DemonHealth = 100;
-
-	demon.Feet_W = 10;
-	demon.Feet_H = 10;
-	demon.Fist_W = 15;
-	demon.Fist_H = 15;
-}
-
 void Game::Audiotonic()
 {
 }
@@ -699,40 +635,36 @@ void Game::Update( SDL_Event input )
 	//}
 
 	// Check game state
-	switch( gamestate.GameCondition )
+	switch( gamestate.State )
 	{
 		// Intro sequence
-		case GS_INTRO:
+		case MENU_MAIN_STATE:
 			{
 				//Handle_events( input );
 				gamestate.MainScreen();
 				//gamestate.FLIP();
-				Gfx.FLIP();
+				//Gfx.FLIP();
 			} break;
-		case GS_ENTERNAME:
-			{
-				gamestate.EnterName();
-				//gamestate.FLIP();
-				Gfx.FLIP();
-			} break;	
-		case GS_INTROSTORY:
+		//case GS_ENTERNAME:
+		//	{
+		//		gamestate.EnterName();
+		//		//gamestate.FLIP();
+		//		//Gfx.FLIP();
+		//	} break;	
+		case GAME_STORY_STATE:
 			{
 				gamestate.DoIntroTalk();
 				//gamestate.FLIP();
-				Gfx.FLIP();
+				//Gfx.FLIP();
 			} break;
-		case GS_LOADING:
+		case GAME_LOADING_STATE:
 			{
 				gamestate.Loading();
 			} break;
-		case GS_MORPH:
-			{
-				gamestate.MorphMyDude();
-			} break;
-		case GS_LEVEL1:
+		case GAME_RUNNING_STATE:
 			{
 				//gamestate.LevelProgress++;
-				//gamestate.LevelProgress = gamestate.LevelProgress + (60*gamestate.dt);
+				//gamestate.LevelProgress = gamestate.LevelProgress + (60*gamestate.DeltaTime);
 				//cout << gamestate.LevelProgress << endl;
 
 				// handles events what the user does with the character
@@ -750,9 +682,9 @@ void Game::Update( SDL_Event input )
 				gamestate.DrawAllText();
 				
 				//gamestate.FLIP();
-				Gfx.FLIP();
+				//Gfx.FLIP();
 			} break;
-		case GS_LEVEL1BOSS:
+		case GAME_BOSS_STATE:
 			{
 				// handles events what the user does with the character
 				//Handle_events( input );
@@ -769,20 +701,21 @@ void Game::Update( SDL_Event input )
 				//Gfx.DrawSprite();
 				Gfx.DrawScore();
 				//gamestate.FLIP();
-				Gfx.FLIP();
+				//Gfx.FLIP();
 
 				//if( gamestate.pBoss->BossDead == true )
 				//{
 				//	gamestate.GameCondition = GS_OUTRO;
 				//}
 			} break;
-		case GS_OUTRO:
+		case GAME_OUTRO_STATE:
 			{
 				gamestate.PlayOutro();
 			} break;
-		case GS_DEAD:
+		case GAME_PLAYER_DIED_STATE:
 			{
-				gamestate.PlayerDied();
+				//gamestate.demonDied();
+				BCPlayer.Died();
 			} break;
 	}
 	
@@ -792,146 +725,172 @@ void Game::Update( SDL_Event input )
 // PlayOutro() - Plays the whole outro sequence
 // ----------------------------------------------------------------------------
 void Gamestate::PlayOutro()
-{	
-	demon.isKicking = false;
-	demon.isJumping = false;
-	demon.isPunching = false;
-	demon.isMovingRight = true;
-
-	demon.Update();
-	//demon.UpdatePlayer();
-
-	int IntroState = 0;
-	int Letter = 0, LetterWidth = 0, Line = 0;
-	string FinishLine = "On Marjuras northwestern coast claimed that there are graves after a fallen kingdom. Grave Robber think there is gold and riches and Marjuras indigenous kvurerna believe that somewhere in the graves is a powerful weapon that can relieve Marjura from evil. Are you up for the task?";
-	string FinishSlow[ 7 ];
-	int Counter = 0;
-	SDL_Surface * FinishSurface;
-
-	bool Walk = true;
-
-	//SDL_Color textColor = { 255, 255, 255 };
-
-	float speedJumpDemon = 0.0;
-
-	bool JumpDown = false, JumpUp = true;
-
-	Timer speed;
-	speed.Start();
-
+{
 	SDL_Rect srcRect = { 0, 0, 800, 600 };
 	SDL_Rect destRect = { 0, 0, 800, 600 };
+	SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
+					&srcRect, Gfx.BackBuffer, &destRect );
+	Gfx.FLIP();
 
-	bool Finish = false;
-	while( Finish != true )
+	SDL_Event input;
+
+	while( gamestate.State == GAME_OUTRO_STATE )
 	{
-		while( speed.GetTicks() < 1000 / 40 )
-        {
-            //wait    
-			
-        }
-		
-		switch( IntroState )
+		SDL_PollEvent( &input );
+		if( input.type == SDL_KEYDOWN )
 		{
-			speedJumpDemon += 100.0f * ( gamestate.dt / 1000 );
-
-		case 0:
+  			switch( input.key.keysym.sym )
 			{
-				if( demon.GetPosition().x > 580 )
-				{
-					Walk = false;
-					if( JumpUp ) 
-					{
-						//demon.yPos -= abs( 20 * cos( speedJumpDemon ) );
-						//demon.xPos += abs( 5 * cos( speedJumpDemon ) );
-						//demon.xVel += abs( 5 * cos( speedJumpDemon ) );
-						//demon.yVel -= abs( 20 * cos( speedJumpDemon ) );
-						/*
-						if( demon.yPos < GROUND_Y - 100 )
-						{
-							JumpUp = false;
-							JumpDown = true;
-						}*/
-					}
-					else if( JumpDown )
-					{
-						//demon.yPos += abs( 10 * cos( speedJumpDemon ) );
-						//demon.yVel += abs( 10 * cos( speedJumpDemon ) );
-						if( demon.GetPosition().y > GROUND_Y + 80 )
-						{
-							IntroState = 1;
-						}
-					}
-					
-				}
-				else if( demon.GetPosition().x < 580 && Walk == true )
-				{
-    					demon.isMovingRight = true;
-				}
-
-				//gamestate.drawParallaxLayers();
-				Gfx.DrawParallaxLayers();
-				//gamestate.DrawSprite();
-				Gfx.DrawSprite();
-				//gamestate.DrawBackgroundBlack();
-				Gfx.DrawBackgroundBlack();
-				break;
-			}
-		case 1:
-			{
-				SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
-									&srcRect, Gfx.BackBuffer, &destRect );
-				if( Counter > 2 )
-				{
-					Counter = 0;
-					
-					LetterWidth++;
-
-					if( Letter < FinishLine.length() )
-					{
-						Letter++;
-					}
-					else
-					{
-						IntroState = 2;
-					}
-
-					FinishSlow[ Line ] += FinishLine[ Letter ];
-					for( int i = 0; i < 7; i++ )
-					{
-						FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
-						//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
-						Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
-					}
-				}
-
-				for( int i = 0; i < 7; i++ )
-				{
-					FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
-					//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
-					Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
-				}
-				
-				if( LetterWidth > 20 )
-				{
-					LetterWidth = 0;
-					Line++;
-				}
-
-				Counter++;
-				break;
-			}
-		case 2:
-			{
-				Finish = true;
+			case SDLK_SPACE:
+				gamestate.State = MENU_MAIN_STATE;
 				break;
 			}
 		}
-		//gamestate.FLIP();
-		Gfx.FLIP();
-
 	}
-	gamestate.GameCondition = GS_INTRO;
+
+	gamestate.RestartGame();
+
+	return;
+
+	//demon.isKicking = false;
+	//demon.isJumping = false;
+	//demon.isPunching = false;
+	//demon.isMovingRight = true;
+
+	//demon.Update();
+	////demon.Updatedemon();
+
+	//int IntroState = 0;
+	//int Letter = 0, LetterWidth = 0, Line = 0;
+	//string FinishLine = "On Marjuras northwestern coast claimed that there are graves after a fallen kingdom. Grave Robber think there is gold and riches and Marjuras indigenous kvurerna believe that somewhere in the graves is a powerful weapon that can relieve Marjura from evil. Are you up for the task?";
+	//string FinishSlow[ 7 ];
+	//int Counter = 0;
+	//SDL_Surface * FinishSurface;
+
+	//bool Walk = true;
+
+	////SDL_Color textColor = { 255, 255, 255 };
+
+	//float speedJumpdemon = 0.0;
+
+	//bool JumpDown = false, JumpUp = true;
+
+	//Timer speed;
+	//speed.Start();
+
+	////SDL_Rect srcRect = { 0, 0, 800, 600 };
+	////SDL_Rect destRect = { 0, 0, 800, 600 };
+
+	//bool Finish = false;
+	//while( Finish != true )
+	//{
+	//	while( speed.GetTicks() < 1000 / 40 )
+ //       {
+ //           //wait    
+	//		
+ //       }
+	//	
+	//	switch( IntroState )
+	//	{
+	//		speedJumpdemon += 100.0f * ( gamestate.DeltaTime / 1000 );
+
+	//	case 0:
+	//		{
+	//			if( demon.GetPosition().x > 580 )
+	//			{
+	//				Walk = false;
+	//				if( JumpUp ) 
+	//				{
+	//					//demon.yPos -= abs( 20 * cos( speedJumpdemon ) );
+	//					//demon.xPos += abs( 5 * cos( speedJumpdemon ) );
+	//					//demon.xVel += abs( 5 * cos( speedJumpdemon ) );
+	//					//demon.yVel -= abs( 20 * cos( speedJumpdemon ) );
+	//					/*
+	//					if( demon.yPos < GROUND_Y - 100 )
+	//					{
+	//						JumpUp = false;
+	//						JumpDown = true;
+	//					}*/
+	//				}
+	//				else if( JumpDown )
+	//				{
+	//					//demon.yPos += abs( 10 * cos( speedJumpdemon ) );
+	//					//demon.yVel += abs( 10 * cos( speedJumpdemon ) );
+	//					if( demon.GetPosition().y > GROUND_Y + 80 )
+	//					{
+	//						IntroState = 1;
+	//					}
+	//				}
+	//				
+	//			}
+	//			else if( demon.GetPosition().x < 580 && Walk == true )
+	//			{
+ //   					demon.isMovingRight = true;
+	//			}
+
+	//			//gamestate.drawParallaxLayers();
+	//			Gfx.DrawParallaxLayers();
+	//			//gamestate.DrawSprite();
+	//			Gfx.DrawSprite();
+	//			//gamestate.DrawBackgroundBlack();
+	//			Gfx.DrawBackgroundBlack();
+	//			break;
+	//		}
+	//	case 1:
+	//		{
+	//			SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
+	//								&srcRect, Gfx.BackBuffer, &destRect );
+	//			if( Counter > 2 )
+	//			{
+	//				Counter = 0;
+	//				
+	//				LetterWidth++;
+
+	//				if( Letter < FinishLine.length() )
+	//				{
+	//					Letter++;
+	//				}
+	//				else
+	//				{
+	//					IntroState = 2;
+	//				}
+
+	//				FinishSlow[ Line ] += FinishLine[ Letter ];
+	//				for( int i = 0; i < 7; i++ )
+	//				{
+	//					FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
+	//					//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+	//					Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
+	//				}
+	//			}
+
+	//			for( int i = 0; i < 7; i++ )
+	//			{
+	//				FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
+	//				//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
+	//				Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
+	//			}
+	//			
+	//			if( LetterWidth > 20 )
+	//			{
+	//				LetterWidth = 0;
+	//				Line++;
+	//			}
+
+	//			Counter++;
+	//			break;
+	//		}
+	//	case 2:
+	//		{
+	//			Finish = true;
+	//			break;
+	//		}
+	//	}
+	//	//gamestate.FLIP();
+	//	Gfx.FLIP();
+
+	//}
+	//gamestate.State = MENU_MAIN_STATE;
 }
 
 // ----------------------------------------------------------------------------
@@ -944,171 +903,171 @@ void Gamestate::DoIntroTalk()
 }
 
 // ----------------------------------------------------------------------------
-// PlayerDied() - Plays the whole death sequence
+// demonDied() - Plays the whole death sequence
 // ----------------------------------------------------------------------------
-void Gamestate::PlayerDied()
-{
-	SDL_Rect srcRect = { 0, 0, 800, 600 };
-	SDL_Rect destRect = { 0, 0, 800, 600 };
-
-
-	SDL_Event input;
-
-	while( gamestate.GameCondition == GS_DEAD )
-	{
-		SDL_PollEvent( &input );
-		if( input.type == SDL_KEYDOWN )
-		{
-  			switch( input.key.keysym.sym )
-			{
-			case SDLK_SPACE:
-				gamestate.GameCondition = GS_INTRO;
-				break;
-			}
-		}
-		Gfx.DrawBackgroundBlack();
-		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, Gfx.BackBuffer, &destRect );
-		//SDL_Color textColor = { 255, 255, 255 };
-		//SDL_Color textColor2 = { 0, 0, 0 };
-		sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-		Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
-		//gamestate.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
-		Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
-		//gamestate.FLIP();
-		Gfx.FLIP();
-	}
-	/*
-	ListHighScore->sort( gamestate.name->str.c_str(), _Score );
-	ListHighScore->Save();
-
-	int PlayerDieState = 0;
-	outro = new Outro;
-	int Letter = 0;
-	int LetterWidth = 0;
-	int Line = 0;
-	int Counter = 0;
-	string DeathTalks = " Your sole is mine fallen one, At this rate all the souls of the earth will be mine soon!!! Ha Ha Ha ";
-	string DeathTalkSlow[ 8 ];
-
-	SDL_Color textColor = { 255, 255, 255 };
-	SDL_Event input;
-
-	SDL_Color Stone = { 105, 105, 136 };
-	SDL_Color StoneFront = { 0, 0, 0, 255 };
-
-	bool PlayDeadAnimation = true; 
-	while( PlayDeadAnimation == true )
-	{
-		SDL_PollEvent( &input );
-		if( input.type == SDL_KEYDOWN )
-		{
-			switch( input.key.keysym.sym )
-			{
-			case SDLK_SPACE:
-				PlayerDieState = 2;
-				break;
-			}
-		}
-
-		DrawBackgroundBlack();
-		gamestate.DrawAllText();
-		switch( PlayerDieState )
-		{
-		case 0:
-			{
-				if( timer.Timer_ShowDead > 10 )
-				{
-					PlayerDieState = 1;
-					timer.Timer_ShowDead = 0.0f;
-				}
-
-				timer.Timer_ShowDead++;
-				//SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
-				//					gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
-				break;
-			}
-		case 1:
-			{
-				if( Counter > 5 )
-				{
-					Counter = 0;
-
-					if( Letter < DeathTalks.length() )
-					{
-						Letter++;
-					}
-					else
-					{
-						PlayerDieState = 2;
-					}
-
-					DeathTalkSlow[ Line ] += DeathTalks[ Letter ];
-					for( int i = 0; i < 8; i++ )
-					{
-						DeathSurface[ 0 ] = TTF_RenderText_Solid( gamestate.font, DeathTalkSlow[ i ].c_str(), textColor );
-						gamestate.apply_surface( 300, i * 40, DeathSurface[ 0 ], gamestate.BackBuffer );
-					}
-
-					LetterWidth++;
-				}
-						
-				SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
-									gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
-
-				for( int i = 0; i < 8; i++ )
-				{
-					DeathSurface[ 0 ] = TTF_RenderText_Solid( gamestate.font, DeathTalkSlow[ i ].c_str(), textColor );
-					gamestate.apply_surface( 300, i * 40, DeathSurface[ 0 ], gamestate.BackBuffer );
-				}
-				
-					
-				if( LetterWidth > 20 )
-				{
-					LetterWidth = 0;
-					Line++;
-				}
-
-				Counter++;
-				break;
-			}
-		case 2:
-			{
-				PlayDeadAnimation = false;
-				break;
-			}	
-		}
-		
-		DeathSurface[ 1 ] = TTF_RenderText_Blended( gamestate.font, gamestate.name->str.c_str(), StoneFront );
-		gamestate.apply_surface( 160, 450, DeathSurface[ 1 ], gamestate.BackBuffer );
-		//gamestate.FLIP();
-		Gfx.FLIP();
-	}
-
-	gamestate.GameCondition = GS_INTRO;	*/
-
-}
+//void Gamestate::demonDied()
+//{
+//	SDL_Rect srcRect = { 0, 0, 800, 600 };
+//	SDL_Rect destRect = { 0, 0, 800, 600 };
+//
+//
+//	SDL_Event input;
+//
+//	while( gamestate.GameCondition == GS_DEAD )
+//	{
+//		SDL_PollEvent( &input );
+//		if( input.type == SDL_KEYDOWN )
+//		{
+//  			switch( input.key.keysym.sym )
+//			{
+//			case SDLK_SPACE:
+//				gamestate.GameCondition = GS_INTRO;
+//				break;
+//			}
+//		}
+//		Gfx.DrawBackgroundBlack();
+//		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, Gfx.BackBuffer, &destRect );
+//		//SDL_Color textColor = { 255, 255, 255 };
+//		//SDL_Color textColor2 = { 0, 0, 0 };
+//		//sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
+//		Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space For Menu ", Gfx.WhiteRGB, Gfx.BlackRGB );
+//		//gamestate.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
+//		Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
+//		//gamestate.FLIP();
+//		Gfx.FLIP();
+//	}
+//	
+//	ListHighScore->sort( gamestate.name->str.c_str(), _Score );
+//	ListHighScore->Save();
+//
+//	int demonDieState = 0;
+//	outro = new Outro;
+//	int Letter = 0;
+//	int LetterWidth = 0;
+//	int Line = 0;
+//	int Counter = 0;
+//	string DeathTalks = " Your sole is mine fallen one, At this rate all the souls of the earth will be mine soon!!! Ha Ha Ha ";
+//	string DeathTalkSlow[ 8 ];
+//
+//	SDL_Color textColor = { 255, 255, 255 };
+//	SDL_Event input;
+//
+//	SDL_Color Stone = { 105, 105, 136 };
+//	SDL_Color StoneFront = { 0, 0, 0, 255 };
+//
+//	bool PlayDeadAnimation = true; 
+//	while( PlayDeadAnimation == true )
+//	{
+//		SDL_PollEvent( &input );
+//		if( input.type == SDL_KEYDOWN )
+//		{
+//			switch( input.key.keysym.sym )
+//			{
+//			case SDLK_SPACE:
+//				demonDieState = 2;
+//				break;
+//			}
+//		}
+//
+//		DrawBackgroundBlack();
+//		gamestate.DrawAllText();
+//		switch( demonDieState )
+//		{
+//		case 0:
+//			{
+//				if( timer.Timer_ShowDead > 10 )
+//				{
+//					demonDieState = 1;
+//					timer.Timer_ShowDead = 0.0f;
+//				}
+//
+//				timer.Timer_ShowDead++;
+//				//SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
+//				//					gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
+//				break;
+//			}
+//		case 1:
+//			{
+//				if( Counter > 5 )
+//				{
+//					Counter = 0;
+//
+//					if( Letter < DeathTalks.length() )
+//					{
+//						Letter++;
+//					}
+//					else
+//					{
+//						demonDieState = 2;
+//					}
+//
+//					DeathTalkSlow[ Line ] += DeathTalks[ Letter ];
+//					for( int i = 0; i < 8; i++ )
+//					{
+//						DeathSurface[ 0 ] = TTF_RenderText_Solid( gamestate.font, DeathTalkSlow[ i ].c_str(), textColor );
+//						gamestate.apply_surface( 300, i * 40, DeathSurface[ 0 ], gamestate.BackBuffer );
+//					}
+//
+//					LetterWidth++;
+//				}
+//						
+//				SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
+//									gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
+//
+//				for( int i = 0; i < 8; i++ )
+//				{
+//					DeathSurface[ 0 ] = TTF_RenderText_Solid( gamestate.font, DeathTalkSlow[ i ].c_str(), textColor );
+//					gamestate.apply_surface( 300, i * 40, DeathSurface[ 0 ], gamestate.BackBuffer );
+//				}
+//				
+//					
+//				if( LetterWidth > 20 )
+//				{
+//					LetterWidth = 0;
+//					Line++;
+//				}
+//
+//				Counter++;
+//				break;
+//			}
+//		case 2:
+//			{
+//				PlayDeadAnimation = false;
+//				break;
+//			}	
+//		}
+//		
+//		DeathSurface[ 1 ] = TTF_RenderText_Blended( gamestate.font, gamestate.name->str.c_str(), StoneFront );
+//		gamestate.apply_surface( 160, 450, DeathSurface[ 1 ], gamestate.BackBuffer );
+//		//gamestate.FLIP();
+//		Gfx.FLIP();
+//	}
+//
+//	gamestate.GameCondition = GS_INTRO;	
+//
+//}
 
 // ----------------------------------------------------------------------------
 // DrawAllText() - draws all text thats currently shown on the screen.
 // ----------------------------------------------------------------------------
 void Gamestate::DrawAllText()
 {
-	if( GameCondition == GS_INTROSTORY || GameCondition == GS_DEAD )
+	if( State == GAME_STORY_STATE || State == GAME_PLAYER_DIED_STATE )
 	{
 		//SDL_Color textColor = { 255, 255, 255 };
 		//SDL_Color textColor2 = { 0, 0, 0 };
 		
-		if( GameCondition == GS_DEAD )
+		if( State == GAME_PLAYER_DIED_STATE )
 		{
-			sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+			//sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
+			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space For Menu ", Gfx.WhiteRGB, Gfx.BlackRGB );
 			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
 			Gfx.apply_surface( 200, 500, Gfx.srfText, Gfx.BackBuffer );
 		}
 		else
 		{
-			sprintf_s( gamestate.Text, 256, " Press Space To Start " );		
-			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, gamestate.Text, Gfx.WhiteRGB, Gfx.BlackRGB );
+			//sprintf_s( gamestate.Text, 256, " Press Space To Start " );		
+			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space To Start ", Gfx.WhiteRGB, Gfx.BlackRGB );
 			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
 			Gfx.apply_surface( 200, 500, Gfx.srfText, Gfx.BackBuffer );
 		}
@@ -1134,10 +1093,10 @@ void Gamestate::Loading()
 	//currentAnimFrame += deltaTime * animFramesPerSecond;
 	SDL_SetAlpha( m_surfaceList[  Dragon->surface ], SDL_SRCALPHA, 255 );
 
-	float Speed = 1000.0f * ( dt / 1000.0f );
+	float Speed = 1000.0f * ( gamestate.DeltaTime / 1000.0f );	// AddTick call here instead
 	SDL_Rect dstRect = { Dragon->xPos, Dragon->yPos, Dragon->Width, Dragon->Height };
-	if ( gamestate.IntroDone == false )
-	{
+	//if ( gamestate.IntroDone == false )
+	//{
 					SDL_BlitSurface(	Gfx.GetSurface( Dragon->surface ), &Dragon->Clips[ Dragon->Frame ],
 								Gfx.BackBuffer, &dstRect );
 			//Dragon->PrevFrame = Dragon->Frame;
@@ -1159,7 +1118,7 @@ void Gamestate::Loading()
 			timer.Timer_Dancing++;
 		}*/
 		
-	}
+	//}
 }
 
 // ----------------------------------------------------------------------------
@@ -1230,9 +1189,8 @@ void Gamestate::MainScreen()
 
 	if( TitleScreen->ButtonNewgame == true )
 	{
-		gamestate.GameCondition = GS_INTROSTORY;
+		gamestate.State = GAME_RUNNING_STATE;
 		TitleScreen->ButtonNewgame = false;
-		gamestate.RestartGame();
 	}
 
 	//if( gamestate.TitleScreen->ButtonHighScore == true )
@@ -1352,7 +1310,7 @@ void Gamestate::MainScreen()
 }
 
 // ----------------------------------------------------------------------------
-// EnterName() - checks for input player name
+// EnterName() - checks for input demon name
 // ----------------------------------------------------------------------------
 void Gamestate::EnterName()
 {
@@ -1362,50 +1320,50 @@ void Gamestate::EnterName()
 	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, Gfx.BackBuffer, &dtRect );
 	//SDL_Color textColor = { 0,0,0 };
 	SDL_Surface * srfEnter;
-	srfEnter = TTF_RenderText_Solid( Gfx.DefaultFont, gamestate.PlayerName.c_str(), Gfx.BlackRGB );
+	srfEnter = TTF_RenderText_Solid( Gfx.DefaultFont, gamestate.demonName.c_str(), Gfx.BlackRGB );
 	//gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
 	Gfx.apply_surface( 200, 400, srfEnter, Gfx.BackBuffer );
 	//gamestate.name->show_centered();
 
 	if( gamestate.name->handle_input(  ) == false )
 	{
-		gamestate.GameCondition = GS_INTROSTORY;
+		gamestate.State = GAME_STORY_STATE;
 	}
-	/*
-	bool Name =  false;
-	SDL_Event input;
-	SDL_Color textColor = { 0,0,0 };
-	gamestate.IntroDone = false;
-	SDL_Surface * srfEnter;
 	
-	while( gamestate.name->handle_input(  ) )
-	{
-		SDL_Rect scRect = {	0, 0, 800, 600 };
-		SDL_Rect dtRect = {	0, 0, 800, 600 };
-		SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
-		//gamestate.name->handle_input(  );
-		//SDL_Delay(1000 / 60);
-		timer.Timer_Name++;
+	//bool Name =  false;
+	//SDL_Event input;
+	//SDL_Color textColor = { 0,0,0 };
+	//gamestate.IntroDone = false;
+	//SDL_Surface * srfEnter;
+	//
+	//while( gamestate.name->handle_input(  ) )
+	//{
+	//	SDL_Rect scRect = {	0, 0, 800, 600 };
+	//	SDL_Rect dtRect = {	0, 0, 800, 600 };
+	//	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
+	//	//gamestate.name->handle_input(  );
+	//	//SDL_Delay(1000 / 60);
+	//	timer.Timer_Name++;
 
-		
-		//TypeName = TTF_RenderText_Solid( font, " Enter your name ", textColor ); 
-		gamestate.name->show_centered();
-		//gamestate.apply_surface( 250, 200, TypeName, gamestate.BackBuffer );
+	//	
+	//	//TypeName = TTF_RenderText_Solid( font, " Enter your name ", textColor ); 
+	//	gamestate.name->show_centered();
+	//	//gamestate.apply_surface( 250, 200, TypeName, gamestate.BackBuffer );
 
-		srfEnter = TTF_RenderText_Solid( font, " Press Enter To Finish ", textColor );
-		gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
+	//	srfEnter = TTF_RenderText_Solid( font, " Press Enter To Finish ", textColor );
+	//	gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
 
-		//gamestate.FLIP();
-		Gfx.FLIP();
-	}
+	//	//gamestate.FLIP();
+	//	Gfx.FLIP();
+	//}
 
-	gamestate.GameCondition = GS_INTROSTORY;
-	*/
+	//gamestate.GameCondition = GS_INTROSTORY;
+	
 }
 
 void Gamestate::RestartGame()
 {
-	ResetPlayer();
+	BCPlayer.Reset();
 	ResetBoss();
 	ResetEnemies();
 	ResetObjects();
@@ -1413,10 +1371,11 @@ void Gamestate::RestartGame()
 
 	timer.RestartTimers();
 
-	demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH );
+	BCPlayer.Initiatedemon( BCPlayer.Surface, GROUND_X, 0, demonHEIGHT, demonWIDTH );
 	//gamestate.Score = 0;
-	gamestate.m_parallax = 0;
-
+	//gamestate.m_parallax = 0;
+	gamestate.Parallax = 0.0f;
+	gamestate.State = MENU_MAIN_STATE;
 }
 
 void Gamestate::ResetRest()
@@ -1444,7 +1403,7 @@ void Gamestate::ResetRest()
 // Frees surfaces and deletes thing thats not NULL
 void Gamestate::EndAll()
 {
-	for( int i = 0; i < Parallax->getLayerCount(); i++ )
+	for( int i = 0; i < ParallaxBG->getLayerCount(); i++ )
 	{
 		SDL_FreeSurface( m_surfaceList[ i ] );
 	}
@@ -1566,12 +1525,14 @@ bool Game::Init(SDL_Surface * &screen)
 	bmask = 0x00000000;
 	amask = 0x00000000;
 
+
+
 	Gfx.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel,
 								   rmask, gmask, bmask, amask);
 	
 	if( Gfx.BackBuffer == NULL )
 	{
-		return false;
+		return false;																							
 	}
 	return true;
 }
@@ -1603,7 +1564,7 @@ bool Game::Init(SDL_Surface * &screen)
 //	{
 //		//if( !BossStart )
 //		//{
-//		//	//demon.DemonHunter = true;
+//		//	//demon.demonHunter = true;
 //		//	//demon.SmallHunter = false;
 //		//	gamestate.pBoss = gamestate.CreateBoss( SDL_GetVideoSurface()->w - 180, GROUND_Y - 210, m_srfBoss );
 //		//	BossStart = true;
@@ -1631,7 +1592,7 @@ bool Game::Init(SDL_Surface * &screen)
 //			MyParaBackGround = Parallax->getLayer( i );
 //			if( MyParaBackGround->m_surface == m_srfClouds )
 //			{
-//				MyParaBackGround->AnimClouds += 100.0f * gamestate.dt;
+//				MyParaBackGround->AnimClouds += 100.0f * gamestate.DeltaTime;
 //
 //				//////// Calc parallax position
 //				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
@@ -1684,7 +1645,7 @@ bool Game::Init(SDL_Surface * &screen)
 //			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
 //
 //		}
-//		gamestate.m_parallax += 500 * gamestate.dt;
+		//gamestate.m_parallax += 500 * gamestate.DeltaTime;
 //}
 
 void Gamestate::CreateAll()
@@ -1697,7 +1658,7 @@ void Gamestate::CreateAll()
 // draws MyFellow on the screen and changes animations
 //void Gamestate::DrawSprite()
 //{
-//		//SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.Demon_Width, demon.Demon_Height };
+//		//SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.demon_Width, demon.demon_Height };
 //		//demonDest = demon.GetPosition();
 //		if( demon.isImmortal )
 //		{
@@ -1709,21 +1670,21 @@ void Gamestate::CreateAll()
 //			{
 //				demon.AlphaImmortal -= 50;
 //			}
-//			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
+//			SDL_SetAlpha( Gfx.GetSurface( demon.demonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
 //		}
 //		else
 //		{
-//			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
+//			SDL_SetAlpha( Gfx.GetSurface( demon.demonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
 //		}
 //
 //		
-//			//Current_Frame = demon.UpdatePlayer();
-//			//demon.UpdatePlayer();
+//			//Current_Frame = demon.Updatedemon();
+//			//demon.Updatedemon();
 //			demon.Update();
 //		
-//			// Rendering Demon Character
+//			// Rendering demon Character
 //			/*
-//			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
+//			SDL_BlitSurface(	m_surfaceList[ demon.demonSurface ], 
 //								&demon.AnimationArrays[ Current_AnimArray ][ Current_Frame ],
 //								gamestate.BackBuffer, &demonDest );*/
 //			if( CurrentFrame == 3 )
@@ -1731,11 +1692,11 @@ void Gamestate::CreateAll()
 //				CurrentFrame = 0;
 //			}
 //			
-//			SDL_BlitSurface(	Gfx.GetSurface( demon.DemonSurface ), 
+//			SDL_BlitSurface(	Gfx.GetSurface( demon.demonSurface ), 
 //				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
 //				gamestate.BackBuffer, &demon.GetPosition() );
 //			/*
-//			SDL_BlitSurface(	m_surfaceList[ emon.DemonSurface ], 
+//			SDL_BlitSurface(	m_surfaceList[ emon.demonSurface ], 
 //				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
 //								gamestate.BackBuffer, &demonDest );*/
 //
@@ -1746,8 +1707,9 @@ void Gamestate::CreateAll()
 
 void Gamestate::AddTick()
 {
-	 float Speed = 1000.0f * ( gamestate.dt / 1000.0f );
-	 UpdateAnimationSpeed += Speed;
+	 //float Speed = 1000.0f * ( gamestate.DeltaTime / 1000.0f );
+	 //UpdateAnimationSpeed += Speed;
+	UpdateAnimationSpeed += ( 1000.0f * ( gamestate.DeltaTime / 1000.0f ) );
 }
 
 //void Gamestate::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
@@ -1886,40 +1848,40 @@ void Gamestate::AddTick()
 void Gamestate::setUpParallaxLayers()
 {
 	// Create background
-	Parallax = new ParallaxBackground();
-	Parallax->createLayers( 10 );
+	ParallaxBG = new ParallaxBackground();
+	ParallaxBG->createLayers( 10 );
 
 	//Firstlayer
-	Parallax->setLayer( 0, 0.0f, m_srfBlack, 
+	ParallaxBG->setLayer( 0, 0.0f, m_srfBlack, 
 						0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	////sky
-	Parallax->setLayer( 1, 0.0f, m_srfSky, 
+	ParallaxBG->setLayer( 1, 0.0f, m_srfSky, 
 						0, SDL_GetVideoSurface()->w, 400, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	// trees
-	Parallax->setLayer( 2, 0.7f, m_srfTrees, 
+	ParallaxBG->setLayer( 2, 0.7f, m_srfTrees, 
 						0, 1172, 170, 0, 370, SDL_GetVideoSurface()->w, 170 ); 
 
 	//clouds
-	Parallax->setLayer(	3, 0.5f, m_srfClouds, 
+	ParallaxBG->setLayer(	3, 0.5f, m_srfClouds, 
 						0, SDL_GetVideoSurface()->w, 38, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	Parallax->setLayer(	4, 0.4f, m_srfClouds, 
+	ParallaxBG->setLayer(	4, 0.4f, m_srfClouds, 
 						38, SDL_GetVideoSurface()->w, 87, 0, 38, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	Parallax->setLayer(	5, 0.3f, m_srfClouds, 
+	ParallaxBG->setLayer(	5, 0.3f, m_srfClouds, 
 						126, SDL_GetVideoSurface()->w, 46, 0, 126, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	Parallax->setLayer(	6, 0.2f, m_srfClouds, 
+	ParallaxBG->setLayer(	6, 0.2f, m_srfClouds, 
 						172, SDL_GetVideoSurface()->w, 21, 0, 172, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	Parallax->setLayer(	7, 0.1f, m_srfClouds, 
+	ParallaxBG->setLayer(	7, 0.1f, m_srfClouds, 
 						193, SDL_GetVideoSurface()->w, 12, 0, 193, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	Parallax->setLayer( 8, 0.7f, m_srfCity, 
+	ParallaxBG->setLayer( 8, 0.7f, m_srfCity, 
 						0, 5100, 535, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	Parallax->setLayer(	9, 1.0f, m_srfCity, 
+	ParallaxBG->setLayer(	9, 1.0f, m_srfCity, 
 						540, 5100, 60, 0, 535, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 }

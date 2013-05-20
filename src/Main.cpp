@@ -1,5 +1,6 @@
 #include <cmath>
 #include <queue>
+#include <vld.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
@@ -37,10 +38,11 @@ int main( int argc, char * arg[] )
 {
 	srand( time( 0 ) );
 	SDL_Event event = {0};
+	int timeOfEvent = 0;
 	float PrevTick = 0, CurTick = 0, TotalTicks = 0, TickDelta = 0, OldestTickDelta = 0,DeltaTime = 0;
 	UINT32 PreviousTick = 0, CurrentTick = 0;
 	UINT32 MILLISECONDS = 1000;
-	UINT32 UpdayeStepping = 20; 
+	UINT32 UpdateStepping = 20; 
 	Game New_Game;
 	Timer fps;
 	int framecount = 0;
@@ -57,6 +59,7 @@ int main( int argc, char * arg[] )
 	else
 	{
 		cout << "SDL_INIT_EVERYTHING..." << endl;
+		timeOfEvent = SDL_GetTicks();
 	}
 
  	//gamestate.font = TTF_OpenFont("cour.ttf", 14);
@@ -94,10 +97,11 @@ int main( int argc, char * arg[] )
 		}		
 		
 		New_Game.Update( event );
+		Gfx.FLIP();
 
 		gamestate.AddTick()	;
 		t = clock() - t;
-		gamestate.dt = (float)t/CLOCKS_PER_SEC;
+		gamestate.DeltaTime = (float)t/CLOCKS_PER_SEC;
 		clock_ticks += t;
 		if( clock_ticks > CLOCKS_PER_SEC )
 		{

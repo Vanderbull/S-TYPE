@@ -43,6 +43,7 @@ void ControlWorlds::CreateWorlds()
 
 World * ControlWorlds::CreateWorld()
 {
+	cout << "Creating the world as we know it...";
 	World * temp = new World;
 	return temp;
 };

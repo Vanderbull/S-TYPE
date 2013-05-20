@@ -21,9 +21,25 @@
 #include "GetInput.h"
 #include "HighScore.h"
 #include "DancingDragon.h"
+#include "World\CWorld.h"
 
-enum{ GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO, 
-	  GS_LOADING, GS_INTROSTORY, GS_MORPH, GS_DEAD, GS_ENTERNAME };
+//enum{ GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO, 
+//	  GS_LOADING, GS_INTROSTORY, GS_MORPH, GS_DEAD, GS_ENTERNAME };
+
+enum
+{
+	MENU_MAIN_STATE,
+	MENU_SUB_STATE,
+	GAME_RUNNING_STATE,
+	GAME_INTRO_STATE,
+	GAME_OUTRO_STATE,
+	GAME_PAUSED_STATE,
+	GAME_STORY_STATE,
+	GAME_LOADING_STATE,
+	GAME_BOSS_STATE,
+	GAME_PLAYER_DIED_STATE
+};
+
 enum{ BOSS_IDLE, BOSS_ATTACK, BOSS_DIE };
 enum{ HEAD_GO, HEAD_DOWN, HEAD_CRASH };
 enum{ BUTTON_NEW_GAME, BUTTON_OPTIONS, BUTTON_QUIT };
@@ -35,10 +51,10 @@ const int ANIMPACESLOWER = 300;
 const int ANIMPACEENEMY = 50;
 const int ANIMPACEBOSSHEAD = 5;
 
-const int DEMONHEIGHT = 100;
-const int DEMONWIDTH = 130;
-const int DEMONWIDTHREAL = 25;
-const int DEMONHEIGHTREAL = 25;
+const int demonHEIGHT = 100;
+const int demonWIDTH = 130;
+const int demonWIDTHREAL = 25;
+const int demonHEIGHTREAL = 25;
 
 const int GROUND_Y = 500;
 const int GROUND_X = 400;
@@ -53,21 +69,24 @@ public:
 	Gamestate();
 	~Gamestate(){};
 	
-	ParallaxBackground *Parallax;
+	ParallaxBackground *ParallaxBG;
 
 	int CurrentFrame, PreviousFrame;	
-	int GameCondition;
+	//int GameCondition;
+	int State;
 
-	float dt;
+	//float dt;
+	float DeltaTime;
 	float UpdateAnimationSpeed;
-	float m_parallax;
+	//float m_parallax;
+	float Parallax;
 
-	bool GameOK;
-	bool BossStart;
-	bool IntroDone;
+	//bool GameOK;
+	//bool BossStart;
+	//bool IntroDone;
 
-	char Text[ 256 ];
-	string ScoreString;
+	//char Text[ 256 ];
+	//string ScoreString;
 
 	SDL_Rect MorphingPics[ 5 ];
 
@@ -83,7 +102,7 @@ public:
 
 	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
 		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
-		m_srfDemonLife, m_srfDemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
+		m_srfdemonLife, m_srfdemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
 		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro, m_srfButton, m_srfHealth;
 
 	//SDL_Surface * srfText;
@@ -94,8 +113,8 @@ public:
 	// Level progress counter
 	//int LevelProgress;
 
-	// Player name
-	std::string PlayerName;
+	// demon name
+	string demonName;
 
 	// Active menu
 	int ActiveMenu;
@@ -136,12 +155,11 @@ public:
 	//void stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect  );
 	//void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL );
 
-	void PlayerDied();
+	void demonDied();
 	void RestartGame();
 	void ResetBoss();
 	void ResetEnemies();
 	void ResetObjects();
-	void ResetPlayer();
 	void ResetRest();
 	void PlayOutro();
 
@@ -167,7 +185,9 @@ public:
 	void Cleanup();
 
 	bool Quit;
+	int LevelProgress;
 private:
 	Gamestate _State;
+	World _World;
 };
 

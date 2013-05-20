@@ -9,21 +9,21 @@
 class ControlCollision
 {
 public:
-	bool CollisionCircle( Demon *MyDemon, PowerUp *TransForm, bool Show );
-	bool CollisionCircle( Demon *MyDemon, CEnemy *MyEnemy, bool Show );
-	bool CollisionCircle( Demon *MyDemon, Boss *Myboss, bool Show );
-	bool CollisionCircle( Demon *MyDemon, Heads *EnemyHead, bool Show );
+	bool CollisionCircle( BaseCharacter *Mydemon, PowerUp *TransForm, bool Show );
+	bool CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
+	bool CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bool Show );
+	bool CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead, bool Show );
 
-	bool CollisionCircle( FireBall *MyFire, CEnemy *MyEnemy, bool Show );
-	bool CollisionCircle( FireBall *MyFire, Heads *EnemyHead, bool Show );
-	bool CollisionCircle( FireBall *MyFire, Boss *My_boss, bool Show );
+	bool CollisionCircle( Fireball *MyFire, CEnemy *MyEnemy, bool Show );
+	bool CollisionCircle( Fireball *MyFire, Heads *EnemyHead, bool Show );
+	bool CollisionCircle( Fireball *MyFire, Boss *My_boss, bool Show );
 	
 
-	bool CollisionBox( Demon *MyDemon, CEnemy *MyEnemy, bool Show );
-	bool CollisionPixel( Demon *MyDemon, CEnemy *MyEnemy );
+	bool CollisionBox( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
+	bool CollisionPixel( BaseCharacter *Mydemon, CEnemy *MyEnemy );
 
-	bool CheckCollisionWithPlayer( CEnemy *MyEnemy, int WhichCollisionToUse, Demon *MyDemon );
-	bool CheckCollisionWithPlayer( PowerUp *TransForm, int WhichCollisionToUse );
+	bool CheckCollisionWithdemon( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon );
+	bool CheckCollisionWithdemon( PowerUp *TransForm, int WhichCollisionToUse );
 
 	void Circle( long centerx, long centery, long radius );
 	void SetPixelMine( int xPos, int yPos );

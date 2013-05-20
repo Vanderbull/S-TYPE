@@ -1,20 +1,21 @@
+#include <cmath>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "characters.h"
 #include "Game.h"
-#include <cmath>
+#include "characters.h"
 
-Demon demon(0,GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH);
 
-Demon::Demon()
+BaseCharacter BCPlayer(0,GROUND_X, GROUND_Y, demonHEIGHT, demonWIDTH);
+
+BaseCharacter::BaseCharacter()
 {
-	// Not used
+	cout << "Constructor BaseCharacter..." << endl;
 }
 
-Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
+BaseCharacter::BaseCharacter(int surface, int Xpos, int Ypos, int height, int width)
 {
-	Demon::SetAliveState(AliveState::ALIVE);
-	//Demon::SetLives(3);
+	_HealthPoints = 9;
+	BaseCharacter::SetAliveState(AliveState::ALIVE);
 
 	isMovingRight    = false;
 	isMovingLeft     = false;
@@ -29,15 +30,15 @@ Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 	//SmallHunter      = true;
 	//MediumHunter     = false;
 	//LargeHunter      = false;
-	//DemonHunter      = false;
+	//demonHunter      = false;
 
-	LifeFull_Small   = true;
-	LifeMedium_Small = false;
-	LifeLittle_Small = false;
+	//LifeFull_Small   = true;
+	//LifeMedium_Small = false;
+	//LifeLittle_Small = false;
 
-	//Demon_Dead       = false;
+	//demon_Dead       = false;
 
-	isGettingUp      = false;
+	//isGettingUp      = false;
 
 	//KickRight        = 5;
 	//KickLeft         = 28;
@@ -48,45 +49,46 @@ Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 	//PunchRight       = 8; 
 	//PunchLeft        = 31;
 
-	//WalkLeft_Demon   = 22;
-	//WalkRight_Demon  = 1;
-	//FireBallRight_Demon = 9;
-	//FireBallLeft_Demon = 30;
-	//JumpRight_Demon  = 5;
-	//JumpLeft_Demon   = 26;
+	//WalkLeft_demon   = 22;
+	//WalkRight_demon  = 1;
+	//FireBallRight_demon = 9;
+	//FireBallLeft_demon = 30;
+	//JumpRight_demon  = 5;
+	//JumpLeft_demon   = 26;
 	//FireBallRight    = 39;
 	//FireBallLeft     = 42;
 	//Score = 0;
 
 	AlphaImmortal    = SDL_ALPHA_OPAQUE;
 
-	//Demon_Life       = 2;
+	//demon_Life       = 2;
 
 	//TriangleFireLeft = 34;
 	//TriangleFireRight = 13;
 
-	//DieRightDemon    = 44;
-	//DieLeftDemon     = 40;
+	//DieRightdemon    = 44;
+	//DieLeftdemon     = 40;
 
-	Radius           = 0;
-	RadiusFist       = 0;
-	RadiusFeet       = 0;
-	DemonHealth     = 100;
+	this->Radius = 0;
+	this->RadiusFist = 0;
+	this->RadiusFeet = 0;
+	this->Health = 0;
 
 	Feet_W           = 10;
 	Feet_H           = 10;
 	Fist_W           = 15;
 	Fist_H           = 15;
 
-	demon.xVelocity = 15.0f;
+	BCPlayer.xVelocity = 15.0f;
 	_LeftMostPosition = 0;
 	_RightMostPosition = 800;
-	//this->Demon_Height = height;
-	//this->Demon_Width = width;
+	//this->demon_Height = height;
+	//this->demon_Width = width;
 
-	this->Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
+	this->Radius = ( demonWIDTHREAL > demonHEIGHTREAL ) ? demonWIDTHREAL / 2 : demonHEIGHTREAL / 2;
 	this->RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
 	this->RadiusFeet  = ( Fist_W > Fist_H ) ? Fist_W / 2 : Fist_H / 2;
+	this->Health = 5;
 
 	//this->xPos = Xpos;
 	//this->yPos = Ypos;
@@ -95,43 +97,43 @@ Demon::Demon(int surface, int Xpos, int Ypos, int height, int width)
 	this->_Position.h = 100;
 	this->_Position.w = 130;
 
-	this->DemonSurface = surface;
+	this->Surface = surface;
 
 	this->xVelocity = 15.0f; 
 	this->yVelocity = 0;
 }
 
 // checks if OK to move
-bool Demon::CheckBoundaries()
+bool BaseCharacter::CheckBoundaries()
 {
 	/*
-	Last_Xpos = demon.xPos;
-	float TriangleSpeed = 2500.0f * ( gamestate.dt / 1000.0f );
-	if( demon.Left )
+	Last_Xpos = BCPlayer.xPos;
+	float TriangleSpeed = 2500.0f * ( gamestate.DeltaTime / 1000.0f );
+	if( BCPlayer.Left )
 	{
-		if( (demon.Last_Xpos -= abs( 70 * cos( TriangleSpeed ) ) )  < 20 )
+		if( (BCPlayer.Last_Xpos -= abs( 70 * cos( TriangleSpeed ) ) )  < 20 )
 		{
-			demon.TriangleState = 0;
-			demon.Triangle = false;
+			BCPlayer.TriangleState = 0;
+			BCPlayer.Triangle = false;
 			return false;
 		}
 	}
 	else
 	{
-		if( (demon.Last_Xpos += abs( 70 * cos( TriangleSpeed ) ) )  > 621 )
+		if( (BCPlayer.Last_Xpos += abs( 70 * cos( TriangleSpeed ) ) )  > 621 )
 		{
 			if( gamestate.GameCondition == GS_LEVEL1BOSS )
 			{
-				if( (demon.Last_Xpos += abs( 70 * cos( TriangleSpeed ) ) )  > 700 )
+				if( (BCPlayer.Last_Xpos += abs( 70 * cos( TriangleSpeed ) ) )  > 700 )
 				{
-					demon.TriangleState = 0;
-					demon.Triangle = false;
+					BCPlayer.TriangleState = 0;
+					BCPlayer.Triangle = false;
 					return false;
 				}
 				return true;
 			}
-			demon.TriangleState = 0;
-			demon.Triangle = false;
+			BCPlayer.TriangleState = 0;
+			BCPlayer.Triangle = false;
 			return false;
 		}
 	} 
@@ -139,9 +141,9 @@ bool Demon::CheckBoundaries()
 	return true;
 }
 
-bool Demon::IsInStateAttack()
+bool BaseCharacter::IsInStateAttack()
 {
-	if( demon.isKicking == true || demon.isPunching == true )
+	if( BCPlayer.isKicking == true || BCPlayer.isPunching == true )
 	{
 		return true;
 	}
@@ -151,13 +153,13 @@ bool Demon::IsInStateAttack()
 	}
 }
 
-void Demon::InitiateDemon(	int surface, int Xpos, int Ypos, 
+void BaseCharacter::Initiatedemon(	int surface, int Xpos, int Ypos, 
 							int height, int width )
 {
-	//this->Demon_Height = height;
-	//this->Demon_Width = width;
+	//this->demon_Height = height;
+	//this->demon_Width = width;
 
-	this->Radius = ( DEMONWIDTHREAL > DEMONHEIGHTREAL ) ? DEMONWIDTHREAL / 2 : DEMONHEIGHTREAL / 2;
+	this->Radius = ( demonWIDTHREAL > demonHEIGHTREAL ) ? demonWIDTHREAL / 2 : demonHEIGHTREAL / 2;
 	this->RadiusFist  = ( Feet_W > Feet_H ) ? Feet_W / 2 : Feet_H / 2;
 	this->RadiusFeet  = ( Fist_W > Fist_H ) ? Fist_W / 2 : Fist_H / 2;
 
@@ -166,15 +168,15 @@ void Demon::InitiateDemon(	int surface, int Xpos, int Ypos,
 	this->_Position.x = Xpos;
 	this->_Position.y = Ypos;
 
-	this->DemonSurface = surface;
+	this->Surface = surface;
 
 	this->xVelocity = 15.0f;
 	this->yVelocity = 0;
 }
 
-// updates player animations and moving, moved code to Update function
+// updates BCPlayer animations and moving, moved code to Update function
 /*
-int Demon::UpdatePlayer()
+int BCPlayer::Updatedemon()
 {
 	return 0;
 }
@@ -190,60 +192,67 @@ void Update(float time)
     positionY += velocityY * time;      // Apply vertical velocity to Y position
 }
 
-void Demon::Update()
+void BaseCharacter::Update()
 {
-	//Demon::_Position.y = GROUND_Y;
 	if( this->isMovingRight && _Position.x <= _RightMostPosition )
-		Demon::_Position.x += 500.0f * gamestate.dt;
-	if( this->isMovingLeft && _Position.x >= _LeftMostPosition )
-		Demon::_Position.x -= 500.0f * gamestate.dt;
+	{
+		BaseCharacter::_Position.x += 500.0f * gamestate.DeltaTime;
+	}
+	else if( this->isMovingLeft && _Position.x >= _LeftMostPosition )
+	{
+		BaseCharacter::_Position.x -= 500.0f * gamestate.DeltaTime;
+	}
+	else if( !this->isMovingLeft || !this->isMovingRight || !this->isJumping )
+	{
+		//BaseCharacter::_Position.x -= 500.0f * gamestate.DeltaTime;
+	}
 
-	 if( this->isJumping )
-	 {
-		 ::Update(gamestate.dt);
-		 Demon::_Position.y -= 1;
-		 if( Demon::_Position.y < 200 )
-		 {
-			 this->isJumping = false;
-		 }
-	 }
-	 if( !this->isJumping )
-	 {
-		if( Demon::_Position.y < GROUND_Y )
+	if( this->isJumping )
+	{
+		::Update(gamestate.DeltaTime);
+		BaseCharacter::_Position.y -= 1;
+		if( BaseCharacter::_Position.y < 200 )
 		{
-		   Demon::_Position.y += 1;
+			this->isJumping = false;
 		}
-	 }
+	}
+	if( !this->isJumping )
+	{
+		if( BaseCharacter::_Position.y < GROUND_Y )
+		{
+			BaseCharacter::_Position.y += 1;
+		}
+	}
 
 
-	if( IDLE == demon.GetState() )
+	if( IDLE == BCPlayer.GetState() )
 	{
 		//cout << "Character is standing around doing nothing...." << endl;
 	}
-	if( KICKING == demon.GetState() )
+	if( KICKING == BCPlayer.GetState() )
 	{
 		//cout << "Character is kicking...." << endl;
-		//demon.SetState(demon.IDLE);
+		//BCPlayer.SetState(BCPlayer.IDLE);
 	}
-	if( JUMPING == demon.GetState() )
+	if( JUMPING == BCPlayer.GetState() )
 	{
 		//cout << "Character is jumping...." << endl;
-		//demon.SetState(demon.IDLE);
+		//BCPlayer.SetState(BCPlayer.IDLE);
 	}
-	if( PUNCHING == demon.GetState() )
+	if( PUNCHING == BCPlayer.GetState() )
 	{
 		//cout << "Character is punching...." << endl;
-		//demon.SetState(demon.IDLE);
+		//BCPlayer.SetState(BCPlayer.IDLE);
 	}
-	if( GETTING_UP == demon.GetState() )
+	if( GETTING_UP == BCPlayer.GetState() )
 	{
 		//cout << "Character is getting up after falling...." << endl;
-		//demon.SetState(demon.IDLE);
+		//BCPlayer.SetState(BCPlayer.IDLE);
 	}
-	if( GETTING_HIT == demon.GetState() )
+	if( GETTING_HIT == BCPlayer.GetState() )
 	{
 		//cout << "Character is getting hit by the enemy...." << endl;
-		//demon.SetState(demon.IDLE);
+		//BCPlayer.SetState(BCPlayer.IDLE);
 	}
 	// checks which animation to play
 
@@ -259,79 +268,91 @@ void Demon::Update()
 		isKicking      = false;
 		//isJumping      = false;
 	}
-	if( this->isGettingUp )
-	{
-		// cout << "demon is getting backup from falling..." << endl;
-	}			
+	//if( this->isGettingUp )
+	//{
+	//	// cout << "BCPlayer is getting backup from falling..." << endl;
+	//}			
 	if( this->isHit )
 	{
-		//demon.Demon_Life--;
-		demon.isHit = false;
+		// Remove HP from character
+		// Alter characters position to indicate a pushback effect
+		// Reset isHit flag
+
+		if( BCPlayer.Health > 0 )
+		{
+			--BCPlayer.Health;
+			BCPlayer._Position.x = 0;
+		}
+		else
+		{
+			BCPlayer.Died();
+		}
+
+		BCPlayer.isHit = false;
 		ObjectController.WhichLifeToShow++;
 
-		if( demon.DemonHealth <= 50 )
-		{
-			if( ObjectController.WhichLifeToShow >= 6 )
-			{
-				ObjectController.WhichLifeToShow = 0;
-				demon.SetAliveState(DEAD);	
-				//demon.DieOneLife = true;
-				demon.isImmortal = true;
-				//demon.Demon_Dead = true;
-				gamestate.GameCondition = GS_DEAD;
-			}
-		}
+		//if( BCPlayer.Health <= 50 )
+		//{
+		//	if( ObjectController.WhichLifeToShow >= 6 )
+		//	{
+		//		ObjectController.WhichLifeToShow = 0;
+		//		BCPlayer.SetAliveState(DEAD);	
+		//		//BCPlayer.DieOneLife = true;
+		//		BCPlayer.isImmortal = true;
+		//		//BCPlayer.demon_Dead = true;
+		//		gamestate.State = GAME_PLAYER_DIED_STATE;
+		//	}
+		//}
 		/*
-		if( Demon::GetLives() == 3 )
+		if( BCPlayer::GetLives() == 3 )
 		{
 			LifeFull_Small = true;
 		}
-		else if( Demon::GetLives() == 2 )
+		else if( BCPlayer::GetLives() == 2 )
 		{
 			LifeFull_Small = false;
 			LifeMedium_Small = true;
 		}
-		else if( Demon::GetLives() == 1 )
+		else if( BCPlayer::GetLives() == 1 )
 		{
 			LifeMedium_Small = false;
 			LifeLittle_Small = true;
 		}
 						
-		if( Demon::GetLives() <= 0 )
+		if( BCPlayer::GetLives() <= 0 )
 		{
-			demon.Demon_Dead = true;
+			BCPlayer.demon_Dead = true;
 			gamestate.GameCondition = GS_DEAD;
 		}
 		*/
 	}
 
-	/*
-	if(!demon.isJumping)
-	{
-		demon.yPos = GROUND_Y;
-		demon.isJumping = false;
-	}
+	
+	//if(!BCPlayer.isJumping)
+	//{
+	//	BCPlayer.yPos = GROUND_Y;
+	//	BCPlayer.isJumping = false;
+	//}
 
-	if( demon.isJumping )
-	{
-		demon.JumpingSpeed--;
-		demon.JumpingVelocity = 2;
-		demon.JumpingGravity = 1;
-		demon.yPos -= demon.JumpingVelocity;
-		demon.JumpingVelocity -= demon.JumpingGravity;
+	//if( BCPlayer.isJumping )
+	//{
+	//	BCPlayer.JumpingSpeed--;
+	//	BCPlayer.JumpingVelocity = 2;
+	//	BCPlayer.JumpingGravity = 1;
+	//	BCPlayer.yPos -= BCPlayer.JumpingVelocity;
+	//	BCPlayer.JumpingVelocity -= BCPlayer.JumpingGravity;
 
-		if(demon.yPos > GROUND_Y)
-		{
-			demon.yPos = GROUND_Y;
-			demon.isJumping = false;
-			demon.JumpingVelocity = 2;
-		}
-	}
-	*/
+	//	if(BCPlayer.yPos > GROUND_Y)
+	//	{
+	//		BCPlayer.yPos = GROUND_Y;
+	//		BCPlayer.isJumping = false;
+	//		BCPlayer.JumpingVelocity = 2;
+	//	}
+	//}
 }
 
 
-void Demon::SetClips()
+void BaseCharacter::SetClips()
 {
 	int ArraySizeColumns = sizeof(AnimationArrays) / sizeof(AnimationArrays[0]);
 	int ArraySizeRows = sizeof(AnimationArrays[0]) / sizeof(AnimationArrays[0][0]);
@@ -339,47 +360,98 @@ void Demon::SetClips()
 	{
 		for( int Row = 0; Row < ArraySizeRows; Row++ )
 		{
-			demon.AnimationArrays[ Column ][ Row ].x = Row * this->_Position.w;//demon.Demon_Width;
-			demon.AnimationArrays[ Column ][ Row ].y = Column * this->_Position.h;//demon.Demon_Height;
-			demon.AnimationArrays[ Column ][ Row ].h = this->_Position.h;//demon.Demon_Height;
-			demon.AnimationArrays[ Column ][ Row ].w = this->_Position.w;//demon.Demon_Width;
+			BCPlayer.AnimationArrays[ Column ][ Row ].x = Row * this->_Position.w;//BCPlayer.demon_Width;
+			BCPlayer.AnimationArrays[ Column ][ Row ].y = Column * this->_Position.h;//BCPlayer.demon_Height;
+			BCPlayer.AnimationArrays[ Column ][ Row ].h = this->_Position.h;//BCPlayer.demon_Height;				  
+			BCPlayer.AnimationArrays[ Column ][ Row ].w = this->_Position.w;//BCPlayer.demon_Width;
 		}
 	}
 }
 
 
-void Demon::UpdatePosition(float xUnits, float yUnits)
+void BaseCharacter::UpdatePosition(float xUnits, float yUnits)
 {
-	this->_Position.x += xUnits * gamestate.dt;
-	this->_Position.y += xUnits * gamestate.dt;
-	//this->_Position.w = 64;//this->Demon_Width;
-	//this->_Position.h = 64;//this->Demon_Height;
+	this->_Position.x += xUnits * gamestate.DeltaTime;
+	this->_Position.y += xUnits * gamestate.DeltaTime;
+	//this->_Position.w = 64;//this->demon_Width;
+	//this->_Position.h = 64;//this->demon_Height;
 
-	this->_Position.x += xUnits * gamestate.dt;
-	this->_Position.y += yUnits * gamestate.dt;
+	this->_Position.x += xUnits * gamestate.DeltaTime;
+	this->_Position.y += yUnits * gamestate.DeltaTime;
 
 	
 	if( this->_Position.x < 0.0f )
 	{
-		// Bumps the character to the right a bit if the player isn't moving and to far to the left
-		this->_Position.x += 100.0f * gamestate.dt;
+		// Bumps the character to the right a bit if the BCPlayer isn't moving and to far to the left
+		this->_Position.x += 100.0f * gamestate.DeltaTime;
 	}
 	else
 	{
-		// Makes the character follow the parallax scrolling speed to make it look like he is standing still
-		this->_Position.x -= 2.0f * gamestate.dt;
+		if( !this->isMovingLeft || !this->isMovingRight || !this->isJumping )
+		{
+			// Makes the character follow the parallax scrolling speed to make it look like he is standing still
+			this->_Position.x -= 2.0f * gamestate.DeltaTime;
+		}
 	}
+					this->_Position.y = 0;
 }
 
 /*
-void Demon::SetLives(int Lives)
+void BCPlayer::SetLives(int Lives)
 {
 	_Lives = Lives;
 }
 
 
-int Demon::GetLives()
+int BCPlayer::GetLives()
 {
 	return _Lives;
 }
 */
+
+void BaseCharacter::Reset()
+{
+	this->isMovingRight = false;
+	this->isMovingLeft = false;
+	this->isJumping = false;
+	this->isKicking = false;
+	this->isPunching = false;
+	this->isImmortal = false;
+	this->isHit = false;
+	this->AlphaImmortal = SDL_ALPHA_OPAQUE;
+	this->Radius = 0;
+	this->RadiusFist = 0;
+	this->RadiusFeet = 0;
+	this->Health = 5;
+
+	this->Feet_W = 10;
+	this->Feet_H = 10;
+	this->Fist_W = 15;
+	this->Fist_H = 15;
+}
+
+void BaseCharacter::Died()
+{
+	gamestate.RestartGame();
+
+	SDL_Event input;
+
+	while( gamestate.State == GAME_PLAYER_DIED_STATE )
+	{
+		SDL_PollEvent( &input );
+		if( input.type == SDL_KEYDOWN )
+		{
+  			switch( input.key.keysym.sym )
+			{
+			case SDLK_SPACE:
+				gamestate.State = MENU_MAIN_STATE;
+				break;
+			}
+		}
+		Gfx.DrawBackgroundBlack();
+		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ), &Gfx.screen->clip_rect, Gfx.BackBuffer, &Gfx.screen->clip_rect );
+		Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space For Menu ", Gfx.WhiteRGB, Gfx.BlackRGB );
+		Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
+		//Gfx.FLIP();
+	}
+}

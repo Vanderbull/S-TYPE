@@ -36,3 +36,30 @@ Timers.cpp(cleaned)
 Timers.h(cleaned)
 BaseController.h(skipped)
 ConfigFileConverter.h(removed)
+
+-------------------------
+Object types
+-------------------------
+ThingsTodemon
+PowerUp
+Tree
+FireBall
+Coffin
+--------------------------
+When damaged then lower the alpha value so that
+the character gets transparent then slowly add to
+it so that the character gets none transparent again-
+
+---------
+STATES
+---------
+
+Create a working flow of states
+
+MENU_MAIN_STATE
+MENU_SUB_STATE
+GAME_RUNNING_STATE
+GAME_INTRO_STATE
+GAME_OUTRO_STATE
+GAME_PAUSED_STATE
+

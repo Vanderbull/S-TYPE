@@ -22,9 +22,9 @@ public:
 		DieFrameLeft, DieFrameRight, 
 		AnimCounter;
 
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+	bool Walk, Attack, Die, LeftOf_demon, RightOf_demon;
 
-	SDL_Rect SkeletonClips[ 4 ][ 14 ];
+	SDL_Rect Clips[ 4 ][ 14 ];
 
 private:
 };

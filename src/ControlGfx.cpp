@@ -25,9 +25,9 @@ ControlGfx::ControlGfx()
 	WhiteRGB.r = 255;
 	WhiteRGB.g = 255;
 	WhiteRGB.b = 255;
-	BlackRGB.r = 255;
-	BlackRGB.g = 255;
-	BlackRGB.b = 255;
+	BlackRGB.r = 0;
+	BlackRGB.g = 0;
+	BlackRGB.b = 0;
 }
 
 // loads image with chosen value to not show
@@ -41,29 +41,29 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r, int g, int b )
 
 	//load image 
 	loadedimage = IMG_Load( filename.c_str() );
-
+	int index = findAvailableIndex();
 	//if something went wrong
 	if( loadedimage != NULL )
 	{
 		//create an optimized image 
-		optimizedImage = SDL_DisplayFormat( loadedimage );
+		optimizedImage = SDL_DisplayFormatAlpha( loadedimage );
+		
+		if( index == -1 )
+		{
+			return -1;
+		}
 
+		m_surfaceList[ index ] =optimizedImage;
 		//free old image
 		SDL_FreeSurface( loadedimage );
 	}
 
-	if(optimizedImage != NULL)
-	{
-		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
-	}
+	//if(optimizedImage != NULL)
+	//{
+	//	SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
+	//}
 	
-	int index = findAvailableIndex();
-	if( index == -1 )
-	{
-		return -1;
-	}
 
-	m_surfaceList[ index ] = optimizedImage;
 	return index;
 }
 
@@ -191,7 +191,7 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 // ----------------------------------------------------------------------------
 // GetSurface() - gives backbuffer to destination buffer streches and all
 // ----------------------------------------------------------------------------
-void ControlGfx::FLIP()
+bool ControlGfx::FLIP()
 {
 	SDL_Rect srcRect = { 0, 0, Gfx.BackBuffer->w, Gfx.BackBuffer->h };
 	SDL_Rect destRect = { 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h };
@@ -201,8 +201,10 @@ void ControlGfx::FLIP()
 	//flips screen
 	if( SDL_Flip( Gfx.screen ) == -1)
 	{
-		gamestate.GameOK = false;
+		//gamestate.GameOK = false;
+		return false;
 	}
+	return true;
 }
 
 void ControlGfx::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
@@ -257,17 +259,17 @@ void ControlGfx::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* 
 
 void ControlGfx::DrawParallaxLayers()
 {
-	if( gamestate.GameCondition != GS_LEVEL1BOSS && gamestate.GameCondition != GS_OUTRO )
+	if( gamestate.State != GAME_BOSS_STATE && gamestate.State != GAME_OUTRO_STATE )
 	{
 		/*
-		if( demon.xVel >= STARTSCROLLING - 50 )
+		if( BCPlayer.xVel >= STARTSCROLLING - 50 )
 		{
 			// Updating the background to scroll when character is moving
-			if( demon.isMovingRight )
+			if( BCPlayer.isMovingRight )
 			{
 				gamestate.m_paralax += 20;
 			}
-			else if( demon.isMovingLeft )
+			else if( BCPlayer.isMovingLeft )
 			{
 				gamestate.m_paralax -= 20;
 			}
@@ -279,8 +281,8 @@ void ControlGfx::DrawParallaxLayers()
 	{
 		//if( !BossStart )
 		//{
-		//	//demon.DemonHunter = true;
-		//	//demon.SmallHunter = false;
+		//	//BCPlayer.demonHunter = true;
+		//	//BCPlayer.SmallHunter = false;
 		//	gamestate.pBoss = gamestate.CreateBoss( SDL_GetVideoSurface()->w - 180, GROUND_Y - 210, m_srfBoss );
 		//	BossStart = true;
 		//}
@@ -288,26 +290,26 @@ void ControlGfx::DrawParallaxLayers()
 
 		//// Draw parallax layers
 		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = gamestate.Parallax->getLayer( 0 );
+		MyParaBackGround = gamestate.ParallaxBG->getLayer( 0 );
 
 		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
 									MyParaBackGround->m_height };
 
 		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
-
+												
 		SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, Gfx.BackBuffer, &dtRect );
 		//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
 
 		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
 
 		int x = 0;
-		for( int i = 1; i < gamestate.Parallax->getLayerCount(); ++i )
+		for( int i = 1; i < gamestate.ParallaxBG->getLayerCount(); ++i )
 		{		
 			// Calc rects
-			MyParaBackGround = gamestate.Parallax->getLayer( i );
+			MyParaBackGround = gamestate.ParallaxBG->getLayer( i );
 			if( MyParaBackGround->m_surface == gamestate.m_srfClouds )
 			{
-				MyParaBackGround->AnimClouds += 100.0f * gamestate.dt;
+				MyParaBackGround->AnimClouds += 100.0f * gamestate.DeltaTime;
 
 				//////// Calc parallax position
 				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
@@ -327,7 +329,7 @@ void ControlGfx::DrawParallaxLayers()
 			{
 
 				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_parallax ) );  
+				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.Parallax ) );  
 				if( x < 0 )	// neg -> pos
 				{
 					x *= -1;	// invert sign, because % only works with positive integers
@@ -349,80 +351,48 @@ void ControlGfx::DrawParallaxLayers()
 				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY, 
 												MyParaBackGround->DW, MyParaBackGround->DH };
 
-				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, Gfx.BackBuffer, &destinationRect ); 			
+				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, Gfx.BackBuffer, &destinationRect );
+
 				//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
 				
 				
 				x += MyParaBackGround->m_width;
 			}
-
-
 			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
 
 		}
-		gamestate.m_parallax += 500 * gamestate.dt;
+						
+		//Scrolling the map
+		gamestate.Parallax += 500.0f * gamestate.DeltaTime;
+		if( gamestate.Parallax > Gfx.GetSurface( gamestate.m_srfCity )->w )
+		gamestate.State = GAME_OUTRO_STATE;
 }
 
 void ControlGfx::DrawSprite()
 {
-		//SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.Demon_Width, demon.Demon_Height };
-		//demonDest = demon.GetPosition();
-		if( demon.isImmortal )
-		{
-			if( demon.AlphaImmortal < SDL_ALPHA_OPAQUE - 100 )
-			{
-				demon.AlphaImmortal += 50;
-			}
-			else
-			{
-				demon.AlphaImmortal -= 50;
-			}
-			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
-		}
-		else
-		{
-			SDL_SetAlpha( Gfx.GetSurface( demon.DemonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
-		}
+		BCPlayer.Update();
 
-		
-			//Current_AnimArray = gamestate.WhichMorphType();
-			//Current_Frame = demon.UpdatePlayer();
-			//demon.UpdatePlayer();
-			demon.Update();
-		
-			// Rendering Demon Character
-			/*
-			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
-								&demon.AnimationArrays[ Current_AnimArray ][ Current_Frame ],
-								gamestate.BackBuffer, &demonDest );*/
-			if( gamestate.CurrentFrame == 3 )
-			{
-				gamestate.CurrentFrame = 0;
-			}
-			
-			SDL_BlitSurface(	Gfx.GetSurface( demon.DemonSurface ), 
-				&demon.AnimationArrays[ demon.GetState() ][ ++gamestate.CurrentFrame ],
-				Gfx.BackBuffer, &demon.GetPosition() );
-			/*
-			SDL_BlitSurface(	m_surfaceList[ emon.DemonSurface ], 
-				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
-								gamestate.BackBuffer, &demonDest );*/
+		//Gfx.SetAlpha( demon.Surface, 255 );
 
+		//Gfx.SetAlpha( demon.Surface, 255 );
+		SDL_BlitSurface(	Gfx.GetSurface( BCPlayer.Surface ), 
+			&BCPlayer.AnimationArrays[ BCPlayer.GetState() ][ BCPlayer.Animate() ],
+			Gfx.BackBuffer, &BCPlayer.GetPosition() );
 
-			gamestate.PreviousFrame = gamestate.CurrentFrame;
+		gamestate.PreviousFrame = gamestate.CurrentFrame;
 }
 // ----------------------------------------------------------------------------
 // DrawObjects() - Draws all objects, coffins, health etc.
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
-	if( gamestate.GameCondition == GS_LEVEL1BOSS )
+	if( gamestate.State == GAME_BOSS_STATE )
 	{
 		ObjectController.DrawObjects();
 	}
 	else
 	{						  
-		demon.Update();
+		BCPlayer.Update();
 		AnimalController.Draw_Animals();
 		EnemyController.Update();
 		EnemyController.Draw_Enemies();
@@ -450,9 +420,9 @@ void ControlGfx::DrawBoss()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawBackgroundBlack()
 {
-	if( gamestate.GameCondition == GS_OUTRO )
+	if( gamestate.State == GAME_OUTRO_STATE )
 	{
-		SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGB(Gfx.BackBuffer->format, 0,0,0));
+		SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 		/*
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
@@ -466,7 +436,7 @@ void ControlGfx::DrawBackgroundBlack()
 	}
 	else
 	{
-		SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGB(Gfx.BackBuffer->format, 0,0,0));
+		SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 		/*
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
@@ -489,4 +459,9 @@ void ControlGfx::DrawScore()
 	static int iScore = 0;
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 300, 0, SrfScore, Gfx.BackBuffer );
+}
+
+void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )
+{
+	SDL_SetAlpha( Gfx.GetSurface( _SurfaceIndex ), SDL_SRCALPHA | SDL_RLEACCEL, _Opacity );
 }

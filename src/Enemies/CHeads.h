@@ -37,7 +37,7 @@ public:
 		DieFrameLeft, DieFrameRight, 
 		AnimCounter;
 
-	bool Walk, Attack, Die, LeftOf_Demon, RightOf_Demon;
+	bool Walk, Attack, Die, LeftOf_demon, RightOf_demon;
 
 	SDL_Rect HeadClips[ 4 ][ 14 ];
 
