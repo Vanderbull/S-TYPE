@@ -138,8 +138,15 @@
     <ClInclude Include="src\DancingDragon.h" />
     <ClInclude Include="src\Enemies.h" />
     <ClInclude Include="src\Enemies\CDwarf.h" />
+    <ClInclude Include="src\Enemies\CGhost.h" />
     <ClInclude Include="src\Enemies\CHeads.h" />
+    <ClInclude Include="src\Enemies\CLizardMan.h" />
+    <ClInclude Include="src\Enemies\CMummy.h" />
+    <ClInclude Include="src\Enemies\CPixieLight.h" />
     <ClInclude Include="src\Enemies\CSkeleton.h" />
+    <ClInclude Include="src\Enemies\CSnake.h" />
+    <ClInclude Include="src\Enemies\CTroll.h" />
+    <ClInclude Include="src\Enemies\CZombie.h" />
     <ClInclude Include="src\Enemies\MovingThings.h" />
     <ClInclude Include="src\FirstScreen.h" />
     <ClInclude Include="src\Game.h" />

@@ -131,6 +131,27 @@
     <ClInclude Include="src\Enemies\CDwarf.h">
       <Filter>Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="src\Enemies\CGhost.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CLizardMan.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CMummy.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CPixieLight.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CSnake.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CTroll.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CZombie.h">
+      <Filter>Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">
