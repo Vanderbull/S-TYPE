@@ -14,7 +14,7 @@
 #include <list>
 #include "Enemies.h"
 #include <fstream>
-#include "Intro.h"
+//#include "Intro.h"
 #include "FirstScreen.h"
 #include "Collision.h"
 #include "OutroFinish.h"
@@ -93,7 +93,7 @@ public:
 	//TTF_Font * font;
 
 	//Boss * pBoss;
-	IntroTalk * Intro;
+	//IntroTalk * Intro;
 	Outro * outro;
 	StringInput * name;
 	FillHighScore * ListHighScore;

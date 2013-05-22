@@ -233,7 +233,7 @@ void Boss::UpdateBoss()
 	{
 		UpdateFrame();
 		if( GetFrame() == 5)
-		My_BossHead.push_back(	CreateBossHeads( xPos, yPos + 10, Surface, Length ) );
+			My_BossHead.push_back(	CreateBossHeads( _Position.x, _Position.y + 10, Surface, Length ) );
 	}
 
 	if( My_BossHead.size() != 0 )
@@ -242,11 +242,11 @@ void Boss::UpdateBoss()
 		{
 			if( (*i)->HowFar >= (*i)->length )
 			{
-				(*i)->yPos += HeadSpeed;
+				(*i)->_Position.y += HeadSpeed;
 			}
 			else
 			{
-				(*i)->xPos -= HeadSpeed;
+				(*i)->_Position.x -= HeadSpeed;
 				(*i)->HowFar += HeadSpeed;
 			}
 		}
@@ -259,12 +259,12 @@ void Boss::UpdateBoss()
 		vRemoveIterHead = My_BossHead.begin();
 		for( ; vRemoveIterHead != My_BossHead.end() ; ++vRemoveIterHead )
 		{
-			if( (*vRemoveIterHead)->xPos < 0.0f )
+			if( (*vRemoveIterHead)->_Position.x < 0.0f )
 			{
 				My_BossHead.remove( *vRemoveIterHead );
 				vRemoveIterHead = My_BossHead.begin();
 			}
-			if( (*vRemoveIterHead)->yPos > SDL_GetVideoSurface()->h )
+			if( (*vRemoveIterHead)->_Position.y > SDL_GetVideoSurface()->h )
 			{
 				My_BossHead.remove( *vRemoveIterHead );
 				vRemoveIterHead = My_BossHead.begin();
@@ -334,8 +334,8 @@ void Boss::UpdateBoss()
 				{
 					Length = 50;
 				}
-				My_BossHead.push_back(	CreateBossHeads(	xPos, 
-													yPos + 10, 
+				My_BossHead.push_back(	CreateBossHeads(	_Position.x, 
+													_Position.y + 10, 
 													Surface,
 													Length ) );
 				SizeHeads++;
@@ -432,7 +432,7 @@ void Boss::UpdateHeads()
 			{
 				temp->state = HEAD_DOWN;
 
-				if( temp->yPos > 500 )
+				if( temp->_Position.y > 500 )
 				{
 					temp->state = HEAD_CRASH;
 					if( temp->state == HEAD_CRASH )
@@ -472,17 +472,17 @@ void Boss::UpdateHeads()
 					}
 
 					float speed = 200.0f * ( gamestate.DeltaTime / 1000 );
-					temp->yPos += speed;
+					temp->_Position.y += speed;
 				}
 			}
 			else
 			{
 				float Speed = 250.0f * ( gamestate.DeltaTime / 1000 );
-				temp->xPos -= Speed;
+				temp->_Position.x -= Speed;
 				temp->HowFar += HowFarSpeed;
 			}
 
-			SDL_Rect HeadDest = { temp->xPos, temp->yPos, temp->Width, temp->Height };
+			SDL_Rect HeadDest = { temp->_Position.x, temp->_Position.y, temp->Width, temp->Height };
 			
 			SDL_BlitSurface(	Gfx.GetSurface( temp->Surface ), &temp->GetClips( temp->GetFrame() ),
 								Gfx.BackBuffer, &HeadDest );
@@ -502,8 +502,8 @@ void Boss::UpdateHeads()
 Heads * Boss::CreateBossHeads( int xPos, int yPos, int surface, int lengthOfTravel )
 {
 	Heads * temp = new Heads;
-	temp->xPos = xPos;
-	temp->yPos = yPos;
+	temp->_Position.x = xPos;
+	temp->_Position.y = yPos;
 	temp->Surface = surface;
 	temp->length = lengthOfTravel;
 
@@ -515,8 +515,8 @@ Heads * Boss::CreateBossHeads( int xPos, int yPos, int surface, int lengthOfTrav
 SDL_Rect Boss::ReturnDestRect()
 {
 	
-	SDL_Rect destRect = {	xPos, 
-							yPos,
+	SDL_Rect destRect = {	_Position.x, 
+							_Position.y,
 							Width,  
 							Height };
 	return destRect;
@@ -616,7 +616,7 @@ void Control_Enemies::Update()
 	while(i != Enemies.end() )
 	{
 		(*i)->Update();
-		if( (*i)->xPos <= 200 )
+		if( (*i)->_Position.x <= 200 )
 		{
 			i = Enemies.erase(i);
 		}
@@ -707,7 +707,7 @@ void Control_Enemies::Draw_Enemies()
 					(*i)->Walk = true;
 				}
 
-				SDL_Rect EnemyDest = {	(*i)->xPos, (*i)->yPos, 
+				SDL_Rect EnemyDest = {	(*i)->_Position.x, (*i)->_Position.y, 
 										Gfx.GetSurface( DWARF )->w, 
 										Gfx.GetSurface( DWARF )->h }; 
 
@@ -716,7 +716,7 @@ void Control_Enemies::Draw_Enemies()
 				if( FrameCounter > 13)
 					FrameCounter = 0;
 
-				if(  (*i)->xPos < 0 )
+				if(  (*i)->_Position.x < 0 )
 				{
 					//vRemoveEnemy.push_back( (*i) );
 				}
@@ -726,7 +726,7 @@ void Control_Enemies::Draw_Enemies()
 					{
 						if( Collide == false )
 						{
-							(*i)->xPos -= (*i)->Speed * gamestate.DeltaTime;
+							(*i)->_Position.x -= (*i)->Speed * gamestate.DeltaTime;
 						}
 									 
 						SDL_BlitSurface(	Gfx.GetSurface( (*i)->Surface ),&(*i)->DwarfClips[ 0 ][ FrameCounter++ ], 
@@ -736,7 +736,7 @@ void Control_Enemies::Draw_Enemies()
 					{
 						if( Collide == false )
 						{
-							(*i)->xPos -= (*i)->Speed * gamestate.DeltaTime;
+							(*i)->_Position.x -= (*i)->Speed * gamestate.DeltaTime;
 						}
 						
 						SDL_BlitSurface(	Gfx.GetSurface( (*i)->Surface ), &(*i)->SkeletonClips[ 0 ][ FrameCounter++ ],
@@ -762,8 +762,8 @@ CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 	temp->AnimCounter = 1;
 	temp->PrevFrame = 0;
 	
-	temp->xPos = xPos;
-	temp->yPos = yPos;
+	temp->_Position.x = xPos;
+	temp->_Position.y = yPos;
 
 	temp->Height = 96;
 	temp->Width = 96;

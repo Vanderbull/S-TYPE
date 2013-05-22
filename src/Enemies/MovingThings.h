@@ -5,7 +5,7 @@
 class MovingThings
 {
 public:
-	float xPos, yPos;
+	//float xPos, yPos;
 	int Frame;
 	int Radius;
 	int Width, Height;
@@ -13,4 +13,5 @@ public:
 	
 	int Surface;
 	SDL_Rect Clips[ 16 ];
+	SDL_Rect _Position;
 };

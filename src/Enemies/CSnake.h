@@ -13,16 +13,13 @@ public:
 	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
 	void SetFrame();
 
-	int xPos, yPos;
-	int Width, Height;
-	int Surface;
-	int PrevFrame, Frame, Radius, 
-		WalkFrameLeft, WalkFrameRight, 
-		AttackFrameRight, AttackFrameLeft, 
-		DieFrameLeft, DieFrameRight, 
-		AnimCounter;
+	//int PrevFrame, Frame, Radius, 
+	//	WalkFrameLeft, WalkFrameRight, 
+	//	AttackFrameRight, AttackFrameLeft, 
+	//	DieFrameLeft, DieFrameRight, 
+	//	AnimCounter;
 
-	bool Walk, Attack, Die, LeftOf_demon, RightOf_demon;
+	//bool Walk, Attack, Die, LeftOf_demon, RightOf_demon;
 
 	SDL_Rect Clips[ 4 ][ 14 ];
 

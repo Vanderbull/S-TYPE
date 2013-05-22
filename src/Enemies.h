@@ -94,8 +94,8 @@ public:
 	}
 	void Update()
 	{
-		CEnemy::_Position.x = CEnemy::xPos;
-		CEnemy::_Position.y = CEnemy::yPos;
+		//CEnemy::_Position.x = CEnemy::xPos;
+		//CEnemy::_Position.y = CEnemy::yPos;
 		CEnemy::_Position.w = CEnemy::Width;
 		CEnemy::_Position.h = CEnemy::Height;
 	}
@@ -117,7 +117,6 @@ public:
 	SDL_Rect DwarfClips[ 4 ][ 14 ];
 
 private:
-		SDL_Rect _Position;
 };
 
 class Heads : public MovingThings

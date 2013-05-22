@@ -36,6 +36,11 @@ double CalcAverageTick(int newtick)
 
 int main( int argc, char * arg[] )
 {
+	putenv("SDL_VIDEO_WINDOW_POS=center");
+	putenv("SDL_VIDEO_CENTERED=1");
+	ShellExecute(NULL, "open", "C:\\Users\\149999risk\\Documents\\GitHub\\SDLDemonhunter\\0000-0200.exe","", "", SW_SHOW );
+	Sleep(8000);
+
 	srand( time( 0 ) );
 	SDL_Event event = {0};
 	int timeOfEvent = 0;

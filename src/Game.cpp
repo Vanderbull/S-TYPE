@@ -42,7 +42,7 @@ Gamestate::Gamestate()
 	gBoss.SetSurface(1);
 
 	//pBoss = NULL; // Pointer to Boss object
-	Intro = NULL; // Pointer to introtalk object
+	//Intro = NULL; // Pointer to introtalk object
 	outro = NULL; // Pointer to outro object
 	//font = NULL;  //Pointer to font
 	//srfText = NULL;	// Pointer to Text surface
@@ -390,7 +390,7 @@ void Gamestate::CreateNewThings()
 {
 	Dragon = new DancingDragon( m_srfDragon );
 	TitleScreen = new FirstScreen( 290,  m_srfStart, m_srfButtons ); 
-	Intro = new IntroTalk( gamestate.m_srfIntro );
+	//Intro = new IntroTalk( gamestate.m_srfIntro );
 	name = new StringInput();
 	ListHighScore = new FillHighScore();
 }
@@ -421,8 +421,8 @@ Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 {
 	Boss * temp = new Boss;
 	temp->Surface = surface;
-	temp->xPos = xPos;
-	temp->yPos = yPos;
+	temp->_Position.x = xPos;
+	temp->_Position.y = yPos;
 
 	temp->Radius = ( temp->BossWidth > temp->BossHeight ) ? temp->BossWidth / 2 : temp->BossHeight  / 2;
 
@@ -637,7 +637,6 @@ void Game::Update( SDL_Event input )
 	// Check game state
 	switch( gamestate.State )
 	{
-		// Intro sequence
 		case MENU_MAIN_STATE:
 			{
 				//Handle_events( input );
@@ -898,7 +897,7 @@ void Gamestate::PlayOutro()
 // ----------------------------------------------------------------------------
 void Gamestate::DoIntroTalk()
 {
-	Intro->Story();
+	//Intro->Story();
 	//Intro->DoTalk();
 }
 
@@ -1388,10 +1387,10 @@ void Gamestate::ResetRest()
 	{
 		delete TitleScreen;
 	}
-	if( Intro != NULL )
-	{
-		delete Intro;
-	}
+	//if( Intro != NULL )
+	//{
+	//	delete Intro;
+	//}
 	if( ListHighScore != NULL )
 	{
 		delete ListHighScore;
@@ -1408,10 +1407,10 @@ void Gamestate::EndAll()
 		SDL_FreeSurface( m_surfaceList[ i ] );
 	}
 
-	if( gamestate.Intro != NULL )
-	{
-		delete Intro;
-	}
+	//if( gamestate.Intro != NULL )
+	//{
+	//	delete Intro;
+	//}
 	//if( gamestate.pBoss != NULL )
 	//{
 	//	delete gamestate.pBoss;

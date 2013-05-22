@@ -7,8 +7,8 @@ ControlCollision CollisionController;
 bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show = true )
 {
 	// Cache
-	double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-			dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
+	double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 
 	double	dx1 = 0,
 			dy1 = 0;
@@ -21,28 +21,28 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy,
 			if( BCPlayer.isMovingRight )
 			{
 				// Cache
-				dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) + 60 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-				dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
+				dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) + 60 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+				dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 			}
 			else
 			{
 				// Cache
-				dx1 = ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-				dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
+				dx1 = ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+				dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 			}
 		}
 		else
 		{
 			// Cache
-			dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 )+ 15 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-			dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 80 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
+			dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 )+ 15 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 80 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 		}
 
 		if( BCPlayer.isPunching )
 		{
 			// Cache
-			dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 55 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-			dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
+			dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 55 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
 			if( dist3 < Mydemon->Radius + MyEnemy->Radius )
 			{
@@ -52,8 +52,8 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy,
 		else
 		{
 			// Cache
-			dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 20 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-			dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
+			dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 20 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
 			if( dist3 < Mydemon->Radius + MyEnemy->Radius )
 			{
@@ -111,11 +111,11 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead
 	if( BCPlayer.isMovingLeft == true )
 	{
 		// Cache
-		double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 70) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 + 18) ),
-				dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 +35) );
+		double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 70) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+				dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
-		double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 25) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 + 18) ),
-				dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 +35) );
+		double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 25) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+				dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
 		int dist = ( int )sqrt( dx * dx + dy * dy );
 		int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
@@ -129,11 +129,11 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead
 	else
 	{
 		// Cache
-		double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 20) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 + 18) ),
-				dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 +35) );
+		double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 20) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+				dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
-		double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 5) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 + 18) ),
-				dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 +35) );
+		double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 5) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+				dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
 		int dist = ( int )sqrt( dx * dx + dy * dy );
 		int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
@@ -185,11 +185,11 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead
 bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bool Show = true )
 {
 	// Cache
-	double	dx =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 100 ) ),
-			dy =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->yPos + Myboss->BossHeight / 2 - 30 ) );
+	double	dx =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->_Position.x + Myboss->BossWidth / 2 + 100 ) ),
+			dy =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->_Position.y + Myboss->BossHeight / 2 - 30 ) );
 
-	double  dx1 =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 95 ) ),
-			dy1 =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->yPos + Myboss->BossHeight / 2 + 220 ) );
+	double  dx1 =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->_Position.x + Myboss->BossWidth / 2 + 95 ) ),
+			dy1 =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->_Position.y + Myboss->BossHeight / 2 + 220 ) );
 
 	// test boss against the triangle attack and the BCPlayer itself.
 	/*
@@ -241,11 +241,11 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bo
 bool ControlCollision::CollisionCircle( Fireball *MyFire, Boss *My_boss, bool Show = true)
 {
 	// Cache
-	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( My_boss->xPos + My_boss->BossWidth / 2 + 100 ) ),
-			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( My_boss->yPos + My_boss->BossHeight/ 2 - 30) );
+	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( My_boss->_Position.x + My_boss->BossWidth / 2 + 100 ) ),
+			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( My_boss->_Position.y + My_boss->BossHeight/ 2 - 30) );
 	
-	double	dx1 = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( My_boss->xPos + My_boss->BossWidth / 2 + 95 ) ),
-			dy1 = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( My_boss->yPos + My_boss->BossHeight  / 2 + 220 ) );
+	double	dx1 = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( My_boss->_Position.x + My_boss->BossWidth / 2 + 95 ) ),
+			dy1 = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( My_boss->_Position.y + My_boss->BossHeight  / 2 + 220 ) );
 	
 	if( Show )
 	{
@@ -270,8 +270,8 @@ bool ControlCollision::CollisionCircle( Fireball *MyFire, Boss *My_boss, bool Sh
 bool ControlCollision::CollisionCircle( Fireball *MyFire, Heads *EnemyHead, bool Show = true )
 {
 	// Cache
- 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( EnemyHead->xPos + EnemyHead->HeadWidth / 2 ) ),
-			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( EnemyHead->yPos + EnemyHead->HeadHeight / 2 ) );
+ 	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 ) ),
+			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 ) );
 	
 	if( Show )
 	{
@@ -294,8 +294,8 @@ bool ControlCollision::CollisionCircle( Fireball *MyFire, Heads *EnemyHead, bool
 bool ControlCollision::CollisionCircle( Fireball *MyFire, CEnemy * MyEnemy, bool Show = true)
 {
 	// Cache
-	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( MyEnemy->xPos + MyEnemy->Width / 2 ) ),
-			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( MyEnemy->yPos + MyEnemy->Height / 2 ) );
+	double	dx = ( ( MyFire->xPos + MyFire->Width / 2 - 10 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			dy = ( ( MyFire->yPos + MyFire->Height / 2 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 	
 	if( Show )
 	{
