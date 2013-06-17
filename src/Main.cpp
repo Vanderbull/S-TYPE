@@ -1,6 +1,6 @@
 #include <cmath>
 #include <queue>
-#include <vld.h>
+//#include <vld.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
