@@ -25,9 +25,6 @@
     <ClCompile Include="src\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\FirstScreen.cpp">
-      <Filter>FirstScreen</Filter>
-    </ClCompile>
     <ClCompile Include="src\GetInput.cpp">
       <Filter>GetInput</Filter>
     </ClCompile>
@@ -61,6 +58,9 @@
     <ClCompile Include="src\World\CWorld.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="src\MainMenu.cpp">
+      <Filter>MainMenu</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -87,9 +87,6 @@
     <ClInclude Include="src\Game.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\FirstScreen.h">
-      <Filter>FirstScreen</Filter>
-    </ClInclude>
     <ClInclude Include="src\GetInput.h">
       <Filter>GetInput</Filter>
     </ClInclude>
@@ -108,7 +105,6 @@
     <ClInclude Include="src\OutroFinish.h">
       <Filter>OutroFinished</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\Paralaxlayers.h">
       <Filter>ParallaxLayers</Filter>
     </ClInclude>
@@ -152,6 +148,12 @@
     <ClInclude Include="src\Enemies\CZombie.h">
       <Filter>Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="src\MainMenu.h">
+      <Filter>MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">
@@ -177,9 +179,6 @@
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{84dd5aa4-eb8d-4e19-9bdc-55544e0a4f29}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FirstScreen">
-      <UniqueIdentifier>{67d9a765-4e40-43b2-bafd-8b3d275e40fc}</UniqueIdentifier>
     </Filter>
     <Filter Include="GetInput">
       <UniqueIdentifier>{b493b229-983e-4607-ab04-3c88c8acb3d5}</UniqueIdentifier>
@@ -208,8 +207,16 @@
     <Filter Include="World">
       <UniqueIdentifier>{6f899a7f-da15-486f-b733-00d71c55b154}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MainMenu">
+      <UniqueIdentifier>{67d9a765-4e40-43b2-bafd-8b3d275e40fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{ce71be52-268c-4150-90ac-fd4f7705cc94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="src\Demon Hunter.rc" />
+    <ResourceCompile Include="src\resource.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

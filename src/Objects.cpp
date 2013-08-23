@@ -525,8 +525,9 @@ void ControlObject::DrawObjects()
 	//}
 
 	// x,y,w,h
-	SDL_Rect srfHealth = {192*BCPlayer.Health,0,192,64};
-	SDL_Rect Viewport_srfHealth = {0,0,192,64};
+	BCPlayer._HealthPoints = 3;
+	SDL_Rect srfHealth = {0,0,64*BCPlayer._HealthPoints,64};
+	SDL_Rect Viewport_srfHealth = {0,0,64*BCPlayer._HealthPoints,64};
 
 	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfHealth ), &srfHealth,
 					Gfx.BackBuffer, &Viewport_srfHealth );

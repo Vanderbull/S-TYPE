@@ -417,13 +417,13 @@ void Boss::UpdateHeads()
 				}
 				else
 				{
-					if( timer.Hit > 3 && BCPlayer.isImmortal == false )
-					{
-						timer.Hit = 0;
-						BCPlayer.isHit = true;
+					//if( timer.Hit > 3 && BCPlayer.isImmortal == false )
+					//{
+						//timer.Hit = 0;
+						//BCPlayer.isHit = true;
 						//BCPlayer.Health--;
-					}
-					timer.Hit++;
+					//}
+					//timer.Hit++;
 				}
 
 			}
@@ -679,26 +679,26 @@ void Control_Enemies::Draw_Enemies()
 					//demon.isHit = true;
 					if( (*i)->Surface == 8 )
 					{
-						timer.Hit++;
+						//timer.Hit++;
 						//BCPlayer.Health--;
-						if( timer.Hit > 3 && BCPlayer.isImmortal == false )
-						{
-							timer.Hit = 0;
-							BCPlayer.isHit = true;
-						}
+						//if( timer.Hit > 3 && BCPlayer.isImmortal == false )
+						//{
+							//timer.Hit = 0;
+							//BCPlayer.isHit = true;
+						//}
 						(*i)->Attack = true;
 
 					}
 					else
 					{
-						timer.Hit++;
+						//timer.Hit++;
 						//BCPlayer.Health--;
 							
-						if( timer.Hit > 3 && BCPlayer.isImmortal == false )
-						{
-							timer.Hit = 0;
-							BCPlayer.isHit = true;
-						}	
+						//if( timer.Hit > 3 && BCPlayer.isImmortal == false )
+						//{
+							//timer.Hit = 0;
+							//BCPlayer.isHit = true;
+						//}	
 					}		
 				}
 				if( (*i)->Frame == 18 || (*i)->Frame == 46 )

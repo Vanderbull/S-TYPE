@@ -7,24 +7,24 @@ ControlAnimals AnimalController;
 
 void Animal::Setframe()
 {	
-	if( Frame == 15 )
+	if( Frame >= 15 )
 	{
 		Frame = 0;
 	}
-	else
-	{
-		Frame++;
-	}
+	//else
+	//{
+	//	Frame++;
+	//}
 }
 void Animal::Update()
 {
-	this->xPos -= (500.0f * gamestate.DeltaTime);
+	this->xPos -= 0.0010f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
 	this->Destination.h = this->Height;
 	this->Destination.w = this->Width;
 	this->Destination.x = this->xPos;
 	this->Destination.y = this->yPos; 
 
-	this->PrevFrame = this->Frame;
+	this->PrevFrame = this->Frame++;
 	this->Setframe();
 }
 
@@ -35,7 +35,7 @@ void Animal::Draw()
 		&this->Clips[ this->PrevFrame ], 
 		Gfx.BackBuffer, 
 		&this->GetDestination() 
-		);
+	);
 }
 
 SDL_Rect Animal::GetDestination()
@@ -61,8 +61,6 @@ Animal::Animal()
 
 void ControlAnimals::Draw_Animals()
 {
-	float Speed = 2.5f;//2000.0f * ( gamestate.DeltaTime / 1000.0f );
-
  	list< Animal* >::iterator i;
 	/*
 	i = My_Animals.begin();
@@ -83,59 +81,63 @@ void ControlAnimals::Draw_Animals()
 	while(i != My_Animals.end() )
 	{
 		(*i)->Update();
-
 		(*i)->Draw();
-		if( (*i)->xPos <= 0.0f )
+		
+		if( (*i)->xPos <= 0.0f - (*i)->Width )
+		{
 			i = My_Animals.erase(i);
+		}
 		else
+		{
 			++i;
-		/*
-		(*i)->xPos -= Speed;
+		}
+
 		
+		//(*i)->xPos -= Speed;
+		//
+		//
+		//SDL_Rect CrowDest = (*i)->GetDestination();
+		//
+		//SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->Clips[ (*i)->PrevFrame ], 
+		//	gamestate.BackBuffer, &(*i)->GetDestination() );
+		//
+		//(*i)->Setframe();
+		//(*i)->PrevFrame = (*i)->Frame;
 		
-		SDL_Rect CrowDest = (*i)->GetDestination();
-		
-		SDL_BlitSurface(	gamestate.GetSurface( (*i)->Surface ),&(*i)->Clips[ (*i)->PrevFrame ], 
-			gamestate.BackBuffer, &(*i)->GetDestination() );
-			*/
-		/*
-		(*i)->Setframe();
-		(*i)->PrevFrame = (*i)->Frame;
-		*/
 		//++i;
 	}
 
 	// Draws the Crow and sets the frame
-	/*
-	if( My_Animals.size() != 0 )
-	{
-		//list< Animal* >::iterator i = My_Animals.begin();
-		for( ; i != My_Animals.end(); ++i )
-		{
-			Animal * animal = (*i);
-			
-			animal->xPos -= Speed;
+	
+	//if( My_Animals.size() != 0 )
+	//{
+	//	//list< Animal* >::iterator i = My_Animals.begin();
+	//	for( ; i != My_Animals.end(); ++i )
+	//	{
+	//		Animal * animal = (*i);
+	//		
+	//		animal->xPos -= Speed;
 
-			SDL_Rect CrowDest = {	animal->xPos, animal->yPos, 	
-									animal->Width, 
-									animal->Height };  
+	//		SDL_Rect CrowDest = {	animal->xPos, animal->yPos, 	
+	//								animal->Width, 
+	//								animal->Height };  
 
-														
-			if( gamestate.OK_PaceEnemy() )
-			{
-				SDL_BlitSurface(	gamestate.GetSurface( animal->Surface ),&animal->Clips[ animal->Frame ], 
-									gamestate.BackBuffer, &CrowDest );
-				animal->Setframe();
-				animal->PrevFrameCrow = animal->Frame;
-			}
-			else
-			{
-							
-				SDL_BlitSurface(	gamestate.GetSurface( animal->Surface ),&animal->Clips[ animal->PrevFrameCrow ], 
-									gamestate.BackBuffer, &CrowDest );
-			}
-		}
-	}*/
+	//													
+	//		if( gamestate.OK_PaceEnemy() )
+	//		{
+	//			SDL_BlitSurface(	gamestate.GetSurface( animal->Surface ),&animal->Clips[ animal->Frame ], 
+	//								gamestate.BackBuffer, &CrowDest );
+	//			animal->Setframe();
+	//			animal->PrevFrameCrow = animal->Frame;
+	//		}
+	//		else
+	//		{
+	//						
+	//			SDL_BlitSurface(	gamestate.GetSurface( animal->Surface ),&animal->Clips[ animal->PrevFrameCrow ], 
+	//								gamestate.BackBuffer, &CrowDest );
+	//		}
+	//	}
+	//}
 }
 
 Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
@@ -152,8 +154,11 @@ Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
   
 void ControlAnimals::Create_Animals()
 {
-	if( My_Animals.size() < rand() % 25 )
-	My_Animals.push_back( CreateAnimal( SDL_GetVideoSurface()->w, 75 + ( rand() % Turf ) , gamestate.m_srfCrow ) );
+	if( My_Animals.size() < rand() % 5 )
+	{
+		//cout << "Creating animals..." << endl;
+		My_Animals.push_back( CreateAnimal( SDL_GetVideoSurface()->w, 75 + ( rand() % Turf ) , gamestate.m_srfCrow ) );
+	}
 }
 
 ControlAnimals::ControlAnimals()
@@ -163,5 +168,5 @@ ControlAnimals::ControlAnimals()
 
 ControlAnimals::~ControlAnimals()
 {
-	cout << "Destroying the Animal Controller" << endl;
+	cout << "Destroying the Animal Controller..." << endl;
 }

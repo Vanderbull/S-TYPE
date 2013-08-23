@@ -15,7 +15,7 @@
 #include "Enemies.h"
 #include <fstream>
 //#include "Intro.h"
-#include "FirstScreen.h"
+#include "MainMenu.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -71,7 +71,7 @@ public:
 	
 	ParallaxBackground *ParallaxBG;
 
-	int CurrentFrame, PreviousFrame;	
+	//int CurrentFrame, PreviousFrame;	
 	//int GameCondition;
 	int State;
 
@@ -98,7 +98,7 @@ public:
 	StringInput * name;
 	FillHighScore * ListHighScore;
 	DancingDragon * Dragon;
-	FirstScreen * TitleScreen;
+	MainMenu * TitleScreen;
 
 	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
 		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
@@ -134,7 +134,7 @@ public:
 	void MorphMyDude();
 	void EndAll();
 	
-	void MainScreen();
+	void MainScreen(int iElapsedTime);
 	void EnterName();
 	//void DrawSprite();
 	//void DrawObjects();
@@ -179,15 +179,19 @@ class Game
 public:
 	Game();
 	void Audiotonic();
-	void Update( SDL_Event input );
+	void Update( SDL_Event input, int iElapsedTime );
 	bool Init( SDL_Surface * &screen );
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
 
 	bool Quit;
 	int LevelProgress;
+	int MouseXCoordinates; // the last recorded x coordinate of the mouse
+	int MouseYCoordinates; // the last recorded y coordinate of the mouse
+
 private:
 	Gamestate _State;
 	World _World;
+
 };
 

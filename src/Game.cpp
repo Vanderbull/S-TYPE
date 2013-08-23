@@ -10,6 +10,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
+
 #include "Game.h"
 #include "characters.h"
 #include "ControlGfx.h"
@@ -18,7 +19,7 @@
 #include "TImers.h"
 #include "Paralaxlayers.h"
 #include "Animals.h"
-#include "FirstScreen.h"
+#include "MainMenu.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -47,8 +48,8 @@ Gamestate::Gamestate()
 	//font = NULL;  //Pointer to font
 	//srfText = NULL;	// Pointer to Text surface
 
-	PreviousFrame = 0;
-	CurrentFrame = 0;
+	//PreviousFrame = 0;
+	//CurrentFrame = 0;
 	//m_parallax = 0;
 	Parallax = 0.0f;
 	//LevelProgress = 0;
@@ -91,30 +92,27 @@ void Game::HandleEvents( SDL_Event _event )
 		{
 		case SDLK_RIGHT:
 			{
-				cout << "Released the RIGHT arrow key" << endl;
-				BCPlayer.isMovingRight = false;
-				BCPlayer.isMovingLeft = false;
+				BCPlayer.xVelocity = 0.0f;
 			} break;
 		case SDLK_LEFT:
 			{
-				cout << "Released the LEFT arrow key" << endl;
-				BCPlayer.isMovingRight = false;
-				BCPlayer.isMovingLeft = false;
+				BCPlayer.xVelocity = 0.0f;
 			} break;
 		case SDLK_UP:
 			{
-				cout << "Released the UP arrow key" << endl;
-				//BCPlayer.isJumping = false;
+				BCPlayer.yVelocity = 0.0f;
+			} break;
+		case SDLK_DOWN:
+			{
+				BCPlayer.yVelocity = 0.0f;
 			} break;
 		case SDLK_SPACE:
 			{
 				cout << "Released SPACEBAR key" << endl;
-				BCPlayer.isKicking = false;
 			} break;
 		case SDLK_LALT:
 			{
 				cout << "Released the LEFT ALT key" << endl;
-				BCPlayer.isPunching = false;
 			} break;
 		}
 	}
@@ -128,73 +126,31 @@ void Game::HandleEvents( SDL_Event _event )
 		{
 		case SDLK_RIGHT:
 			{
-				cout << "Pressing down right arrow" << endl;
-				BCPlayer.SetState(BaseCharacter::State::MOVING_RIGHT);
-				if( BCPlayer.isHit == false && BCPlayer.isKicking == false && BCPlayer.isPunching == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
-				{	
-					BCPlayer.isMovingRight = true;
-				}
+				BCPlayer.AddAction("RIGHT");
+				BCPlayer.xVelocity = 10.0f;
 			} break;
 		case SDLK_LEFT:
 			{
-				cout << "Pressing down left arrow" << endl;
-				BCPlayer.SetState(BaseCharacter::State::MOVING_LEFT);
-				if( BCPlayer.isHit == false && BCPlayer.isKicking == false && BCPlayer.isPunching == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
-				{
-					BCPlayer.isMovingLeft = true;
-				}
+				BCPlayer.AddAction("LEFT");
+				BCPlayer.xVelocity = -10.0f;
 			} break;
 		case SDLK_UP:
 			{
-				if( BCPlayer.GetPosition().y == GROUND_Y )
-				{
-					BCPlayer.yVelocity = 10.0f;
-					BCPlayer.isJumping = true;
-				}
-				//cout << "Pressing down up arrow" << endl;
-				//if( !BCPlayer.isJumping )
-				//{
-				//	BCPlayer.SetState(BCPlayer::State::JUMPING);
-				//}
-
-				//if( BCPlayer.isHit == false && BCPlayer.isPunching == false && BCPlayer.isKicking == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
-				//{
-				//	BCPlayer.isJumping = true;
-				//}
+				BCPlayer.AddAction("UP");
+				BCPlayer.yVelocity = 10.0f;
+			} break;
+		case SDLK_DOWN:
+			{
+				BCPlayer.AddAction("DOWN");
+				BCPlayer.yVelocity = -10.0f;
 			} break;
 		case SDLK_SPACE:
 			{
-				cout << "Pressing down spacebar arrow" << endl;
-				BCPlayer.SetState(BaseCharacter::State::KICKING);
-				if( BCPlayer.isHit == false && BCPlayer.isPunching == false && BCPlayer.isKicking == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
-				{
-					/*
-					if( BCPlayer.demonHunter == true )
-					{
-						
-						if( timer.Timer_FireBall > 15 )
-						{
-							timer.Timer_FireBall = 0;
-							BCPlayer.isKicking = true;
-							break;
-						}
-
-						break;
-					}
-					 */
-					BCPlayer.isKicking = true;
-											
-					break;
-				}
+				BCPlayer.AddAction("FIRE");
 			} break;
 		case SDLK_LALT:
 			{
-				cout << "Pressing down lalt arrow" << endl;
-				BCPlayer.SetState(BaseCharacter::State::PUNCHING);
-				if( BCPlayer.isHit == false && BCPlayer.isPunching == false && BCPlayer.isKicking == false && BCPlayer.isJumping == false && BCPlayer.GetPosition().y == GROUND_Y )
-				{
-					BCPlayer.isPunching = true;
-				}
+				BCPlayer.AddAction("FIRE_SPECIAL");
 			} break;
 		case SDLK_BACKSPACE:
 			{
@@ -205,32 +161,48 @@ void Game::HandleEvents( SDL_Event _event )
 			} break;
 		case SDLK_RETURN:
 			{
-				//if( gamestate.State == GS_ENTERNAME )
-				//{
-				//	gamestate.State = GAME_STORY_STATE;
-				//}
+				BCPlayer.AddAction("RETURN");
 			} break;
 		default:
 			{
-				//if( gamestate.State == GS_ENTERNAME )
-				//{
-				//	gamestate.demonName +=  _event.key.keysym.unicode;
-				//}
+				BCPlayer.AddAction("DEFAULT");
 			}
 		}
 	}
 	else
 	{
-		cout << "no key presses or releases are made" << endl;
+		//cout << "no key presses or releases are made" << endl;
 		BCPlayer.SetState(BaseCharacter::State::IDLE);
 	}
 	// if intro checks mouseposition and checks for presses
 	if( gamestate.State == MENU_MAIN_STATE )
 	{
+		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
+		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+		for( int i = 0; i < 8; i++ )
+		{
+			if(MouseXCoordinates > gamestate.TitleScreen->DestClips[ i ].x && 
+			MouseXCoordinates < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
+			MouseYCoordinates > gamestate.TitleScreen->DestClips[ i ].y &&
+			MouseYCoordinates < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+			{
+				cout << "Entering button " << i << "..." << endl;
+			}
+		}
 		if( _event.type == SDL_MOUSEBUTTONDOWN )
 		{
-			if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1))
-				cout << "Mouse Button 1(left) is pressed." << endl;
+			for( int i = 4; i < 8; i++ )
+			{
+					if( _event.button.x > gamestate.TitleScreen->DestClips[ i ].x && 
+					_event.button.x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
+					_event.button.y > gamestate.TitleScreen->DestClips[ i ].y &&
+					_event.button.y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+					{
+						cout << "Hit button..." << endl;
+					}
+			}
+			//if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1))
+			//	cout << "Mouse Button 1(left) is pressed." << endl;
 			if( gamestate.TitleScreen->ButtonOptions == true )
 			{
 				for( int i = 4; i < 8; i++ )
@@ -255,7 +227,7 @@ void Game::HandleEvents( SDL_Event _event )
 			}
 			else
 			{
-				// checks if musebutton is pressed at newgame, options or quit
+				// checks if mousebutton is pressed at newgame, options or quit
 				for( int i = 0; i < 3; i++ )
 				{
 					if( _event.button.x > gamestate.TitleScreen->DestClips[ i ].x && 
@@ -265,9 +237,9 @@ void Game::HandleEvents( SDL_Event _event )
 					{
 						switch( i )
 						{
-							case BUTTON_NEW_GAME: cout << "Hoovering new game" << endl ; break;
-							case BUTTON_OPTIONS: cout << "Hoovering optins button" << endl; break;
-							case BUTTON_QUIT: Game::Quit = true; break;
+							case BUTTON_NEW_GAME: cout << "Hoovering new game button" << endl ; break;
+							case BUTTON_OPTIONS: cout << "Hoovering options button" << endl; break;
+							case BUTTON_QUIT: cout << "Hoovering quit button" << endl; Game::Quit = true; break;
 						}
 						if( _event.type == SDL_MOUSEBUTTONDOWN )
 						{
@@ -292,6 +264,7 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
+	cout << "Resetting Level progress to 0..." << endl;
 	LevelProgress = 0;
 	Quit = false;
 	/*
@@ -329,7 +302,7 @@ void Gamestate::load_files()
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
 	m_srfSky = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
 	m_srfTrees = Gfx.Load_imageAlpha( "Graphics/srfTrees.png", 0, 0, 0 );
-	BCPlayer.Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
+	BCPlayer._Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
 	m_srfSkeleton = Gfx.Load_imageAlpha( "Graphics/srfSkeleton.png", 255, 0, 255  );
 	m_srfCrow = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
@@ -389,7 +362,7 @@ void Gamestate::load_files()
 void Gamestate::CreateNewThings()
 {
 	Dragon = new DancingDragon( m_srfDragon );
-	TitleScreen = new FirstScreen( 290,  m_srfStart, m_srfButtons ); 
+	TitleScreen = new MainMenu( 290,  m_srfStart, m_srfButtons ); 
 	//Intro = new IntroTalk( gamestate.m_srfIntro );
 	name = new StringInput();
 	ListHighScore = new FillHighScore();
@@ -519,19 +492,6 @@ void Gamestate::MorphMyDude()
 	//}
 
 	gamestate.State = GAME_RUNNING_STATE;
-
-	// safety Check
-	//BCPlayer.SmallHunter = false;
-	//BCPlayer.demonHunter = true;
-	BCPlayer.isJumping = false;
-	BCPlayer.isPunching = false;
-	BCPlayer.isKicking = false;
-	//BCPlayer.Crouch = false;
-	//BCPlayer.Kick = false;
-	//BCPlayer.Punch = false;
-	//BCPlayer.Jump = false;
-	BCPlayer.isMovingLeft = false;
-	BCPlayer.isMovingRight = false;
 }
 
 // ----------------------------------------------------------------------------
@@ -625,8 +585,9 @@ void Game::Audiotonic()
 // ----------------------------------------------------------------------------
 // Update() - Updates the whole game depending on which state it is in
 // ----------------------------------------------------------------------------
-void Game::Update( SDL_Event input )
+void Game::Update( SDL_Event input, int iElapsedTime )
 {
+	cout << BCPlayer.GetAction() << endl;
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 	//if( demon.WhereIsEnd >= 5700 ) 
 	//if( gamestate.LevelProgress >= 0 )
@@ -640,7 +601,7 @@ void Game::Update( SDL_Event input )
 		case MENU_MAIN_STATE:
 			{
 				//Handle_events( input );
-				gamestate.MainScreen();
+				gamestate.MainScreen(iElapsedTime);
 				//gamestate.FLIP();
 				//Gfx.FLIP();
 			} break;
@@ -717,7 +678,6 @@ void Game::Update( SDL_Event input )
 				BCPlayer.Died();
 			} break;
 	}
-	
 }
 
 // ----------------------------------------------------------------------------
@@ -750,11 +710,6 @@ void Gamestate::PlayOutro()
 	gamestate.RestartGame();
 
 	return;
-
-	//demon.isKicking = false;
-	//demon.isJumping = false;
-	//demon.isPunching = false;
-	//demon.isMovingRight = true;
 
 	//demon.Update();
 	////demon.Updatedemon();
@@ -1163,7 +1118,7 @@ void Gamestate::Loading()
 // ----------------------------------------------------------------------------
 // MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
 // ----------------------------------------------------------------------------
-void Gamestate::MainScreen()
+void Gamestate::MainScreen(int iElapsedTime)
 {
 
 	//SDL_Surface * Surface_Credits = NULL;
@@ -1177,14 +1132,14 @@ void Gamestate::MainScreen()
 
 	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
-		for( int i = 0; i < 4; i++ )
-		{
-			//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
+	for( int i = 0; i < 4; i++ )
+	{
+		//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
 			
-			SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
-								&TitleScreen->ButtonClips[ i ],
-								Gfx.BackBuffer, &TitleScreen->DestClips[ i ] ); 
-		}
+		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
+							&TitleScreen->ButtonClips[ i ],
+							Gfx.BackBuffer, &TitleScreen->DestClips[ i ] ); 
+	}
 
 	if( TitleScreen->ButtonNewgame == true )
 	{
@@ -1192,6 +1147,14 @@ void Gamestate::MainScreen()
 		TitleScreen->ButtonNewgame = false;
 	}
 
+	stringstream ss;
+	ss << iElapsedTime;
+	string str = "Microseconds per frame:";
+	str.append(ss.str());
+	SDL_Surface * srfElapsedTime;
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+	//gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
+	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	//if( gamestate.TitleScreen->ButtonHighScore == true )
 	//{
 	//	ListHighScore->sort( gamestate.name->str.c_str(), gamestate.GetScore() );
@@ -1370,7 +1333,7 @@ void Gamestate::RestartGame()
 
 	timer.RestartTimers();
 
-	BCPlayer.Initiatedemon( BCPlayer.Surface, GROUND_X, 0, demonHEIGHT, demonWIDTH );
+	//BCPlayer.Initiatedemon( BCPlayer.Surface, GROUND_X, 0, demonHEIGHT, demonWIDTH );
 	//gamestate.Score = 0;
 	//gamestate.m_parallax = 0;
 	gamestate.Parallax = 0.0f;
@@ -1489,11 +1452,33 @@ bool Game::Init(SDL_Surface * &screen)
 	{
 		return false;
 	} */
-	//SDL_WM_SetCaption("", "res/big.ico");
-	//SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
+
 
 	//set up the screen
 	Gfx.screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+
+ SDL_Rect** modes;
+   int i;
+   
+    /* Get available fullscreen/hardware modes */
+    modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
+    
+    /* Check if there are any modes available */
+    if (modes == (SDL_Rect**)0) {
+        printf("No modes available!\n");
+       exit(-1);
+   }
+   
+   /* Check if our resolution is restricted */
+   if (modes == (SDL_Rect**)-1) {
+       printf("All resolutions available.\n");
+   }
+   else{
+       /* Print valid modes */
+       printf("Available Modes\n");
+       for (i=0; modes[i]; ++i)
+         printf("  %d x %d\n", modes[i]->w, modes[i]->h);
+   }
 
 	if( screen == NULL )
 	{
@@ -1510,8 +1495,8 @@ bool Game::Init(SDL_Surface * &screen)
 	} */
 	
 	//set window caption
-	SDL_WM_SetCaption( " Legend of Nimbus ", NULL);
-	
+	SDL_WM_SetCaption( " S-TYPE ", NULL);
+
 	/* Create a 32-bit surface with the bytes of each pixel in R,G,B,A order,
        as expected by OpenGL for textures */
     Uint32 rmask, gmask, bmask, amask;

@@ -363,9 +363,9 @@ void ControlGfx::DrawParallaxLayers()
 		}
 						
 		//Scrolling the map
-		gamestate.Parallax += 500.0f * gamestate.DeltaTime;
-		if( gamestate.Parallax > Gfx.GetSurface( gamestate.m_srfCity )->w )
-		gamestate.State = GAME_OUTRO_STATE;
+		gamestate.Parallax += 0.0001f * gamestate.DeltaTime;
+		if( gamestate.Parallax > Gfx.GetSurface( gamestate.m_srfCity )->w );
+		//gamestate.State = GAME_OUTRO_STATE;
 }
 
 void ControlGfx::DrawSprite()
@@ -375,11 +375,11 @@ void ControlGfx::DrawSprite()
 		//Gfx.SetAlpha( demon.Surface, 255 );
 
 		//Gfx.SetAlpha( demon.Surface, 255 );
-		SDL_BlitSurface(	Gfx.GetSurface( BCPlayer.Surface ), 
+		SDL_BlitSurface(	Gfx.GetSurface( BCPlayer._Surface ), 
 			&BCPlayer.AnimationArrays[ BCPlayer.GetState() ][ BCPlayer.Animate() ],
 			Gfx.BackBuffer, &BCPlayer.GetPosition() );
 
-		gamestate.PreviousFrame = gamestate.CurrentFrame;
+		//gamestate.PreviousFrame = gamestate.CurrentFrame;
 }
 // ----------------------------------------------------------------------------
 // DrawObjects() - Draws all objects, coffins, health etc.

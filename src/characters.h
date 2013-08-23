@@ -8,10 +8,16 @@ class BaseCharacterInterface
 {
 public:
 	int _HealthPoints;
+	int _Surface;
+	int _Lives;
+	int _AlphaImmortal;
 
 	virtual void Update()=0;
 	virtual void SetClips()=0;
-
+	virtual std::string GetAction()=0;
+	virtual void AddAction(std::string action_event)=0;
+	virtual std::string GetVelocity()=0;
+	virtual void AddVelocity(std::string velocity_event)=0;
 };
 
 namespace Actor
@@ -27,20 +33,12 @@ public:
 		IDLE,
 		MOVING_RIGHT,
 		MOVING_LEFT,
-		JUMPING,
-		KICKING,
-		PUNCHING,
-		GETTING_UP,
-		GETTING_HIT
+		//JUMPING,
+		//KICKING,
+		//PUNCHING,
+		//GETTING_UP,
+		//GETTING_HIT
 	};
-
-	//enum MorphState
-	//{
-	//	SMALL_HUNTER,
-	//	MEDIUM_HUNTER,
-	//	LARGE_HUNTER,
-	//	demon_HUNTER
-	//};
 
 	enum AliveState
 	{
@@ -51,7 +49,7 @@ public:
 
 	BaseCharacter();
 	BaseCharacter(int surface, int Xpos, int Ypos, int height, int width);
-	void Initiatedemon( int surface, int Xpos, int Ypos, int height, int width );
+	//void Initiatedemon( int surface, int Xpos, int Ypos, int height, int width );
 	void Reset();
 	void Died();
 
@@ -69,12 +67,12 @@ public:
 	// States the character can be in
 	bool isMovingRight;
 	bool isMovingLeft;
-	bool isJumping;
-	bool isKicking;
-	bool isPunching;
+	//bool isJumping;
+	//bool isKicking;
+	//bool isPunching;
 	//bool isGettingUp;
 	bool isHit;
-	bool isImmortal;
+	//bool isImmortal;
 
 	//bool LifeFull_Small;
 	//bool LifeMedium_Small;
@@ -88,8 +86,8 @@ public:
 	
 	//int demon_Height;
 	//int demon_Width;
-	int Surface;
-	int Health;
+	//int Surface;
+	//int Health;
 	//int demon_Life;
 	//int Last_Xpos;
 	//int LastEnd_Pos;
@@ -99,7 +97,7 @@ public:
 	//int JumpingGravity;
 	//int xPosHotSpot;
 
-	int AlphaImmortal;
+	//int AlphaImmortal;
 	//int LengthOfTriangle;
 
 
@@ -133,18 +131,19 @@ public:
 
 #define TICK_INTERVAL    125
 
-Uint32 TimeLeft(void)
-{
-    static Uint32 next_time = 0;
-    Uint32 now;
+	Uint32 TimeLeft(void)
+	{
+		static Uint32 next_time = 0;
+		Uint32 now;
 
-    now = SDL_GetTicks();
-    if ( next_time <= now ) {
-        next_time = now+TICK_INTERVAL;
-        return(0);
-    }
-    return(next_time-now);
-}
+		now = SDL_GetTicks();
+		if ( next_time <= now ) {
+			next_time = now+TICK_INTERVAL;
+			return(0);
+		}
+		return(next_time-now);
+	}
+
 	int Animate()
 	{
 		if( this->_AnimationFrame > 6 )
@@ -186,6 +185,35 @@ Uint32 TimeLeft(void)
 	BaseCharacter::AliveState GetAliveState() const
 	{
 	   return _AliveState;
+	}
+
+	std::string BaseCharacter::GetAction()
+	{
+		if( !Action.empty() )
+		{
+			std::string returnAction = Action.front();
+			Action.pop();
+			return returnAction;
+		}
+		else
+		{
+			return "No actions...";
+		}
+	}
+
+	void BaseCharacter::AddAction(std::string action_event)
+	{
+		Action.push(action_event);
+	}
+
+	std::string BaseCharacter::GetVelocity()
+	{
+		return "No actions...";
+	}
+
+	void BaseCharacter::AddVelocity(std::string velocity_event)
+	{
+		//Action.push(action_event);
 	}
 
 private:

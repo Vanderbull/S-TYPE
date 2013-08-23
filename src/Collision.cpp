@@ -16,79 +16,79 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy,
 	double	dx2 = 0,
 			dy2 = 0;
 
-		if( BCPlayer.isKicking )
-		{
-			if( BCPlayer.isMovingRight )
-			{
+		//if( BCPlayer.isKicking )
+		//{
+			//if( BCPlayer.isMovingRight )
+			//{
 				// Cache
-				dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) + 60 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-				dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			}
-			else
-			{
+				//dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) + 60 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+				//dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
+			//}
+			//else
+			//{
 				// Cache
-				dx1 = ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-				dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			}
-		}
-		else
-		{
+				//dx1 = ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+				//dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
+			//}
+		//}
+		//else
+		//{
 			// Cache
-			dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 )+ 15 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-			dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 80 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-		}
+			//dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 )+ 15 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			//dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 80 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
+		//}
 
-		if( BCPlayer.isPunching )
-		{
+		//if( BCPlayer.isPunching )
+		//{
 			// Cache
-			dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 55 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-			dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-			if( dist3 < Mydemon->Radius + MyEnemy->Radius )
-			{
-				return true;	// Yep, collision
-			}
-		}
-		else
-		{
+			//dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 55 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			//dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
+			//int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
+			//if( dist3 < Mydemon->Radius + MyEnemy->Radius )
+			//{
+				//return true;	// Yep, collision
+			//}
+		//}
+		//else
+		//{
 			// Cache
-			dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 20 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-			dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-			if( dist3 < Mydemon->Radius + MyEnemy->Radius )
-			{
-				return true;	// Yep, collision
-			}
-		}
+			//dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 20 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+			//dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
+			//int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
+			//if( dist3 < Mydemon->Radius + MyEnemy->Radius )
+			//{
+				//return true;	// Yep, collision
+			//}
+		//}
 
 		if( Show )
 		{
-			if( BCPlayer.isKicking )
-			{
-				if( BCPlayer.isMovingRight )
-				{
-					Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 + 60, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 75, Mydemon->RadiusFeet );
-				}
-				else
-				{
-					Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 75, Mydemon->RadiusFeet );
-				}
+			//if( BCPlayer.isKicking )
+			//{
+			//	if( BCPlayer.isMovingRight )
+			//	{
+			//		Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 + 60, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 75, Mydemon->RadiusFeet );
+			//	}
+			//	else
+			//	{
+			//		Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 75, Mydemon->RadiusFeet );
+			//	}
 
-			}
-			else
-			{
-				Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 + 15, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 80, Mydemon->RadiusFeet );
-			}
-			Circle( Mydemon->GetPosition().x + demonWIDTHREAL / 2, Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45, Mydemon->Radius );
-			
-			if( BCPlayer.isPunching )
-			{
-				Circle( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 + 55, Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 + 40, Mydemon->RadiusFist );
-			}
-			else
-			{
-				Circle( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 + 20, Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 + 40, Mydemon->RadiusFist );
-			}
+			//}
+			//else
+			//{
+			//	Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 + 15, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 80, Mydemon->RadiusFeet );
+			//}
+			//Circle( Mydemon->GetPosition().x + demonWIDTHREAL / 2, Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45, Mydemon->Radius );
+			//
+			//if( BCPlayer.isPunching )
+			//{
+			//	Circle( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 + 55, Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 + 40, Mydemon->RadiusFist );
+			//}
+			//else
+			//{
+			//	Circle( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 + 20, Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 + 40, Mydemon->RadiusFist );
+			//}
 		}
 
 	int dist = ( int )sqrt( dx * dx + dy * dy );

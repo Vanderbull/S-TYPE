@@ -3,7 +3,6 @@
 #include <SDL_events.h>
 #include <string>
 
-// @date 2012-08-07
 
 //The key press interpreter
 class StringInput

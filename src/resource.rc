@@ -1,0 +1,6 @@
+#include "windows.h"
+#include "resource.h"
+IDI_S-TYPE ICON    "res/app.ico"
+IDI_BIG_ICON ICON "res/big.ico"
+IDI_SMALL       ICON    "res/small.ico"
+icon ICON DISCARDABLE "res/big.ico"
