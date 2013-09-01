@@ -11,6 +11,7 @@ public:
 	int _Surface;
 	int _Lives;
 	int _AlphaImmortal;
+	int SDL_Rect CollisionBoundry;
 
 	virtual void Update()=0;
 	virtual void SetClips()=0;
@@ -18,6 +19,8 @@ public:
 	virtual void AddAction(std::string action_event)=0;
 	virtual std::string GetVelocity()=0;
 	virtual void AddVelocity(std::string velocity_event)=0;
+	virtual std::string GetBeam()=0;
+	virtual void AddBeam(std::string beam_event)=0;
 };
 
 namespace Actor
@@ -33,11 +36,6 @@ public:
 		IDLE,
 		MOVING_RIGHT,
 		MOVING_LEFT,
-		//JUMPING,
-		//KICKING,
-		//PUNCHING,
-		//GETTING_UP,
-		//GETTING_HIT
 	};
 
 	enum AliveState
@@ -216,6 +214,25 @@ public:
 		//Action.push(action_event);
 	}
 
+	std::string BaseCharacter::GetBeam()
+	{
+		if( !Beam.empty() )
+		{
+			std::string returnBeam = Beam.front();
+			Beam.pop();
+			return returnBeam;
+		}
+		else
+		{
+			return "No beam...";
+		}
+	}
+
+	void BaseCharacter::AddBeam(std::string beam_event)
+	{
+		//Action.push(action_event);
+	}
+
 private:
 	BaseCharacter::State _State;
 	//BaseCharacter::MorphState _MorphState;
@@ -225,6 +242,7 @@ private:
 	int _RightMostPosition;
 	int _AnimationFrame;
 	std::queue<std::string> Action;
+	std::queue<std::string> Beam;
 
 };
 

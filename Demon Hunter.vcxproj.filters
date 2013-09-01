@@ -61,6 +61,9 @@
     <ClCompile Include="src\MainMenu.cpp">
       <Filter>MainMenu</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bullets.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -153,6 +156,9 @@
     </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bullets.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

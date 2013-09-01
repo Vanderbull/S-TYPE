@@ -109,6 +109,7 @@
   <ItemGroup>
     <ClCompile Include="src\Animals.cpp" />
     <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\Bullets.cpp" />
     <ClCompile Include="src\CBoss.cpp" />
     <ClCompile Include="src\characters.cpp" />
     <ClCompile Include="src\Collision.cpp" />
@@ -132,6 +133,7 @@
     <ClInclude Include="src\Animals.h" />
     <ClInclude Include="src\Audio.h" />
     <ClInclude Include="src\BaseController.h" />
+    <ClInclude Include="src\Bullets.h" />
     <ClInclude Include="src\CBoss.h" />
     <ClInclude Include="src\characters.h" />
     <ClInclude Include="src\Collision.h" />

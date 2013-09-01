@@ -3,6 +3,14 @@
 
 ControlCollision CollisionController;
 
+int ControlCollision::Box( BaseCharacter *Spaceship, CEnemy *Enemy )
+{
+	cout << "Checking for collision" << endl;
+	return 0;
+}
+
+
+
 // checks collision
 bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show = true )
 {

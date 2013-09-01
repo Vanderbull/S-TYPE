@@ -9,6 +9,9 @@
 class ControlCollision
 {
 public:
+
+	int Box( BaseCharacter *Spaceship, CEnemy *Enemy );
+	// Old collision controlls
 	bool CollisionCircle( BaseCharacter *Mydemon, PowerUp *TransForm, bool Show );
 	bool CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
 	bool CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bool Show );

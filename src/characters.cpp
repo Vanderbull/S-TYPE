@@ -182,12 +182,12 @@ int BCPlayer::Updatedemon()
 }
 */
 float positionX = 0.0f, positionY = 0.0f;     // Position of the character
-float velocityX = 0.0f, velocityY = -12.0f;     // Velocity of the character
+float velocityX = 0.0f, velocityY = 0.0f;     // Velocity of the character
 float gravity = 0.5f;           // How strong is gravity
 
 void Update(float time)
 {
-    velocityY += gravity * time;        // Apply gravity to vertical velocity
+    //velocityY += gravity * time;        // Apply gravity to vertical velocity
     positionX += velocityX * time;      // Apply horizontal velocity to X position
     positionY += velocityY * time;      // Apply vertical velocity to Y position
 }
@@ -207,7 +207,7 @@ void BaseCharacter::Update()
 
 	if( this->isMovingRight && _Position.x <= _RightMostPosition )
 	{
-		BaseCharacter::_Position.x += 1.0f;//this->xVelocity * gamestate.DeltaTime;
+		BaseCharacter::_Position.x += this->xVelocity * gamestate.DeltaTime;
 	}
 	else if( this->isMovingLeft && _Position.x >= _LeftMostPosition )
 	{

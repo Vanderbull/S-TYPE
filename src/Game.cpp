@@ -19,6 +19,7 @@
 #include "TImers.h"
 #include "Paralaxlayers.h"
 #include "Animals.h"
+#include "Bullets.h"
 #include "MainMenu.h"
 #include "Collision.h"
 #include "OutroFinish.h"
@@ -108,11 +109,11 @@ void Game::HandleEvents( SDL_Event _event )
 			} break;
 		case SDLK_SPACE:
 			{
-				cout << "Released SPACEBAR key" << endl;
+				//cout << "Released SPACEBAR key" << endl;
 			} break;
 		case SDLK_LALT:
 			{
-				cout << "Released the LEFT ALT key" << endl;
+				//cout << "Released the LEFT ALT key" << endl;
 			} break;
 		}
 	}
@@ -127,26 +128,34 @@ void Game::HandleEvents( SDL_Event _event )
 		case SDLK_RIGHT:
 			{
 				BCPlayer.AddAction("RIGHT");
-				BCPlayer.xVelocity = 10.0f;
+				BCPlayer.xVelocity = 1.0f;
 			} break;
 		case SDLK_LEFT:
 			{
 				BCPlayer.AddAction("LEFT");
-				BCPlayer.xVelocity = -10.0f;
+				BCPlayer.xVelocity = -1.0f;
 			} break;
 		case SDLK_UP:
 			{
 				BCPlayer.AddAction("UP");
-				BCPlayer.yVelocity = 10.0f;
+				BCPlayer.yVelocity = 1.0f;
 			} break;
 		case SDLK_DOWN:
 			{
 				BCPlayer.AddAction("DOWN");
-				BCPlayer.yVelocity = -10.0f;
+				BCPlayer.yVelocity = -1.0f;
 			} break;
 		case SDLK_SPACE:
 			{
+				BulletController.Create_Bullets();
 				BCPlayer.AddAction("FIRE");
+				BCPlayer.AddBeam("Laser");
+				cout << BCPlayer.GetBeam() << endl;
+				//SDL_Rect srcRect = { 0, 0, 800, 600 };
+				//SDL_Rect destRect = { 0, 0, 800, 600 };
+				//SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
+				//	&srcRect, Gfx.BackBuffer, &destRect );
+				//Gfx.FLIP();
 			} break;
 		case SDLK_LALT:
 			{

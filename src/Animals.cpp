@@ -11,14 +11,10 @@ void Animal::Setframe()
 	{
 		Frame = 0;
 	}
-	//else
-	//{
-	//	Frame++;
-	//}
 }
 void Animal::Update()
 {
-	this->xPos -= 0.0010f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
+	this->xPos -= 0.0003f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
 	this->Destination.h = this->Height;
 	this->Destination.w = this->Width;
 	this->Destination.x = this->xPos;
