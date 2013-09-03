@@ -5,6 +5,12 @@
 
 ControlAnimals AnimalController;
 
+SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
+{
+	CollisionBox = Box;
+	return CollisionBox;
+}
+
 void Animal::Setframe()
 {	
 	if( Frame >= 15 )
@@ -22,10 +28,12 @@ void Animal::Update()
 
 	this->PrevFrame = this->Frame++;
 	this->Setframe();
+	UpdateCollisionBox(Destination);
 }
 
 void Animal::Draw()
 {
+	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	SDL_BlitSurface( 
 		Gfx.GetSurface( this->Surface ),
 		&this->Clips[ this->PrevFrame ], 

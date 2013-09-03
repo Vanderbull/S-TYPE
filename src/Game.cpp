@@ -151,11 +151,8 @@ void Game::HandleEvents( SDL_Event _event )
 				BCPlayer.AddAction("FIRE");
 				BCPlayer.AddBeam("Laser");
 				cout << BCPlayer.GetBeam() << endl;
-				//SDL_Rect srcRect = { 0, 0, 800, 600 };
-				//SDL_Rect destRect = { 0, 0, 800, 600 };
-				//SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
-				//	&srcRect, Gfx.BackBuffer, &destRect );
-				//Gfx.FLIP();
+				SDL_Rect srcRect = { 0, 0, 800, 600 };
+				Gfx.FLIP();
 			} break;
 		case SDLK_LALT:
 			{
@@ -596,6 +593,7 @@ void Game::Audiotonic()
 // ----------------------------------------------------------------------------
 void Game::Update( SDL_Event input, int iElapsedTime )
 {
+	CollisionController.Box(BulletController.GetBullets());
 	cout << BCPlayer.GetAction() << endl;
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 	//if( demon.WhereIsEnd >= 5700 ) 

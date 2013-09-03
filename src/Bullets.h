@@ -3,16 +3,14 @@
 #include <stack>
 #include <SDL.h>
 
-/// <summary>A basic object</summary>
+/// <summary>A basic ammo object</summary>
 class AmmoObject
 {
 public:
 	float xPos,yPos;
 	int Height,Width;
 	int SurfaceID;
-	SDL_Rect Boundry;
-
-	virtual int Collision(SDL_Rect Boundry);
+	SDL_Rect CollisionBox;
 
 private:
 };
@@ -34,11 +32,11 @@ class Bullet : public BulletState,public AmmoObject
 public:
 	Bullet();
 	
+	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Setframe();
 	void Update();
 	void Draw();
 	int GetSurfaceID();
-	int Collision();
 	
 	SDL_Rect GetDestination();
 
@@ -55,6 +53,7 @@ public:
 	~ControlBullets();
 	void Draw_Bullets();
 	void Create_Bullets();
+	std::list< Bullet* > GetBullets(){ return My_Bullets;};
 
 	int Turf;
 

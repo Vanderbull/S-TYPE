@@ -3,9 +3,18 @@
 
 ControlCollision CollisionController;
 
-int ControlCollision::Box( BaseCharacter *Spaceship, CEnemy *Enemy )
+void myfunction (Bullet* i) {
+	std::cout << " coolision " << (*i).CollisionBox.x;
+}
+
+int ControlCollision::Box( std::list< Bullet* > My_Bullets )
 {
+
 	cout << "Checking for collision" << endl;
+	for_each (My_Bullets.begin(), My_Bullets.end(), myfunction);
+	
+	//return (abs(EnemyBox.x - SpaceshipBox.x) * 2 < (EnemyBox.w + SpaceshipBox.w)) &&
+    //     (abs(EnemyBox.y - SpaceshipBox.y) * 2 < (EnemyBox.h + SpaceshipBox.h));
 	return 0;
 }
 

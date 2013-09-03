@@ -11,7 +11,7 @@ public:
 	int _Surface;
 	int _Lives;
 	int _AlphaImmortal;
-	int SDL_Rect CollisionBoundry;
+	SDL_Rect CollisionBox;
 
 	virtual void Update()=0;
 	virtual void SetClips()=0;
@@ -21,6 +21,7 @@ public:
 	virtual void AddVelocity(std::string velocity_event)=0;
 	virtual std::string GetBeam()=0;
 	virtual void AddBeam(std::string beam_event)=0;
+	virtual SDL_Rect GetCollisionBox()=0;
 };
 
 namespace Actor
@@ -231,6 +232,10 @@ public:
 	void BaseCharacter::AddBeam(std::string beam_event)
 	{
 		//Action.push(action_event);
+	}
+	SDL_Rect BaseCharacter::GetCollisionBox()
+	{
+		return CollisionBox;
 	}
 
 private:

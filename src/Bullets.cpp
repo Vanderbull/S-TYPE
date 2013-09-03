@@ -5,17 +5,18 @@
 
 ControlBullets BulletController;
 
+SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
+{
+	CollisionBox = Box;
+	return CollisionBox;
+}
+
 void Bullet::Setframe()
 {	
 	if( Frame >= 15 )
 	{
 		Frame = 0;
 	}
-}
-
-int Bullet::Collision(SDL_Rect Boundry)
-{
-	return 0;
 }
 
 void Bullet::Update()
@@ -28,10 +29,12 @@ void Bullet::Update()
 
 	this->PrevFrame = this->Frame++;
 	this->Setframe();
+	UpdateCollisionBox(Destination);
 }
 
 void Bullet::Draw()
 {
+	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	SDL_BlitSurface( 
 		Gfx.GetSurface( this->Surface ),
 		&this->Clips[ this->PrevFrame ], 
@@ -52,6 +55,12 @@ SDL_Rect Bullet::GetDestination()
 
 Bullet::Bullet()
 {
+	// Setup collision box boundries
+	CollisionBox.x = 0;
+	CollisionBox.y = 0;
+	CollisionBox.w = 64;
+	CollisionBox.h = 64;
+
 	PrevFrame = 0;
 	Frame = 0;
 	Height = 64;

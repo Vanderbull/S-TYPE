@@ -100,6 +100,10 @@ BaseCharacter::BaseCharacter(int surface, int Xpos, int Ypos, int height, int wi
 
 	this->xVelocity = 0.000015f; 
 	this->yVelocity = 0.0f;
+	this->CollisionBox.x = 0;
+	this->CollisionBox.y = 0;
+	this->CollisionBox.w = width;
+	this->CollisionBox.h = height;
 }
 
 // checks if OK to move

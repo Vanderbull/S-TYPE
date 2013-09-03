@@ -4,13 +4,14 @@
 #include "Objects.h"
 #include "Enemies.h"
 #include "ControlGfx.h"
+#include "Bullets.h"
 
 // holds all the info on the collisions
 class ControlCollision
 {
 public:
 
-	int Box( BaseCharacter *Spaceship, CEnemy *Enemy );
+	int Box( std::list< Bullet* > My_Bullets );
 	// Old collision controlls
 	bool CollisionCircle( BaseCharacter *Mydemon, PowerUp *TransForm, bool Show );
 	bool CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
