@@ -325,6 +325,7 @@ void Gamestate::load_files()
 	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro2.png", 0, 0, 0 );
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
+	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
 	
  
  /*
@@ -1138,7 +1139,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 	//SDL_Rect dtRect = {	0, 0, 800, 600 };
 
 	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
-
+	/*
 	for( int i = 0; i < 4; i++ )
 	{
 		//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
@@ -1146,7 +1147,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
 							&TitleScreen->ButtonClips[ i ],
 							Gfx.BackBuffer, &TitleScreen->DestClips[ i ] ); 
-	}
+	}*/
 
 	if( TitleScreen->ButtonNewgame == true )
 	{

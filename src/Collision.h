@@ -26,8 +26,8 @@ public:
 	bool CollisionBox( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
 	bool CollisionPixel( BaseCharacter *Mydemon, CEnemy *MyEnemy );
 
-	bool CheckCollisionWithdemon( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon );
-	bool CheckCollisionWithdemon( PowerUp *TransForm, int WhichCollisionToUse );
+	bool CheckCollision( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon );
+	bool CheckCollision( PowerUp *TransForm, int WhichCollisionToUse );
 
 	void Circle( long centerx, long centery, long radius );
 	void SetPixelMine( int xPos, int yPos );

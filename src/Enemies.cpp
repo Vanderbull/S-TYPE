@@ -646,7 +646,7 @@ void Control_Enemies::Draw_Enemies()
 
 				// checks collision with demon using circlecollision
 				//Collide = CollisionController.CheckCollisionWithdemon( enemy, 1 );
-				Collide = CollisionController.CheckCollisionWithdemon( (*i), 1, &BCPlayer);
+				Collide = CollisionController.CheckCollision( (*i), 1, &BCPlayer);
 
 				//Attack = demon.IsInStateAttack();
 				

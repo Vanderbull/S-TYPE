@@ -9,8 +9,23 @@ void myfunction (Bullet* i) {
 
 int ControlCollision::Box( std::list< Bullet* > My_Bullets )
 {
+for(std::list<Bullet*>::iterator iter = My_Bullets.begin(); iter != My_Bullets.end();) {
+    Bullet *m = (*iter);
+    for(std::list<Bullet*>::iterator innerIter = ++iter; innerIter != My_Bullets.end(); innerIter++ ) {
+            Bullet *s = (*innerIter);
 
+            //if(m->getType() == s->getType()) {
+            //    break;
+            //}
+
+            //if(m->checkCollision(s)) {
+            //    m->onCollision(s);
+            //    s->onCollision(m);
+            //}
+        }
+    }
 	cout << "Checking for collision" << endl;
+
 	for_each (My_Bullets.begin(), My_Bullets.end(), myfunction);
 	
 	//return (abs(EnemyBox.x - SpaceshipBox.x) * 2 < (EnemyBox.w + SpaceshipBox.w)) &&
@@ -33,80 +48,9 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy,
 	double	dx2 = 0,
 			dy2 = 0;
 
-		//if( BCPlayer.isKicking )
-		//{
-			//if( BCPlayer.isMovingRight )
-			//{
-				// Cache
-				//dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) + 60 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-				//dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			//}
-			//else
-			//{
-				// Cache
-				//dx1 = ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-				//dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 75 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			//}
-		//}
-		//else
-		//{
-			// Cache
-			//dx1 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 )+ 15 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-			//dy1 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 ) + 80 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-		//}
-
-		//if( BCPlayer.isPunching )
-		//{
-			// Cache
-			//dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 55 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-			//dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			//int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-			//if( dist3 < Mydemon->Radius + MyEnemy->Radius )
-			//{
-				//return true;	// Yep, collision
-			//}
-		//}
-		//else
-		//{
-			// Cache
-			//dx2 = ( ( ( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 )+ 20 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-			//dy2 = ( ( ( Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 ) + 40 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
-			//int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-			//if( dist3 < Mydemon->Radius + MyEnemy->Radius )
-			//{
-				//return true;	// Yep, collision
-			//}
-		//}
-
-		if( Show )
-		{
-			//if( BCPlayer.isKicking )
-			//{
-			//	if( BCPlayer.isMovingRight )
-			//	{
-			//		Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 + 60, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 75, Mydemon->RadiusFeet );
-			//	}
-			//	else
-			//	{
-			//		Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 75, Mydemon->RadiusFeet );
-			//	}
-
-			//}
-			//else
-			//{
-			//	Circle( Mydemon->GetPosition().x + BCPlayer.Feet_W / 2 + 15, Mydemon->GetPosition().y + BCPlayer.Feet_H / 2 + 80, Mydemon->RadiusFeet );
-			//}
-			//Circle( Mydemon->GetPosition().x + demonWIDTHREAL / 2, Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45, Mydemon->Radius );
-			//
-			//if( BCPlayer.isPunching )
-			//{
-			//	Circle( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 + 55, Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 + 40, Mydemon->RadiusFist );
-			//}
-			//else
-			//{
-			//	Circle( Mydemon->GetPosition().x + BCPlayer.Fist_W / 2 + 20, Mydemon->GetPosition().y + BCPlayer.Fist_H / 2 + 40, Mydemon->RadiusFist );
-			//}
-		}
+	if( Show )
+	{
+	}
 
 	int dist = ( int )sqrt( dx * dx + dy * dy );
 	int dist2 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
@@ -161,39 +105,7 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead
 			return true;	// Yep, collision
 		}
 	}
-	// test boss against the triangle attack and the BCPlayer itself.
-	/*
-	if( BCPlayer.demonHunter )
-	{
-		double	dx2 = 0,
-				dy2 = 0;
 
-
-		if( Show )
-		{
-			if( BCPlayer.isMovingLeft == true )
-			{
-				Circle( Mydemon->xPos + demonWIDTHREAL / 2 + 70, 
-						Mydemon->yPos + demonHEIGHTREAL / 2 + 45,
-						Mydemon->Radius );
-
-				Circle( Mydemon->xPos + demonWIDTHREAL / 2 + 25, 
-						Mydemon->yPos + demonHEIGHTREAL / 2 + 45,
-						Mydemon->Radius );
-			}
-			else
-			{
-				Circle( Mydemon->xPos + demonWIDTHREAL / 2 + 20, 
-						Mydemon->yPos + demonHEIGHTREAL / 2 + 45,
-						Mydemon->Radius );
-
-				Circle( Mydemon->xPos + demonWIDTHREAL / 2 + 5, 
-						Mydemon->yPos + demonHEIGHTREAL / 2 + 45,
-						Mydemon->Radius );
-			}
-		}
-	}
- 	 */
 	// No collision
 	return false;
 }
@@ -208,38 +120,6 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bo
 	double  dx1 =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->_Position.x + Myboss->BossWidth / 2 + 95 ) ),
 			dy1 =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->_Position.y + Myboss->BossHeight / 2 + 220 ) );
 
-	// test boss against the triangle attack and the BCPlayer itself.
-	/*
-	if( BCPlayer.demonHunter )
-	{
-		double	dx2 = 0,
-				dy2 = 0,
-				dx3 = 0,
-				dy3 = 0;
-
-
-			// Cache
-			dx2 = ( ( ( Mydemon->xPos + BCPlayer.Fist_W / 2 ) - 35) - ( Myboss->xPos + Myboss->BossWidth / 2 ) + 100 ),
-			dy2 = ( ( ( Mydemon->yPos + BCPlayer.Fist_H / 2 ) + 65 ) - ( Myboss->yPos + Myboss->BossHeight / 2 ) - 30 );
-			dx3 =	( ( ( Mydemon->xPos + BCPlayer.Fist_W / 2 )+ 35 ) - ( Myboss->xPos + Myboss->BossWidth / 2 + 95 ) ),
-			dy3 =	( ( ( Mydemon->yPos + BCPlayer.Fist_H / 2 )+ 65 ) - ( Myboss->yPos + Myboss->BossHeight / 2 + 220 ) );
-
-			
-		if( Show )
-		{
-				Circle( Mydemon->xPos + BCPlayer.Fist_W / 2 - 35, Mydemon->yPos + BCPlayer.Fist_H / 2 + 65, Mydemon->RadiusFeet );
-		}
-
-		int dist3 = ( int )sqrt( dx2 * dx2 + dy2 * dy2 );
-		int dist4 = ( int )sqrt( dx3 * dx3 + dy3 * dy3 );
-			// Do circles overlap?
-		if( dist3 < Mydemon->Radius + Myboss->Radius || dist4 < Mydemon->Radius + Myboss->Radius )	
-		{
-			return true;	// Yep, collision
-		}
-
-	}
-	  */
 	int dist = ( int )sqrt( dx * dx + dy * dy );
 	int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
 	
@@ -364,7 +244,7 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, PowerUp *TransFo
 }
 
 // checks collision
-bool ControlCollision::CheckCollisionWithdemon( PowerUp *TransForm, int WhichCollisionToUse )
+bool ControlCollision::CheckCollision( PowerUp *TransForm, int WhichCollisionToUse )
 {
 	
 	bool temp = false;
@@ -429,7 +309,7 @@ void ControlCollision::SetPixelMine( int xPos, int yPos  )
 // ----------------------------------------------------------------------------
 // ChecksCollision - test if any collision occurs with BCPlayer
 // ----------------------------------------------------------------------------
-bool ControlCollision::CheckCollisionWithdemon( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon )
+bool ControlCollision::CheckCollision( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon )
 {
 	return CollisionBox( Mydemon, MyEnemy, true );
 
