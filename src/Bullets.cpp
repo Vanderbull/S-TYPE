@@ -113,7 +113,7 @@ void ControlBullets::Create_Bullets()
 	static int bullet_timer = 0;
 
 	if( bullet_timer <= 0 )
-	{
+	{ 
 		My_Bullets.push_back( CreateBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) ); // 75 + ( rand() % Turf )
 		bullet_timer = 20;
 	}

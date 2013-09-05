@@ -15,6 +15,7 @@ public:
 	int Surface;
 	int Frame;
 	int Radius;
+	SDL_Rect CollisionBox;
 
 	SDL_Rect Clips[ 10 ];
 	SDL_Rect SingleClip; // Tree
