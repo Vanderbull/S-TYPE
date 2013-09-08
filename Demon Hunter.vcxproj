@@ -117,6 +117,7 @@
     <ClCompile Include="src\DancingDragon.cpp" />
     <ClCompile Include="src\Enemies.cpp" />
     <ClCompile Include="src\Enemies\CHeads.cpp" />
+    <ClCompile Include="src\Global\Global.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GetInput.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="src\Enemies\CTroll.h" />
     <ClInclude Include="src\Enemies\CZombie.h" />
     <ClInclude Include="src\Enemies\MovingThings.h" />
+    <ClInclude Include="src\Global\Global.h" />
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GetInput.h" />

@@ -8,6 +8,36 @@
 
 ControlObject ObjectController;
 
+// Default Constructor for objects
+Object::Object()
+{
+	Active = 0;
+	xPos = yPos = 0;
+	Width = Height = 0;
+	Surface = 0;
+	Frame = 0;
+	Radius = 0; // fireball crap
+	CollisionBox.h = 0;
+	CollisionBox.w = 0;
+	CollisionBox.x = 0;
+	CollisionBox.y = 0;
+
+	int ArraySize = sizeof(Clips) / sizeof(Clips[0]);
+	// Zeroing the Clips array
+	for( int i = 0; i < ArraySize; i++ )
+	{
+		Clips[ i ].x = 0;
+		Clips[ i ].y = 0;
+		Clips[ i ].w = 0;
+		Clips[ i ].h = 0;
+	}
+}
+
+int Object::isActive()
+{
+	return true;
+}
+
 int Object::Initialize(float _xPos = 0.0f, float _yPos = 0.0f, int _Width = 0, int _Height = 0, int _Frame = 0, int _Radius = 0 )
 {
 	xPos = _xPos;
@@ -542,6 +572,10 @@ Coffin::Coffin()
 	Height = 64;
 	Frame = 0;
 	this->SetClips(64,0,64,64);
+}
+
+void Coffin::Update()
+{
 }
 
 /*

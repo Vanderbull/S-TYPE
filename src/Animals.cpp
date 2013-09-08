@@ -161,7 +161,7 @@ void ControlAnimals::Create_Animals()
 	if( My_Animals.size() < rand() % 5 )
 	{
 		//cout << "Creating animals..." << endl;
-		My_Animals.push_back( CreateAnimal( SDL_GetVideoSurface()->w, 75 + ( rand() % Turf ) , gamestate.m_srfCrow ) );
+		My_Animals.push_back( CreateAnimal( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
 	}
 }
 

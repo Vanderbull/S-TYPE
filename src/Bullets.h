@@ -54,14 +54,17 @@ public:
 	void Draw_Bullets();
 	void Create_Bullets();
 	std::list< Bullet* > GetBullets(){ return My_Bullets;};
+	std::list< Bullet > GetBulletsByReference(){ return Bullets;};
 
 	int Turf;
 
 	Bullet * CreateBullet( int xPos, int yPos, int surface );
+	Bullet CreateBulletByReference( int xPos, int yPos, int surface );
 
 	
 private:
 	std::list< Bullet* > My_Bullets;
+	std::list< Bullet > Bullets;
 };
 
 extern ControlBullets BulletController;

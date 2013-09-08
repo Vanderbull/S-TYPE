@@ -56,7 +56,7 @@ public:
 	int Turf;
 
 	Animal * CreateAnimal( int xPos, int yPos, int surface );
-
+	std::list< Animal* > GetAnimal(){ return My_Animals;};
 	
 private:
 	std::list< Animal* > My_Animals;

@@ -187,10 +187,10 @@ void Game::HandleEvents( SDL_Event _event )
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
 		{
-			if(MouseXCoordinates > gamestate.TitleScreen->DestClips[ i ].x && 
-			MouseXCoordinates < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
-			MouseYCoordinates > gamestate.TitleScreen->DestClips[ i ].y &&
-			MouseYCoordinates < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+			if(MouseXCoordinates > gamestate.TitleScreen->ButtonClips[ i ].x && 
+			MouseXCoordinates < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
+			MouseYCoordinates > gamestate.TitleScreen->ButtonClips[ i ].y &&
+			MouseYCoordinates < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
 			{
 				cout << "Entering button " << i << "..." << endl;
 			}
@@ -199,10 +199,10 @@ void Game::HandleEvents( SDL_Event _event )
 		{
 			for( int i = 4; i < 8; i++ )
 			{
-					if( _event.button.x > gamestate.TitleScreen->DestClips[ i ].x && 
-					_event.button.x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
-					_event.button.y > gamestate.TitleScreen->DestClips[ i ].y &&
-					_event.button.y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+					if( _event.button.x > gamestate.TitleScreen->ButtonClips[ i ].x && 
+					_event.button.x < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
+					_event.button.y > gamestate.TitleScreen->ButtonClips[ i ].y &&
+					_event.button.y < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
 					{
 						cout << "Hit button..." << endl;
 					}
@@ -213,10 +213,10 @@ void Game::HandleEvents( SDL_Event _event )
 			{
 				for( int i = 4; i < 8; i++ )
 				{
-					if( _event.button.x > gamestate.TitleScreen->DestClips[ i ].x && 
-					_event.button.x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
-					_event.button.y > gamestate.TitleScreen->DestClips[ i ].y &&
-					_event.button.y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+					if( _event.button.x > gamestate.TitleScreen->ButtonClips[ i ].x && 
+					_event.button.x < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
+					_event.button.y > gamestate.TitleScreen->ButtonClips[ i ].y &&
+					_event.button.y < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
 					
 					if( _event.type == SDL_MOUSEBUTTONDOWN )
 					{
@@ -236,10 +236,10 @@ void Game::HandleEvents( SDL_Event _event )
 				// checks if mousebutton is pressed at newgame, options or quit
 				for( int i = 0; i < 3; i++ )
 				{
-					if( _event.button.x > gamestate.TitleScreen->DestClips[ i ].x && 
-						_event.button.x < gamestate.TitleScreen->DestClips[ i ].x + gamestate.TitleScreen->DestClips[ i ].w &&
-						_event.button.y > gamestate.TitleScreen->DestClips[ i ].y &&
-						_event.button.y < gamestate.TitleScreen->DestClips[ i ].y + gamestate.TitleScreen->DestClips[ i ].h )
+					if( _event.button.x > gamestate.TitleScreen->ButtonClips[ i ].x && 
+						_event.button.x < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
+						_event.button.y > gamestate.TitleScreen->ButtonClips[ i ].y &&
+						_event.button.y < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
 					{
 						switch( i )
 						{
@@ -594,7 +594,18 @@ void Game::Audiotonic()
 // ----------------------------------------------------------------------------
 void Game::Update( SDL_Event input, int iElapsedTime )
 {
-	CollisionController.Box(BulletController.GetBullets());
+	Asteroid SnowAsteroid(0,0,0);
+	// calling base class function instead of derived class
+	SnowAsteroid.Asteroid::isActive();
+	ObjectController.Report(SnowAsteroid);
+
+	std::list<Bullet> test;
+
+	ObjectController.RemoveActiveObjects();
+	test = BulletController.GetBulletsByReference();
+	//CollisionController.ListByReference(BulletController.GetBulletsByReference(),AnimalController.GetAnimal());
+
+	CollisionController.Box(BulletController.GetBullets(), AnimalController.GetAnimal());
 	cout << BCPlayer.GetAction() << endl;
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 	//if( demon.WhereIsEnd >= 5700 ) 

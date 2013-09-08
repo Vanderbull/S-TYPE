@@ -77,6 +77,23 @@ Bullet::Bullet()
 
 void ControlBullets::Draw_Bullets()
 {
+	list< Bullet >::iterator BulletCounter;
+	BulletCounter = Bullets.begin();
+
+	while( BulletCounter != Bullets.end() )
+	{
+		BulletCounter->Update();
+		BulletCounter->Draw();
+		if( BulletCounter->xPos >= Gfx.screen->w - BulletCounter->Width )
+		{
+			BulletCounter = Bullets.erase(BulletCounter);
+		}
+		else
+		{
+			++BulletCounter;
+		}
+	}
+
  	list< Bullet* >::iterator i;
 
 	i = My_Bullets.begin();
@@ -107,7 +124,19 @@ Bullet * ControlBullets::CreateBullet( int xPos, int yPos, int surface )
 
 	return temp;
 }
-  
+
+Bullet ControlBullets::CreateBulletByReference( int xPos, int yPos, int surface )
+{
+	Bullet temp;
+	temp.Surface = surface;
+	temp.xPos = xPos;
+	temp.yPos = yPos;
+
+	temp.Radius = ( temp.Width > temp.Height ) ? temp.Width / 2 : temp.Height / 2;
+
+	return temp;
+}
+
 void ControlBullets::Create_Bullets()
 {
 	static int bullet_timer = 0;
@@ -115,6 +144,7 @@ void ControlBullets::Create_Bullets()
 	if( bullet_timer <= 0 )
 	{ 
 		My_Bullets.push_back( CreateBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) ); // 75 + ( rand() % Turf )
+		Bullets.push_back( CreateBulletByReference(0, 0, gamestate.m_srfLaser ) ); // 75 + ( rand() % Turf )
 		bullet_timer = 20;
 	}
 	else

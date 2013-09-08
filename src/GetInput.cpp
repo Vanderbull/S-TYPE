@@ -124,6 +124,7 @@ bool StringInput::handle_input(   )
 		*/
 			return true;
     }
+	return false;
 }
 
 void StringInput::show_centered()  

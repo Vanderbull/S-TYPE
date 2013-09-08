@@ -1,5 +1,17 @@
+#include "Global\Global.h"
 #include "MainMenu.h" 
 #include <SDL.h>
+
+enum BName {
+	RESUME_GAME,
+	NEW_GAME,
+	LOAD_GAME,
+	SAVE_GAME,
+	OPTIONS,
+	UNKNOWN,
+	CREDITS,
+	QUIT_GAME
+};
 
 //return by value
 SDL_Rect Rectangle(int XPos, int YPos, int Width, int Height)
@@ -60,27 +72,27 @@ MainMenu::MainMenu( int ButtonX, int Surface, int SurfaceButtons )
 	ButtonHighScore = false;
 	ButtonNewgame = false;
 
-	ButtonClips[ 0 ] = Rectangle( 50, 140, 250, 60 );
-	ButtonClips[ 1 ] = Rectangle( 50, 267, 475, 60 );
-	ButtonClips[ 2 ] = Rectangle( 50, 400, 450, 70 );
-	ButtonClips[ 3 ] = Rectangle( 0, 0, 0, 0 );
-	ButtonClips[ 4 ] = Rectangle( 325, 0, 325, 70 );
-	ButtonClips[ 5 ] = Rectangle( 325, 70, 325, 70 );
-	ButtonClips[ 6 ] = Rectangle( 325, 70, 325, 70 );
-	ButtonClips[ 7 ] = Rectangle( 325, 140, 325, 70 );
-	ButtonClips[ 8 ] = Rectangle( 0, 0, 0, 0 );
-	ButtonClips[ 9 ] = Rectangle( 0, 0, 0, 0 );
+	ButtonClips[ BName::RESUME_GAME ]	= Rectangle( 401, 130, 350, 45 );
+	ButtonClips[ BName::NEW_GAME ]		= Rectangle( 401, 186, 350, 45 );
+	ButtonClips[ BName::LOAD_GAME ]		= Rectangle( 401, 242, 350, 45 );
+	ButtonClips[ BName::SAVE_GAME ]		= Rectangle( 401, 298, 350, 45 );
+	ButtonClips[ BName::OPTIONS ]		= Rectangle( 401, 355, 350, 45 );
+	ButtonClips[ BName::UNKNOWN ]		= Rectangle( 401, 410, 350, 45 );
+	ButtonClips[ BName::CREDITS ]		= Rectangle( 401, 465, 350, 45 );
+	ButtonClips[ BName::QUIT_GAME ]		= Rectangle( 401, 519, 350, 45 );
+	ButtonClips[ BName::UNKNOWN ]		= Rectangle( 0, 0, 0, 0 );
+	ButtonClips[ BName::UNKNOWN ]		= Rectangle( 0, 0, 0, 0 );
 
-	DestClips[ 0 ] = Rectangle( 50, 140, 250, 60 );
-	DestClips[ 1 ] = Rectangle( 50, 267, 475, 60 );
-	DestClips[ 2 ] = Rectangle( 50, 400, 450, 70 );
-	DestClips[ 3 ] = Rectangle( 0, 0, 0, 0 );
-	DestClips[ 4 ] = Rectangle( 325, 200, 325, 70 );
-	DestClips[ 5 ] = Rectangle( 325, 270, 325, 70 );
-	DestClips[ 6 ] = Rectangle( 325, 270, 325, 70 );
-	DestClips[ 7 ] = Rectangle( 475, 460, 325, 70 );
-	DestClips[ 8 ] = Rectangle( 0, 0, 0, 0 );
-	DestClips[ 9 ] = Rectangle( 0, 0, 0, 0 );
+	DestClips[ BName::RESUME_GAME ]		= Rectangle( 401, 0, 350, 45 );
+	DestClips[ BName::NEW_GAME ]		= Rectangle( 401, 0, 350, 45 );
+	DestClips[ BName::LOAD_GAME ]		= Rectangle( 401, 0, 350, 45 );
+	DestClips[ BName::SAVE_GAME ]		= Rectangle( 401, 0, 0, 0 );
+	DestClips[ BName::OPTIONS ]			= Rectangle( 401, 0, 350, 45 );
+	DestClips[ BName::UNKNOWN ]			= Rectangle( 401, 0, 350, 45 );
+	DestClips[ BName::CREDITS ]			= Rectangle( 401, 0, 350, 45 );
+	DestClips[ BName::QUIT_GAME ]		= Rectangle( 401, 0, 350, 45 );
+	DestClips[ BName::UNKNOWN ]			= Rectangle( 401, 0, 0, 0 );
+	DestClips[ BName::UNKNOWN ]			= Rectangle( 0, 0, 0, 0 );
 }
 
 

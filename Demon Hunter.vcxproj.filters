@@ -64,6 +64,9 @@
     <ClCompile Include="src\Bullets.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\Global\Global.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -160,6 +163,9 @@
     <ClInclude Include="src\Bullets.h">
       <Filter>Objects</Filter>
     </ClInclude>
+    <ClInclude Include="src\Global\Global.h">
+      <Filter>Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">
@@ -218,6 +224,9 @@
     </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{ce71be52-268c-4150-90ac-fd4f7705cc94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{102ea0c0-7847-4725-895e-d3137c9327db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
