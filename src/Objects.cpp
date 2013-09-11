@@ -507,7 +507,7 @@ void ControlObject::DrawObjects()
 			if( temp->Frame == 11 )
 			{
 				
-				EnemyController.Enemies.push_back( EnemyController.CreateEnemy( temp->xPos, temp->yPos - 30, gamestate.m_srfSkeleton ) );
+				//EnemyController.Enemies.push_back( EnemyController.CreateEnemy( temp->xPos, temp->yPos - 30, gamestate.m_srfSkeleton ) );
 				vRemoveCoffin.push_back( (*i) );
 			}
 

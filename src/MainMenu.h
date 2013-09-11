@@ -6,8 +6,6 @@ class MainMenu
 public:
 	MainMenu( int ButtonX, int Surface, int SurfaceButtons );
 
-	//int xPos, yPos;
-	//int Width, Height;
 	int surface;
 	int SurfaceButt;
 	SDL_Rect ButtonClips[ 10 ];
@@ -19,8 +17,4 @@ public:
 	bool ButtonSound; 
 	bool ButtonCredits;
 	bool ButtonHighScore;
-
-	//int ButtonXpos;
-	//int Button_Width, Button_Height;
-	//int Button_Small_Width,	Button_Small_Height;
 };

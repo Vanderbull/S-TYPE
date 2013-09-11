@@ -58,6 +58,10 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r, int g, int b )
 		//free old image
 		SDL_FreeSurface( loadedimage );
 	}
+	else
+	{
+		MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
+	}
 
 	//if(optimizedImage != NULL)
 	//{

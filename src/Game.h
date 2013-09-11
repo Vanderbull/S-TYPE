@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <map>
 #include <string>
 #include <sstream>
 #include <windows.h>
@@ -22,9 +23,6 @@
 #include "HighScore.h"
 #include "DancingDragon.h"
 #include "World\CWorld.h"
-
-//enum{ GS_INTRO, GS_LEVEL1, GS_LEVEL1BOSS, GS_OUTRO, 
-//	  GS_LOADING, GS_INTROSTORY, GS_MORPH, GS_DEAD, GS_ENTERNAME };
 
 enum
 {
@@ -71,48 +69,44 @@ public:
 	
 	ParallaxBackground *ParallaxBG;
 
-	//int CurrentFrame, PreviousFrame;	
-	//int GameCondition;
 	int State;
 
-	//float dt;
 	float DeltaTime;
 	float UpdateAnimationSpeed;
-	//float m_parallax;
 	float Parallax;
-
-	//bool GameOK;
-	//bool BossStart;
-	//bool IntroDone;
-
-	//char Text[ 256 ];
-	//string ScoreString;
 
 	SDL_Rect MorphingPics[ 5 ];
 
-	//TTF_Font * font;
-
-	//Boss * pBoss;
-	//IntroTalk * Intro;
 	Outro * outro;
 	StringInput * name;
 	FillHighScore * ListHighScore;
 	DancingDragon * Dragon;
 	MainMenu * TitleScreen;
 
-	int m_srfCity, m_srfSky, m_srfFence, m_srfClouds, m_srfTree, m_srfEnemyZombie,
-		m_srfSkeleton, m_srfCrow, m_srfCoffin, m_srfTrees, m_srfBlack, m_srfBoss, 
-		m_srfdemonLife, m_srfdemonHealthAndFire, m_srfDragon, m_srfStart, m_srfButtons,
-		m_srfIntro, m_srfPower, m_srfMorphing, m_srfReaper, m_srfOutro, m_srfButton, m_srfHealth,
+	int m_srfCity, 
+		m_srfSky, 
+		m_srfFence, 
+		m_srfClouds, 
+		//m_srfTree, 
+		m_srfEnemyZombie,
+		//m_srfSkeleton, 
+		m_srfCrow, 
+		m_srfCoffin,
+		m_srfBlack, 
+		m_srfBoss, 
+		m_srfdemonLife, 
+		m_srfdemonHealthAndFire, 
+		m_srfDragon, 
+		m_srfStart, 
+		m_srfButtons,
+		m_srfIntro, 
+		m_srfPower, 
+		m_srfMorphing, 
+		//m_srfReaper, 
+		m_srfOutro, 
+		m_srfButton, 
+		m_srfHealth,
 		m_srfLaser;
-
-	//SDL_Surface * srfText;
-	//SDL_Surface * textIntro;
-	//SDL_Surface * DeathSurface[ 2 ];
-	//SDL_Surface * TypeName;
-
-	// Level progress counter
-	//int LevelProgress;
 
 	// demon name
 	string demonName;
@@ -120,41 +114,22 @@ public:
 	// Active menu
 	int ActiveMenu;
 
-	//int Load_imageAlpha( std::string filename, int r, int g, int b );
-
-	//SDL_Surface * screen;
-	//SDL_Surface * BackBuffer;
-
 	void CreateAll();
 	void AddTick();
-	//void drawParallaxLayers();
 
 	void Loading();
 	void DrawAllText();
 	void DoIntroTalk();
-	void MorphMyDude();
 	void EndAll();
 	
 	void MainScreen(int iElapsedTime);
 	void EnterName();
-	//void DrawSprite();
-	//void DrawObjects();
-	//void DrawBoss();
-	//void DrawBackgroundBlack();
 	void CreateNewThings();
 	void setUpParallaxLayers();
 	void load_files();
 
 	// Key Mapping trial
 	void KeyMapping(SDL_Event _event);
-
-	//void FLIP();
-	//SDL_Surface * GetSurface( int WhichSurface );
-
-	//void stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect );
-	//void PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect );
-	//void stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect  );
-	//void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL );
 
 	void demonDied();
 	void RestartGame();
@@ -165,7 +140,6 @@ public:
 	void PlayOutro();
 
 	Boss * CreateBoss( int xPos, int yPos, int surface );
-
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
@@ -179,6 +153,7 @@ class Game
 {
 public:
 	Game();
+	~Game(){ std::cout << "Destroying Game::Object..." << endl; };
 	void Audiotonic();
 	void Update( SDL_Event input, int iElapsedTime );
 	bool Init( SDL_Surface * &screen );
@@ -189,10 +164,12 @@ public:
 	int LevelProgress;
 	int MouseXCoordinates; // the last recorded x coordinate of the mouse
 	int MouseYCoordinates; // the last recorded y coordinate of the mouse
+	std::map <string, SDL_Rect> _Button;
 
 private:
 	Gamestate _State;
 	World _World;
+
 
 };
 

@@ -3,8 +3,6 @@
 
 Outro::Outro()
 {
-	surface = gamestate.m_srfReaper;
-
 	Height = 600;
 	Width = 300;
 	

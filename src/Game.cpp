@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cmath>
+#include "Global\Global.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -29,7 +30,6 @@
 
 Gamestate gamestate;
 
-
 Gamestate::Gamestate()
 {
 	WorldController.CreateWorld();
@@ -38,24 +38,11 @@ Gamestate::Gamestate()
 	State = MENU_MAIN_STATE;
 	cout << "GameCondition: MENU_MAIN_STATE" << endl;
 
-	//BossStart = false;	// Tells game if you have reached the boss
-	//IntroDone = false;	// Used in Gamestate::Loading might be removed
-			
 	gBoss.SetSurface(1);
 
-	//pBoss = NULL; // Pointer to Boss object
-	//Intro = NULL; // Pointer to introtalk object
 	outro = NULL; // Pointer to outro object
-	//font = NULL;  //Pointer to font
-	//srfText = NULL;	// Pointer to Text surface
 
-	//PreviousFrame = 0;
-	//CurrentFrame = 0;
-	//m_parallax = 0;
 	Parallax = 0.0f;
-	//LevelProgress = 0;
-
-	//dt = 0.0f;
 	DeltaTime = 0.0f;
 }
 void Gamestate::KeyMapping(SDL_Event _event)
@@ -83,6 +70,8 @@ void Gamestate::KeyMapping(SDL_Event _event)
 	}  
 }
 
+
+
 void Game::HandleEvents( SDL_Event _event )
 {	
 	if( _event.type == SDL_KEYUP )
@@ -91,6 +80,11 @@ void Game::HandleEvents( SDL_Event _event )
 
 		switch( _event.key.keysym.sym )		
 		{
+		case SDLK_ESCAPE:
+			{
+				std::cout << "Trying to get to the menu eeeyyy!!" << endl;
+				gamestate.State = MENU_MAIN_STATE;
+			} break;
 		case SDLK_RIGHT:
 			{
 				BCPlayer.xVelocity = 0.0f;
@@ -120,6 +114,14 @@ void Game::HandleEvents( SDL_Event _event )
 	else if( _event.type == SDL_QUIT  )
 	{
 		Quit = true;
+	}
+	else if( _event.type == SDL_ACTIVEEVENT  )
+	{
+		std::cout << "Hey stop focusing on other windows, get back here!" << endl;
+	}
+	else if( _event.type == SDL_ACTIVEEVENT  )
+	{
+		std::cout << "Hey stop focusing on other windows, get back here!" << endl;
 	}
 	else if( _event.type == SDL_KEYDOWN )
 	{
@@ -151,19 +153,11 @@ void Game::HandleEvents( SDL_Event _event )
 				BCPlayer.AddAction("FIRE");
 				BCPlayer.AddBeam("Laser");
 				cout << BCPlayer.GetBeam() << endl;
-				SDL_Rect srcRect = { 0, 0, 800, 600 };
 				Gfx.FLIP();
 			} break;
 		case SDLK_LALT:
 			{
 				BCPlayer.AddAction("FIRE_SPECIAL");
-			} break;
-		case SDLK_BACKSPACE:
-			{
-				if( gamestate.demonName.length() != 0 )
-				{
-					gamestate.demonName.erase( gamestate.demonName.length() - 1 );
-				}
 			} break;
 		case SDLK_RETURN:
 			{
@@ -177,12 +171,12 @@ void Game::HandleEvents( SDL_Event _event )
 	}
 	else
 	{
-		//cout << "no key presses or releases are made" << endl;
 		BCPlayer.SetState(BaseCharacter::State::IDLE);
 	}
 	// if intro checks mouseposition and checks for presses
 	if( gamestate.State == MENU_MAIN_STATE )
 	{
+
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
@@ -197,6 +191,7 @@ void Game::HandleEvents( SDL_Event _event )
 		}
 		if( _event.type == SDL_MOUSEBUTTONDOWN )
 		{
+			// if mouse click within boundries of one of the buttons
 			for( int i = 4; i < 8; i++ )
 			{
 					if( _event.button.x > gamestate.TitleScreen->ButtonClips[ i ].x && 
@@ -207,8 +202,7 @@ void Game::HandleEvents( SDL_Event _event )
 						cout << "Hit button..." << endl;
 					}
 			}
-			//if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1))
-			//	cout << "Mouse Button 1(left) is pressed." << endl;
+
 			if( gamestate.TitleScreen->ButtonOptions == true )
 			{
 				for( int i = 4; i < 8; i++ )
@@ -268,36 +262,38 @@ void Game::HandleEvents( SDL_Event _event )
 	}
 }
 
+
 Game::Game()
 {
 	cout << "Resetting Level progress to 0..." << endl;
 	LevelProgress = 0;
 	Quit = false;
-	/*
-	if( TTF_Init() == -1 )
-	{
-		cout << "TTF_INIT FAILED..." << endl;
-	}
-	else
-	{
-		gamestate.font = TTF_OpenFont( "Fonts/PressStart2P.ttf", 14 );
-		SDL_Quit();
-	}
-	  */
+
 	// Setup of the application icons
 	SDL_WM_SetCaption("", "res/big.ico");
 	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
-	//gamestate.GameOK = true;
 	Init( Gfx.screen );
 	
-	// h 100 w 130
-	//demon.Initiatedemon( demon.demonSurface, GROUND_X, GROUND_Y, demonHEIGHT, demonWIDTH ); 
-
 	gamestate.load_files();
-	//demon.Set_clips();
+
 	//new setclips function
 	BCPlayer.SetClips();
+
+	
+	// New button stuff
+	
+	objRectangle(_Button["BName::RESUME_GAME"], 401, 130, 350, 45 );
+	objRectangle(_Button["BName::LOAD_GAME" ], 401, 242, 350, 45 );
+	objRectangle(_Button["BName::SAVE_GAME" ], 401, 298, 350, 45 );
+	objRectangle(_Button["BName::OPTIONS" ], 401, 355, 350, 45 );
+	objRectangle(_Button["BName::UNKNOWN" ], 401, 410, 350, 45 );
+	objRectangle(_Button["BName::CREDITS "], 401, 465, 350, 45 );
+	objRectangle(_Button["BName::QUIT_GAME" ], 401, 519, 350, 45 );
+	objRectangle(_Button["BName::UNKNOWN" ], 0, 0, 0, 0 );
+	objRectangle(_Button["BName::UNKNOWN" ], 0, 0, 0, 0 );
+
+
 }
 
 // loads all graphic files and all new files and the font
@@ -307,10 +303,8 @@ void Gamestate::load_files()
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
 	m_srfSky = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
-	m_srfTrees = Gfx.Load_imageAlpha( "Graphics/srfTrees.png", 0, 0, 0 );
 	BCPlayer._Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
-	m_srfSkeleton = Gfx.Load_imageAlpha( "Graphics/srfSkeleton.png", 255, 0, 255  );
 	m_srfCrow = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
 	m_srfCoffin  = Gfx.Load_imageAlpha( "Graphics/srfCoffin.png", 97, 68, 43 );
 	m_srfBoss = Gfx.Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
@@ -321,38 +315,11 @@ void Gamestate::load_files()
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
 	m_srfMorphing = Gfx.Load_imageAlpha( "Graphics/srfMorphing.png", 255, 255, 241 );
-	m_srfReaper = Gfx.Load_imageAlpha( "Graphics/srfReaper.png", 255, 255, 255 );
-	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro2.png", 0, 0, 0 );
+	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
 	
- 
- /*
-	m_srfCity = Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
-	m_srfClouds = Load_imageAlpha( "Graphics/srfClouds.png", 0, 0, 0 );
-	m_srfBlack = Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
-	m_srfSky = Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
-	m_srfTrees = Load_imageAlpha( "Graphics/srfTrees.png", 0, 0, 0 );
-	demon.demonSurface = Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
-	m_srfEnemyZombie = Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
-	m_srfSkeleton = Load_imageAlpha( "Graphics/srfSkeleton.png", 255, 0, 255  );
-	m_srfCrow = Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
-	m_srfCoffin  = Load_imageAlpha( "Graphics/srfCoffin.png", 255, 0, 255 );
-	m_srfBoss = Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
-	m_srfdemonLife = Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
-	m_srfdemonHealthAndFire = Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
-	m_srfDragon = Load_imageAlpha( "Graphics/srfDragon.png", 0, 0, 0 );
-	m_srfStart = Load_imageAlpha( "Graphics/srfStart.png", 237, 234, 214 );
-	m_srfButtons = Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
-	m_srfIntro = Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
-	m_srfMorphing = Load_imageAlpha( "Graphics/srfMorphing.png", 255, 255, 241 );
-	m_srfReaper = Load_imageAlpha( "Graphics/srfReaper.png", 255, 255, 255 );
-	m_srfOutro = Load_imageAlpha( "Graphics/srfOutro.png", 255, 255, 255 );
-	m_srfButton = Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
-	m_srfHealth = Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
-*/	
-
 	gamestate.CreateNewThings();
 
 	for( int i = 0; i < 4; i++ )
@@ -370,30 +337,10 @@ void Gamestate::CreateNewThings()
 {
 	Dragon = new DancingDragon( m_srfDragon );
 	TitleScreen = new MainMenu( 290,  m_srfStart, m_srfButtons ); 
-	//Intro = new IntroTalk( gamestate.m_srfIntro );
 	name = new StringInput();
 	ListHighScore = new FillHighScore();
 }
 
-
-// ----------------------------------------------------------------------------
-// DrawObjects() - Draws all objects, coffins, health etc.
-// ----------------------------------------------------------------------------
-//void Gamestate::DrawObjects()
-//{
-//	if( gamestate.GameCondition == GS_LEVEL1BOSS )
-//	{
-//		ControlObjects.DrawObjects();
-//	}
-//	else
-//	{						  
-//		demon.Update();
-//		AnimalController.Draw_Animals();
-//		EnemyController.Update();
-//		EnemyController.Draw_Enemies();
-//		ControlObjects.DrawObjects();
-//	}	
-//}
 // ----------------------------------------------------------------------------
 // CreateBoss() - Creates the boss gives collisionCircle and pos
 // ----------------------------------------------------------------------------
@@ -409,140 +356,8 @@ Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 	return temp;
 }
 
-// ----------------------------------------------------------------------------
-// MorphMyDude - does the morphing sequence
-// ----------------------------------------------------------------------------
-void Gamestate::MorphMyDude()
-{
-	int State = 3;
-	SDL_Rect destRect = { 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h };
-	//while( State != -1 )
-	//{
-	//	
-	//	Gfx.DrawBackgroundBlack();
-	//
-	//	switch( State )
-	//	{
-	//	case 0:
-	//		{
-	//			if( timer.MorphPics > 10 )
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//									Gfx.BackBuffer, &destRect );
-	//				State--;
-	//				timer.MorphPics = 0;
-	//			}
-	//			else
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//				Gfx.BackBuffer, &destRect );
-	//				timer.MorphPics++;
-	//			}
-
-	//			break;
-	//		}
-	//	case 1:
-	//		{
-	//			if( timer.MorphPics > 10 )
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//									Gfx.BackBuffer, &destRect );
-	//				State--;
-	//				timer.MorphPics = 0;
-	//			}
-	//			else
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//				Gfx.BackBuffer, &destRect );
-	//				timer.MorphPics++;
-	//			}
-
-	//			break;
-	//		}
-	//	case 2:
-	//		{
-	//			if( timer.MorphPics > 10 )
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//									Gfx.BackBuffer, &destRect );
-	//				State--;
-	//				timer.MorphPics = 0;
-	//			}
-	//			else
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//				Gfx.BackBuffer, &destRect );
-	//				timer.MorphPics++;
-	//			}
-	//			break;
-	//		}
-	//	case 3:
-	//		{
-	//			if( timer.MorphPics > 10 )
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//									Gfx.BackBuffer, &destRect );
-	//				State--;
-	//				timer.MorphPics = 0;
-	//			}
-	//			else
-	//			{
-	//				SDL_BlitSurface(	Gfx.GetSurface( m_srfMorphing ), &MorphingPics[ State ], 
-	//				Gfx.BackBuffer, &destRect );
-	//				timer.MorphPics++;
-	//			}
-	//			break;
-	//		}
-	//	}
-	//	//gamestate.FLIP();
-	//	Gfx.FLIP();
-	//}
-
-	gamestate.State = GAME_RUNNING_STATE;
-}
-
-// ----------------------------------------------------------------------------
-// DrawBackgroundBlack - draws a background black with the size of screen
-// ----------------------------------------------------------------------------
-//void Gamestate::DrawBackgroundBlack()
-//{
-//	if( gamestate.GameCondition == GS_OUTRO )
-//	{
-//		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
-//		/*
-//		ParallaxLayer  * MyParaBackGround;
-//		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
-//
-//		SDL_Rect scRect = { 0, 0,	100, 70 };
-//									
-//		SDL_Rect dtRect = {	600, 530, 100, 50 };
-//
-//		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
-//		*/
-//	}
-//	else
-//	{
-//		SDL_FillRect(gamestate.BackBuffer, NULL, SDL_MapRGB(gamestate.BackBuffer->format, 0,0,0));
-//		/*
-//		ParallaxLayer  * MyParaBackGround;
-//		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
-//
-//		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
-//									600 };
-//
-//		SDL_Rect dtRect = {	0, 0, MyParaBackGround->m_width, 600 };
-//
-//		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect );
-//		*/
-//	}
-//}
-
 void Gamestate::ResetBoss()
 {
-	//if( gamestate.pBoss != NULL )
-	//{
-	//	delete gamestate.pBoss;
-	//}
 }
 
 void Gamestate::ResetEnemies()
@@ -1862,8 +1677,8 @@ void Gamestate::setUpParallaxLayers()
 	ParallaxBG->setLayer( 1, 0.0f, m_srfSky, 
 						0, SDL_GetVideoSurface()->w, 400, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	// trees
-	ParallaxBG->setLayer( 2, 0.7f, m_srfTrees, 
+	// trees must be here otherwise division by zero currently
+	ParallaxBG->setLayer( 2, 0.7f, m_srfSky, 
 						0, 1172, 170, 0, 370, SDL_GetVideoSurface()->w, 170 ); 
 
 	//clouds
@@ -1888,3 +1703,5 @@ void Gamestate::setUpParallaxLayers()
 	ParallaxBG->setLayer(	9, 1.0f, m_srfCity, 
 						540, 5100, 60, 0, 535, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 }
+
+
