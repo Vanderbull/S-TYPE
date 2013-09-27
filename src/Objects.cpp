@@ -80,69 +80,6 @@ Tree::Tree()
 	SingleClip.y = 0;
 }
 
-PowerUp::PowerUp( int xPos, int yPos, int Surface )
-{
-	xPos = xPos;
-	yPos = yPos;
-	Surface = Surface;
-	Height = 56;
-	Width = 50;
-	Frame = 0;
-	//Left = true;
-	//Right = false;
-
-	Radius = ( Width > Height ) ? Width / 2 - 10 : Height/2 - 10;
-	this->SetClips(50,54,50,56);
-	//SetClips();
-}
-
-/*
-void PowerUp::SetClips()
-{
-	for( int i = 0; i < 4; i++ )
-	{
-		Clips[ i ].x = i * Width;
-		Clips[ i ].y = 54;
-		Clips[ i ].w = Width;
-		Clips[ i ].h = Height;
-	}
-}
-*/
-
-//ThingsTodemon::ThingsTodemon()
-//{
-//	Width = 50;
-//	Height = 50;
-//	Surface = gamestate.m_srfdemonLife;
-//	SurfaceHealth = gamestate.m_srfdemonHealthAndFire;
-//	SetClips();
-//	xPos = 0;
-//	yPos = 0;
-//}
-
-//void ThingsTodemon::SetClips()
-//{
-//	for( int i = 0; i < 6; i++ )
-//	{
-//		Clips[ i ].x = Width * i;
-//		Clips[ i ].y = 0;
-//		Clips[ i ].w = Width;
-//		Clips[ i ].h = Height;
-//	}
-//
-//	int Width_H = 70;
-//	int Height_H = 20;
-//	int y_Pos = 0;
-//
-//	for( int i = 0; i < 6; i++ )
-//	{
-//		HealthClips[ i ].x = i * Width_H; 
-//		HealthClips[ i ].y = y_Pos; 
-//		HealthClips[ i ].w = Width_H;
-//		HealthClips[ i ].h = Height_H;
-//	}
-//}
-
 ControlObject::ControlObject()
 {
 	//demonLife = new ThingsTodemon;
@@ -168,7 +105,6 @@ ControlObject::ControlObject()
 	Skeleton = 8;
 	Skull = 18;
 
-	WereWolf = NULL;
 	PowerUpMan = false;
 }
 
@@ -216,8 +152,6 @@ void PowerUp::SetFrame()
 // shows life and lifeicon
 void ControlObject::DrawObjects()
 {
-	ObjectController.WereWolf = new PowerUp( 50, 400, gamestate.m_srfdemonLife );
-
 	float speed = 500.0f * ( gamestate.DeltaTime / 1000.0f );
     float CoffinTim = 50.0f * ( gamestate.DeltaTime / 1000.0f );
 
@@ -230,99 +164,6 @@ void ControlObject::DrawObjects()
 	list< Heads* > vRemoveHead;
 	list< Heads* >::iterator vRemoveIterHead;
 
-	if( ObjectController.PowerUpMan == true )
-	{
-		if( BCPlayer.isMovingLeft && BCPlayer.xVelocity >= SDL_GetVideoSurface()->w - 350 )
-		{
-			ObjectController.WereWolf->xPos += CoffinTim;
-		}
-		else if( BCPlayer.isMovingRight )
-		{
-			ObjectController.WereWolf->xPos -= CoffinTim;
-		}
-
-		ObjectController.WereWolf->yPos -= abs( 2 * cos( CoffinTim ) );
-		if( ObjectController.WereWolf->Left )
-		{	
-			ObjectController.WereWolf->xPos -= 2 * cos( CoffinTim );
-			if( timer.PowerUpRoll > 20 )
-			{
-				ObjectController.WereWolf->Right = true;
-				ObjectController.WereWolf->Left = false;
-				timer.PowerUpRoll = 0.0f;
-			}
-			timer.PowerUpRoll++;
-		}
-		else if( ObjectController.WereWolf->Right )
-		{
-			ObjectController.WereWolf->xPos += 2 * cos( CoffinTim );
-			if( timer.PowerUpRoll > 20 )
-			{
-				ObjectController.WereWolf->Left = true;
-				ObjectController.WereWolf->Right = false;
-				timer.PowerUpRoll = 0.0f;
-			}
-			timer.PowerUpRoll++;
-		}
-		
-			// draw the powerup here when its created
-			SDL_Rect destRect = {	ObjectController.WereWolf->xPos,
-									ObjectController.WereWolf->yPos,
-									ObjectController.WereWolf->Width,
-									ObjectController.WereWolf->Height };
-
-			SDL_BlitSurface(	Gfx.GetSurface( ObjectController.WereWolf->Surface ),
-								&ObjectController.WereWolf->Clips[ ObjectController.WereWolf->Frame ],
-								Gfx.BackBuffer,
-								&destRect );
-
-		if( timer.PowerUp > 2 )
-		{
-			// draw the powerup here when its created
-			SDL_Rect destRect = {	ObjectController.WereWolf->xPos,
-									ObjectController.WereWolf->yPos,
-									ObjectController.WereWolf->Width,
-									ObjectController.WereWolf->Height };
-
-			SDL_BlitSurface(	Gfx.GetSurface( ObjectController.WereWolf->Surface ),
-								&ObjectController.WereWolf->Clips[ ObjectController.WereWolf->Frame ],
-								Gfx.BackBuffer,
-								&destRect );
-
-			ObjectController.WereWolf->SetFrame();
-			timer.PowerUp = 0;
-		}
-		else
-		{
-			// draw the powerup here when its created
-			SDL_Rect destRect = {	ObjectController.WereWolf->xPos,
-									ObjectController.WereWolf->yPos,
-									ObjectController.WereWolf->Width,
-									ObjectController.WereWolf->Height };
-			SDL_BlitSurface(	Gfx.GetSurface( ObjectController.WereWolf->Surface ),
-								&ObjectController.WereWolf->Clips[ ObjectController.WereWolf->Frame ],
-								Gfx.BackBuffer,
-								&destRect );
-			timer.PowerUp++;
-		}
-
-		// kolla om han har blivit demon annars så sätt till false igen så den kan skapas en gång till
-		// Triggering morphing of character
-		//bool GettingSpooky = CollisionController.CheckCollisionWithdemon( ControlObjects.WereWolf, 1 );
-		//if( GettingSpooky == true )
-		//{
-		//	demon.demonHunter = true;
-		//	demon.SmallHunter = false;
-		//	GettingSpooky = false;
-		//	delete ControlObjects.WereWolf;
-		//	ControlObjects.PowerUpMan = false;
-		//	gamestate.GameCondition = GS_MORPH;
-		//}	
-		if( ObjectController.WereWolf->yPos < 50 )
-		{
-			PowerUpMan = false;
-		}
-	}
 
 	// Do we have any Fireballs to draw to the screen?
 	if( ObjectController.List_FireBalls.size() != 0 )

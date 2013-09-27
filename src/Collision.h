@@ -33,7 +33,6 @@ public:
 
 	int Box( std::list< Bullet* > My_Bullets, std::list< Animal* > iEnemy );
 	// Old collision controlls
-	bool CollisionCircle( BaseCharacter *Mydemon, PowerUp *TransForm, bool Show );
 	bool CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
 	bool CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bool Show );
 	bool CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead, bool Show );
@@ -47,7 +46,6 @@ public:
 	bool CollisionPixel( BaseCharacter *Mydemon, CEnemy *MyEnemy );
 
 	bool CheckCollision( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon );
-	bool CheckCollision( PowerUp *TransForm, int WhichCollisionToUse );
 
 	void Circle( long centerx, long centery, long radius );
 	void SetPixelMine( int xPos, int yPos );

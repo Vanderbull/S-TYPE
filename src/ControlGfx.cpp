@@ -391,7 +391,7 @@ void ControlGfx::DrawSprite()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
-	if( gamestate.State == GAME_BOSS_STATE )
+	if( gamestate.GameState.top() == GAME_BOSS_STATE )
 	{
 		ObjectController.DrawObjects();
 	}
@@ -426,7 +426,7 @@ void ControlGfx::DrawBoss()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawBackgroundBlack()
 {
-	if( gamestate.State == GAME_OUTRO_STATE )
+	if( gamestate.GameState.top() == GAME_OUTRO_STATE )
 	{
 		SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 		/*
@@ -457,14 +457,14 @@ void ControlGfx::DrawBackgroundBlack()
 	}
 }
 
-void ControlGfx::DrawScore()
+void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord)
 {
 	TTF_Font * ScoreTTF;
 	SDL_Rect offset;
 	SDL_Surface * SrfScore;
 	static int iScore = 0;
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
-	Gfx.apply_surface( 300, 0, SrfScore, Gfx.BackBuffer );
+	Gfx.apply_surface( xCoord, yCoord, SrfScore, Gfx.BackBuffer );
 }
 
 void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )

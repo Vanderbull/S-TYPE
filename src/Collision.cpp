@@ -226,52 +226,6 @@ bool ControlCollision::CollisionCircle( Fireball *MyFire, CEnemy * MyEnemy, bool
 }
 
 // checks collision
-bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, PowerUp *TransForm, bool Show = true)
-{
-	// Cache
-	double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 - 10 ) - ( TransForm->xPos + TransForm->Width / 2 ) ),
-			dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 - 10 ) - ( TransForm->yPos + TransForm->Height / 2 ) );
-
-		// Cache
-	double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 20 ) - ( TransForm->xPos + TransForm->Width / 2 ) ),
-			dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 40 ) - ( TransForm->yPos + TransForm->Height / 2 ) );
-	
-	if( Show )
-	{
-		Circle( TransForm->xPos + TransForm->Width / 2, TransForm->yPos + TransForm->Height / 2, TransForm->Radius ) ;
-		Circle( Mydemon->GetPosition().x + demonWIDTHREAL - 10 / 2, Mydemon->GetPosition().y + demonHEIGHTREAL / 2 - 10, Mydemon->Radius );
-		Circle( Mydemon->GetPosition().x + demonWIDTHREAL + 20 / 2, Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 40, Mydemon->Radius );
-	}
-
-	int dist = (int)sqrt( dx * dx + dy * dy );
-	int dist2 = (int)sqrt( dx1 * dx1 + dy1 * dy1 );
-
-	// Do circles overlap?
-	if( dist < Mydemon->Radius + TransForm->Radius || 
-		dist2 < Mydemon->Radius + TransForm->Radius )
-	{
-		return true;	// Yep, collision
-	}
-
-	// No collision
-	return false;
-}
-
-// checks collision
-bool ControlCollision::CheckCollision( PowerUp *TransForm, int WhichCollisionToUse )
-{
-	
-	bool temp = false;
-
-	if( WhichCollisionToUse == 1 )
-	{
-		temp = CollisionCircle( &BCPlayer, TransForm, true );
-	}
-
-	return temp;
-}
-
-// checks collision
 void ControlCollision::Circle( long centerx, long centery, long radius )
 {
          long d, y, x;

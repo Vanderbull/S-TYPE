@@ -12,7 +12,6 @@ Timer::Timer()
 	BossAnim = 0.0f;
 	BossHead = 0.0f;
 
-	PowerUp = 0.0f;
 	CoffinTimer = 0.0f;
 	PowerUpRoll = 0.0f;
 	MorphPics = 0.0f;
@@ -142,7 +141,6 @@ void Timer::RestartTimers()
 	BossAnim = 0.0f;
 	BossHead = 0.0f;
 
-	PowerUp = 0.0f;
 	CoffinTimer = 0.0f;
 	PowerUpRoll = 0.0f;
 	MorphPics = 0.0f;

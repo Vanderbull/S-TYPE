@@ -1,11 +1,16 @@
 #pragma once
 
-#include <iostream>
 #include <windows.h>
-#include <sstream>
 #include <stdlib.h>
+#include <iostream>
+#include <sstream>
 #include <fstream>
 #include <cmath>
+#include <vector>
+#include <string>
+
+using namespace std;
+
 #include "Global\Global.h"
 #include <SDL.h>
 #include <SDL_image.h>
@@ -22,6 +27,7 @@
 #include "Animals.h"
 #include "Bullets.h"
 #include "MainMenu.h"
+#include "Credits.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -35,12 +41,9 @@ Gamestate::Gamestate()
 	WorldController.CreateWorld();
 	cout << "Initializing Gamestate...." << endl;
 
-	State = MENU_MAIN_STATE;
-	cout << "GameCondition: MENU_MAIN_STATE" << endl;
+	this->GameState.push(MENU_MAIN_STATE);
 
 	gBoss.SetSurface(1);
-
-	outro = NULL; // Pointer to outro object
 
 	Parallax = 0.0f;
 	DeltaTime = 0.0f;
@@ -83,6 +86,7 @@ void Game::HandleEvents( SDL_Event _event )
 		case SDLK_ESCAPE:
 			{
 				std::cout << "Trying to get to the menu eeeyyy!!" << endl;
+				gamestate.GameState.push(MENU_MAIN_STATE);
 				gamestate.State = MENU_MAIN_STATE;
 			} break;
 		case SDLK_RIGHT:
@@ -173,18 +177,19 @@ void Game::HandleEvents( SDL_Event _event )
 	{
 		BCPlayer.SetState(BaseCharacter::State::IDLE);
 	}
-	// if intro checks mouseposition and checks for presses
-	if( gamestate.State == MENU_MAIN_STATE )
+	// if intro checks 'position and checks for presses
+	//if( gamestate.State == MENU_MAIN_STATE )
+	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
 
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
 		{
-			if(MouseXCoordinates > gamestate.TitleScreen->ButtonClips[ i ].x && 
-			MouseXCoordinates < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
-			MouseYCoordinates > gamestate.TitleScreen->ButtonClips[ i ].y &&
-			MouseYCoordinates < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
+			if(MouseXCoordinates > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
+			MouseXCoordinates < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
+			MouseYCoordinates > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
+			MouseYCoordinates < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
 			{
 				cout << "Entering button " << i << "..." << endl;
 			}
@@ -194,32 +199,39 @@ void Game::HandleEvents( SDL_Event _event )
 			// if mouse click within boundries of one of the buttons
 			for( int i = 4; i < 8; i++ )
 			{
-					if( _event.button.x > gamestate.TitleScreen->ButtonClips[ i ].x && 
-					_event.button.x < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
-					_event.button.y > gamestate.TitleScreen->ButtonClips[ i ].y &&
-					_event.button.y < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
+					if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
+					_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
+					_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
+					_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
 					{
-						cout << "Hit button..." << endl;
+						if( i == 7 )
+							Game::Quit = true;
+						if( i == 6 )
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(GAME_CREDITS_STATE);
+						}
+						cout << "Hit button..." << i << endl;
 					}
 			}
 
-			if( gamestate.TitleScreen->ButtonOptions == true )
+			if( gamestate.MainMenuScreen->ButtonOptions == true )
 			{
 				for( int i = 4; i < 8; i++ )
 				{
-					if( _event.button.x > gamestate.TitleScreen->ButtonClips[ i ].x && 
-					_event.button.x < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
-					_event.button.y > gamestate.TitleScreen->ButtonClips[ i ].y &&
-					_event.button.y < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
+					if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
+					_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
+					_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
+					_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
 					
 					if( _event.type == SDL_MOUSEBUTTONDOWN )
 					{
 						switch( i )
 						{
-							case 4: gamestate.TitleScreen->ButtonHighScore = true; break;
-							case 5: gamestate.TitleScreen->ButtonCredits = true; break;
-							case 6: gamestate.TitleScreen->ButtonSound = true; break;
-							case 7: gamestate.TitleScreen->ButtonBack = true; break;
+							case 4: gamestate.MainMenuScreen->ButtonHighScore = true; break;
+							case 5: gamestate.MainMenuScreen->ButtonCredits = true; break;
+							case 6: gamestate.MainMenuScreen->ButtonSound = true; break;
+							case 7: gamestate.MainMenuScreen->ButtonBack = true; break;
 						}
 					}
 				}
@@ -230,10 +242,10 @@ void Game::HandleEvents( SDL_Event _event )
 				// checks if mousebutton is pressed at newgame, options or quit
 				for( int i = 0; i < 3; i++ )
 				{
-					if( _event.button.x > gamestate.TitleScreen->ButtonClips[ i ].x && 
-						_event.button.x < gamestate.TitleScreen->ButtonClips[ i ].x + gamestate.TitleScreen->ButtonClips[ i ].w &&
-						_event.button.y > gamestate.TitleScreen->ButtonClips[ i ].y &&
-						_event.button.y < gamestate.TitleScreen->ButtonClips[ i ].y + gamestate.TitleScreen->ButtonClips[ i ].h )
+					if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
+						_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
+						_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
+						_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
 					{
 						switch( i )
 						{
@@ -245,8 +257,8 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							switch( i )
 							{
-								case BUTTON_NEW_GAME: gamestate.TitleScreen->ButtonNewgame = true; break;
-								case BUTTON_OPTIONS: gamestate.TitleScreen->ButtonOptions = true; break;
+								case BUTTON_NEW_GAME: gamestate.MainMenuScreen->ButtonNewgame = true; break;
+								case BUTTON_OPTIONS: gamestate.MainMenuScreen->ButtonOptions = true; break;
 							}
 						}
 					}					
@@ -298,7 +310,29 @@ Game::Game()
 
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
-{	
+{
+		std::ifstream file;
+		file.open("graphics.txt");
+		if (!file)
+		{
+			cout << "CFG: File couldn't be found!\n" << endl;
+			exit(1);
+		}
+
+
+		std::string line;
+		size_t lineNo = 0;
+		while (std::getline(file, line))
+		{
+			lineNo++;
+			std::string temp = line;
+
+			if (temp.empty())
+				continue;
+		}
+
+		file.close();
+
 	m_srfCity = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
@@ -306,7 +340,6 @@ void Gamestate::load_files()
 	BCPlayer._Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
 	m_srfCrow = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
-	m_srfCoffin  = Gfx.Load_imageAlpha( "Graphics/srfCoffin.png", 97, 68, 43 );
 	m_srfBoss = Gfx.Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
 	m_srfdemonLife = Gfx.Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
 	m_srfdemonHealthAndFire = Gfx.Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
@@ -320,26 +353,13 @@ void Gamestate::load_files()
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
 	
-	gamestate.CreateNewThings();
-
-	for( int i = 0; i < 4; i++ )
-	{
-		MorphingPics[ i ].x = i * SDL_GetVideoSurface()->w;
-		MorphingPics[ i ].y = 0;
-		MorphingPics[ i ].h = SDL_GetVideoSurface()->h;
-		MorphingPics[ i ].w = SDL_GetVideoSurface()->w;
-	}
+	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
+	CreditsScreen = new Credits( 290,  m_srfStart, m_srfButtons ); 
+	name = new StringInput();
 
 	setUpParallaxLayers();
 }
 
-void Gamestate::CreateNewThings()
-{
-	Dragon = new DancingDragon( m_srfDragon );
-	TitleScreen = new MainMenu( 290,  m_srfStart, m_srfButtons ); 
-	name = new StringInput();
-	ListHighScore = new FillHighScore();
-}
 
 // ----------------------------------------------------------------------------
 // CreateBoss() - Creates the boss gives collisionCircle and pos
@@ -383,18 +403,7 @@ void Gamestate::ResetObjects()
 		ObjectController.List_FireBalls.clear();
 	}
 
-	if( ObjectController.List_PowerUps.size() != NULL )
-	{
-		ObjectController.List_PowerUps.clear();
-	}
-
 	ObjectController.FrameHealth = 0;
-	ObjectController.PowerUpMan = false;
-	if( ObjectController.WereWolf != NULL )
-	{
-		delete ObjectController.WereWolf;
-		ObjectController.WereWolf = NULL;
-	}
 
 	ObjectController.WhichLifeToShow = 0;
 	
@@ -430,26 +439,15 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 	//}
 
 	// Check game state
-	switch( gamestate.State )
+	switch( gamestate.GameState.top() )
 	{
 		case MENU_MAIN_STATE:
 			{
-				//Handle_events( input );
 				gamestate.MainScreen(iElapsedTime);
-				//gamestate.FLIP();
-				//Gfx.FLIP();
 			} break;
-		//case GS_ENTERNAME:
-		//	{
-		//		gamestate.EnterName();
-		//		//gamestate.FLIP();
-		//		//Gfx.FLIP();
-		//	} break;	
-		case GAME_STORY_STATE:
+		case GAME_CREDITS_STATE:
 			{
-				gamestate.DoIntroTalk();
-				//gamestate.FLIP();
-				//Gfx.FLIP();
+				gamestate.CreditScreen(iElapsedTime);
 			} break;
 		case GAME_LOADING_STATE:
 			{
@@ -457,26 +455,12 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_RUNNING_STATE:
 			{
-				//gamestate.LevelProgress++;
-				//gamestate.LevelProgress = gamestate.LevelProgress + (60*gamestate.DeltaTime);
-				//cout << gamestate.LevelProgress << endl;
-
-				// handles events what the user does with the character
-				//Handle_events( input );
-				
-				//draws layers
-				//gamestate.drawParallaxLayers();
 				Gfx.DrawParallaxLayers();
-				//gamestate.DrawObjects();
 				Gfx.DrawObjects();
-				//gamestate.DrawSprite();
 				Gfx.DrawSprite();
-				Gfx.DrawScore();
+				Gfx.DrawScore(300,25);
 				
 				gamestate.DrawAllText();
-				
-				//gamestate.FLIP();
-				//Gfx.FLIP();
 			} break;
 		case GAME_BOSS_STATE:
 			{
@@ -493,7 +477,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				//gamestate.DrawAllText();
 				//gamestate.DrawSprite();
 				//Gfx.DrawSprite();
-				Gfx.DrawScore();
+				Gfx.DrawScore(300,0);
 				//gamestate.FLIP();
 				//Gfx.FLIP();
 
@@ -508,7 +492,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_PLAYER_DIED_STATE:
 			{
-				//gamestate.demonDied();
 				BCPlayer.Died();
 			} break;
 	}
@@ -519,15 +502,13 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 // ----------------------------------------------------------------------------
 void Gamestate::PlayOutro()
 {
-	SDL_Rect srcRect = { 0, 0, 800, 600 };
-	SDL_Rect destRect = { 0, 0, 800, 600 };
 	SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
-					&srcRect, Gfx.BackBuffer, &destRect );
+					&ScreenSize, Gfx.BackBuffer, &ScreenSize );
 	Gfx.FLIP();
 
 	SDL_Event input;
 
-	while( gamestate.State == GAME_OUTRO_STATE )
+	while( gamestate.GameState.top() == GAME_OUTRO_STATE )
 	{
 		SDL_PollEvent( &input );
 		if( input.type == SDL_KEYDOWN )
@@ -535,7 +516,8 @@ void Gamestate::PlayOutro()
   			switch( input.key.keysym.sym )
 			{
 			case SDLK_SPACE:
-				gamestate.State = MENU_MAIN_STATE;
+				//gamestate.State = MENU_MAIN_STATE;
+				gamestate.GameState.push(MENU_MAIN_STATE);
 				break;
 			}
 		}
@@ -544,150 +526,6 @@ void Gamestate::PlayOutro()
 	gamestate.RestartGame();
 
 	return;
-
-	//demon.Update();
-	////demon.Updatedemon();
-
-	//int IntroState = 0;
-	//int Letter = 0, LetterWidth = 0, Line = 0;
-	//string FinishLine = "On Marjuras northwestern coast claimed that there are graves after a fallen kingdom. Grave Robber think there is gold and riches and Marjuras indigenous kvurerna believe that somewhere in the graves is a powerful weapon that can relieve Marjura from evil. Are you up for the task?";
-	//string FinishSlow[ 7 ];
-	//int Counter = 0;
-	//SDL_Surface * FinishSurface;
-
-	//bool Walk = true;
-
-	////SDL_Color textColor = { 255, 255, 255 };
-
-	//float speedJumpdemon = 0.0;
-
-	//bool JumpDown = false, JumpUp = true;
-
-	//Timer speed;
-	//speed.Start();
-
-	////SDL_Rect srcRect = { 0, 0, 800, 600 };
-	////SDL_Rect destRect = { 0, 0, 800, 600 };
-
-	//bool Finish = false;
-	//while( Finish != true )
-	//{
-	//	while( speed.GetTicks() < 1000 / 40 )
- //       {
- //           //wait    
-	//		
- //       }
-	//	
-	//	switch( IntroState )
-	//	{
-	//		speedJumpdemon += 100.0f * ( gamestate.DeltaTime / 1000 );
-
-	//	case 0:
-	//		{
-	//			if( demon.GetPosition().x > 580 )
-	//			{
-	//				Walk = false;
-	//				if( JumpUp ) 
-	//				{
-	//					//demon.yPos -= abs( 20 * cos( speedJumpdemon ) );
-	//					//demon.xPos += abs( 5 * cos( speedJumpdemon ) );
-	//					//demon.xVel += abs( 5 * cos( speedJumpdemon ) );
-	//					//demon.yVel -= abs( 20 * cos( speedJumpdemon ) );
-	//					/*
-	//					if( demon.yPos < GROUND_Y - 100 )
-	//					{
-	//						JumpUp = false;
-	//						JumpDown = true;
-	//					}*/
-	//				}
-	//				else if( JumpDown )
-	//				{
-	//					//demon.yPos += abs( 10 * cos( speedJumpdemon ) );
-	//					//demon.yVel += abs( 10 * cos( speedJumpdemon ) );
-	//					if( demon.GetPosition().y > GROUND_Y + 80 )
-	//					{
-	//						IntroState = 1;
-	//					}
-	//				}
-	//				
-	//			}
-	//			else if( demon.GetPosition().x < 580 && Walk == true )
-	//			{
- //   					demon.isMovingRight = true;
-	//			}
-
-	//			//gamestate.drawParallaxLayers();
-	//			Gfx.DrawParallaxLayers();
-	//			//gamestate.DrawSprite();
-	//			Gfx.DrawSprite();
-	//			//gamestate.DrawBackgroundBlack();
-	//			Gfx.DrawBackgroundBlack();
-	//			break;
-	//		}
-	//	case 1:
-	//		{
-	//			SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
-	//								&srcRect, Gfx.BackBuffer, &destRect );
-	//			if( Counter > 2 )
-	//			{
-	//				Counter = 0;
-	//				
-	//				LetterWidth++;
-
-	//				if( Letter < FinishLine.length() )
-	//				{
-	//					Letter++;
-	//				}
-	//				else
-	//				{
-	//					IntroState = 2;
-	//				}
-
-	//				FinishSlow[ Line ] += FinishLine[ Letter ];
-	//				for( int i = 0; i < 7; i++ )
-	//				{
-	//					FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
-	//					//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
-	//					Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
-	//				}
-	//			}
-
-	//			for( int i = 0; i < 7; i++ )
-	//			{
-	//				FinishSurface = TTF_RenderText_Solid( Gfx.DefaultFont, FinishSlow[ i ].c_str(), Gfx.WhiteRGB );
-	//				//gamestate.apply_surface( 300, i * 40, FinishSurface, gamestate.BackBuffer );
-	//				Gfx.apply_surface( 300, i * 40, FinishSurface, Gfx.BackBuffer );
-	//			}
-	//			
-	//			if( LetterWidth > 20 )
-	//			{
-	//				LetterWidth = 0;
-	//				Line++;
-	//			}
-
-	//			Counter++;
-	//			break;
-	//		}
-	//	case 2:
-	//		{
-	//			Finish = true;
-	//			break;
-	//		}
-	//	}
-	//	//gamestate.FLIP();
-	//	Gfx.FLIP();
-
-	//}
-	//gamestate.State = MENU_MAIN_STATE;
-}
-
-// ----------------------------------------------------------------------------
-// DoIntroTalk() - does the intro where all the talking takes place.
-// ----------------------------------------------------------------------------
-void Gamestate::DoIntroTalk()
-{
-	//Intro->Story();
-	//Intro->DoTalk();
 }
 
 // ----------------------------------------------------------------------------
@@ -878,35 +716,6 @@ void Gamestate::DrawAllText()
 // ----------------------------------------------------------------------------
 void Gamestate::Loading()
 {
-	//currentAnimFrame += deltaTime * animFramesPerSecond;
-	SDL_SetAlpha( m_surfaceList[  Dragon->surface ], SDL_SRCALPHA, 255 );
-
-	float Speed = 1000.0f * ( gamestate.DeltaTime / 1000.0f );	// AddTick call here instead
-	SDL_Rect dstRect = { Dragon->xPos, Dragon->yPos, Dragon->Width, Dragon->Height };
-	//if ( gamestate.IntroDone == false )
-	//{
-					SDL_BlitSurface(	Gfx.GetSurface( Dragon->surface ), &Dragon->Clips[ Dragon->Frame ],
-								Gfx.BackBuffer, &dstRect );
-			//Dragon->PrevFrame = Dragon->Frame;
-			Dragon->SetFrame();		
-			/*
-		if( timer.Timer_Dancing >= (1000.f /dt) / 60 )
-		{
-			timer.Timer_Dancing = 0;
-			
-			SDL_BlitSurface(	m_surfaceList[ Dragon->surface ], &Dragon->Clips[ Dragon->Frame ],
-								gamestate.BackBuffer, &dstRect );
-			Dragon->PrevFrame = Dragon->Frame;
-			Dragon->SetFrame();		
-		}
-		else
-		{
-			SDL_BlitSurface(	m_surfaceList[ Dragon->surface ], &Dragon->Clips[ Dragon->PrevFrame ],
-								gamestate.BackBuffer, &dstRect );
-			timer.Timer_Dancing++;
-		}*/
-		
-	//}
 }
 
 // ----------------------------------------------------------------------------
@@ -954,6 +763,31 @@ void Gamestate::Loading()
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen(int iElapsedTime)
 {
+	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	
+
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 8 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
+	stringstream ss;
+	ss << iElapsedTime;
+	string str = "Microseconds per frame:";
+	str.append(ss.str());
+	SDL_Surface * srfElapsedTime;
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
+	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	if( MainMenuScreen->ButtonNewgame == true )
+	{
+		gamestate.GameState.push(GAME_RUNNING_STATE);
+		MainMenuScreen->ButtonNewgame = false;
+	}
+	return;
 
 	//SDL_Surface * Surface_Credits = NULL;
 	//SDL_Surface * Surface_HighScore = NULL;
@@ -961,10 +795,6 @@ void Gamestate::MainScreen(int iElapsedTime)
 	//ParallaxLayer  * MyParaBackGround;
 	//MyParaBackGround = Parallax->getLayer( TitleScreen->surface );
 
-	//SDL_Rect scRect = { 0, 0, 800, 600 };
-	//SDL_Rect dtRect = {	0, 0, 800, 600 };
-
-	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	/*
 	for( int i = 0; i < 4; i++ )
 	{
@@ -975,20 +805,9 @@ void Gamestate::MainScreen(int iElapsedTime)
 							Gfx.BackBuffer, &TitleScreen->DestClips[ i ] ); 
 	}*/
 
-	if( TitleScreen->ButtonNewgame == true )
-	{
-		gamestate.State = GAME_RUNNING_STATE;
-		TitleScreen->ButtonNewgame = false;
-	}
 
-	stringstream ss;
-	ss << iElapsedTime;
-	string str = "Microseconds per frame:";
-	str.append(ss.str());
-	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+
 	//gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
-	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	//if( gamestate.TitleScreen->ButtonHighScore == true )
 	//{
 	//	ListHighScore->sort( gamestate.name->str.c_str(), gamestate.GetScore() );
@@ -1104,57 +923,44 @@ void Gamestate::MainScreen(int iElapsedTime)
 	//} 					  	   
 	//
 }
+// ----------------------------------------------------------------------------
+// MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
+// ----------------------------------------------------------------------------
+void Gamestate::CreditScreen(int iElapsedTime)
+{
+	std::cout << "Rendering credits screen like a god!!!!" << endl;
+	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	
+	stringstream ss;
+	ss << (float)iElapsedTime / 1000000;
+	string str = "Frame time in seconds:";
+	str.append(ss.str());
+	SDL_Surface * srfElapsedTime;
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
+	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	if( CreditsScreen->ButtonNewgame == true )
+	{
+		gamestate.GameState.push(GAME_RUNNING_STATE);
+		CreditsScreen->ButtonNewgame = false;
+	}
+	return;
 
+
+}
 // ----------------------------------------------------------------------------
 // EnterName() - checks for input demon name
 // ----------------------------------------------------------------------------
 void Gamestate::EnterName()
 {
-	cout << "EnterName gamestate..." << endl;
-	SDL_Rect scRect = {	0, 0, 800, 600 };
-	SDL_Rect dtRect = {	0, 0, 800, 600 };
-	SDL_BlitSurface( Gfx.GetSurface( TitleScreen->surface ), &scRect, Gfx.BackBuffer, &dtRect );
-	//SDL_Color textColor = { 0,0,0 };
+	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &ScreenSize, Gfx.BackBuffer, &ScreenSize );
 	SDL_Surface * srfEnter;
-	srfEnter = TTF_RenderText_Solid( Gfx.DefaultFont, gamestate.demonName.c_str(), Gfx.BlackRGB );
-	//gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
+	//srfEnter = TTF_RenderText_Solid( Gfx.DefaultFont, gamestate.demonName.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 200, 400, srfEnter, Gfx.BackBuffer );
-	//gamestate.name->show_centered();
 
 	if( gamestate.name->handle_input(  ) == false )
 	{
-		gamestate.State = GAME_STORY_STATE;
+		gamestate.GameState.push(GAME_STORY_STATE);
 	}
-	
-	//bool Name =  false;
-	//SDL_Event input;
-	//SDL_Color textColor = { 0,0,0 };
-	//gamestate.IntroDone = false;
-	//SDL_Surface * srfEnter;
-	//
-	//while( gamestate.name->handle_input(  ) )
-	//{
-	//	SDL_Rect scRect = {	0, 0, 800, 600 };
-	//	SDL_Rect dtRect = {	0, 0, 800, 600 };
-	//	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
-	//	//gamestate.name->handle_input(  );
-	//	//SDL_Delay(1000 / 60);
-	//	timer.Timer_Name++;
-
-	//	
-	//	//TypeName = TTF_RenderText_Solid( font, " Enter your name ", textColor ); 
-	//	gamestate.name->show_centered();
-	//	//gamestate.apply_surface( 250, 200, TypeName, gamestate.BackBuffer );
-
-	//	srfEnter = TTF_RenderText_Solid( font, " Press Enter To Finish ", textColor );
-	//	gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
-
-	//	//gamestate.FLIP();
-	//	Gfx.FLIP();
-	//}
-
-	//gamestate.GameCondition = GS_INTROSTORY;
-	
 }
 
 void Gamestate::RestartGame()
@@ -1176,24 +982,14 @@ void Gamestate::RestartGame()
 
 void Gamestate::ResetRest()
 {
-	if( Dragon != NULL )
+	if( MainMenuScreen != NULL )
 	{
-		delete Dragon;
+		delete MainMenuScreen;
 	}
-	if( TitleScreen != NULL )
+	if( CreditsScreen != NULL )
 	{
-		delete TitleScreen;
+		delete CreditsScreen;
 	}
-	//if( Intro != NULL )
-	//{
-	//	delete Intro;
-	//}
-	if( ListHighScore != NULL )
-	{
-		delete ListHighScore;
-	}
-
-	gamestate.CreateNewThings();
 }
 
 // Frees surfaces and deletes thing thats not NULL
@@ -1203,33 +999,10 @@ void Gamestate::EndAll()
 	{
 		SDL_FreeSurface( m_surfaceList[ i ] );
 	}
-
-	//if( gamestate.Intro != NULL )
-	//{
-	//	delete Intro;
-	//}
-	//if( gamestate.pBoss != NULL )
-	//{
-	//	delete gamestate.pBoss;
-	//}
-	if( gamestate.outro != NULL )
-	{ 
-		delete outro;
-	}
-	if( gamestate.Dragon != NULL )
-	{
-		delete Dragon;
-	}
-
-
-	//ListHighScore->sort( gamestate.name->str, gamestate.GetScore() );
-	//ListHighScore->Save();
-
 	if( gamestate.name != NULL )
 	{
 		delete name;
 	}
-
 }
 
 void Game::Cleanup()

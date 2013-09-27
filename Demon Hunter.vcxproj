@@ -114,6 +114,7 @@
     <ClCompile Include="src\characters.cpp" />
     <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\ControlGfx.cpp" />
+    <ClCompile Include="src\Credits.cpp" />
     <ClCompile Include="src\DancingDragon.cpp" />
     <ClCompile Include="src\Enemies.cpp" />
     <ClCompile Include="src\Enemies\CHeads.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="src\characters.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\ControlGfx.h" />
+    <ClInclude Include="src\Credits.h" />
     <ClInclude Include="src\DancingDragon.h" />
     <ClInclude Include="src\Enemies.h" />
     <ClInclude Include="src\Enemies\CDwarf.h" />

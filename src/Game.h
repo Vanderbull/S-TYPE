@@ -15,8 +15,9 @@
 #include <list>
 #include "Enemies.h"
 #include <fstream>
-//#include "Intro.h"
+#include "Global\Global.h"
 #include "MainMenu.h"
+#include "Credits.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -24,49 +25,16 @@
 #include "DancingDragon.h"
 #include "World\CWorld.h"
 
-enum
-{
-	MENU_MAIN_STATE,
-	MENU_SUB_STATE,
-	GAME_RUNNING_STATE,
-	GAME_INTRO_STATE,
-	GAME_OUTRO_STATE,
-	GAME_PAUSED_STATE,
-	GAME_STORY_STATE,
-	GAME_LOADING_STATE,
-	GAME_BOSS_STATE,
-	GAME_PLAYER_DIED_STATE
-};
-
-enum{ BOSS_IDLE, BOSS_ATTACK, BOSS_DIE };
-enum{ HEAD_GO, HEAD_DOWN, HEAD_CRASH };
-enum{ BUTTON_NEW_GAME, BUTTON_OPTIONS, BUTTON_QUIT };
-enum{ MAIN_MENU, OPTIONS_MENU, CREDITS_MENU };
-
-const int MAX_SURFACE = 128;
-const int ANIMPACE = 150;
-const int ANIMPACESLOWER = 300;
-const int ANIMPACEENEMY = 50;
-const int ANIMPACEBOSSHEAD = 5;
-
-const int demonHEIGHT = 100;
-const int demonWIDTH = 130;
-const int demonWIDTHREAL = 25;
-const int demonHEIGHTREAL = 25;
-
-const int GROUND_Y = 500;
-const int GROUND_X = 400;
-const int STARTSCROLLING = 400;
-const int BOSS_ATTACK_START = 150;
-
 using namespace std;
 
 class Gamestate
 {
 public:
 	Gamestate();
-	~Gamestate(){};
+	~Gamestate(){ std::cout << "Destroying Gamestate object..." << endl; };
 	
+	std::stack<InGameStates> GameState;
+
 	ParallaxBackground *ParallaxBG;
 
 	int State;
@@ -75,23 +43,16 @@ public:
 	float UpdateAnimationSpeed;
 	float Parallax;
 
-	SDL_Rect MorphingPics[ 5 ];
-
-	Outro * outro;
 	StringInput * name;
-	FillHighScore * ListHighScore;
-	DancingDragon * Dragon;
-	MainMenu * TitleScreen;
+	MainMenu * MainMenuScreen;
+	Credits * CreditsScreen;
 
 	int m_srfCity, 
 		m_srfSky, 
 		m_srfFence, 
 		m_srfClouds, 
-		//m_srfTree, 
 		m_srfEnemyZombie,
-		//m_srfSkeleton, 
-		m_srfCrow, 
-		m_srfCoffin,
+		m_srfCrow,
 		m_srfBlack, 
 		m_srfBoss, 
 		m_srfdemonLife, 
@@ -102,36 +63,37 @@ public:
 		m_srfIntro, 
 		m_srfPower, 
 		m_srfMorphing, 
-		//m_srfReaper, 
 		m_srfOutro, 
 		m_srfButton, 
 		m_srfHealth,
 		m_srfLaser;
 
-	// demon name
-	string demonName;
-
 	// Active menu
 	int ActiveMenu;
+
+	void ResumeGame(){};
+	void NewGame(){};
+	void LoadGame(){};
+	void SaveGame(){};
+	void CreditScreen(int iElapsedTime);
+	void Quit(){};
+
 
 	void CreateAll();
 	void AddTick();
 
 	void Loading();
 	void DrawAllText();
-	void DoIntroTalk();
 	void EndAll();
 	
 	void MainScreen(int iElapsedTime);
 	void EnterName();
-	void CreateNewThings();
 	void setUpParallaxLayers();
 	void load_files();
 
 	// Key Mapping trial
 	void KeyMapping(SDL_Event _event);
 
-	void demonDied();
 	void RestartGame();
 	void ResetBoss();
 	void ResetEnemies();
@@ -144,7 +106,7 @@ public:
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
 	int _Score;
-	
+
 };
 
 extern Gamestate gamestate;
@@ -169,7 +131,5 @@ public:
 private:
 	Gamestate _State;
 	World _World;
-
-
 };
 

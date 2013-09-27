@@ -1,8 +1,6 @@
 #pragma once
 #include <SDL.h>
 
-// @date 2012-08-07
-
 class Outro
 {
 public:

@@ -504,7 +504,7 @@ void BaseCharacter::Died()
 
 	SDL_Event input;
 
-	while( gamestate.State == GAME_PLAYER_DIED_STATE )
+	while( gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
 	{
 		SDL_PollEvent( &input );
 		if( input.type == SDL_KEYDOWN )
@@ -512,7 +512,8 @@ void BaseCharacter::Died()
   			switch( input.key.keysym.sym )
 			{
 			case SDLK_SPACE:
-				gamestate.State = MENU_MAIN_STATE;
+				//gamestate.State = MENU_MAIN_STATE;
+				gamestate.GameState.push(MENU_MAIN_STATE);
 				break;
 			}
 		}

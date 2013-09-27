@@ -11,6 +11,7 @@ public:
 	int Height,Width;
 	int SurfaceID;
 	SDL_Rect CollisionBox;
+	virtual void onCollision() = 0;
 
 private:
 };
@@ -37,6 +38,7 @@ public:
 	void Update();
 	void Draw();
 	int GetSurfaceID();
+	void onCollision(){};
 	
 	SDL_Rect GetDestination();
 

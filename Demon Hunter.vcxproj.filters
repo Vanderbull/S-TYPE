@@ -67,6 +67,9 @@
     <ClCompile Include="src\Global\Global.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="src\Credits.cpp">
+      <Filter>Credits</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -166,6 +169,9 @@
     <ClInclude Include="src\Global\Global.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="src\Credits.h">
+      <Filter>Credits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">
@@ -227,6 +233,9 @@
     </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{102ea0c0-7847-4725-895e-d3137c9327db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Credits">
+      <UniqueIdentifier>{b3c48f4e-8d42-4090-b5e1-5f2c2f532ec4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,8 @@ public:
 	virtual void Draw() = 0;
 	virtual int isActive() = 0;
 	virtual void DeActivate() = 0;
+	virtual void onCollision() = 0;
+	virtual void onDestruction() = 0;
 
 	int Initialize(float _xPos, float _yPos, int _Width, int _Height,int Frame, int _Radius);
 	int Object::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
@@ -45,6 +47,8 @@ public:
 	void Draw() {};
 	int isActive() { return true; };
 	void DeActivate() {};
+	void onCollision(){};
+	void onDestruction(){};
 };
 
 class PowerUp : public Object
@@ -55,6 +59,9 @@ public:
 	void Draw() {};
 	int isActive() { return true; };
 	void DeActivate() {};
+	void onCollision(){};
+	void onDestruction(){};
+
 	void SetFrame();
 	bool Left, Right;
 };
@@ -67,6 +74,8 @@ public:
 	void Draw() {};
 	int isActive() { return true; };
 	void DeActivate() {};
+	void onCollision(){};
+	void onDestruction(){};
 };
 
 class Fireball : public Object
@@ -77,6 +86,9 @@ public:
 	void Draw() {};
 	int isActive() { return true; };
 	void DeActivate() {};
+	void onCollision(){};
+	void onDestruction(){};
+
 	int FrameRight, FrameLeft;
 	bool FireRight, FireLeft;
 
@@ -91,6 +103,9 @@ public:
 	void Draw() {};
 	int isActive() { return true; };
 	void DeActivate() {};
+	void onCollision(){};
+	void onDestruction(){};
+
 	void SetFrames();
 };
 
@@ -113,9 +128,6 @@ public:
 	Fireball * CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left );
 	Coffin * CreateCoffin( int xPos, int yPos, int Surface );
 
-	PowerUp * WereWolf;
-	
-	std::list< PowerUp * > List_PowerUps;
 	std::list< Tree * > List_Trees;
 	std::list< Fireball * > List_FireBalls;
 	std::list< Coffin * > List_Coffins;

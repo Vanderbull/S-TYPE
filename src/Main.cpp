@@ -6,15 +6,14 @@ using namespace std;
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include "Global\Global.h"
 #include "Game.h"
 #include "characters.h"
 #include "time.h"
 #include "Timers.h"
 #include "ConfigFileConverter.h"
 #include "resource.h"
-const int FRAMES_PER_SECOND = 20;
 
-#define MAXSAMPLES 100
 int tickindex=0;
 int ticksum=0;
 int ticklist[MAXSAMPLES];

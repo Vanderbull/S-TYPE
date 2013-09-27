@@ -21,7 +21,6 @@ public:
 	float BossAnim;
 	float BossHead;
 	float CoffinTimer;
-	float PowerUp;
 	float PowerUpRoll;
 	float MorphPics;
 	float Hit;
