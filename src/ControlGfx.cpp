@@ -17,10 +17,10 @@ ControlGfx::ControlGfx()
 		 printf("initialize SDL_ttf: %s \n", TTF_GetError());
 	}
 
-	DefaultFont = TTF_OpenFont("cour.ttf", 14);
+	DefaultFont = TTF_OpenFont("Fonts/Mecha.ttf", 14);
 	if (Gfx.DefaultFont == NULL){
       printf("Unable to load font: %s %s \n", "cour.ttf", TTF_GetError());
-      // Handl	e the error here.
+      // Handle the error here.
     }
 
 	WhiteRGB.r = 255;

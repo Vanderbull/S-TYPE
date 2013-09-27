@@ -66,7 +66,8 @@ public:
 		m_srfOutro, 
 		m_srfButton, 
 		m_srfHealth,
-		m_srfLaser;
+		m_srfLaser,
+		m_srfCredits;
 
 	// Active menu
 	int ActiveMenu;

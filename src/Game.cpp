@@ -352,9 +352,10 @@ void Gamestate::load_files()
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
+	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/srfCredits.png", 255, 255, 255 );
 	
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
-	CreditsScreen = new Credits( 290,  m_srfStart, m_srfButtons ); 
+	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons ); 
 	name = new StringInput();
 
 	setUpParallaxLayers();
@@ -777,7 +778,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 8 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
 	stringstream ss;
 	ss << iElapsedTime;
-	string str = "Microseconds per frame:";
+	string str = "MainScreen @ ";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
@@ -928,12 +929,12 @@ void Gamestate::MainScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::CreditScreen(int iElapsedTime)
 {
-	std::cout << "Rendering credits screen like a god!!!!" << endl;
+		std::cout << "Rendering credits screen like a god!!!!" << endl;
 	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
-	string str = "Frame time in seconds:";
+	string str = "CreditsScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
