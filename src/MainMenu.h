@@ -16,5 +16,6 @@ public:
 	bool ButtonBack;
 	bool ButtonSound; 
 	bool ButtonCredits;
-	bool ButtonHighScore;
+
+	//bool ButtonHighScore;
 };

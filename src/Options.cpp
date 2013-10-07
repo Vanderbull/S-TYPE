@@ -1,5 +1,5 @@
 #include "Global\Global.h"
-#include "MainMenu.h" 
+#include "Options.h" 
 #include <SDL.h>
 
 enum BName {
@@ -15,8 +15,9 @@ enum BName {
 
 
 
-MainMenu::MainMenu( int ButtonX, int Surface, int SurfaceButtons )							
+Options::Options( int ButtonX, int Surface, int SurfaceButtons )							
 {
+	std::cout << "Credits rendering like a god!!!!!" << endl;
 	surface = Surface;
 
 	SurfaceButt = SurfaceButtons;
@@ -43,8 +44,7 @@ MainMenu::MainMenu( int ButtonX, int Surface, int SurfaceButtons )
 	ButtonBack = false; 
 	ButtonSound = false;
 	ButtonCredits = false;
-	ButtonOptions = false;
-	//ButtonHighScore = false;
+	ButtonHighScore = false;
 	ButtonNewgame = false;
 
 	objRectangle(ButtonClips[ BName::RESUME_GAME ], 401, 130, 350, 45 );

@@ -18,6 +18,7 @@
 #include "Global\Global.h"
 #include "MainMenu.h"
 #include "Credits.h"
+#include "Options.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -46,6 +47,7 @@ public:
 	StringInput * name;
 	MainMenu * MainMenuScreen;
 	Credits * CreditsScreen;
+	Options * OptionsScreen;
 
 	int m_srfCity, 
 		m_srfSky, 
@@ -67,7 +69,8 @@ public:
 		m_srfButton, 
 		m_srfHealth,
 		m_srfLaser,
-		m_srfCredits;
+		m_srfCredits,
+		m_srfOptions;
 
 	// Active menu
 	int ActiveMenu;
@@ -77,6 +80,7 @@ public:
 	void LoadGame(){};
 	void SaveGame(){};
 	void CreditScreen(int iElapsedTime);
+	void OptionScreen(int iElapsedTime);
 	void Quit(){};
 
 

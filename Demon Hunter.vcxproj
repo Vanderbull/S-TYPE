@@ -126,6 +126,7 @@
     <ClCompile Include="src\Intro.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Objects.cpp" />
+    <ClCompile Include="src\Options.cpp" />
     <ClCompile Include="src\OutroFinish.cpp" />
     <ClCompile Include="src\Paralaxlayers.cpp" />
     <ClCompile Include="src\Timers.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="src\HighScore.h" />
     <ClInclude Include="src\Intro.h" />
     <ClInclude Include="src\Objects.h" />
+    <ClInclude Include="src\Options.h" />
     <ClInclude Include="src\OutroFinish.h" />
     <ClInclude Include="src\Paralaxlayers.h" />
     <ClInclude Include="src\resource.h" />

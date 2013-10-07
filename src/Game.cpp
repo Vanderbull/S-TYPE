@@ -179,9 +179,9 @@ void Game::HandleEvents( SDL_Event _event )
 	}
 	// if intro checks 'position and checks for presses
 	//if( gamestate.State == MENU_MAIN_STATE )
+
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
-
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
@@ -211,6 +211,11 @@ void Game::HandleEvents( SDL_Event _event )
 							gamestate.GameState.pop();
 							gamestate.GameState.push(GAME_CREDITS_STATE);
 						}
+						if( i == 4 )
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(GAME_OPTIONS_STATE);
+						}
 						cout << "Hit button..." << i << endl;
 					}
 			}
@@ -228,10 +233,11 @@ void Game::HandleEvents( SDL_Event _event )
 					{
 						switch( i )
 						{
-							case 4: gamestate.MainMenuScreen->ButtonHighScore = true; break;
-							case 5: gamestate.MainMenuScreen->ButtonCredits = true; break;
-							case 6: gamestate.MainMenuScreen->ButtonSound = true; break;
-							case 7: gamestate.MainMenuScreen->ButtonBack = true; break;
+							// Buttons within the options screen
+							//case 4: gamestate.MainMenuScreen->ButtonHighScore = true; break;
+							//case 5: gamestate.MainMenuScreen->ButtonCredits = true; break;
+							//case 6: gamestate.MainMenuScreen->ButtonSound = true; break;
+							//case 7: gamestate.MainMenuScreen->ButtonBack = true; break;
 						}
 					}
 				}
@@ -353,6 +359,7 @@ void Gamestate::load_files()
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
 	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/srfCredits.png", 255, 255, 255 );
+	m_srfOptions = Gfx.Load_imageAlpha( "Graphics/srfOptions.png", 255, 255, 255 );
 	
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
 	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons ); 
@@ -450,6 +457,11 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			{
 				gamestate.CreditScreen(iElapsedTime);
 			} break;
+		case GAME_OPTIONS_STATE:
+			{
+				gamestate.OptionScreen(iElapsedTime);
+			} break;
+
 		case GAME_LOADING_STATE:
 			{
 				gamestate.Loading();
@@ -925,7 +937,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 	//
 }
 // ----------------------------------------------------------------------------
-// MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
+// CreditScreen() - Draws the credit screen
 // ----------------------------------------------------------------------------
 void Gamestate::CreditScreen(int iElapsedTime)
 {
@@ -945,8 +957,28 @@ void Gamestate::CreditScreen(int iElapsedTime)
 		CreditsScreen->ButtonNewgame = false;
 	}
 	return;
-
-
+}
+// ----------------------------------------------------------------------------
+// OptionScreen() - Draws the option screen
+// ----------------------------------------------------------------------------
+void Gamestate::OptionScreen(int iElapsedTime)
+{
+		std::cout << "Rendering options screen like a god!!!!" << endl;
+	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	
+	stringstream ss;
+	ss << (float)iElapsedTime / 1000000;
+	string str = "OptionsScreen @";
+	str.append(ss.str());
+	SDL_Surface * srfElapsedTime;
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
+	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	if( CreditsScreen->ButtonNewgame == true )
+	{
+		gamestate.GameState.push(GAME_RUNNING_STATE);
+		CreditsScreen->ButtonNewgame = false;
+	}
+	return;
 }
 // ----------------------------------------------------------------------------
 // EnterName() - checks for input demon name
@@ -954,7 +986,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 void Gamestate::EnterName()
 {
 	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &ScreenSize, Gfx.BackBuffer, &ScreenSize );
-	SDL_Surface * srfEnter;
+	SDL_Surface * srfEnter = 0;
 	//srfEnter = TTF_RenderText_Solid( Gfx.DefaultFont, gamestate.demonName.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 200, 400, srfEnter, Gfx.BackBuffer );
 
@@ -1065,23 +1097,26 @@ bool Game::Init(SDL_Surface * &screen)
 	//set up the screen
 	Gfx.screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
- SDL_Rect** modes;
-   int i;
+	SDL_Rect** modes;
+	int i;
    
     /* Get available fullscreen/hardware modes */
     modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
     
     /* Check if there are any modes available */
-    if (modes == (SDL_Rect**)0) {
+    if (modes == (SDL_Rect**)0) 
+	{
         printf("No modes available!\n");
        exit(-1);
-   }
+	}
    
    /* Check if our resolution is restricted */
-   if (modes == (SDL_Rect**)-1) {
+   if (modes == (SDL_Rect**)-1) 
+   {
        printf("All resolutions available.\n");
    }
-   else{
+   else
+   {
        /* Print valid modes */
        printf("Available Modes\n");
        for (i=0; modes[i]; ++i)
@@ -1116,8 +1151,6 @@ bool Game::Init(SDL_Surface * &screen)
 	gmask = 0x00000000;
 	bmask = 0x00000000;
 	amask = 0x00000000;
-
-
 
 	Gfx.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel,
 								   rmask, gmask, bmask, amask);

@@ -1,10 +1,10 @@
 #pragma once
 #include <SDL.h>
 
-class Credits
+class Options
 {
 public:
-	Credits( int ButtonX, int Surface, int SurfaceButtons );
+	Options( int ButtonX, int Surface, int SurfaceButtons );
 
 	int surface;
 	int SurfaceButt;

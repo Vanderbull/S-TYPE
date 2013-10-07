@@ -70,6 +70,9 @@
     <ClCompile Include="src\Credits.cpp">
       <Filter>Credits</Filter>
     </ClCompile>
+    <ClCompile Include="src\Options.cpp">
+      <Filter>Options</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animals.h">
@@ -172,6 +175,9 @@
     <ClInclude Include="src\Credits.h">
       <Filter>Credits</Filter>
     </ClInclude>
+    <ClInclude Include="src\Options.h">
+      <Filter>Options</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Animals">
@@ -236,6 +242,9 @@
     </Filter>
     <Filter Include="Credits">
       <UniqueIdentifier>{b3c48f4e-8d42-4090-b5e1-5f2c2f532ec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Options">
+      <UniqueIdentifier>{81626e78-b7d0-428a-b7f3-d26ad223eec5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

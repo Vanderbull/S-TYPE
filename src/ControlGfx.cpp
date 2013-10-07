@@ -459,8 +459,6 @@ void ControlGfx::DrawBackgroundBlack()
 
 void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord)
 {
-	TTF_Font * ScoreTTF;
-	SDL_Rect offset;
 	SDL_Surface * SrfScore;
 	static int iScore = 0;
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
