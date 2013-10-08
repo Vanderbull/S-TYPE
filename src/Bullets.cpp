@@ -34,7 +34,10 @@ void Bullet::Update()
 
 void Bullet::Draw()
 {
-	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	#ifdef _DEBUG 
+	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	#endif
+
 	SDL_BlitSurface( 
 		Gfx.GetSurface( this->Surface ),
 		&this->Clips[ this->PrevFrame ], 

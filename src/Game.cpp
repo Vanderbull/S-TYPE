@@ -25,9 +25,12 @@ using namespace std;
 #include "TImers.h"
 #include "Paralaxlayers.h"
 #include "Animals.h"
+#include "Enemies\Cubes.h"
 #include "Bullets.h"
 #include "MainMenu.h"
 #include "Credits.h"
+#include "Load.h"
+#include "Save.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -197,7 +200,7 @@ void Game::HandleEvents( SDL_Event _event )
 		if( _event.type == SDL_MOUSEBUTTONDOWN )
 		{
 			// if mouse click within boundries of one of the buttons
-			for( int i = 4; i < 8; i++ )
+			for( int i = 0; i < 8; i++ )
 			{
 					if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
 					_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
@@ -215,6 +218,16 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							gamestate.GameState.pop();
 							gamestate.GameState.push(GAME_OPTIONS_STATE);
+						}
+						if( i == 3 )
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(GAME_SAVING_STATE);
+						}
+						if( i == 2 )
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(GAME_LOADING_STATE);
 						}
 						cout << "Hit button..." << i << endl;
 					}
@@ -246,29 +259,29 @@ void Game::HandleEvents( SDL_Event _event )
 			else
 			{
 				// checks if mousebutton is pressed at newgame, options or quit
-				for( int i = 0; i < 3; i++ )
-				{
-					if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
-						_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
-						_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
-						_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
-					{
-						switch( i )
-						{
-							case BUTTON_NEW_GAME: cout << "Hoovering new game button" << endl ; break;
-							case BUTTON_OPTIONS: cout << "Hoovering options button" << endl; break;
-							case BUTTON_QUIT: cout << "Hoovering quit button" << endl; Game::Quit = true; break;
-						}
-						if( _event.type == SDL_MOUSEBUTTONDOWN )
-						{
-							switch( i )
-							{
-								case BUTTON_NEW_GAME: gamestate.MainMenuScreen->ButtonNewgame = true; break;
-								case BUTTON_OPTIONS: gamestate.MainMenuScreen->ButtonOptions = true; break;
-							}
-						}
-					}					
-				}
+				//for( int i = 0; i < 3; i++ )
+				//{
+				//	if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
+				//		_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
+				//		_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
+				//		_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
+				//	{
+				//		switch( i )
+				//		{
+				//			case BUTTON_NEW_GAME: cout << "Hoovering new game button" << endl ; break;
+				//			case BUTTON_OPTIONS: cout << "Hoovering options button" << endl; break;
+				//			case BUTTON_QUIT: cout << "Hoovering quit button" << endl; Game::Quit = true; break;
+				//		}
+				//		if( _event.type == SDL_MOUSEBUTTONDOWN )
+				//		{
+				//			switch( i )
+				//			{
+				//				case BUTTON_NEW_GAME: gamestate.MainMenuScreen->ButtonNewgame = true; break;
+				//				case BUTTON_OPTIONS: gamestate.MainMenuScreen->ButtonOptions = true; break;
+				//			}
+				//		}
+				//	}					
+				//}
 			}
 		}
 
@@ -297,7 +310,6 @@ Game::Game()
 
 	//new setclips function
 	BCPlayer.SetClips();
-
 	
 	// New button stuff
 	
@@ -317,27 +329,26 @@ Game::Game()
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
 {
-		std::ifstream file;
-		file.open("graphics.txt");
-		if (!file)
-		{
-			cout << "CFG: File couldn't be found!\n" << endl;
-			exit(1);
-		}
+	std::ifstream file;
+	file.open("graphics.txt");
+	if (!file)
+	{
+		cout << "CFG: File couldn't be found!\n" << endl;
+		exit(1);
+	}
 
+	std::string line;
+	size_t lineNo = 0;
+	while (std::getline(file, line))
+	{
+		lineNo++;
+		std::string temp = line;
 
-		std::string line;
-		size_t lineNo = 0;
-		while (std::getline(file, line))
-		{
-			lineNo++;
-			std::string temp = line;
+		if (temp.empty())
+			continue;
+	}
 
-			if (temp.empty())
-				continue;
-		}
-
-		file.close();
+	file.close();
 
 	m_srfCity = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
@@ -360,9 +371,16 @@ void Gamestate::load_files()
 	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
 	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/srfCredits.png", 255, 255, 255 );
 	m_srfOptions = Gfx.Load_imageAlpha( "Graphics/srfOptions.png", 255, 255, 255 );
+	m_srfLoad = Gfx.Load_imageAlpha( "Graphics/srfLoad.png", 255, 255, 255 );
+	m_srfSave = Gfx.Load_imageAlpha( "Graphics/srfSave.png", 255, 255, 255 );
+	m_srfCube = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
 	
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
-	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons ); 
+	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons );
+	OptionsScreen = new Options( 290, m_srfOptions, m_srfButtons );
+	LoadsScreen = new Load( 290, m_srfLoad, m_srfButtons );
+	SavesScreen = new Save( 290, m_srfSave, m_srfButtons );
+
 	name = new StringInput();
 
 	setUpParallaxLayers();
@@ -461,10 +479,13 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			{
 				gamestate.OptionScreen(iElapsedTime);
 			} break;
-
 		case GAME_LOADING_STATE:
 			{
-				gamestate.Loading();
+				gamestate.LoadScreen(iElapsedTime);
+			} break;
+		case GAME_SAVING_STATE:
+			{
+				gamestate.SaveScreen(iElapsedTime);
 			} break;
 		case GAME_RUNNING_STATE:
 			{
@@ -789,7 +810,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 8 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
 	stringstream ss;
-	ss << iElapsedTime;
+	ss << (float)iElapsedTime / 1000000;
 	string str = "MainScreen @ ";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
@@ -936,12 +957,59 @@ void Gamestate::MainScreen(int iElapsedTime)
 	//} 					  	   
 	//
 }
+
+// ----------------------------------------------------------------------------
+// LoadScreen() - Draws the credit screen
+// ----------------------------------------------------------------------------
+void Gamestate::LoadScreen(int iElapsedTime)
+{
+	std::cout << "Rendering load screen like a god!!!!" << endl;
+	SDL_BlitSurface( Gfx.GetSurface( LoadsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	
+	stringstream ss;
+	ss << (float)iElapsedTime / 1000000;
+	string str = "LoadScreen @";
+	str.append(ss.str());
+	SDL_Surface * srfElapsedTime;
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	if( LoadsScreen->ButtonNewgame == true )
+	{
+		gamestate.GameState.push(GAME_RUNNING_STATE);
+		LoadsScreen->ButtonNewgame = false;
+	}
+	return;
+}
+
+// ----------------------------------------------------------------------------
+// SaveScreen() - Draws the save screen
+// ----------------------------------------------------------------------------
+void Gamestate::SaveScreen(int iElapsedTime)
+{
+	std::cout << "Rendering save screen like a god!!!!" << endl;
+	SDL_BlitSurface( Gfx.GetSurface( SavesScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	
+	stringstream ss;
+	ss << (float)iElapsedTime / 1000000;
+	string str = "SaveScreen @";
+	str.append(ss.str());
+	SDL_Surface * srfElapsedTime;
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	if( SavesScreen->ButtonNewgame == true )
+	{
+		gamestate.GameState.push(GAME_RUNNING_STATE);
+		SavesScreen->ButtonNewgame = false;
+	}
+	return;
+}
+
 // ----------------------------------------------------------------------------
 // CreditScreen() - Draws the credit screen
 // ----------------------------------------------------------------------------
 void Gamestate::CreditScreen(int iElapsedTime)
 {
-		std::cout << "Rendering credits screen like a god!!!!" << endl;
+	std::cout << "Rendering credits screen like a god!!!!" << endl;
 	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
@@ -949,7 +1017,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 	string str = "CreditsScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( CreditsScreen->ButtonNewgame == true )
 	{
@@ -963,20 +1031,20 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(int iElapsedTime)
 {
-		std::cout << "Rendering options screen like a god!!!!" << endl;
-	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	std::cout << "Rendering options screen like a god!!!!" << endl;
+	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
 	string str = "OptionsScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	if( CreditsScreen->ButtonNewgame == true )
+	if( OptionsScreen->ButtonNewgame == true )
 	{
 		gamestate.GameState.push(GAME_RUNNING_STATE);
-		CreditsScreen->ButtonNewgame = false;
+		OptionsScreen->ButtonNewgame = false;
 	}
 	return;
 }
@@ -1275,7 +1343,10 @@ bool Game::Init(SDL_Surface * &screen)
 
 void Gamestate::CreateAll()
 {
-	AnimalController.Create_Animals();
+	static int iScore = 0;
+
+	AnimalController.CreateAnimals(iScore++);
+	CubeController.CreateCubes( iScore );
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();
 }

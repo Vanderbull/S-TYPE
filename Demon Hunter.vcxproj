@@ -118,7 +118,9 @@
     <ClCompile Include="src\DancingDragon.cpp" />
     <ClCompile Include="src\Enemies.cpp" />
     <ClCompile Include="src\Enemies\CHeads.cpp" />
+    <ClCompile Include="src\Enemies\Cubes.cpp" />
     <ClCompile Include="src\Global\Global.cpp" />
+    <ClCompile Include="src\Load.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GetInput.cpp" />
@@ -129,6 +131,7 @@
     <ClCompile Include="src\Options.cpp" />
     <ClCompile Include="src\OutroFinish.cpp" />
     <ClCompile Include="src\Paralaxlayers.cpp" />
+    <ClCompile Include="src\Save.cpp" />
     <ClCompile Include="src\Timers.cpp" />
     <ClCompile Include="src\World\CWorld.cpp" />
   </ItemGroup>
@@ -144,18 +147,11 @@
     <ClInclude Include="src\Credits.h" />
     <ClInclude Include="src\DancingDragon.h" />
     <ClInclude Include="src\Enemies.h" />
-    <ClInclude Include="src\Enemies\CDwarf.h" />
-    <ClInclude Include="src\Enemies\CGhost.h" />
     <ClInclude Include="src\Enemies\CHeads.h" />
-    <ClInclude Include="src\Enemies\CLizardMan.h" />
-    <ClInclude Include="src\Enemies\CMummy.h" />
-    <ClInclude Include="src\Enemies\CPixieLight.h" />
-    <ClInclude Include="src\Enemies\CSkeleton.h" />
-    <ClInclude Include="src\Enemies\CSnake.h" />
-    <ClInclude Include="src\Enemies\CTroll.h" />
-    <ClInclude Include="src\Enemies\CZombie.h" />
+    <ClInclude Include="src\Enemies\Cubes.h" />
     <ClInclude Include="src\Enemies\MovingThings.h" />
     <ClInclude Include="src\Global\Global.h" />
+    <ClInclude Include="src\Load.h" />
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GetInput.h" />
@@ -166,6 +162,7 @@
     <ClInclude Include="src\OutroFinish.h" />
     <ClInclude Include="src\Paralaxlayers.h" />
     <ClInclude Include="src\resource.h" />
+    <ClInclude Include="src\Save.h" />
     <ClInclude Include="src\Timers.h" />
     <ClInclude Include="src\World\CWorld.h" />
   </ItemGroup>

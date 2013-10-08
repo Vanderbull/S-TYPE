@@ -1,6 +1,7 @@
 #include "ControlGfx.h"
 #include "Game.h"
 #include "Animals.h"
+#include "Enemies\Cubes.h"
 #include "Bullets.h"
 #include "CBoss.h"
 
@@ -398,7 +399,8 @@ void ControlGfx::DrawObjects()
 	else
 	{						  
 		BCPlayer.Update();
-		AnimalController.Draw_Animals();
+		AnimalController.DrawAnimals();
+		CubeController.DrawCubes();
 		BulletController.Draw_Bullets();
 		EnemyController.Update();
 		EnemyController.Draw_Enemies();

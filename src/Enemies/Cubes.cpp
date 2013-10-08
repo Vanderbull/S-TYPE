@@ -1,17 +1,17 @@
-#include "Animals.h"
+#include "Cubes.h"
 #include <SDL.h>
-#include "game.h"
-#include "ControlGfx.h"
+#include "../Game.h"
+#include "../ControlGfx.h"
 
-ControlAnimals AnimalController;
+ControlCubes CubeController;
 
-SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
+SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 {
 	CollisionBox = Box;
 	return CollisionBox;
 }
 
-void Animal::Update()
+void Cube::Update()
 {
 	this->xPos -= 0.0003f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
 	this->Destination.h = this->Height;
@@ -20,14 +20,14 @@ void Animal::Update()
 	this->Destination.y = this->yPos; 
 
 	this->PrevFrame = this->Frame++;
-	if( this->Frame >= ANIMAL_MAX_FRAMES )
+	if( this->Frame >= CUBE_MAX_FRAMES )
 	{
 		this->Frame = 0;
 	}
 	UpdateCollisionBox(Destination);
 }
 
-void Animal::Draw()
+void Cube::Draw()
 {
 	#ifdef _DEBUG 
 	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
@@ -41,12 +41,12 @@ void Animal::Draw()
 	);
 }
 
-SDL_Rect Animal::GetDestination()
+SDL_Rect Cube::GetDestination()
 {
 	return this->Destination;
 }
 
-Animal::Animal()
+Cube::Cube()
 {
 	PrevFrame = 0;
 	Frame = 0;
@@ -62,19 +62,19 @@ Animal::Animal()
 	}
 }
 
-void ControlAnimals::DrawAnimals()
+void ControlCubes::DrawCubes()
 {
- 	list< Animal* >::iterator i;
+ 	list< Cube* >::iterator i;
 
-	i = AnimalList.begin();
-	while(i != AnimalList.end() )
+	i = CubeList.begin();
+	while(i != CubeList.end() )
 	{
 		(*i)->Update();
 		(*i)->Draw();
 		
 		if( (*i)->xPos <= 0.0f - (*i)->Width )
 		{
-			i = AnimalList.erase(i);
+			i = CubeList.erase(i);
 		}
 		else
 		{
@@ -83,9 +83,9 @@ void ControlAnimals::DrawAnimals()
 	}
 }
 
-Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
+Cube * ControlCubes::CreateCube( int xPos, int yPos, int surface )
 {
-		Animal * temp = new Animal;
+		Cube * temp = new Cube;
 		temp->Surface = surface;
 		temp->xPos = xPos;
 		temp->yPos = yPos;
@@ -95,14 +95,14 @@ Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
 		return temp;
 }
   
-void ControlAnimals::CreateAnimals(int iProgress )
+void ControlCubes::CreateCubes(int iProgress )
 {
-	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < ANIMAL_MAX_PROGRESS )
+	if( iProgress > CUBE_MIN_PROGRESS && iProgress < CUBE_MAX_PROGRESS )
 	{
-		if( AnimalList.size() < rand() % 5 )
+		if( CubeList.size() < rand() % 5 )
 		{
-			cout << "Creating a animal..." << endl;
-			AnimalList.push_back( CreateAnimal( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
+			cout << "Creating a cube..." << endl;
+			CubeList.push_back( CreateCube( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCube ) );
 		}
 	}
 	else
@@ -111,12 +111,12 @@ void ControlAnimals::CreateAnimals(int iProgress )
 	}
 }
 
-ControlAnimals::ControlAnimals()
+ControlCubes::ControlCubes()
 {
 	Turf = 200;
 }
 
-ControlAnimals::~ControlAnimals()
+ControlCubes::~ControlCubes()
 {
-	cout << "Destroying the Animal Controller..." << endl;
+	cout << "Destroying the Cube Controller..." << endl;
 }

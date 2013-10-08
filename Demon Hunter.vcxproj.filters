@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\Animals.cpp">
-      <Filter>Animals</Filter>
-    </ClCompile>
     <ClCompile Include="src\DancingDragon.cpp">
       <Filter>DancingDragon</Filter>
     </ClCompile>
@@ -32,7 +29,7 @@
       <Filter>Highscore</Filter>
     </ClCompile>
     <ClCompile Include="src\Intro.cpp">
-      <Filter>Intro</Filter>
+      <Filter>Screens\Intro</Filter>
     </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Main</Filter>
@@ -49,17 +46,11 @@
     <ClCompile Include="src\Paralaxlayers.cpp">
       <Filter>ParallaxLayers</Filter>
     </ClCompile>
-    <ClCompile Include="src\CBoss.cpp">
-      <Filter>Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Enemies\CHeads.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="src\World\CWorld.cpp">
       <Filter>World</Filter>
     </ClCompile>
     <ClCompile Include="src\MainMenu.cpp">
-      <Filter>MainMenu</Filter>
+      <Filter>Screens\MainMenu</Filter>
     </ClCompile>
     <ClCompile Include="src\Bullets.cpp">
       <Filter>Objects</Filter>
@@ -68,16 +59,31 @@
       <Filter>Global</Filter>
     </ClCompile>
     <ClCompile Include="src\Credits.cpp">
-      <Filter>Credits</Filter>
+      <Filter>Screens\Credits</Filter>
     </ClCompile>
     <ClCompile Include="src\Options.cpp">
-      <Filter>Options</Filter>
+      <Filter>Screens\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Animals.cpp">
+      <Filter>Enemies\Asteroids</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies\CHeads.cpp">
+      <Filter>Enemies\Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CBoss.cpp">
+      <Filter>Enemies\Bosses</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies\Cubes.cpp">
+      <Filter>Enemies\Cubes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Load.cpp">
+      <Filter>Screens\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Save.cpp">
+      <Filter>Screens\Save</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Animals.h">
-      <Filter>Animals</Filter>
-    </ClInclude>
     <ClInclude Include="src\DancingDragon.h">
       <Filter>DancingDragon</Filter>
     </ClInclude>
@@ -106,7 +112,7 @@
       <Filter>Highscore</Filter>
     </ClInclude>
     <ClInclude Include="src\Intro.h">
-      <Filter>Intro</Filter>
+      <Filter>Screens\Intro</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects.h">
       <Filter>Objects</Filter>
@@ -121,47 +127,14 @@
       <Filter>ParallaxLayers</Filter>
     </ClInclude>
     <ClInclude Include="src\BaseController.h" />
-    <ClInclude Include="src\Enemies\CSkeleton.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enemies\MovingThings.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CBoss.h">
-      <Filter>Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CHeads.h">
       <Filter>Enemies</Filter>
     </ClInclude>
     <ClInclude Include="src\World\CWorld.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="src\Enemies\CDwarf.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CGhost.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CLizardMan.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CMummy.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CPixieLight.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CSnake.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CTroll.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CZombie.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="src\MainMenu.h">
-      <Filter>MainMenu</Filter>
+      <Filter>Screens\MainMenu</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Resource</Filter>
@@ -173,16 +146,31 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="src\Credits.h">
-      <Filter>Credits</Filter>
+      <Filter>Screens\Credits</Filter>
     </ClInclude>
     <ClInclude Include="src\Options.h">
-      <Filter>Options</Filter>
+      <Filter>Screens\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animals.h">
+      <Filter>Enemies\Asteroids</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\CHeads.h">
+      <Filter>Enemies\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CBoss.h">
+      <Filter>Enemies\Bosses</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\Cubes.h">
+      <Filter>Enemies\Cubes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Load.h">
+      <Filter>Screens\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Save.h">
+      <Filter>Screens\Save</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Animals">
-      <UniqueIdentifier>{6a6ca93d-ed7f-4192-a684-d363e0d8b038}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DancingDragon">
       <UniqueIdentifier>{3670a4ae-5645-4469-93e3-d32ebeaabd82}</UniqueIdentifier>
     </Filter>
@@ -210,9 +198,6 @@
     <Filter Include="Highscore">
       <UniqueIdentifier>{3bb813d7-e72b-44ca-a2b4-4f42c1793846}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Intro">
-      <UniqueIdentifier>{a12cf371-3418-42de-bf60-554b3a62233c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{b09540d1-2926-40f7-a57b-3fa80d114054}</UniqueIdentifier>
     </Filter>
@@ -231,19 +216,40 @@
     <Filter Include="World">
       <UniqueIdentifier>{6f899a7f-da15-486f-b733-00d71c55b154}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MainMenu">
-      <UniqueIdentifier>{67d9a765-4e40-43b2-bafd-8b3d275e40fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{ce71be52-268c-4150-90ac-fd4f7705cc94}</UniqueIdentifier>
     </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{102ea0c0-7847-4725-895e-d3137c9327db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Credits">
+    <Filter Include="Enemies\Asteroids">
+      <UniqueIdentifier>{6a6ca93d-ed7f-4192-a684-d363e0d8b038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Bosses">
+      <UniqueIdentifier>{312f6bd3-0e68-417e-83f2-a23138c08d8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Cubes">
+      <UniqueIdentifier>{ca6009e1-31cd-4ddf-9613-1a7dc05a105c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens">
+      <UniqueIdentifier>{534f0d58-55e6-41b4-8ffb-f874ac437f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Load">
+      <UniqueIdentifier>{4e6db59e-a075-4353-a0b8-6da8d500d302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\MainMenu">
+      <UniqueIdentifier>{67d9a765-4e40-43b2-bafd-8b3d275e40fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Save">
+      <UniqueIdentifier>{685cddc8-dafe-4247-b121-eb6baba8f6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Intro">
+      <UniqueIdentifier>{a12cf371-3418-42de-bf60-554b3a62233c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Credits">
       <UniqueIdentifier>{b3c48f4e-8d42-4090-b5e1-5f2c2f532ec4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Options">
+    <Filter Include="Screens\Options">
       <UniqueIdentifier>{81626e78-b7d0-428a-b7f3-d26ad223eec5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

@@ -1,5 +1,5 @@
 #include "Global\Global.h"
-#include "Credits.h" 
+#include "Load.h" 
 #include <SDL.h>
 
 enum BName {
@@ -13,9 +13,11 @@ enum BName {
 	QUIT_GAME
 };
 
-Credits::Credits( int ButtonX, int Surface, int SurfaceButtons )							
+
+
+Load::Load( int ButtonX, int Surface, int SurfaceButtons )							
 {
-	std::cout << "Credits rendering like a god!!!!!" << endl;
+	std::cout << "Load rendering like a god!!!!!" << endl;
 	surface = Surface;
 
 	SurfaceButt = SurfaceButtons;

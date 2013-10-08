@@ -3,12 +3,12 @@
 #include <stack>
 #include <SDL.h>
 
-#define ANIMAL_MAX_FRAMES 15
-#define ANIMAL_MIN_PROGRESS 0
-#define ANIMAL_MAX_PROGRESS 2500
+#define CUBE_MAX_FRAMES 15
+#define CUBE_MAX_PROGRESS 5000
+#define CUBE_MIN_PROGRESS 2500
 
 /// <summary>A basic ammo object</summary>
-class AnimalObject
+class CubeObject
 {
 public:
 	float xPos,yPos;
@@ -20,7 +20,7 @@ private:
 };
 
 /// <summary>Keeps the state of any animal</summary>
-class AnimalState
+class CubeState
 {
 public:
 	int Frame, State;
@@ -30,11 +30,11 @@ public:
 };
 
 /// <summary>Used to create a Animal entity</summary>
-class Animal : public AnimalState, public AnimalObject
+class Cube : public CubeState, public CubeObject
 {
 
 public:
-	Animal();
+	Cube();
 	
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Update();
@@ -48,21 +48,21 @@ private:
 };
 
 /// <summary>A class the controls the animals</summary> 
-class ControlAnimals
+class ControlCubes
 {
 public:
-	ControlAnimals();
-	~ControlAnimals();
-	void DrawAnimals();
-	void CreateAnimals( int iProgress );
+	ControlCubes();
+	~ControlCubes();
+	void DrawCubes();
+	void CreateCubes( int iProgress );
 
 	int Turf;
 
-	Animal * CreateAnimal( int xPos, int yPos, int surface );
-	std::list< Animal* > GetAnimal(){ return AnimalList; };
+	Cube * CreateCube( int xPos, int yPos, int surface );
+	std::list< Cube* > GetCube(){ return CubeList; };
 	
 private:
-	std::list< Animal* > AnimalList;
+	std::list< Cube* > CubeList;
 };
 
-extern ControlAnimals AnimalController;
+extern ControlCubes CubeController;

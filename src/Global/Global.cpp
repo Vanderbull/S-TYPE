@@ -2,6 +2,7 @@
 // declaration of g_nValue 
 int g_nValue = 5;
 SDL_Rect ScreenSize = {0,0,800,600};
+#define _DEBUG 0
 
 //return by reference
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height)
