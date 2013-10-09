@@ -265,7 +265,8 @@ void ControlGfx::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* 
 
 void ControlGfx::DrawParallaxLayers()
 {
-	if( gamestate.State != GAME_BOSS_STATE && gamestate.State != GAME_OUTRO_STATE )
+	//if( gamestate.State != GAME_BOSS_STATE && gamestate.State != GAME_OUTRO_STATE )
+	if( gamestate.GameState.top() != GAME_BOSS_STATE || gamestate.GameState.top() != GAME_OUTRO_STATE )
 	{
 		/*
 		if( BCPlayer.xVel >= STARTSCROLLING - 50 )

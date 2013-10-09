@@ -20,6 +20,7 @@ using namespace std;
 #include "Game.h"
 #include "characters.h"
 #include "ControlGfx.h"
+#include "Audio.h"
 #include "Objects.h"
 #include "Enemies.h"
 #include "TImers.h"
@@ -41,6 +42,8 @@ Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
+	Audio.LoadAudio();
+	Audio.PlayMusic(0);
 	WorldController.CreateWorld();
 	cout << "Initializing Gamestate...." << endl;
 
@@ -77,7 +80,6 @@ void Gamestate::KeyMapping(SDL_Event _event)
 }
 
 
-
 void Game::HandleEvents( SDL_Event _event )
 {	
 	if( _event.type == SDL_KEYUP )
@@ -90,7 +92,7 @@ void Game::HandleEvents( SDL_Event _event )
 			{
 				std::cout << "Trying to get to the menu eeeyyy!!" << endl;
 				gamestate.GameState.push(MENU_MAIN_STATE);
-				gamestate.State = MENU_MAIN_STATE;
+				//gamestate.State = MENU_MAIN_STATE;
 			} break;
 		case SDLK_RIGHT:
 			{
@@ -208,7 +210,9 @@ void Game::HandleEvents( SDL_Event _event )
 					_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
 					{
 						if( i == 7 )
+						{
 							Game::Quit = true;
+						}
 						if( i == 6 )
 						{
 							gamestate.GameState.pop();
@@ -228,6 +232,17 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							gamestate.GameState.pop();
 							gamestate.GameState.push(GAME_LOADING_STATE);
+						}
+						if( i == 1 )
+						{
+							Audio.PauseMusic();
+							gamestate.GameState.pop();
+							gamestate.GameState.push(GAME_RUNNING_STATE);
+						}
+						if( i == 0 )
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(GAME_RUNNING_STATE);
 						}
 						cout << "Hit button..." << i << endl;
 					}
@@ -322,8 +337,6 @@ Game::Game()
 	objRectangle(_Button["BName::QUIT_GAME" ], 401, 519, 350, 45 );
 	objRectangle(_Button["BName::UNKNOWN" ], 0, 0, 0, 0 );
 	objRectangle(_Button["BName::UNKNOWN" ], 0, 0, 0, 0 );
-
-
 }
 
 // loads all graphic files and all new files and the font
@@ -712,12 +725,14 @@ void Gamestate::PlayOutro()
 // ----------------------------------------------------------------------------
 void Gamestate::DrawAllText()
 {
-	if( State == GAME_STORY_STATE || State == GAME_PLAYER_DIED_STATE )
+	//if( State == GAME_STORY_STATE || State == GAME_PLAYER_DIED_STATE )
+	if( gamestate.GameState.top() == GAME_STORY_STATE  || gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
 	{
 		//SDL_Color textColor = { 255, 255, 255 };
 		//SDL_Color textColor2 = { 0, 0, 0 };
 		
-		if( State == GAME_PLAYER_DIED_STATE )
+		//if( State == GAME_PLAYER_DIED_STATE )
+		if( gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
 		{
 			//sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
 			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space For Menu ", Gfx.WhiteRGB, Gfx.BlackRGB );
@@ -818,6 +833,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( MainMenuScreen->ButtonNewgame == true )
 	{
+		gamestate.GameState.pop();
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		MainMenuScreen->ButtonNewgame = false;
 	}
@@ -975,6 +991,7 @@ void Gamestate::LoadScreen(int iElapsedTime)
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( LoadsScreen->ButtonNewgame == true )
 	{
+		gamestate.GameState.pop();
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		LoadsScreen->ButtonNewgame = false;
 	}
@@ -998,6 +1015,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( SavesScreen->ButtonNewgame == true )
 	{
+		gamestate.GameState.pop();
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		SavesScreen->ButtonNewgame = false;
 	}
@@ -1021,6 +1039,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( CreditsScreen->ButtonNewgame == true )
 	{
+		gamestate.GameState.pop();
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		CreditsScreen->ButtonNewgame = false;
 	}
@@ -1043,6 +1062,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( OptionsScreen->ButtonNewgame == true )
 	{
+		gamestate.GameState.pop();
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		OptionsScreen->ButtonNewgame = false;
 	}
@@ -1060,6 +1080,7 @@ void Gamestate::EnterName()
 
 	if( gamestate.name->handle_input(  ) == false )
 	{
+		gamestate.GameState.pop();
 		gamestate.GameState.push(GAME_STORY_STATE);
 	}
 }
@@ -1078,7 +1099,9 @@ void Gamestate::RestartGame()
 	//gamestate.Score = 0;
 	//gamestate.m_parallax = 0;
 	gamestate.Parallax = 0.0f;
-	gamestate.State = MENU_MAIN_STATE;
+	gamestate.GameState.pop();
+	gamestate.GameState.push(MENU_MAIN_STATE);
+	//gamestate.State = MENU_MAIN_STATE;
 }
 
 void Gamestate::ResetRest()
@@ -1227,6 +1250,7 @@ bool Game::Init(SDL_Surface * &screen)
 	{
 		return false;																							
 	}
+
 	return true;
 }
 

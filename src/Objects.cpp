@@ -172,7 +172,8 @@ void ControlObject::DrawObjects()
 		for( ; i != ObjectController.List_FireBalls.end(); ++i )  
 		{
 			Fireball * temp = (*i);
-			if( gamestate.State == GAME_BOSS_STATE )
+			//if( gamestate.State == GAME_BOSS_STATE )
+			if( gamestate.GameState.top() == GAME_BOSS_STATE )
 			{
 				
 				//if( gamestate.pBoss->My_BossHead.size() != 0 )

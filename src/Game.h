@@ -40,7 +40,7 @@ public:
 
 	ParallaxBackground *ParallaxBG;
 
-	int State;
+	//int State;
 
 	float DeltaTime;
 	float UpdateAnimationSpeed;

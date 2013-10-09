@@ -87,15 +87,16 @@ Mix_FreeMusic( musica ) ;
 
 void ControlAudio::LoadAudio()
 {
-
 	if(donkey == 1)
 		return;
 
+	/*
 	if(SDL_Init(SDL_INIT_AUDIO)==-1) {
 		cout << "SDL_Init: " << SDL_GetError() << endl;
 		exit(1);
 	}
-	
+	*/
+
 	if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024)==-1) {
 		cout << "Mix_OpenAudio: " << Mix_GetError() << endl;
 		exit(2);
@@ -157,8 +158,13 @@ void ControlAudio::PlaySoundEffect( int effect )
 
 void ControlAudio::PauseMusic()
 {
-	Mix_FadeOutMusic(300);
-	Mix_PauseMusic();
+	static int once = 0;
+	if( once != 1)
+	{
+		Mix_FadeOutMusic(3000);
+		//Mix_PauseMusic();
+		once = 1;
+	}
 }
 
 void ControlAudio::UnpauseMusic()

@@ -116,7 +116,8 @@ void IntroTalk::Story()
 
 	SDL_Event input;
 
-	while( gamestate.State == GAME_STORY_STATE )
+	//while( gamestate.State == GAME_STORY_STATE )
+	while( gamestate.GameState.top() == GAME_STORY_STATE )
 	{
 		SDL_PollEvent( &input );
 		if( input.type == SDL_KEYDOWN )
@@ -124,7 +125,9 @@ void IntroTalk::Story()
   			switch( input.key.keysym.sym )
 			{
 			case SDLK_SPACE:
-				gamestate.State = MENU_MAIN_STATE;
+				gamestate.GameState.pop();
+				gamestate.GameState.push(MENU_MAIN_STATE);
+				//gamestate.State = MENU_MAIN_STATE;
 				break;
 			}
 		}
@@ -158,7 +161,9 @@ void IntroTalk::Story()
 	//SDL_BlitSurface(	Gfx.GetSurface( surface ), &srcClips[ CENTURION ], gamestate.BackBuffer, &destRect );
 	//gamestate.FLIP();
 	Gfx.FLIP();
-	gamestate.State = GAME_RUNNING_STATE;
+	gamestate.GameState.pop();
+	gamestate.GameState.push( GAME_RUNNING_STATE );
+	//gamestate.State = GAME_RUNNING_STATE;
 }
 // all the talking
 void IntroTalk::DoTalk()
@@ -251,7 +256,9 @@ void IntroTalk::DoTalk()
 		//Gfx.FLIP();
 		Sleep(50);
 	}
-	gamestate.State = GAME_RUNNING_STATE;
+	gamestate.GameState.pop();
+	gamestate.GameState.push(GAME_RUNNING_STATE);
+	//gamestate.State = GAME_RUNNING_STATE;
 }
 	
 
