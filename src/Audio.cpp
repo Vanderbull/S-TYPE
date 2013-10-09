@@ -146,9 +146,10 @@ void ControlAudio::PlayMusic( int song )
 }
 void ControlAudio::PlaySoundEffect( int effect )
 {
+	Mix_PlayChannel( -1, SfxHit_, 0 );
 	if( effect == SOUND_HIT )
 	{
-			Mix_PlayChannel( -1, SfxHit_, 0 );
+			Mix_PlayChannel( -1, SfxHit_, 10 );
 	}
 	else if( effect == SOUND_GETS_HIT )
 	{

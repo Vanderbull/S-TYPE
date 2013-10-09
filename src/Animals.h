@@ -56,8 +56,6 @@ public:
 	void DrawAnimals();
 	void CreateAnimals( int iProgress );
 
-	int Turf;
-
 	Animal * CreateAnimal( int xPos, int yPos, int surface );
 	std::list< Animal* > GetAnimal(){ return AnimalList; };
 	

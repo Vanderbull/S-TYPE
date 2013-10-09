@@ -113,7 +113,6 @@ void ControlCubes::CreateCubes(int iProgress )
 
 ControlCubes::ControlCubes()
 {
-	Turf = 200;
 }
 
 ControlCubes::~ControlCubes()

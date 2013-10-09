@@ -113,7 +113,6 @@ void ControlAnimals::CreateAnimals(int iProgress )
 
 ControlAnimals::ControlAnimals()
 {
-	Turf = 200;
 }
 
 ControlAnimals::~ControlAnimals()

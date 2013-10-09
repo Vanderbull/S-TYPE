@@ -163,6 +163,7 @@ void Game::HandleEvents( SDL_Event _event )
 				BCPlayer.AddBeam("Laser");
 				cout << BCPlayer.GetBeam() << endl;
 				Gfx.FLIP();
+				Audio.PlaySoundEffect( 1 );
 			} break;
 		case SDLK_LALT:
 			{

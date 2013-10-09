@@ -1,7 +1,10 @@
 #pragma once
 #include <list>
+#include <vector>
 #include <stack>
 #include <SDL.h>
+
+#define BULLET_MAX_FRAMES 15
 
 /// <summary>A basic ammo object</summary>
 class AmmoObject
@@ -9,32 +12,25 @@ class AmmoObject
 public:
 	float xPos,yPos;
 	int Height,Width;
+	int Radius;
 	int SurfaceID;
+	int Frame;
+	int State;
 	SDL_Rect CollisionBox;
+	SDL_Rect Destination;
 	virtual void onCollision() = 0;
 
 private:
 };
 
-/// <summary>Keeps the state of any bullet</summary>
-class BulletState
-{
-public:
-	int Frame, State;
-	int Radius;
-	int Surface;
-	SDL_Rect Destination;
-};
-
 /// <summary>Used to create a Bullet entity</summary>
-class Bullet : public BulletState,public AmmoObject
+class Bullet : public AmmoObject
 {
 
 public:
 	Bullet();
 	
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
-	void Setframe();
 	void Update();
 	void Draw();
 	int GetSurfaceID();
@@ -55,16 +51,20 @@ public:
 	~ControlBullets();
 	void Draw_Bullets();
 	void Create_Bullets();
+
+	void LoadBullet( int xPos, int yPos, int surface );
+	std::vector< Bullet > GetVBulletsByReference(){ return BulletArrayRef; };
+
 	std::list< Bullet* > GetBullets(){ return My_Bullets;};
 	std::list< Bullet > GetBulletsByReference(){ return Bullets;};
-
-	int Turf;
 
 	Bullet * CreateBullet( int xPos, int yPos, int surface );
 	Bullet CreateBulletByReference( int xPos, int yPos, int surface );
 
 	
 private:
+	std::vector< Bullet > BulletArrayRef;
+
 	std::list< Bullet* > My_Bullets;
 	std::list< Bullet > Bullets;
 };

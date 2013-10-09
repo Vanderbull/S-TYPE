@@ -56,8 +56,6 @@ public:
 	void DrawCubes();
 	void CreateCubes( int iProgress );
 
-	int Turf;
-
 	Cube * CreateCube( int xPos, int yPos, int surface );
 	std::list< Cube* > GetCube(){ return CubeList; };
 	

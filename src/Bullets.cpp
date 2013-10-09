@@ -11,14 +11,6 @@ SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 	return CollisionBox;
 }
 
-void Bullet::Setframe()
-{	
-	if( Frame >= 15 )
-	{
-		Frame = 0;
-	}
-}
-
 void Bullet::Update()
 {
 	this->xPos += 0.0003f * gamestate.DeltaTime;
@@ -28,7 +20,12 @@ void Bullet::Update()
 	this->Destination.y = this->yPos; 
 
 	this->PrevFrame = this->Frame++;
-	this->Setframe();
+	
+	if( this->Frame >= BULLET_MAX_FRAMES )
+	{
+		this->Frame = 0;
+	}
+
 	UpdateCollisionBox(Destination);
 }
 
@@ -39,7 +36,7 @@ void Bullet::Draw()
 	#endif
 
 	SDL_BlitSurface( 
-		Gfx.GetSurface( this->Surface ),
+		Gfx.GetSurface( this->SurfaceID ),
 		&this->Clips[ this->PrevFrame ], 
 		Gfx.BackBuffer, 
 		&this->GetDestination() 
@@ -48,7 +45,7 @@ void Bullet::Draw()
 
 int Bullet::GetSurfaceID()
 {
-	return this->Surface;
+	return this->SurfaceID;
 }
 
 SDL_Rect Bullet::GetDestination()
@@ -80,22 +77,22 @@ Bullet::Bullet()
 
 void ControlBullets::Draw_Bullets()
 {
-	list< Bullet >::iterator BulletCounter;
-	BulletCounter = Bullets.begin();
+	//list< Bullet >::iterator BulletCounter;
+	//BulletCounter = Bullets.begin();
 
-	while( BulletCounter != Bullets.end() )
-	{
-		BulletCounter->Update();
-		BulletCounter->Draw();
-		if( BulletCounter->xPos >= Gfx.screen->w - BulletCounter->Width )
-		{
-			BulletCounter = Bullets.erase(BulletCounter);
-		}
-		else
-		{
-			++BulletCounter;
-		}
-	}
+	//while( BulletCounter != Bullets.end() )
+	//{
+	//	BulletCounter->Update();
+	//	BulletCounter->Draw();
+	//	if( BulletCounter->xPos >= Gfx.screen->w - BulletCounter->Width )
+	//	{
+	//		BulletCounter = Bullets.erase(BulletCounter);
+	//	}
+	//	else
+	//	{
+	//		++BulletCounter;
+	//	}
+	//}
 
  	list< Bullet* >::iterator i;
 
@@ -116,10 +113,21 @@ void ControlBullets::Draw_Bullets()
 	}
 }
 
+void ControlBullets::LoadBullet( int xPos, int yPos, int surface )
+{
+	Bullet tempBullet;
+
+	tempBullet.xPos = xPos;
+	tempBullet.yPos = yPos;
+	tempBullet.SurfaceID = surface;
+
+	BulletArrayRef.push_back( tempBullet );
+ }
+
 Bullet * ControlBullets::CreateBullet( int xPos, int yPos, int surface )
 {
 	Bullet * temp = new Bullet;
-	temp->Surface = surface;
+	temp->SurfaceID = surface;
 	temp->xPos = xPos;
 	temp->yPos = yPos;
 
@@ -131,7 +139,7 @@ Bullet * ControlBullets::CreateBullet( int xPos, int yPos, int surface )
 Bullet ControlBullets::CreateBulletByReference( int xPos, int yPos, int surface )
 {
 	Bullet temp;
-	temp.Surface = surface;
+	temp.SurfaceID = surface;
 	temp.xPos = xPos;
 	temp.yPos = yPos;
 
@@ -146,6 +154,8 @@ void ControlBullets::Create_Bullets()
 
 	if( bullet_timer <= 0 )
 	{ 
+		LoadBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser );
+
 		My_Bullets.push_back( CreateBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) ); // 75 + ( rand() % Turf )
 		Bullets.push_back( CreateBulletByReference(0, 0, gamestate.m_srfLaser ) ); // 75 + ( rand() % Turf )
 		bullet_timer = 20;
@@ -158,7 +168,6 @@ void ControlBullets::Create_Bullets()
 
 ControlBullets::ControlBullets()
 {
-	Turf = 200;
 }
 
 ControlBullets::~ControlBullets()
