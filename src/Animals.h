@@ -2,40 +2,38 @@
 #include <list>
 #include <stack>
 #include <SDL.h>
+#include "Bullets.h"
 
 #define ANIMAL_MAX_FRAMES 15
 #define ANIMAL_MIN_PROGRESS 0
 #define ANIMAL_MAX_PROGRESS 2500
 
+typedef struct sPosition
+{
+	float x,y,z,h,w;
+} AnimalPosition;
+
 /// <summary>A basic ammo object</summary>
 class AnimalObject
 {
 public:
-	float xPos,yPos;
-	int Height,Width;
+	AnimalPosition mPosition;
 	int SurfaceID;
 	SDL_Rect CollisionBox;
+	SDL_Rect Destination;
+	int Frame;
 
 private:
 };
 
-/// <summary>Keeps the state of any animal</summary>
-class AnimalState
-{
-public:
-	int Frame, State;
-	int Radius;
-	int Surface;
-	SDL_Rect Destination;
-};
-
 /// <summary>Used to create a Animal entity</summary>
-class Animal : public AnimalState, public AnimalObject
+class Animal : public AnimalObject
 {
 
 public:
 	Animal();
 	
+	int isColliding(SDL_Rect Box);
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Update();
 	void Draw();

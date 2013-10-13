@@ -300,8 +300,6 @@ void Game::HandleEvents( SDL_Event _event )
 				//}
 			}
 		}
-
-
 	}
 	else
 	{
@@ -388,6 +386,7 @@ void Gamestate::load_files()
 	m_srfLoad = Gfx.Load_imageAlpha( "Graphics/srfLoad.png", 255, 255, 255 );
 	m_srfSave = Gfx.Load_imageAlpha( "Graphics/srfSave.png", 255, 255, 255 );
 	m_srfCube = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
+	m_srfTriangle = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
 	
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
 	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons );

@@ -4,6 +4,40 @@
 #include "ControlGfx.h"
 
 ControlAnimals AnimalController;
+const float AnimalSpeed = 0.0003f;
+const int SpriteHeight = 64;
+const int SpriteWidth = 64;
+
+Animal::Animal()
+{
+	mPosition.x = 0;
+	mPosition.y = 0;
+	mPosition.z = 0;
+	mPosition.h = SpriteHeight;
+	mPosition.w = SpriteWidth;
+
+	PrevFrame = 0;
+	Frame = 0;
+
+	for( int i = 0; i < 16; i++ )
+	{
+		Clips[ i ].x = i * SpriteWidth;
+		Clips[ i ].y = 0;
+		Clips[ i ].h = SpriteHeight;
+		Clips[ i ].w = SpriteWidth;
+	}
+}
+
+int Animal::isColliding(SDL_Rect Box)
+{
+	if( this->mPosition.x <= 200.0f )
+	{
+		cout << "destroying object..." << endl;
+		return 1;
+	}
+	else
+		return 0;
+}
 
 SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
 {
@@ -13,11 +47,12 @@ SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
 
 void Animal::Update()
 {
-	this->xPos -= 0.0003f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
-	this->Destination.h = this->Height;
-	this->Destination.w = this->Width;
-	this->Destination.x = this->xPos;
-	this->Destination.y = this->yPos; 
+	this->mPosition.x -= AnimalSpeed * gamestate.DeltaTime;
+
+	this->Destination.h = SpriteHeight;
+	this->Destination.w = SpriteWidth;
+	this->Destination.x = this->mPosition.x;
+	this->Destination.y = this->mPosition.y; 
 
 	this->PrevFrame = this->Frame++;
 	if( this->Frame >= ANIMAL_MAX_FRAMES )
@@ -34,7 +69,7 @@ void Animal::Draw()
 	#endif
 	
 	SDL_BlitSurface( 
-		Gfx.GetSurface( this->Surface ),
+		Gfx.GetSurface( this->SurfaceID ),
 		&this->Clips[ this->PrevFrame ], 
 		Gfx.BackBuffer, 
 		&this->GetDestination() 
@@ -44,22 +79,6 @@ void Animal::Draw()
 SDL_Rect Animal::GetDestination()
 {
 	return this->Destination;
-}
-
-Animal::Animal()
-{
-	PrevFrame = 0;
-	Frame = 0;
-	Height = 64;
-	Width =	64;
-
-	for( int i = 0; i < 16; i++ )
-	{
-		Clips[ i ].x = i * Width;
-		Clips[ i ].y = 0;
-		Clips[ i ].h = Height;
-		Clips[ i ].w = Width;
-	}
 }
 
 void ControlAnimals::DrawAnimals()
@@ -72,7 +91,11 @@ void ControlAnimals::DrawAnimals()
 		(*i)->Update();
 		(*i)->Draw();
 		
-		if( (*i)->xPos <= 0.0f - (*i)->Width )
+		if( (*i)->mPosition.x <= 0.0f - SpriteWidth )
+		{
+			i = AnimalList.erase(i);
+		}
+		else if( (*i)->isColliding((*i)->CollisionBox) != 0 )
 		{
 			i = AnimalList.erase(i);
 		}
@@ -85,14 +108,12 @@ void ControlAnimals::DrawAnimals()
 
 Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
 {
-		Animal * temp = new Animal;
-		temp->Surface = surface;
-		temp->xPos = xPos;
-		temp->yPos = yPos;
+	Animal * temp = new Animal;
+	temp->SurfaceID = surface;
+	temp->mPosition.x = xPos;
+	temp->mPosition.y = yPos;
 
-		temp->Radius = ( temp->Width > temp->Height ) ? temp->Width / 2 : temp->Height / 2;
-
-		return temp;
+	return temp;
 }
   
 void ControlAnimals::CreateAnimals(int iProgress )
@@ -107,7 +128,7 @@ void ControlAnimals::CreateAnimals(int iProgress )
 	}
 	else
 	{
-		cout << "Progress passed the target range... " << endl;
+		cout << "Progress passed the target range..." << endl;
 	}
 }
 

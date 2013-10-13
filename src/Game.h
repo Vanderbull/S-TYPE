@@ -77,7 +77,8 @@ public:
 		m_srfOptions,
 		m_srfLoad,
 		m_srfSave,
-		m_srfCube;
+		m_srfCube,
+		m_srfTriangle;
 
 	// Active menu
 	int ActiveMenu;
