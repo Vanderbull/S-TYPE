@@ -27,6 +27,7 @@ using namespace std;
 #include "Paralaxlayers.h"
 #include "Animals.h"
 #include "Enemies\Cubes.h"
+#include "Triangles.h"
 #include "Bullets.h"
 #include "MainMenu.h"
 #include "Credits.h"
@@ -92,7 +93,6 @@ void Game::HandleEvents( SDL_Event _event )
 			{
 				std::cout << "Trying to get to the menu eeeyyy!!" << endl;
 				gamestate.GameState.push(MENU_MAIN_STATE);
-				//gamestate.State = MENU_MAIN_STATE;
 			} break;
 		case SDLK_RIGHT:
 			{
@@ -183,8 +183,6 @@ void Game::HandleEvents( SDL_Event _event )
 	{
 		BCPlayer.SetState(BaseCharacter::State::IDLE);
 	}
-	// if intro checks 'position and checks for presses
-	//if( gamestate.State == MENU_MAIN_STATE )
 
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
@@ -1371,6 +1369,7 @@ void Gamestate::CreateAll()
 
 	AnimalController.CreateAnimals(iScore++);
 	CubeController.CreateCubes( iScore );
+	TriangleController.CreateTriangles( iScore );
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();
 }

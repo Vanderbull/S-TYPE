@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Animals.h"
 #include "Enemies\Cubes.h"
+#include "Triangles.h"
 #include "Bullets.h"
 #include "CBoss.h"
 
@@ -402,6 +403,7 @@ void ControlGfx::DrawObjects()
 		BCPlayer.Update();
 		AnimalController.DrawAnimals();
 		CubeController.DrawCubes();
+		TriangleController.DrawTriangles();
 		BulletController.Draw_Bullets();
 		EnemyController.Update();
 		EnemyController.Draw_Enemies();

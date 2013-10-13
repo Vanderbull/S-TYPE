@@ -82,6 +82,9 @@
     <ClCompile Include="src\Save.cpp">
       <Filter>Screens\Save</Filter>
     </ClCompile>
+    <ClCompile Include="src\Triangles.cpp">
+      <Filter>Enemies\Triangles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DancingDragon.h">
@@ -169,6 +172,9 @@
     <ClInclude Include="src\Save.h">
       <Filter>Screens\Save</Filter>
     </ClInclude>
+    <ClInclude Include="src\Triangles.h">
+      <Filter>Enemies\Triangles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="DancingDragon">
@@ -251,6 +257,9 @@
     </Filter>
     <Filter Include="Screens\Options">
       <UniqueIdentifier>{81626e78-b7d0-428a-b7f3-d26ad223eec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Triangles">
+      <UniqueIdentifier>{bc7d872e-9493-4f56-ba38-048860741daf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

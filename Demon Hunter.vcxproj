@@ -133,6 +133,7 @@
     <ClCompile Include="src\Paralaxlayers.cpp" />
     <ClCompile Include="src\Save.cpp" />
     <ClCompile Include="src\Timers.cpp" />
+    <ClCompile Include="src\Triangles.cpp" />
     <ClCompile Include="src\World\CWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +165,7 @@
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\Save.h" />
     <ClInclude Include="src\Timers.h" />
+    <ClInclude Include="src\Triangles.h" />
     <ClInclude Include="src\World\CWorld.h" />
   </ItemGroup>
   <ItemGroup>
