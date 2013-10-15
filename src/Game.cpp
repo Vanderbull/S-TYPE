@@ -1048,6 +1048,56 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(int iElapsedTime)
 {
+	OptionsScreen->ButtonClips[ 0 ].h = 30;
+	OptionsScreen->ButtonClips[ 0 ].w = 103;
+	OptionsScreen->ButtonClips[ 0 ].x = 280;
+	OptionsScreen->ButtonClips[ 0 ].y = 130;
+
+	OptionsScreen->ButtonClips[ 1 ].h = 30;
+	OptionsScreen->ButtonClips[ 1 ].w = 103;
+	OptionsScreen->ButtonClips[ 1 ].x = 412;
+	OptionsScreen->ButtonClips[ 1 ].y = 130;
+
+	OptionsScreen->ButtonClips[ 2 ].h = 30;
+	OptionsScreen->ButtonClips[ 2 ].w = 103;
+	OptionsScreen->ButtonClips[ 2 ].x = 554;
+	OptionsScreen->ButtonClips[ 2 ].y = 130;
+
+	OptionsScreen->ButtonClips[ 3 ].h = 30;
+	OptionsScreen->ButtonClips[ 3 ].w = 103;
+	OptionsScreen->ButtonClips[ 3 ].x = 280;
+	OptionsScreen->ButtonClips[ 3 ].y = 170;
+
+	OptionsScreen->ButtonClips[ 4 ].h = 30;
+	OptionsScreen->ButtonClips[ 4 ].w = 103;
+	OptionsScreen->ButtonClips[ 4 ].x = 412;
+	OptionsScreen->ButtonClips[ 4 ].y = 170;
+
+	OptionsScreen->ButtonClips[ 5 ].h = 30;
+	OptionsScreen->ButtonClips[ 5 ].w = 103;
+	OptionsScreen->ButtonClips[ 5 ].x = 280;
+	OptionsScreen->ButtonClips[ 5 ].y = 220;
+
+	OptionsScreen->ButtonClips[ 6 ].h = 30;
+	OptionsScreen->ButtonClips[ 6 ].w = 103;
+	OptionsScreen->ButtonClips[ 6 ].x = 412;
+	OptionsScreen->ButtonClips[ 6 ].y = 220;
+
+	OptionsScreen->ButtonClips[ 7 ].h = 30;
+	OptionsScreen->ButtonClips[ 7 ].w = 103;
+	OptionsScreen->ButtonClips[ 7 ].x = 632;
+	OptionsScreen->ButtonClips[ 7 ].y = 534;
+
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+
+
 	std::cout << "Rendering options screen like a god!!!!" << endl;
 	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
@@ -1514,7 +1564,7 @@ void Gamestate::AddTick()
 //		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
 //		{
 //			dst[ (y * dstPitch / 4) + (x) ] = src[ int((fSrcY) * (pitch / 4) + int(fSrcX) )];
-//
+//									  
 //			fSrcX += scaleWidth;
 //		}
 //		fSrcY += scaleHeight;	

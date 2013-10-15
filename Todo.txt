@@ -1,3 +1,19 @@
+options menu button trigger area
+--------------
+280,130
+280,160
+
+383,160
+
+280,170
+280,200
+
+260,218
+260,248
+
+412-516
+554-654
+
 Animals.cpp
 Animals.h
 Audio.cpp

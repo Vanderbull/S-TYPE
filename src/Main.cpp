@@ -73,13 +73,6 @@ int main( int argc, char * arg[] )
 	SDL_WM_SetCaption("", "src/res/big.ico");
 	SDL_WM_SetIcon(SDL_LoadBMP("src/res/small.bmp"), NULL);
 	
- 	//gamestate.font = TTF_OpenFont("cour.ttf", 14);
-  //  if (gamestate.font == NULL){
-  //    printf("Unable to load font: %s %s \n", "HERE FUCKER!", TTF_GetError());
-  //    // Handle the error here.
-  //  }
-
-
 	while( GameEngine.Quit == false )
 	{
 		second.QuadPart += ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
