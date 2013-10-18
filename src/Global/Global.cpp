@@ -1,6 +1,7 @@
 #include "Global.h"
 // declaration of g_nValue 
 int g_nValue = 5;
+int DIFFICULTY = 0;
 SDL_Rect ScreenSize = {0,0,800,600};
 #define _DEBUG 0
 

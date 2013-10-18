@@ -16,6 +16,7 @@ extern int g_nValue;
 extern SDL_Rect ScreenSize;
 #define MAXSAMPLES 100
 const int FRAMES_PER_SECOND = 20;
+extern int DIFFICULTY;
 
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
 int MouseInBox(SDL_Rect &Rect);

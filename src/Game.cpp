@@ -44,7 +44,6 @@ Gamestate gamestate;
 Gamestate::Gamestate()
 {
 	Audio.LoadAudio();
-	Audio.PlayMusic(0);
 	WorldController.CreateWorld();
 	cout << "Initializing Gamestate...." << endl;
 
@@ -128,10 +127,6 @@ void Game::HandleEvents( SDL_Event _event )
 	{
 		std::cout << "Hey stop focusing on other windows, get back here!" << endl;
 	}
-	else if( _event.type == SDL_ACTIVEEVENT  )
-	{
-		std::cout << "Hey stop focusing on other windows, get back here!" << endl;
-	}
 	else if( _event.type == SDL_KEYDOWN )
 	{
 		switch( _event.key.keysym.sym )
@@ -186,6 +181,7 @@ void Game::HandleEvents( SDL_Event _event )
 
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
+		Audio.PlayMusic(0);
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
@@ -1088,9 +1084,40 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	OptionsScreen->ButtonClips[ 7 ].x = 632;
 	OptionsScreen->ButtonClips[ 7 ].y = 534;
 
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	int MouseXCoordinates, MouseYCoordinates;
+	SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
+	cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+	for( int i = 0; i < 3; i++ )
+	{
+		if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
+		MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
+		MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
+		MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
+		{
+			cout << "Difficuty set to -> " << i << "..." << endl;
+			DIFFICULTY = i;
+		}
+	}
+	for( int i = 0; i < 8; i++ )
+	{
+		if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
+		MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
+		MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
+		MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
+		{
+			cout << "Entering button " << i << "..." << endl;
+		}
+	}
+	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
+	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface), NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
+	if( DIFFICULTY == 0 )
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	else
+	if( DIFFICULTY == 1 )
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	else
+	if( DIFFICULTY == 2 )
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
@@ -1099,7 +1126,9 @@ void Gamestate::OptionScreen(int iElapsedTime)
 
 
 	std::cout << "Rendering options screen like a god!!!!" << endl;
+
 	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+
 	
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;

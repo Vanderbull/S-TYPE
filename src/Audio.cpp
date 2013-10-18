@@ -125,24 +125,14 @@ int ControlAudio::GetState()
 
 void ControlAudio::PlayMusic( int song )
 {
-	if( song == MUSIC_START )
-	{
-		Mix_PlayMusic( music, -1 );
-	}
-	else if( song == MUSIC_MENU )
-	{
-		// play music forever
-		// Mix_Music *music; // I assume this has been loaded already
-		if(Mix_PlayMusic(MenuMusic_, -1)==-1) {
+	//If there is no music playing
+    if( Mix_PlayingMusic() == 0 )
+    {
+		if(Mix_PlayMusic(MenuMusic_, -1)==-1) 
+		{
 			printf("Mix_PlayMusic: %s\n", Mix_GetError());
-			// well, there's no music, but most games don't break without music...
 		}
 	}
-	else if( song == MUSIC_OUTRO )
-	{
-		Mix_PlayMusic( OutroMusic_, -1 );
-	}
-
 }
 void ControlAudio::PlaySoundEffect( int effect )
 {
