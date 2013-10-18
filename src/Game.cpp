@@ -445,7 +445,9 @@ void Gamestate::ResetObjects()
 
 void Game::Audiotonic()
 {
+	// does nothing
 }
+
 // ----------------------------------------------------------------------------
 // Update() - Updates the whole game depending on which state it is in
 // ----------------------------------------------------------------------------
@@ -543,7 +545,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 // ----------------------------------------------------------------------------
 void Gamestate::PlayOutro()
 {
-	SDL_BlitSurface(	Gfx.GetSurface( gamestate.m_srfOutro ),
+	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),
 					&ScreenSize, Gfx.BackBuffer, &ScreenSize );
 	Gfx.FLIP();
 
@@ -570,151 +572,6 @@ void Gamestate::PlayOutro()
 }
 
 // ----------------------------------------------------------------------------
-// demonDied() - Plays the whole death sequence
-// ----------------------------------------------------------------------------
-//void Gamestate::demonDied()
-//{
-//	SDL_Rect srcRect = { 0, 0, 800, 600 };
-//	SDL_Rect destRect = { 0, 0, 800, 600 };
-//
-//
-//	SDL_Event input;
-//
-//	while( gamestate.GameCondition == GS_DEAD )
-//	{
-//		SDL_PollEvent( &input );
-//		if( input.type == SDL_KEYDOWN )
-//		{
-//  			switch( input.key.keysym.sym )
-//			{
-//			case SDLK_SPACE:
-//				gamestate.GameCondition = GS_INTRO;
-//				break;
-//			}
-//		}
-//		Gfx.DrawBackgroundBlack();
-//		SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),	&srcRect, Gfx.BackBuffer, &destRect );
-//		//SDL_Color textColor = { 255, 255, 255 };
-//		//SDL_Color textColor2 = { 0, 0, 0 };
-//		//sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-//		Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space For Menu ", Gfx.WhiteRGB, Gfx.BlackRGB );
-//		//gamestate.apply_surface( 250, 500, gamestate.textIntro, gamestate.BackBuffer );
-//		Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
-//		//gamestate.FLIP();
-//		Gfx.FLIP();
-//	}
-//	
-//	ListHighScore->sort( gamestate.name->str.c_str(), _Score );
-//	ListHighScore->Save();
-//
-//	int demonDieState = 0;
-//	outro = new Outro;
-//	int Letter = 0;
-//	int LetterWidth = 0;
-//	int Line = 0;
-//	int Counter = 0;
-//	string DeathTalks = " Your sole is mine fallen one, At this rate all the souls of the earth will be mine soon!!! Ha Ha Ha ";
-//	string DeathTalkSlow[ 8 ];
-//
-//	SDL_Color textColor = { 255, 255, 255 };
-//	SDL_Event input;
-//
-//	SDL_Color Stone = { 105, 105, 136 };
-//	SDL_Color StoneFront = { 0, 0, 0, 255 };
-//
-//	bool PlayDeadAnimation = true; 
-//	while( PlayDeadAnimation == true )
-//	{
-//		SDL_PollEvent( &input );
-//		if( input.type == SDL_KEYDOWN )
-//		{
-//			switch( input.key.keysym.sym )
-//			{
-//			case SDLK_SPACE:
-//				demonDieState = 2;
-//				break;
-//			}
-//		}
-//
-//		DrawBackgroundBlack();
-//		gamestate.DrawAllText();
-//		switch( demonDieState )
-//		{
-//		case 0:
-//			{
-//				if( timer.Timer_ShowDead > 10 )
-//				{
-//					demonDieState = 1;
-//					timer.Timer_ShowDead = 0.0f;
-//				}
-//
-//				timer.Timer_ShowDead++;
-//				//SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
-//				//					gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
-//				break;
-//			}
-//		case 1:
-//			{
-//				if( Counter > 5 )
-//				{
-//					Counter = 0;
-//
-//					if( Letter < DeathTalks.length() )
-//					{
-//						Letter++;
-//					}
-//					else
-//					{
-//						demonDieState = 2;
-//					}
-//
-//					DeathTalkSlow[ Line ] += DeathTalks[ Letter ];
-//					for( int i = 0; i < 8; i++ )
-//					{
-//						DeathSurface[ 0 ] = TTF_RenderText_Solid( gamestate.font, DeathTalkSlow[ i ].c_str(), textColor );
-//						gamestate.apply_surface( 300, i * 40, DeathSurface[ 0 ], gamestate.BackBuffer );
-//					}
-//
-//					LetterWidth++;
-//				}
-//						
-//				SDL_BlitSurface(	Gfx.GetSurface( outro->surface ), &outro->ClipsOutro[ 0 ],
-//									gamestate.BackBuffer, &outro->ClipsOutro[ 1 ] );
-//
-//				for( int i = 0; i < 8; i++ )
-//				{
-//					DeathSurface[ 0 ] = TTF_RenderText_Solid( gamestate.font, DeathTalkSlow[ i ].c_str(), textColor );
-//					gamestate.apply_surface( 300, i * 40, DeathSurface[ 0 ], gamestate.BackBuffer );
-//				}
-//				
-//					
-//				if( LetterWidth > 20 )
-//				{
-//					LetterWidth = 0;
-//					Line++;
-//				}
-//
-//				Counter++;
-//				break;
-//			}
-//		case 2:
-//			{
-//				PlayDeadAnimation = false;
-//				break;
-//			}	
-//		}
-//		
-//		DeathSurface[ 1 ] = TTF_RenderText_Blended( gamestate.font, gamestate.name->str.c_str(), StoneFront );
-//		gamestate.apply_surface( 160, 450, DeathSurface[ 1 ], gamestate.BackBuffer );
-//		//gamestate.FLIP();
-//		Gfx.FLIP();
-//	}
-//
-//	gamestate.GameCondition = GS_INTRO;	
-//
-//}
-
-// ----------------------------------------------------------------------------
 // DrawAllText() - draws all text thats currently shown on the screen.
 // ----------------------------------------------------------------------------
 void Gamestate::DrawAllText()
@@ -722,10 +579,6 @@ void Gamestate::DrawAllText()
 	//if( State == GAME_STORY_STATE || State == GAME_PLAYER_DIED_STATE )
 	if( gamestate.GameState.top() == GAME_STORY_STATE  || gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
 	{
-		//SDL_Color textColor = { 255, 255, 255 };
-		//SDL_Color textColor2 = { 0, 0, 0 };
-		
-		//if( State == GAME_PLAYER_DIED_STATE )
 		if( gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
 		{
 			//sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
@@ -743,14 +596,6 @@ void Gamestate::DrawAllText()
 	}
 	else
 	{
-		//The color of the font
-		//SDL_Color textColor = { 251, 245, 32 };
-
-		// print out the score
-		//sprintf_s(gamestate.Text, 256, "%i ", gamestate.GetScore() );		
-		//gamestate.srfText = TTF_RenderText_Solid( gamestate.font, Text, Gfx.WhiteRGB );
-		//gamestate.apply_surface( 100, 20, gamestate.srfText, gamestate.BackBuffer );
-		//Gfx.apply_surface( 100, 20, gamestate.srfText, Gfx.BackBuffer );
 	}
 }
 
@@ -759,47 +604,9 @@ void Gamestate::DrawAllText()
 // ----------------------------------------------------------------------------
 void Gamestate::Loading()
 {
+	//does nothing
 }
 
-// ----------------------------------------------------------------------------
-// DrawBoss() - hmmm.
-// ----------------------------------------------------------------------------
-//void Gamestate::DrawBoss()
-//{
-//	//SDL_Rect srcRect = { 0, 0, 150, 300 };
-//	//gamestate.pBoss->UpdateFrame();
-//	//				SDL_BlitSurface( Gfx.GetSurface( gamestate.pBoss->Surface ), 
-//	//				&gamestate.pBoss->GetClips( gamestate.pBoss->GetFrame() ),
-//	//							gamestate.BackBuffer, &srcRect );
-//	//Sleep(100);
-//	//gamestate.pBoss->UpdateBoss();
-//	gBoss.Update();
-//}
-
-// ----------------------------------------------------------------------------
-// GetSurface() - hmmm.
-// ----------------------------------------------------------------------------
-//SDL_Surface * Gamestate::GetSurface( int WhichSurface )
-//{
-//	return m_surfaceList[ WhichSurface ];	
-//}
-
-// ----------------------------------------------------------------------------
-// GetSurface() - gives backbuffer to destination buffer streches and all
-// ----------------------------------------------------------------------------
-//void Gamestate::FLIP()
-//{
-//	//SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
-//	//SDL_Rect destRect = { 0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
-//					
-//	//gamestate.PasteScreenToAnother( srcRect, destRect );
-//	Gfx.PasteScreenToAnother( SDL_GetVideoSurface()->clip_rect, SDL_GetVideoSurface()->clip_rect);
-//	//flips screen
-//	if( SDL_Flip( gamestate.screen ) == -1)
-//	{
-//		gamestate.GameOK = false;
-//	}
-//}
 
 // ----------------------------------------------------------------------------
 // MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
@@ -807,7 +614,6 @@ void Gamestate::Loading()
 void Gamestate::MainScreen(int iElapsedTime)
 {
 	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
-	
 
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
@@ -1212,55 +1018,10 @@ void Game::Cleanup()
 	SDL_Quit();
 }
 
-// loads image with chosen value to not show
-//int Gamestate::Load_imageAlpha( std::string filename, int r, int g, int b )
-//{
-//	//temp storage for the image loaded
-//	SDL_Surface * loadedimage = NULL;
-//
-//	//optimized image for storage and flipping
-//	SDL_Surface * optimizedImage = NULL;
-//
-//	//load image 
-//	loadedimage = IMG_Load( filename.c_str() );
-//
-//	//if something went wrong
-//	if( loadedimage != NULL )
-//	{
-//		//create an optimized image 
-//		optimizedImage = SDL_DisplayFormat( loadedimage );
-//
-//		//free old image
-//		SDL_FreeSurface( loadedimage );
-//	}
-//
-//	if(optimizedImage != NULL)
-//	{
-//		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
-//	}
-//	
-//	int index = findAvailableIndex();
-//	if( index == -1 )
-//	{
-//		return -1;
-//	}
-//
-//	m_surfaceList[ index ] = optimizedImage;
-//	return index;
-//}
-
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
 	Gfx.screen = 0;
-
-
-	//initialize all SDL subystems
-/*	if( SDL_Init( SDL_INIT_EVERYTHING ) == -1)
-	{
-		return false;
-	} */
-
 
 	//set up the screen
 	Gfx.screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
@@ -1296,15 +1057,6 @@ bool Game::Init(SDL_Surface * &screen)
 		return false;
 	}
 
-/*	if( TTF_Init() == -1 )
-	{
-		return false;
-	}
-	else
-	{
-		gamestate.font = TTF_OpenFont( "cour.ttf", 28 );
-	} */
-	
 	//set window caption
 	SDL_WM_SetCaption( " S-TYPE ", NULL);
 
@@ -1331,117 +1083,6 @@ bool Game::Init(SDL_Surface * &screen)
 	return true;
 }
 
-// ----------------------------------------------------------------------------
-// drawParallaxLayers() - renders parallax-layers to backbuffer and gives it to Main Surface
-// ----------------------------------------------------------------------------
-//void Gamestate::drawParallaxLayers()
-//{
-//	if( gamestate.GameCondition != GS_LEVEL1BOSS && gamestate.GameCondition != GS_OUTRO )
-//	{
-//		/*
-//		if( demon.xVel >= STARTSCROLLING - 50 )
-//		{
-//			// Updating the background to scroll when character is moving
-//			if( demon.isMovingRight )
-//			{
-//				gamestate.m_paralax += 20;
-//			}
-//			else if( demon.isMovingLeft )
-//			{
-//				gamestate.m_paralax -= 20;
-//			}
-//		}
-//		*/
-//		gamestate.CreateAll();
-//	}
-//	else
-//	{
-//		//if( !BossStart )
-//		//{
-//		//	//demon.demonHunter = true;
-//		//	//demon.SmallHunter = false;
-//		//	gamestate.pBoss = gamestate.CreateBoss( SDL_GetVideoSurface()->w - 180, GROUND_Y - 210, m_srfBoss );
-//		//	BossStart = true;
-//		//}
-//	}
-//
-//		//// Draw parallax layers
-//		ParallaxLayer  * MyParaBackGround;
-//		MyParaBackGround = Parallax->getLayer( 0 );
-//
-//		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
-//									MyParaBackGround->m_height };
-//
-//		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
-//
-//		SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, gamestate.BackBuffer, &dtRect );
-//		//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
-//
-//		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
-//
-//		int x = 0;
-//		for( int i = 1; i < Parallax->getLayerCount(); ++i )
-//		{		
-//			// Calc rects
-//			MyParaBackGround = Parallax->getLayer( i );
-//			if( MyParaBackGround->m_surface == m_srfClouds )
-//			{
-//				MyParaBackGround->AnimClouds += 100.0f * gamestate.DeltaTime;
-//
-//				//////// Calc parallax position
-//				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
-//				if( x < 0 )	// neg -> pos
-//				{
-//					x *= -1;	// invert sign, because % only works with positive integers
-//					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
-//				}
-//				else
-//				{
-//					x %= MyParaBackGround->m_width;
-//				}
-//
-//				x -= MyParaBackGround->m_width;	// move one back
-//			}
-//			else
-//			{
-//
-//				//////// Calc parallax position
-//				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_parallax ) );  
-//				if( x < 0 )	// neg -> pos
-//				{
-//					x *= -1;	// invert sign, because % only works with positive integers
-//					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
-//				}
-//				else
-//				{
-//					x %= MyParaBackGround->m_width;
-//				}
-//
-//				x -= MyParaBackGround->m_width;	// move one back
-//			}
-//
-//			for( int i = 0; i < 2; i++ )
-//			{
-//				SDL_Rect sourceRect = { 0 + x, MyParaBackGround->m_surfaceYOffset,
-//										MyParaBackGround->m_width, MyParaBackGround->m_height };
-//
-//				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY, 
-//												MyParaBackGround->DW, MyParaBackGround->DH };
-//
-//				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, gamestate.BackBuffer, &destinationRect ); 			
-//				//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
-//				
-//				
-//				x += MyParaBackGround->m_width;
-//			}
-//
-//
-//			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
-//
-//		}
-		//gamestate.m_parallax += 500 * gamestate.DeltaTime;
-//}
-
 void Gamestate::CreateAll()
 {
 	static int iScore = 0;
@@ -1453,192 +1094,10 @@ void Gamestate::CreateAll()
 	ObjectController.CreateObjects();
 }
 
-// draws MyFellow on the screen and changes animations
-//void Gamestate::DrawSprite()
-//{
-//		//SDL_Rect demonDest = { demon.xPos, demon.yPos, demon.demon_Width, demon.demon_Height };
-//		//demonDest = demon.GetPosition();
-//		if( demon.isImmortal )
-//		{
-//			if( demon.AlphaImmortal < SDL_ALPHA_OPAQUE - 100 )
-//			{
-//				demon.AlphaImmortal += 50;
-//			}
-//			else
-//			{
-//				demon.AlphaImmortal -= 50;
-//			}
-//			SDL_SetAlpha( Gfx.GetSurface( demon.demonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, demon.AlphaImmortal );
-//		}
-//		else
-//		{
-//			SDL_SetAlpha( Gfx.GetSurface( demon.demonSurface ), SDL_SRCALPHA | SDL_RLEACCEL, SDL_ALPHA_OPAQUE );
-//		}
-//
-//		
-//			//Current_Frame = demon.Updatedemon();
-//			//demon.Updatedemon();
-//			demon.Update();
-//		
-//			// Rendering demon Character
-//			/*
-//			SDL_BlitSurface(	m_surfaceList[ demon.demonSurface ], 
-//								&demon.AnimationArrays[ Current_AnimArray ][ Current_Frame ],
-//								gamestate.BackBuffer, &demonDest );*/
-//			if( CurrentFrame == 3 )
-//			{
-//				CurrentFrame = 0;
-//			}
-//			
-//			SDL_BlitSurface(	Gfx.GetSurface( demon.demonSurface ), 
-//				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
-//				gamestate.BackBuffer, &demon.GetPosition() );
-//			/*
-//			SDL_BlitSurface(	m_surfaceList[ emon.demonSurface ], 
-//				&demon.AnimationArrays[ demon.GetState() ][ ++CurrentFrame ],
-//								gamestate.BackBuffer, &demonDest );*/
-//
-//
-//			PreviousFrame = CurrentFrame;
-//}
-
-
 void Gamestate::AddTick()
 {
-	 //float Speed = 1000.0f * ( gamestate.DeltaTime / 1000.0f );
-	 //UpdateAnimationSpeed += Speed;
 	UpdateAnimationSpeed += ( 1000.0f * ( gamestate.DeltaTime / 1000.0f ) );
 }
-
-//void Gamestate::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
-//{
-//    //Holds offsets
-//    SDL_Rect offset;
-//    
-//    //Get offsets
-//    offset.x = x;
-//    offset.y = y;
-//    
-//    //Blit
-//    SDL_BlitSurface( source, clip, destination, &offset );
-//}
-
-//void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-//{			
-//
-//	int srcWidth = srcRect.w - srcRect.x;
-//	int srcHeight = srcRect.h - srcRect.y,
-//		DestWidth = destRect.w - destRect.x,
-//		DestHeight = destRect.h - destRect.y;
-//
-//	SDL_LockSurface( gamestate.BackBuffer );
-//	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
-//
-//	int dstPitch = gamestate.BackBuffer->pitch;
-//	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
-//
-//	DWORD * dst = ( DWORD * )gamestate.BackBuffer->pixels;
-//
-//	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
-//
-//	float scaleWidth = srcWidth / ( float )DestWidth;
-//	float scaleHeight = srcHeight / ( float )DestHeight; 
-//
-//
-//	float fSrcX = srcRect.x,
-//		  fSrcY = srcRect.y;
-//
-//	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-//	{
-//		fSrcX = 0;
-//
-//		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-//		{
-//			dst[ ( y * dstPitch / 4) + ( x ) ] = src[ int( ( fSrcY ) * ( pitch / 4 ) + int( fSrcX ) )];
-//
-//			fSrcX += scaleWidth;
-//		}
-//
-//		fSrcY += scaleHeight;	
-//	}
-//
-//	SDL_UnlockSurface( gamestate.BackBuffer );
-//	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
-//
-//}
-
-//void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-//{			
-//	SDL_LockSurface( gamestate.BackBuffer );
-//	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
-//
-//	int dstPitch = gamestate.BackBuffer->pitch;
-//	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
-//
-//	DWORD * dst = ( DWORD * )gamestate.BackBuffer->pixels;
-//
-//	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
-//
-//	float scaleWidth = srcRect.w / ( float )destRect.w;
-//	float scaleHeight = srcRect.h / ( float )destRect.h; 
-//
-//
-//	float fSrcX = srcRect.x,
-//		  fSrcY = srcRect.y;
-//
-//	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-//	{
-//		fSrcX = srcRect.x;
-//
-//		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-//		{
-//			dst[ (y * dstPitch / 4) + (x) ] = src[ int((fSrcY) * (pitch / 4) + int(fSrcX) )];
-//									  
-//			fSrcX += scaleWidth;
-//		}
-//		fSrcY += scaleHeight;	
-//	}
-//
-//	SDL_UnlockSurface( gamestate.BackBuffer );
-//	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
-//
-//}
-
-//void Gamestate::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )	
-//{
-//	SDL_LockSurface( gamestate.screen );
-//	SDL_LockSurface( gamestate.BackBuffer );
-//
-//	int dstPitch = gamestate.screen->pitch;
-//	int pitch = gamestate.BackBuffer->pitch;
-//
-//	DWORD * dst = ( DWORD * )gamestate.screen->pixels;
-//	DWORD * src = ( DWORD * )gamestate.BackBuffer->pixels;
-//
-//	float scaleWidth = gamestate.BackBuffer->w / ( float )destRect.w;
-//	float scaleHeight = gamestate.BackBuffer->h / ( float )destRect.h; 
-//
-//
-//	float fSrcX = 0.0f,
-//		  fSrcY = 0.0f;
-//
-//	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-//	{
-//		fSrcX = 0.0f;
-//
-//		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-//		{
-//			dst[ (y * dstPitch / 4) + (x) ] = src[ int(fSrcY) * (pitch / 4) + int(fSrcX) ];
-//
-//			fSrcX += scaleWidth;
-//		}
-//
-//		fSrcY += scaleHeight;	
-//	}
-//
-//	SDL_UnlockSurface( gamestate.screen );
-//	SDL_UnlockSurface( gamestate.BackBuffer );
-//}
 
 // ----------------------------------------------------------------------------
 // setUpParallaxLayers() - initializes parallax-struct

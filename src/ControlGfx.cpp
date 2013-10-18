@@ -75,8 +75,7 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r, int g, int b )
 }
 
 void ControlGfx::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-{			
-
+{
 	int srcWidth = srcRect.w - srcRect.x;
 	int srcHeight = srcRect.h - srcRect.y,
 		DestWidth = destRect.w - destRect.x,
@@ -115,7 +114,6 @@ void ControlGfx::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect
 
 	SDL_UnlockSurface( Gfx.BackBuffer );
 	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
-
 }
 
 // ----------------------------------------------------------------------------
