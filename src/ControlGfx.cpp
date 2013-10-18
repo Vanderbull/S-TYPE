@@ -118,25 +118,6 @@ void ControlGfx::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect
 
 }
 
-// --------------------------------------------------------------------------------------
-// blit() - blits offscreen surface to (xpos,ypos) on backbuffer
-// --------------------------------------------------------------------------------------
-void ControlGfx::blit( int index, int xpos, int ypos, bool transparent )
-{
-	// Calc rects
-	SDL_Rect srcRect = { 0, 0, m_surfaceList[ index ]->w, m_surfaceList[ index ]->h };
-	SDL_Rect destRect = { xpos, ypos, xpos+m_surfaceList[ index ]->w, ypos+m_surfaceList[ index ]->h };
-
-
-	// Blit!
-	if( transparent )
-		SDL_BlitSurface(m_surfaceList[index], &destRect, Gfx.screen, &srcRect );
-		/*m_lpddsBackbuffer->Blt( &destRect, m_surfaceList[index], &srcRect, DDBLT_WAIT|DDBLT_KEYSRC, 0 );*/
-	else
-		SDL_BlitSurface(m_surfaceList[index], &destRect, Gfx.screen, &srcRect );
-
-}
-
 // ----------------------------------------------------------------------------
 // findAvailableIndex() - find free slot in surface list and return its index
 // ----------------------------------------------------------------------------
@@ -380,17 +361,13 @@ void ControlGfx::DrawSprite()
 {
 		BCPlayer.Update();
 
-		//Gfx.SetAlpha( demon.Surface, 255 );
-
-		//Gfx.SetAlpha( demon.Surface, 255 );
-		SDL_BlitSurface(	Gfx.GetSurface( BCPlayer._Surface ), 
+		SDL_BlitSurface( Gfx.GetSurface( BCPlayer._Surface ), 
 			&BCPlayer.AnimationArrays[ BCPlayer.GetState() ][ BCPlayer.Animate() ],
 			Gfx.BackBuffer, &BCPlayer.GetPosition() );
-
-		//gamestate.PreviousFrame = gamestate.CurrentFrame;
 }
+
 // ----------------------------------------------------------------------------
-// DrawObjects() - Draws all objects, coffins, health etc.
+// DrawObjects() - Draws all objects
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
@@ -431,35 +408,7 @@ void ControlGfx::DrawBoss()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawBackgroundBlack()
 {
-	if( gamestate.GameState.top() == GAME_OUTRO_STATE )
-	{
-		SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
-		/*
-		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
-
-		SDL_Rect scRect = { 0, 0,	100, 70 };
-									
-		SDL_Rect dtRect = {	600, 530, 100, 50 };
-
-		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect ); 
-		*/
-	}
-	else
-	{
-		SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
-		/*
-		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = gamestate.Paralax->getLayer( gamestate.m_srfBlack );
-
-		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
-									600 };
-
-		SDL_Rect dtRect = {	0, 0, MyParaBackGround->m_width, 600 };
-
-		SDL_BlitSurface( gamestate.GetSurface( gamestate.m_srfBlack ), &scRect, gamestate.BackBuffer, &dtRect );
-		*/
-	}
+	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 }
 
 void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord)

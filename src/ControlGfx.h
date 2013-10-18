@@ -14,7 +14,6 @@ public:
 	~ControlGfx(){};
 	int Load_imageAlpha( std::string filename, int r, int g, int b );
 	void stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect );
-	void blit( int index, int xpos, int ypos, bool transparent );
 	int findAvailableIndex();
 	SDL_Surface* GetSurface(int index);
 	void PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect );
