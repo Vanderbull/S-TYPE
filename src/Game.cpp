@@ -47,7 +47,7 @@ Gamestate::Gamestate()
 	WorldController.CreateWorld();
 	cout << "Initializing Gamestate...." << endl;
 
-	this->GameState.push(MENU_MAIN_STATE);
+	GameState.push(MENU_MAIN_STATE);
 
 	gBoss.SetSurface(1);
 
@@ -64,9 +64,6 @@ void Gamestate::KeyMapping(SDL_Event _event)
 	}
 
 	SDL_EnableKeyRepeat(0,0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
-
-	if( BCPlayer.GetState() == BaseCharacter::State::MOVING_RIGHT)
-		cout << "DO DA MOVA MOVA!!!!!" << endl;
 
 	switch (_event.type) 
 	{
@@ -230,12 +227,16 @@ void Game::HandleEvents( SDL_Event _event )
 						}
 						if( i == 1 )
 						{
+							ResetScore();
+							BCPlayer.Reset();
+							gamestate.RestartGame();
 							Audio.PauseMusic();
 							gamestate.GameState.pop();
 							gamestate.GameState.push(GAME_RUNNING_STATE);
 						}
 						if( i == 0 )
 						{
+							Audio.PauseMusic();
 							gamestate.GameState.pop();
 							gamestate.GameState.push(GAME_RUNNING_STATE);
 						}
@@ -304,8 +305,7 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
-	cout << "Resetting Level progress to 0..." << endl;
-	LevelProgress = 0;
+	ResetScore();
 	Quit = false;
 
 	// Setup of the application icons
@@ -411,6 +411,7 @@ Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
 
 void Gamestate::ResetBoss()
 {
+	// does nothing
 }
 
 void Gamestate::ResetEnemies()
@@ -426,16 +427,6 @@ void Gamestate::ResetEnemies()
 // ----------------------------------------------------------------------------
 void Gamestate::ResetObjects()
 {
-	if( ObjectController.List_Coffins.size() != NULL )
-	{
-		ObjectController.List_Coffins.clear();
-	}
-
-	if( ObjectController.List_FireBalls.size() != NULL )
-	{
-		ObjectController.List_FireBalls.clear();
-	}
-
 	ObjectController.FrameHealth = 0;
 
 	ObjectController.WhichLifeToShow = 0;
@@ -467,11 +458,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 	CollisionController.Box(BulletController.GetBullets(), AnimalController.GetAnimal());
 	cout << BCPlayer.GetAction() << endl;
 	// WhereIsEnd is @ image width + screenwidth 800+5100
-	//if( demon.WhereIsEnd >= 5700 ) 
-	//if( gamestate.LevelProgress >= 0 )
-	//{
-	//	gamestate.GameCondition = GS_LEVEL1BOSS;
-	//}
 
 	// Check game state
 	switch( gamestate.GameState.top() )
@@ -501,7 +487,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();
-				Gfx.DrawScore(300,25);
+				Gfx.DrawScore(300,25,UpdateScore());
 				
 				gamestate.DrawAllText();
 			} break;
@@ -520,7 +506,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				//gamestate.DrawAllText();
 				//gamestate.DrawSprite();
 				//Gfx.DrawSprite();
-				Gfx.DrawScore(300,0);
+				Gfx.DrawScore(300,0,UpdateScore());
 				//gamestate.FLIP();
 				//Gfx.FLIP();
 
@@ -559,7 +545,6 @@ void Gamestate::PlayOutro()
   			switch( input.key.keysym.sym )
 			{
 			case SDLK_SPACE:
-				//gamestate.State = MENU_MAIN_STATE;
 				gamestate.GameState.push(MENU_MAIN_STATE);
 				break;
 			}
@@ -631,12 +616,6 @@ void Gamestate::MainScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	if( MainMenuScreen->ButtonNewgame == true )
-	{
-		gamestate.GameState.pop();
-		gamestate.GameState.push(GAME_RUNNING_STATE);
-		MainMenuScreen->ButtonNewgame = false;
-	}
 	return;
 
 	//SDL_Surface * Surface_Credits = NULL;
@@ -970,21 +949,39 @@ void Gamestate::EnterName()
 
 void Gamestate::RestartGame()
 {
-	BCPlayer.Reset();
-	ResetBoss();
-	ResetEnemies();
-	ResetObjects();
-	ResetRest();
+	//BCPlayer.Reset();
+	//ResetBoss();
+	//ResetEnemies();
+	//ResetObjects();
+	//ResetRest();
 
-	timer.RestartTimers();
+	//timer.RestartTimers();
 
 	//BCPlayer.Initiatedemon( BCPlayer.Surface, GROUND_X, 0, demonHEIGHT, demonWIDTH );
-	//gamestate.Score = 0;
 	//gamestate.m_parallax = 0;
-	gamestate.Parallax = 0.0f;
-	gamestate.GameState.pop();
-	gamestate.GameState.push(MENU_MAIN_STATE);
-	//gamestate.State = MENU_MAIN_STATE;
+	//gamestate.Parallax = 0.0f;
+	//gamestate.GameState.pop();
+	//gamestate.GameState.push(MENU_MAIN_STATE);
+}
+
+void Gamestate::Cleanup()
+{
+	if( MainMenuScreen != NULL )
+	{
+		delete MainMenuScreen;
+	}
+	if( CreditsScreen != NULL )
+	{
+		delete CreditsScreen;
+	}
+	for( int i = 0; i < ParallaxBG->getLayerCount(); i++ )
+	{
+		SDL_FreeSurface( m_surfaceList[ i ] );
+	}
+	if( gamestate.name != NULL )
+	{
+		delete name;
+	}
 }
 
 void Gamestate::ResetRest()
@@ -996,19 +993,6 @@ void Gamestate::ResetRest()
 	if( CreditsScreen != NULL )
 	{
 		delete CreditsScreen;
-	}
-}
-
-// Frees surfaces and deletes thing thats not NULL
-void Gamestate::EndAll()
-{
-	for( int i = 0; i < ParallaxBG->getLayerCount(); i++ )
-	{
-		SDL_FreeSurface( m_surfaceList[ i ] );
-	}
-	if( gamestate.name != NULL )
-	{
-		delete name;
 	}
 }
 

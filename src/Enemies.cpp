@@ -35,10 +35,10 @@ void CEnemy::Set_Clips( int WhichTypeOfEnemy )
 		{
 			for( int j = 0; j < 14; j++ )
 			{
-				DwarfClips[ i ][ j ].x = j * this->Width;
-				DwarfClips[ i ][ j ].y = i * this->Height;
-				DwarfClips[ i ][ j ].h = this->Height;
-				DwarfClips[ i ][ j ].w = this->Width;
+				DwarfClips[ i ][ j ].x = j * Width;
+				DwarfClips[ i ][ j ].y = i * Height;
+				DwarfClips[ i ][ j ].h = Height;
+				DwarfClips[ i ][ j ].w = Width;
 			}
 		}
 	}	
@@ -49,10 +49,10 @@ void CEnemy::Set_Clips( int WhichTypeOfEnemy )
 		{
 			for( int j = 0; j < 14; j++ )
 			{
-				SkeletonClips[ i ][ j ].x = j * this->Width;
-				SkeletonClips[ i ][ j ].y = i * this->Height;
-				SkeletonClips[ i ][ j ].h = this->Height;
-				SkeletonClips[ i ][ j ].w = this->Width;
+				SkeletonClips[ i ][ j ].x = j * Width;
+				SkeletonClips[ i ][ j ].y = i * Height;
+				SkeletonClips[ i ][ j ].h = Height;
+				SkeletonClips[ i ][ j ].w = Width;
 			}
 		}
 	}	
@@ -410,9 +410,8 @@ void Boss::UpdateHeads()
 
 			if( Collide )
 			{	
-				if( BCPlayer.IsInStateAttack() )
+				if( BCPlayer.IsAttacking() )
 				{
-					//gamestate.AddScore(5);
 					vRemoveHead.push_back((*i));
 				}
 				else
@@ -650,7 +649,7 @@ void Control_Enemies::Draw_Enemies()
 
 				//Attack = demon.IsInStateAttack();
 				
-				if( Collide == true && BCPlayer.IsInStateAttack() ) // && Attack == true
+				if( Collide == true && BCPlayer.IsAttacking() ) // && Attack == true
 				{
 						if( (*i)->Surface == DWARF )
 						{

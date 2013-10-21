@@ -139,7 +139,7 @@ int main( int argc, char * arg[] )
 	}
 
 	GameEngine.Cleanup();
-	gamestate.EndAll();
+	gamestate.Cleanup();
 
 	return 0;
 }

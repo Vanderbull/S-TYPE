@@ -30,7 +30,7 @@ Animal::Animal()
 
 int Animal::isColliding(SDL_Rect Box)
 {
-	if( this->mPosition.x <= 200.0f )
+	if( mPosition.x <= 200.0f )
 	{
 		cout << "destroying object..." << endl;
 		return 1;
@@ -47,17 +47,17 @@ SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
 
 void Animal::Update()
 {
-	this->mPosition.x -= AnimalSpeed * gamestate.DeltaTime;
+	mPosition.x -= AnimalSpeed * gamestate.DeltaTime;
 
-	this->Destination.h = SpriteHeight;
-	this->Destination.w = SpriteWidth;
-	this->Destination.x = this->mPosition.x;
-	this->Destination.y = this->mPosition.y; 
+	Destination.h = SpriteHeight;
+	Destination.w = SpriteWidth;
+	Destination.x = mPosition.x;
+	Destination.y = mPosition.y; 
 
-	this->PrevFrame = this->Frame++;
-	if( this->Frame >= ANIMAL_MAX_FRAMES )
+	PrevFrame = Frame++;
+	if( Frame >= ANIMAL_MAX_FRAMES )
 	{
-		this->Frame = 0;
+		Frame = 0;
 	}
 	UpdateCollisionBox(Destination);
 }
@@ -69,16 +69,16 @@ void Animal::Draw()
 	#endif
 	
 	SDL_BlitSurface( 
-		Gfx.GetSurface( this->SurfaceID ),
-		&this->Clips[ this->PrevFrame ], 
+		Gfx.GetSurface( SurfaceID ),
+		&Clips[ PrevFrame ], 
 		Gfx.BackBuffer, 
-		&this->GetDestination() 
+		&GetDestination() 
 	);
 }
 
 SDL_Rect Animal::GetDestination()
 {
-	return this->Destination;
+	return Destination;
 }
 
 void ControlAnimals::DrawAnimals()

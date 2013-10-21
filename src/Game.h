@@ -40,8 +40,6 @@ public:
 
 	ParallaxBackground *ParallaxBG;
 
-	//int State;
-
 	float DeltaTime;
 	float UpdateAnimationSpeed;
 	float Parallax;
@@ -99,7 +97,6 @@ public:
 
 	void Loading();
 	void DrawAllText();
-	void EndAll();
 	
 	void MainScreen(int iElapsedTime);
 	void EnterName();
@@ -115,13 +112,12 @@ public:
 	void ResetObjects();
 	void ResetRest();
 	void PlayOutro();
+	void Cleanup();
 
 	Boss * CreateBoss( int xPos, int yPos, int surface );
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
-	int _Score;
-
 };
 
 extern Gamestate gamestate;
@@ -136,9 +132,9 @@ public:
 	bool Init( SDL_Surface * &screen );
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
-
+	int UpdateScore(){ return _Score++; };
+	void ResetScore(){ _Score = 0; };
 	bool Quit;
-	int LevelProgress;
 	int MouseXCoordinates; // the last recorded x coordinate of the mouse
 	int MouseYCoordinates; // the last recorded y coordinate of the mouse
 	std::map <string, SDL_Rect> _Button;
@@ -146,5 +142,6 @@ public:
 private:
 	Gamestate _State;
 	World _World;
+	int _Score;
 };
 

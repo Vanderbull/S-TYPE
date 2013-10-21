@@ -52,29 +52,29 @@ for(std::list<Bullet*>::iterator iter = My_Bullets.begin(); iter != My_Bullets.e
 // checks collision
 bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show = true )
 {
-	// Cache
-	double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
-			dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
+	//// Cache
+	//double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( MyEnemy->_Position.x + MyEnemy->Width / 2 ) ),
+	//		dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( MyEnemy->_Position.y + MyEnemy->Height / 2 ) );
 
-	double	dx1 = 0,
-			dy1 = 0;
+	//double	dx1 = 0,
+	//		dy1 = 0;
 
-	double	dx2 = 0,
-			dy2 = 0;
+	//double	dx2 = 0,
+	//		dy2 = 0;
 
-	if( Show )
-	{
-	}
+	//if( Show )
+	//{
+	//}
 
-	int dist = ( int )sqrt( dx * dx + dy * dy );
-	int dist2 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
-	
+	//int dist = ( int )sqrt( dx * dx + dy * dy );
+	//int dist2 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
+	//
 
-	// Do circles overlap?
-	if(	dist < Mydemon->Radius + MyEnemy->Radius || dist2 < Mydemon->Radius + MyEnemy->Radius )
-	{
-		return true;	// Yep, collision
-	}
+	//// Do circles overlap?
+	//if(	dist < Mydemon->Radius + MyEnemy->Radius || dist2 < Mydemon->Radius + MyEnemy->Radius )
+	//{
+	//	return true;	// Yep, collision
+	//}
  
 	// No collision
 	return false;
@@ -83,42 +83,42 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy,
 // checks collision
 bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead, bool Show = true)
 {
-	if( BCPlayer.isMovingLeft == true )
-	{
-		// Cache
-		double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 70) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
-				dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
+	//if( BCPlayer.isMovingLeft == true )
+	//{
+	//	// Cache
+	//	double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 70) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+	//			dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
-		double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 25) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
-				dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
+	//	double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 25) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+	//			dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
-		int dist = ( int )sqrt( dx * dx + dy * dy );
-		int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
+	//	int dist = ( int )sqrt( dx * dx + dy * dy );
+	//	int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
 
-		// Do circles overlap?
-		if(	dist < Mydemon->Radius + EnemyHead->Radius || dist1 < Mydemon->Radius + EnemyHead->Radius )	
-		{
-			return true;	// Yep, collision
-		}
-	}
-	else
-	{
-		// Cache
-		double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 20) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
-				dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
+	//	// Do circles overlap?
+	//	if(	dist < Mydemon->Radius + EnemyHead->Radius || dist1 < Mydemon->Radius + EnemyHead->Radius )	
+	//	{
+	//		return true;	// Yep, collision
+	//	}
+	//}
+	//else
+	//{
+	//	// Cache
+	//	double	dx = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 20) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+	//			dy = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
-		double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 5) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
-				dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
+	//	double	dx1 = ( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 + 5) - ( EnemyHead->_Position.x + EnemyHead->HeadWidth / 2 + 18) ),
+	//			dy1 = ( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( EnemyHead->_Position.y + EnemyHead->HeadHeight / 2 +35) );
 
-		int dist = ( int )sqrt( dx * dx + dy * dy );
-		int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
+	//	int dist = ( int )sqrt( dx * dx + dy * dy );
+	//	int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
 
-		// Do circles overlap?
-		if(	dist < Mydemon->Radius + EnemyHead->Radius || dist1 < Mydemon->Radius + EnemyHead->Radius )	
-		{
-			return true;	// Yep, collision
-		}
-	}
+	//	// Do circles overlap?
+	//	if(	dist < Mydemon->Radius + EnemyHead->Radius || dist1 < Mydemon->Radius + EnemyHead->Radius )	
+	//	{
+	//		return true;	// Yep, collision
+	//	}
+	//}
 
 	// No collision
 	return false;
@@ -127,22 +127,22 @@ bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead
 // checks collision
 bool ControlCollision::CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bool Show = true )
 {
-	// Cache
-	double	dx =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->_Position.x + Myboss->BossWidth / 2 + 100 ) ),
-			dy =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->_Position.y + Myboss->BossHeight / 2 - 30 ) );
+	//// Cache
+	//double	dx =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->_Position.x + Myboss->BossWidth / 2 + 100 ) ),
+	//		dy =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->_Position.y + Myboss->BossHeight / 2 - 30 ) );
 
-	double  dx1 =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->_Position.x + Myboss->BossWidth / 2 + 95 ) ),
-			dy1 =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->_Position.y + Myboss->BossHeight / 2 + 220 ) );
+	//double  dx1 =	( ( Mydemon->GetPosition().x + demonWIDTHREAL / 2 ) - ( Myboss->_Position.x + Myboss->BossWidth / 2 + 95 ) ),
+	//		dy1 =	( ( Mydemon->GetPosition().y + demonHEIGHTREAL / 2 + 45 ) - ( Myboss->_Position.y + Myboss->BossHeight / 2 + 220 ) );
 
-	int dist = ( int )sqrt( dx * dx + dy * dy );
-	int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
-	
+	//int dist = ( int )sqrt( dx * dx + dy * dy );
+	//int dist1 = ( int )sqrt( dx1 * dx1 + dy1 * dy1 );
+	//
 
-	// Do circles overlap?
-	if(	dist < Mydemon->Radius + Myboss->Radius || dist1 < Mydemon->Radius + Myboss->Radius )	
-	{
-		return true;	// Yep, collision
-	}
+	//// Do circles overlap?
+	//if(	dist < Mydemon->Radius + Myboss->Radius || dist1 < Mydemon->Radius + Myboss->Radius )	
+	//{
+	//	return true;	// Yep, collision
+	//}
  
 	// No collision
 	return false;

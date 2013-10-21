@@ -7,7 +7,6 @@
 class BaseCharacterInterface
 {
 public:
-	int _HealthPoints;
 	int _Surface;
 	int _Lives;
 	int _AlphaImmortal;
@@ -48,82 +47,17 @@ public:
 
 	BaseCharacter();
 	BaseCharacter(int surface, int Xpos, int Ypos, int height, int width);
-	//void Initiatedemon( int surface, int Xpos, int Ypos, int height, int width );
 	void Reset();
 	void Died();
 
-	//int  Updatedemon();
-	bool IsInStateAttack();
+	bool IsAttacking();
 	bool CheckBoundaries();
-	//void SetLives(int Lives);
-	//int GetLives();
-
-	//bool SmallHunter;
-	//bool MediumHunter; 
-	//bool LargeHunter;
-	//bool demonHunter;
-
-	// States the character can be in
-	bool isMovingRight;
-	bool isMovingLeft;
-	//bool isJumping;
-	//bool isKicking;
-	//bool isPunching;
-	//bool isGettingUp;
 	bool isHit;
-	//bool isImmortal;
 
-	//bool LifeFull_Small;
-	//bool LifeMedium_Small;
-	//bool LifeLittle_Small;
+	//int Feet_W, Feet_H, Fist_W, Fist_H;
 
-	//bool Crouch, Jump, Punch, FireBall, CrouchFire, Triangle;
-	//bool FireBall;
+	//int Radius, RadiusFist, RadiusFeet;
 
-	//bool DieOneLife, 
-	//bool demon_Dead;
-	
-	//int demon_Height;
-	//int demon_Width;
-	//int Surface;
-	//int Health;
-	//int demon_Life;
-	//int Last_Xpos;
-	//int LastEnd_Pos;
-	//int Score;
-	//int JumpingSpeed;
-	//int JumpingVelocity;
-	//int JumpingGravity;
-	//int xPosHotSpot;
-
-	//int AlphaImmortal;
-	//int LengthOfTriangle;
-
-
-	int Feet_W, Feet_H, Fist_W, Fist_H;
-
-	//int WhichFrame;
-	//int WhereAnimation;
-	//int DieState;
-
-	//int WhereWalkRight, WhereWalkLeft;
-	//int WhereJumpLeft, WhereJumpRight;
-	//int KickRight, KickLeft;
-	//int PunchRight, PunchLeft;
-	//int TriangleFireLeft, TriangleFireRight;
-	//int DieRightdemon, DieLeftdemon;
-
-	//int WalkLeft_demon, WalkRight_demon;
-	//int FireBallRight_demon, FireBallLeft_demon;
-	//int JumpRight_demon, JumpLeft_demon;
-	//int FireBallRight, FireBallLeft;
-	
-	int Radius, RadiusFist, RadiusFeet;
-
-	//bool Right, Left;
-	//bool MovementDirection; // false = left, true = right
-
-	//float xPos, yPos;
 	float xVelocity, yVelocity;
 
 	SDL_Rect AnimationArrays[ 9 ][ 48 ];
@@ -145,9 +79,9 @@ public:
 
 	int Animate()
 	{
-		if( this->_AnimationFrame > 6 )
-			this->_AnimationFrame = 0;
-		if(this->TimeLeft() == 0 )
+		if( _AnimationFrame > 6 )
+			_AnimationFrame = 0;
+		if(TimeLeft() == 0 )
 			++_AnimationFrame;
 		return _AnimationFrame;
 	}
@@ -169,14 +103,6 @@ public:
 	   return _State;
 	}
 
-	//void SetMorphState( BaseCharacter::MorphState state )
-	//{
-	//	_MorphState = state;
-	//}
-	//BaseCharacter::MorphState GetMorphState() const
-	//{
-	//   return _MorphState;
-	//}
 	void SetAliveState( BaseCharacter::AliveState state )
 	{
 		_AliveState = state;
@@ -240,11 +166,8 @@ public:
 
 private:
 	BaseCharacter::State _State;
-	//BaseCharacter::MorphState _MorphState;
 	BaseCharacter::AliveState _AliveState;
 	SDL_Rect _Position;
-	int _LeftMostPosition;
-	int _RightMostPosition;
 	int _AnimationFrame;
 	std::queue<std::string> Action;
 	std::queue<std::string> Beam;

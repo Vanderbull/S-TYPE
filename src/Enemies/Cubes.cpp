@@ -13,16 +13,16 @@ SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 
 void Cube::Update()
 {
-	this->xPos -= 0.0003f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
-	this->Destination.h = this->Height;
-	this->Destination.w = this->Width;
-	this->Destination.x = this->xPos;
-	this->Destination.y = this->yPos; 
+	xPos -= 0.0003f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
+	Destination.h = Height;
+	Destination.w = Width;
+	Destination.x = xPos;
+	Destination.y = yPos; 
 
-	this->PrevFrame = this->Frame++;
-	if( this->Frame >= CUBE_MAX_FRAMES )
+	PrevFrame = Frame++;
+	if( Frame >= CUBE_MAX_FRAMES )
 	{
-		this->Frame = 0;
+		Frame = 0;
 	}
 	UpdateCollisionBox(Destination);
 }
@@ -34,16 +34,16 @@ void Cube::Draw()
 	#endif
 	
 	SDL_BlitSurface( 
-		Gfx.GetSurface( this->Surface ),
-		&this->Clips[ this->PrevFrame ], 
+		Gfx.GetSurface( Surface ),
+		&Clips[ PrevFrame ], 
 		Gfx.BackBuffer, 
-		&this->GetDestination() 
+		&GetDestination() 
 	);
 }
 
 SDL_Rect Cube::GetDestination()
 {
-	return this->Destination;
+	return Destination;
 }
 
 Cube::Cube()

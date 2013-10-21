@@ -409,10 +409,9 @@ void ControlGfx::DrawBackgroundBlack()
 	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 }
 
-void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord)
+void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 {
 	SDL_Surface * SrfScore;
-	static int iScore = 0;
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( xCoord, yCoord, SrfScore, Gfx.BackBuffer );
 }

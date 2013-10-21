@@ -95,43 +95,19 @@ public:
 	int FireWidth, FireHeight;
 };
 
-class Coffin : public Object
-{
-public:
-	Coffin();
-	void Update();
-	void Draw() {};
-	int isActive() { return true; };
-	void DeActivate() {};
-	void onCollision(){};
-	void onDestruction(){};
-
-	void SetFrames();
-};
-
 class ControlObject
 {
 public:
 	ControlObject();
 	void DrawObjects();
 	void CreateObjects();
-
 	
 	int WhichLifeToShow;
 	SDL_Rect destHealth;
 	int FrameHealth;
 
-	int Zombie, Skeleton, Skull;
-
 	bool PowerUpMan;
 	
-	Fireball * CreateFireBall( int xPos, int yPos, int Surface, bool Right, bool Left );
-	Coffin * CreateCoffin( int xPos, int yPos, int Surface );
-
-	std::list< Tree * > List_Trees;
-	std::list< Fireball * > List_FireBalls;
-	std::list< Coffin * > List_Coffins;
-
 	//vector of objects
 	std::vector<Asteroid> ActiveAsteroids;
 	Asteroid SpawnAsteroid( int _xPos, int _yPos, int _SurfaceID )

@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="src\DancingDragon.cpp">
-      <Filter>DancingDragon</Filter>
+      <Filter>Enemies\DancingDragon</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio.cpp">
       <Filter>Audio</Filter>
@@ -88,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DancingDragon.h">
-      <Filter>DancingDragon</Filter>
+      <Filter>Enemies\DancingDragon</Filter>
     </ClInclude>
     <ClInclude Include="src\Audio.h">
       <Filter>Audio</Filter>
@@ -177,9 +177,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="DancingDragon">
-      <UniqueIdentifier>{3670a4ae-5645-4469-93e3-d32ebeaabd82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Audio">
       <UniqueIdentifier>{15c50117-fcc0-4fc9-b403-4964ef809b47}</UniqueIdentifier>
     </Filter>
@@ -260,6 +257,9 @@
     </Filter>
     <Filter Include="Enemies\Triangles">
       <UniqueIdentifier>{bc7d872e-9493-4f56-ba38-048860741daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\DancingDragon">
+      <UniqueIdentifier>{3670a4ae-5645-4469-93e3-d32ebeaabd82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

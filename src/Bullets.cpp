@@ -13,17 +13,17 @@ SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 
 void Bullet::Update()
 {
-	this->xPos += 0.0003f * gamestate.DeltaTime;
-	this->Destination.h = this->Height;
-	this->Destination.w = this->Width;
-	this->Destination.x = this->xPos;
-	this->Destination.y = this->yPos; 
+	xPos += 0.0003f * gamestate.DeltaTime;
+	Destination.h = Height;
+	Destination.w = Width;
+	Destination.x = xPos;
+	Destination.y = yPos; 
 
-	this->PrevFrame = this->Frame++;
+	PrevFrame = Frame++;
 	
-	if( this->Frame >= BULLET_MAX_FRAMES )
+	if( Frame >= BULLET_MAX_FRAMES )
 	{
-		this->Frame = 0;
+		Frame = 0;
 	}
 
 	UpdateCollisionBox(Destination);
@@ -36,21 +36,21 @@ void Bullet::Draw()
 	#endif
 
 	SDL_BlitSurface( 
-		Gfx.GetSurface( this->SurfaceID ),
-		&this->Clips[ this->PrevFrame ], 
+		Gfx.GetSurface( SurfaceID ),
+		&Clips[ PrevFrame ], 
 		Gfx.BackBuffer, 
-		&this->GetDestination() 
+		&GetDestination() 
 	);
 }
 
 int Bullet::GetSurfaceID()
 {
-	return this->SurfaceID;
+	return SurfaceID;
 }
 
 SDL_Rect Bullet::GetDestination()
 {
-	return this->Destination;
+	return Destination;
 }
 
 Bullet::Bullet()

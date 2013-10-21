@@ -25,7 +25,7 @@ public:
 	void DrawObjects();
 	void DrawBoss();
 	void DrawBackgroundBlack();
-	void DrawScore(unsigned int xCoord,unsigned int yCoord);
+	void DrawScore(unsigned int xCoord,unsigned int yCoord, int iScore);
 	void SetAlpha( int _SurfaceIndex, int _Opacity );
 
 	SDL_Color WhiteRGB,BlackRGB;
