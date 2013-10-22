@@ -33,22 +33,10 @@ public:
 
 	int Box( std::list< Bullet* > My_Bullets, std::list< Animal* > iEnemy );
 	// Old collision controlls
-	bool CollisionCircle( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
-	bool CollisionCircle( BaseCharacter *Mydemon, Boss *Myboss, bool Show );
-	bool CollisionCircle( BaseCharacter *Mydemon, Heads *EnemyHead, bool Show );
+	bool CollisionBox( BaseCharacter *cPlayer, CEnemy *cEnemy, bool Show );
 
-	bool CollisionCircle( Fireball *MyFire, CEnemy *MyEnemy, bool Show );
-	bool CollisionCircle( Fireball *MyFire, Heads *EnemyHead, bool Show );
-	bool CollisionCircle( Fireball *MyFire, Boss *My_boss, bool Show );
-	
+	bool CheckCollision( CEnemy *cEnemy, int WhichCollisionToUse, BaseCharacter *cPlayer );
 
-	bool CollisionBox( BaseCharacter *Mydemon, CEnemy *MyEnemy, bool Show );
-	bool CollisionPixel( BaseCharacter *Mydemon, CEnemy *MyEnemy );
-
-	bool CheckCollision( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon );
-
-	void Circle( long centerx, long centery, long radius );
-	void SetPixelMine( int xPos, int yPos );
 };
 
 extern ControlCollision CollisionController;

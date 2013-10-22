@@ -406,7 +406,6 @@ void Boss::UpdateHeads()
 		{
 			Heads * temp = (*i);
 			bool Collide = false;
-			Collide = CollisionController.CollisionCircle( &BCPlayer, temp, false );
 
 			if( Collide )
 			{	

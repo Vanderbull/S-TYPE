@@ -30,13 +30,23 @@ Animal::Animal()
 
 int Animal::isColliding(SDL_Rect Box)
 {
-	if( mPosition.x <= 200.0f )
-	{
-		cout << "destroying object..." << endl;
-		return 1;
-	}
-	else
-		return 0;
+	int PlayerRight = BCPlayer.GetPosition().x + BCPlayer.GetPosition().w;
+	int PlayerLeft = BCPlayer.GetPosition().x;
+	int PlayerTop = BCPlayer.GetPosition().y;
+	int PlayerBottom = BCPlayer.GetPosition().x + BCPlayer.GetPosition().h;
+
+	int EnemyRight = mPosition.x + mPosition.w;
+	int EnemyLeft = mPosition.x;
+	int EnemyTop = mPosition.y;
+	int EnemyBottom = mPosition.y + mPosition.h;
+
+	if (EnemyBottom < PlayerTop) return(0);
+	if (EnemyTop > PlayerBottom) return(0);
+  
+	if (EnemyRight < PlayerLeft) return(0);
+	if (EnemyLeft > PlayerRight) return(0);
+
+	return(1);
 }
 
 SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
