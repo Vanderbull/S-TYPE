@@ -43,9 +43,10 @@ Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
+	cout << "Gamestate::Loading Audio..." << endl;
 	Audio.LoadAudio();
+	cout << "Gamestate::Creating the world..." << endl;
 	WorldController.CreateWorld();
-	cout << "Initializing Gamestate...." << endl;
 
 	GameState.push(MENU_MAIN_STATE);
 
@@ -54,6 +55,7 @@ Gamestate::Gamestate()
 	Parallax = 0.0f;
 	DeltaTime = 0.0f;
 }
+
 void Gamestate::KeyMapping(SDL_Event _event)
 {
 	bool KEYS[322];  // 322 is the number of SDLK_DOWN events
@@ -75,7 +77,6 @@ void Gamestate::KeyMapping(SDL_Event _event)
             break;
 	}  
 }
-
 
 void Game::HandleEvents( SDL_Event _event )
 {	
@@ -363,7 +364,6 @@ void Gamestate::load_files()
 	BCPlayer._Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
 	m_srfCrow = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
-	m_srfBoss = Gfx.Load_imageAlpha( "Graphics/srfBoss.png", 255, 255, 255 );
 	m_srfdemonLife = Gfx.Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
 	m_srfdemonHealthAndFire = Gfx.Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
 	m_srfDragon = Gfx.Load_imageAlpha( "Graphics/srfDragon.png", 0, 0, 0 );
@@ -393,27 +393,6 @@ void Gamestate::load_files()
 	setUpParallaxLayers();
 }
 
-
-// ----------------------------------------------------------------------------
-// CreateBoss() - Creates the boss gives collisionCircle and pos
-// ----------------------------------------------------------------------------
-Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
-{
-	Boss * temp = new Boss;
-	temp->Surface = surface;
-	temp->_Position.x = xPos;
-	temp->_Position.y = yPos;
-
-	temp->Radius = ( temp->BossWidth > temp->BossHeight ) ? temp->BossWidth / 2 : temp->BossHeight  / 2;
-
-	return temp;
-}
-
-void Gamestate::ResetBoss()
-{
-	// does nothing
-}
-
 void Gamestate::ResetEnemies()
 {
 	if(EnemyController.Enemies.size() != NULL )
@@ -428,8 +407,6 @@ void Gamestate::ResetEnemies()
 void Gamestate::ResetObjects()
 {
 	ObjectController.FrameHealth = 0;
-
-	ObjectController.WhichLifeToShow = 0;
 	
 	return;
 }
@@ -453,9 +430,9 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 
 	ObjectController.RemoveActiveObjects();
 	test = BulletController.GetBulletsByReference();
-	//CollisionController.ListByReference(BulletController.GetBulletsByReference(),AnimalController.GetAnimal());
+	CollisionController.ListByReference(BulletController.GetBulletsByReference(),AnimalController.GetAnimalByReference());
 
-	CollisionController.Box(BulletController.GetBullets(), AnimalController.GetAnimal());
+	//CollisionController.Box(BulletController.GetBullets(), AnimalController.GetAnimal());
 	cout << BCPlayer.GetAction() << endl;
 	// WhereIsEnd is @ image width + screenwidth 800+5100
 

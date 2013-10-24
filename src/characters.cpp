@@ -141,7 +141,6 @@ void BaseCharacter::Update()
 		}
 
 		BCPlayer.isHit = false;
-		ObjectController.WhichLifeToShow++;
 	}
 }
 

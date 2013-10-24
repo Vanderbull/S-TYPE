@@ -21,15 +21,14 @@ public:
 	virtual void onCollision() = 0;
 	virtual void onDestruction() = 0;
 
-	int Initialize(float _xPos, float _yPos, int _Width, int _Height,int Frame, int _Radius);
+	int Initialize(SDL_Rect iData,int Frame);
+
 	int Object::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
 
 	int Active;
-	int xPos, yPos;
-	int Width, Height;
-	int Surface;
+	int SurfaceID;
 	int Frame;
-	int Radius; // fireball crap
+	SDL_Rect LocAndSize;
 	SDL_Rect CollisionBox;
 
 	SDL_Rect Clips[ 10 ];
@@ -51,50 +50,6 @@ public:
 	void onDestruction(){};
 };
 
-class PowerUp : public Object
-{
-public:
-	PowerUp( int _xPos, int _yPos, int Surface );
-	void Update() {};
-	void Draw() {};
-	int isActive() { return true; };
-	void DeActivate() {};
-	void onCollision(){};
-	void onDestruction(){};
-
-	void SetFrame();
-	bool Left, Right;
-};
-
-class Tree : public Object
-{
-public:
-	Tree();
-	void Update() {};
-	void Draw() {};
-	int isActive() { return true; };
-	void DeActivate() {};
-	void onCollision(){};
-	void onDestruction(){};
-};
-
-class Fireball : public Object
-{
-public:
-	Fireball();
-	void Update() {};
-	void Draw() {};
-	int isActive() { return true; };
-	void DeActivate() {};
-	void onCollision(){};
-	void onDestruction(){};
-
-	int FrameRight, FrameLeft;
-	bool FireRight, FireLeft;
-
-	int FireWidth, FireHeight;
-};
-
 class ControlObject
 {
 public:
@@ -102,11 +57,8 @@ public:
 	void DrawObjects();
 	void CreateObjects();
 	
-	int WhichLifeToShow;
 	SDL_Rect destHealth;
 	int FrameHealth;
-
-	bool PowerUpMan;
 	
 	//vector of objects
 	std::vector<Asteroid> ActiveAsteroids;

@@ -56,9 +56,12 @@ public:
 
 	Animal * CreateAnimal( int xPos, int yPos, int surface );
 	std::list< Animal* > GetAnimal(){ return AnimalList; };
+	std::list< Animal > GetAnimalByReference(){ return Animals; };
+	Animal CreateAnimalByReference( int xPos, int yPos, int surface );
 	
 private:
 	std::list< Animal* > AnimalList;
+	std::list< Animal > Animals;
 };
 
 extern ControlAnimals AnimalController;

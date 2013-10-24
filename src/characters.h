@@ -21,6 +21,7 @@ public:
 	virtual std::string GetBeam()=0;
 	virtual void AddBeam(std::string beam_event)=0;
 	virtual SDL_Rect GetCollisionBox()=0;
+	virtual int isColliding( SDL_Rect CollisionObject )=0;
 };
 
 namespace Actor
@@ -53,10 +54,6 @@ public:
 	bool IsAttacking();
 	bool CheckBoundaries();
 	bool isHit;
-
-	//int Feet_W, Feet_H, Fist_W, Fist_H;
-
-	//int Radius, RadiusFist, RadiusFeet;
 
 	float xVelocity, yVelocity;
 
@@ -163,6 +160,28 @@ public:
 	{
 		return CollisionBox;
 	}
+
+	int BaseCharacter::isColliding( SDL_Rect CollisionObject )
+	{
+		int PlayerRight = GetPosition().x + GetPosition().w;
+		int PlayerLeft = GetPosition().x;
+		int PlayerTop = GetPosition().y;
+		int PlayerBottom = GetPosition().x + GetPosition().h;
+
+		int CollisionObjectRight = CollisionObject.x + CollisionObject.w;
+		int CollisionObjectLeft = CollisionObject.x;
+		int CollisionObjectTop = CollisionObject.y;
+		int CollisionObjectBottom = CollisionObject.y + CollisionObject.h;
+
+		if (CollisionObjectBottom < PlayerTop) return(0);
+		if (CollisionObjectTop > PlayerBottom) return(0);
+  
+		if (CollisionObjectRight < PlayerLeft) return(0);
+		if (CollisionObjectLeft > PlayerRight) return(0);
+
+		return(1);
+	}
+
 
 private:
 	BaseCharacter::State _State;

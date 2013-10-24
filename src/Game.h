@@ -57,8 +57,7 @@ public:
 		m_srfClouds, 
 		m_srfEnemyZombie,
 		m_srfCrow,
-		m_srfBlack, 
-		m_srfBoss, 
+		m_srfBlack,
 		m_srfdemonLife, 
 		m_srfdemonHealthAndFire, 
 		m_srfDragon, 
@@ -107,14 +106,11 @@ public:
 	void KeyMapping(SDL_Event _event);
 
 	void RestartGame();
-	void ResetBoss();
 	void ResetEnemies();
 	void ResetObjects();
 	void ResetRest();
 	void PlayOutro();
 	void Cleanup();
-
-	Boss * CreateBoss( int xPos, int yPos, int surface );
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];

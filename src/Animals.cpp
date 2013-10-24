@@ -134,6 +134,7 @@ void ControlAnimals::CreateAnimals(int iProgress )
 		{
 			cout << "Creating a animal..." << endl;
 			AnimalList.push_back( CreateAnimal( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
+			Animals.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
 		}
 	}
 	else
@@ -149,4 +150,14 @@ ControlAnimals::ControlAnimals()
 ControlAnimals::~ControlAnimals()
 {
 	cout << "Destroying the Animal Controller..." << endl;
+}
+
+Animal ControlAnimals::CreateAnimalByReference( int xPos, int yPos, int surface )
+{
+	Animal temp;
+	temp.SurfaceID = surface;
+	temp.mPosition.x = xPos;
+	temp.mPosition.y = yPos;
+
+	return temp;
 }

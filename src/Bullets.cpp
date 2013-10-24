@@ -13,11 +13,7 @@ SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 
 void Bullet::Update()
 {
-	xPos += 0.0003f * gamestate.DeltaTime;
-	Destination.h = Height;
-	Destination.w = Width;
-	Destination.x = xPos;
-	Destination.y = yPos; 
+	LocAndSize.x += 0.0003f * gamestate.DeltaTime;
 
 	PrevFrame = Frame++;
 	
@@ -26,7 +22,7 @@ void Bullet::Update()
 		Frame = 0;
 	}
 
-	UpdateCollisionBox(Destination);
+	UpdateCollisionBox( LocAndSize );
 }
 
 void Bullet::Draw()
@@ -39,7 +35,7 @@ void Bullet::Draw()
 		Gfx.GetSurface( SurfaceID ),
 		&Clips[ PrevFrame ], 
 		Gfx.BackBuffer, 
-		&GetDestination() 
+		&GetLocAndSize() 
 	);
 }
 
@@ -48,13 +44,18 @@ int Bullet::GetSurfaceID()
 	return SurfaceID;
 }
 
-SDL_Rect Bullet::GetDestination()
+SDL_Rect Bullet::GetLocAndSize()
 {
-	return Destination;
+	return LocAndSize;
 }
 
 Bullet::Bullet()
 {
+	LocAndSize.h = 64;
+	LocAndSize.w = 64;
+	LocAndSize.x = 0;
+	LocAndSize.y = 0;
+
 	// Setup collision box boundries
 	CollisionBox.x = 0;
 	CollisionBox.y = 0;
@@ -63,52 +64,32 @@ Bullet::Bullet()
 
 	PrevFrame = 0;
 	Frame = 0;
-	Height = 64;
-	Width =	64;
 
 	for( int i = 0; i < 16; i++ )
 	{
-		Clips[ i ].x = i * Width;
+		Clips[ i ].x = i * LocAndSize.w;
 		Clips[ i ].y = 0;
-		Clips[ i ].h = Height;
-		Clips[ i ].w = Width;
+		Clips[ i ].h = LocAndSize.h;
+		Clips[ i ].w = LocAndSize.w;
 	}
 }
 
 void ControlBullets::Draw_Bullets()
 {
-	//list< Bullet >::iterator BulletCounter;
-	//BulletCounter = Bullets.begin();
-
-	//while( BulletCounter != Bullets.end() )
-	//{
-	//	BulletCounter->Update();
-	//	BulletCounter->Draw();
-	//	if( BulletCounter->xPos >= Gfx.screen->w - BulletCounter->Width )
-	//	{
-	//		BulletCounter = Bullets.erase(BulletCounter);
-	//	}
-	//	else
-	//	{
-	//		++BulletCounter;
-	//	}
-	//}
-
- 	list< Bullet* >::iterator i;
-
-	i = My_Bullets.begin();
-	while(i != My_Bullets.end() )
+	list< Bullet >::iterator BulletCounter;
+	BulletCounter = Bullets.begin();
+	
+	while( BulletCounter != Bullets.end() )
 	{
-		(*i)->Update();
-		(*i)->Draw();
-		
-		if( (*i)->xPos >= Gfx.screen->w - (*i)->Width )
+		BulletCounter->Update();
+		BulletCounter->Draw();
+		if( BulletCounter->LocAndSize.x >= Gfx.screen->w - BulletCounter->LocAndSize.w )
 		{
-			i = My_Bullets.erase(i);
+			BulletCounter = Bullets.erase(BulletCounter);
 		}
 		else
 		{
-			++i;
+			++BulletCounter;
 		}
 	}
 }
@@ -117,33 +98,19 @@ void ControlBullets::LoadBullet( int xPos, int yPos, int surface )
 {
 	Bullet tempBullet;
 
-	tempBullet.xPos = xPos;
-	tempBullet.yPos = yPos;
+	tempBullet.LocAndSize.x = xPos;
+	tempBullet.LocAndSize.y = yPos;
 	tempBullet.SurfaceID = surface;
 
 	BulletArrayRef.push_back( tempBullet );
  }
 
-Bullet * ControlBullets::CreateBullet( int xPos, int yPos, int surface )
-{
-	Bullet * temp = new Bullet;
-	temp->SurfaceID = surface;
-	temp->xPos = xPos;
-	temp->yPos = yPos;
-
-	temp->Radius = ( temp->Width > temp->Height ) ? temp->Width / 2 : temp->Height / 2;
-
-	return temp;
-}
-
 Bullet ControlBullets::CreateBulletByReference( int xPos, int yPos, int surface )
 {
 	Bullet temp;
 	temp.SurfaceID = surface;
-	temp.xPos = xPos;
-	temp.yPos = yPos;
-
-	temp.Radius = ( temp.Width > temp.Height ) ? temp.Width / 2 : temp.Height / 2;
+	temp.LocAndSize.x = xPos;
+	temp.LocAndSize.y = yPos;
 
 	return temp;
 }
@@ -155,9 +122,7 @@ void ControlBullets::Create_Bullets()
 	if( bullet_timer <= 0 )
 	{ 
 		LoadBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser );
-
-		My_Bullets.push_back( CreateBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) ); // 75 + ( rand() % Turf )
-		Bullets.push_back( CreateBulletByReference(0, 0, gamestate.m_srfLaser ) ); // 75 + ( rand() % Turf )
+		Bullets.push_back( CreateBulletByReference(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) );
 		bullet_timer = 10;
 	}
 	else
@@ -168,9 +133,10 @@ void ControlBullets::Create_Bullets()
 
 ControlBullets::ControlBullets()
 {
+	cout << "Creating the ControlBullets class..." << endl;
 }
 
 ControlBullets::~ControlBullets()
 {
-	cout << "Destroying the Bullet Controller..." << endl;
+	cout << "Destroying the ControlBullets class..." << endl;
 }
