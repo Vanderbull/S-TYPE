@@ -14,7 +14,7 @@ SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 void Bullet::Update()
 {
 	LocAndSize.x += 0.0003f * gamestate.DeltaTime;
-
+	
 	PrevFrame = Frame++;
 	
 	if( Frame >= BULLET_MAX_FRAMES )
@@ -22,7 +22,7 @@ void Bullet::Update()
 		Frame = 0;
 	}
 
-	UpdateCollisionBox( LocAndSize );
+	//UpdateCollisionBox( LocAndSize );
 }
 
 void Bullet::Draw()
@@ -64,6 +64,7 @@ Bullet::Bullet()
 
 	PrevFrame = 0;
 	Frame = 0;
+	Active = 1;
 
 	for( int i = 0; i < 16; i++ )
 	{
@@ -76,16 +77,17 @@ Bullet::Bullet()
 
 void ControlBullets::Draw_Bullets()
 {
-	list< Bullet >::iterator BulletCounter;
-	BulletCounter = Bullets.begin();
-	
-	while( BulletCounter != Bullets.end() )
+	std::vector< Bullet >::iterator BulletCounter;
+
+	BulletCounter = BulletArrayRef.begin();
+
+	while( BulletCounter != BulletArrayRef.end() )
 	{
 		BulletCounter->Update();
 		BulletCounter->Draw();
 		if( BulletCounter->LocAndSize.x >= Gfx.screen->w - BulletCounter->LocAndSize.w )
 		{
-			BulletCounter = Bullets.erase(BulletCounter);
+			BulletCounter = BulletArrayRef.erase(BulletCounter);
 		}
 		else
 		{
@@ -122,7 +124,7 @@ void ControlBullets::Create_Bullets()
 	if( bullet_timer <= 0 )
 	{ 
 		LoadBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser );
-		Bullets.push_back( CreateBulletByReference(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) );
+		BulletArrayRef.push_back( CreateBulletByReference(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) );
 		bullet_timer = 10;
 	}
 	else

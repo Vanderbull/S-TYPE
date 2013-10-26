@@ -3,31 +3,13 @@
 #include <stack>
 #include <SDL.h>
 #include "Bullets.h"
+#include "Objects.h"
 
 #define ANIMAL_MAX_FRAMES 15
 #define ANIMAL_MIN_PROGRESS 0
 #define ANIMAL_MAX_PROGRESS 2500
 
-typedef struct sPosition
-{
-	float x,y,z,h,w;
-} AnimalPosition;
-
-/// <summary>A basic ammo object</summary>
-class AnimalObject
-{
-public:
-	AnimalPosition mPosition;
-	int SurfaceID;
-	SDL_Rect CollisionBox;
-	SDL_Rect Destination;
-	int Frame;
-
-private:
-};
-
-/// <summary>Used to create a Animal entity</summary>
-class Animal : public AnimalObject
+class Animal : public Object
 {
 
 public:
@@ -39,6 +21,13 @@ public:
 	void Draw();
 	
 	SDL_Rect GetDestination();
+
+	bool isActive(){ return Active; };
+	void DeActivate(){ Active = false; };
+	void Activate(){ Active = true; };
+	void onCollision(){ cout << "Im colliding with something" << endl; };
+	void onDestruction(){ cout << "Im getting destroyed here" << endl; };
+	void Spawn(){ cout << "Im getting spawned here" << endl; };
 
 private:
 	SDL_Rect Clips[ 16 ];
@@ -54,14 +43,14 @@ public:
 	void DrawAnimals();
 	void CreateAnimals( int iProgress );
 
-	Animal * CreateAnimal( int xPos, int yPos, int surface );
-	std::list< Animal* > GetAnimal(){ return AnimalList; };
-	std::list< Animal > GetAnimalByReference(){ return Animals; };
+	std::vector< Animal > GetVectorWithAnimals(){ return AnimalArrayRef; };
+
 	Animal CreateAnimalByReference( int xPos, int yPos, int surface );
 	
+
+	std::vector< Animal > AnimalArrayRef;
 private:
-	std::list< Animal* > AnimalList;
-	std::list< Animal > Animals;
+
 };
 
 extern ControlAnimals AnimalController;

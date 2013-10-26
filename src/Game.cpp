@@ -401,16 +401,6 @@ void Gamestate::ResetEnemies()
 	}
 }
 
-// ----------------------------------------------------------------------------
-// ResetObjects() - resets all object to its starting values
-// ----------------------------------------------------------------------------
-void Gamestate::ResetObjects()
-{
-	ObjectController.FrameHealth = 0;
-	
-	return;
-}
-
 void Game::Audiotonic()
 {
 	// does nothing
@@ -426,15 +416,15 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 	SnowAsteroid.Asteroid::isActive();
 	ObjectController.Report(SnowAsteroid);
 
-	std::list<Bullet> test;
+	std::vector<Bullet> test;
 
 	ObjectController.RemoveActiveObjects();
-	test = BulletController.GetBulletsByReference();
-	CollisionController.ListByReference(BulletController.GetBulletsByReference(),AnimalController.GetAnimalByReference());
+	test = BulletController.GetVBulletsByReference();
+	
 
 	//CollisionController.Box(BulletController.GetBullets(), AnimalController.GetAnimal());
 	cout << BCPlayer.GetAction() << endl;
-	// WhereIsEnd is @ image width + screenwidth 800+5100
+
 
 	// Check game state
 	switch( gamestate.GameState.top() )
@@ -461,6 +451,8 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_RUNNING_STATE:
 			{
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
+				//CollisionController.ListByReference(BulletController.GetVBulletsByReference(),AnimalController.GetAnimalByReference());
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();
@@ -470,27 +462,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_BOSS_STATE:
 			{
-				// handles events what the user does with the character
-				//Handle_events( input );
-
-				//draws layers
-				//gamestate.drawParallaxLayers();
-				//Gfx.DrawParallaxLayers();
-				//gamestate.DrawObjects();
-				//Gfx.DrawObjects();
-				//gamestate.DrawBoss();
-				//Gfx.DrawBoss();
-				//gamestate.DrawAllText();
-				//gamestate.DrawSprite();
-				//Gfx.DrawSprite();
 				Gfx.DrawScore(300,0,UpdateScore());
-				//gamestate.FLIP();
-				//Gfx.FLIP();
-
-				//if( gamestate.pBoss->BossDead == true )
-				//{
-				//	gamestate.GameCondition = GS_OUTRO;
-				//}
 			} break;
 		case GAME_OUTRO_STATE:
 			{
@@ -594,140 +566,6 @@ void Gamestate::MainScreen(int iElapsedTime)
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	return;
-
-	//SDL_Surface * Surface_Credits = NULL;
-	//SDL_Surface * Surface_HighScore = NULL;
-
-	//ParallaxLayer  * MyParaBackGround;
-	//MyParaBackGround = Parallax->getLayer( TitleScreen->surface );
-
-	/*
-	for( int i = 0; i < 4; i++ )
-	{
-		//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
-			
-		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
-							&TitleScreen->ButtonClips[ i ],
-							Gfx.BackBuffer, &TitleScreen->DestClips[ i ] ); 
-	}*/
-
-
-
-	//gamestate.apply_surface( 200, 400, srfEnter, gamestate.BackBuffer );
-	//if( gamestate.TitleScreen->ButtonHighScore == true )
-	//{
-	//	ListHighScore->sort( gamestate.name->str.c_str(), gamestate.GetScore() );
-	//	ListHighScore->Save();
-
-	//	delete ListHighScore;
-	//	ListHighScore = new FillHighScore;
-
-	//	for( int i = 0; i < 5; i++ )
-	//	{
-	//		char temp[ 256 ];
-	//		sprintf_s(	temp, 256, "Name: %s Score: %i", ListHighScore->list[ i ].name.c_str(), ListHighScore->list[ i ].Score );	
-	//		gamestate.HighScoreList[ i ] = temp;
-	//	}
-	//}
-
-	//if( TitleScreen->ButtonOptions == false )
-	//{
-	//	for( int i = 0; i < 4; i++ )
-	//	{
-	//		//SDL_FillRect(gamestate.GetSurface( TitleScreen->SurfaceButt),&TitleScreen->DestClips[ i ],SDL_MapRGB(gamestate.GetSurface( TitleScreen->SurfaceButt)->format,255,0,255) );
-	//		
-	//		SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), 
-	//							&TitleScreen->ButtonClips[ i ],
-	//							gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
-	//	}
-	//}
-	//else if( TitleScreen->ButtonHighScore == true )
-	//{
-	//	/*
-	//	SDL_BlitSurface(	gamestate.GetSurface( TitleScreen->SurfaceButt ),
-	//						&TitleScreen->ButtonClips[ 4 ],
-	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 8 ] ); 	
-	//						*/
-
-	//	SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
-	//						&TitleScreen->ButtonClips[ 7 ],
-	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
-
-	//	SDL_Color textColor = { 0,0,0 };
-	//	
-	//	for( int i = 0; i < 5; i++ )
-	//	{
-	//		Surface_HighScore =		TTF_RenderText_Solid( gamestate.font, 
-	//								gamestate.HighScoreList[ i ].c_str(), textColor );
-	//		apply_surface( 50, 270 + i * 40, Surface_HighScore, gamestate.BackBuffer );
-	//	}
-
-	//}
-	//else if( TitleScreen->ButtonCredits == true )
-	//{
-	//	SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
-	//						&TitleScreen->ButtonClips[ 8 ],
-	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 9 ] ); 
-
-	//	SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ),
-	//						&TitleScreen->ButtonClips[ 7 ],
-	//						gamestate.BackBuffer, &TitleScreen->DestClips[ 7 ] ); 
-
-	//	
-	//	SDL_Color textColor = { 0,255,0 };
-	//	
-	//
-	//	Surface_Credits =		TTF_RenderText_Solid( gamestate.font, 
-	//							" A Risk Production ", textColor );
-	//	apply_surface( 50, 270, Surface_Credits, gamestate.BackBuffer );
-	//}
-	//else
-	//{
-	//	for( int i = 0; i < 8; i++ )
-	//	{
-	//		if( i == 2 || i == 0 || i == 3 )
-	//		{
-	//										
-	//		}
-	//		else
-	//		{
-	//			SDL_BlitSurface(	Gfx.GetSurface( TitleScreen->SurfaceButt ), &TitleScreen->ButtonClips[ i ],
-	//								gamestate.BackBuffer, &TitleScreen->DestClips[ i ] ); 
-	//		}
-	//	}
-	//}
-	//
-	//if( TitleScreen->ButtonNewgame == true )
-	//{
-	//	gamestate.GameCondition = GS_INTROSTORY;
-	//	TitleScreen->ButtonNewgame = false;
-
-	//	if( Surface_Credits != NULL )
-	//	{
-	//		SDL_FreeSurface( Surface_Credits );
-	//	}
-	//	if( Surface_HighScore != NULL )
-	//	{
-	//		SDL_FreeSurface( Surface_HighScore );
-	//	}
-
-	//	gamestate.RestartGame();
-	//}
-	//if( TitleScreen->ButtonQuit == true )
-	//{
-	//	gamestate.GameOK = false;
-	//	TitleScreen->ButtonQuit == false;
-	//}
-
-	//if( TitleScreen->ButtonBack == true )
-	//{
-	//	TitleScreen->ButtonOptions = false;
-	//	TitleScreen->ButtonBack = false;
-	//	TitleScreen->ButtonHighScore = false;
-	//	TitleScreen->ButtonCredits = false;
-	//	TitleScreen->ButtonBack = false;
-	//} 					  	   
-	//
 }
 
 // ----------------------------------------------------------------------------
@@ -926,19 +764,7 @@ void Gamestate::EnterName()
 
 void Gamestate::RestartGame()
 {
-	//BCPlayer.Reset();
-	//ResetBoss();
-	//ResetEnemies();
-	//ResetObjects();
-	//ResetRest();
-
-	//timer.RestartTimers();
-
-	//BCPlayer.Initiatedemon( BCPlayer.Surface, GROUND_X, 0, demonHEIGHT, demonWIDTH );
-	//gamestate.m_parallax = 0;
-	//gamestate.Parallax = 0.0f;
-	//gamestate.GameState.pop();
-	//gamestate.GameState.push(MENU_MAIN_STATE);
+	// does nothing yet!
 }
 
 void Gamestate::Cleanup()

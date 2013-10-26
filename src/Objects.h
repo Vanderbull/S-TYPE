@@ -16,23 +16,25 @@ public:
 
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-	virtual int isActive() = 0;
+	virtual bool isActive() = 0;
 	virtual void DeActivate() = 0;
+	virtual void Activate() = 0;
 	virtual void onCollision() = 0;
 	virtual void onDestruction() = 0;
+	virtual void Spawn() = 0;
+
 
 	int Initialize(SDL_Rect iData,int Frame);
 
 	int Object::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
 
-	int Active;
+	bool Active;
 	int SurfaceID;
 	int Frame;
 	SDL_Rect LocAndSize;
 	SDL_Rect CollisionBox;
 
 	SDL_Rect Clips[ 10 ];
-	SDL_Rect SingleClip; // Tree
 	std::list<SDL_Rect> ImageClips;
 };
 
@@ -44,10 +46,14 @@ public:
 	Asteroid( int _xPos, int _yPos, int _SurfaceID ) {};
 	void Update() {};
 	void Draw() {};
-	int isActive() { return true; };
-	void DeActivate() {};
+	bool isActive(){ return true; };
+	void DeActivate(){ Active = false; };
+	void Activate(){ Active = true; };
 	void onCollision(){};
 	void onDestruction(){};
+	void Spawn() {};
+
+private:
 };
 
 class ControlObject

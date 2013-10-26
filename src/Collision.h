@@ -6,32 +6,35 @@
 #include "ControlGfx.h"
 #include "Bullets.h"
 #include "Animals.h"
-// holds all the info on the collisions
+
+
 class ControlCollision
 {
 public:
 
-	void ListByReference( std::list< Bullet > &BulletList, std::list< Animal > &AnimalList )
+	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Animal> &VAnimals )
 	{
-		bool collision = false;
-		std::list< Bullet >::iterator BulletCounter;
-		BulletCounter = BulletList.begin();
-		std::list< Animal >::iterator AnimalCounter;
-		AnimalCounter = AnimalList.begin();
-
-		for(std::list< Bullet >::iterator Iter = BulletList.begin(); Iter != BulletList.end(); Iter++ ) 
+		for(vector< Bullet >::iterator ite = VBullets.begin(); ite != VBullets.end(); )
 		{
-			for(std::list< Animal >::iterator innerIter = AnimalList.begin(); innerIter != AnimalList.end(); innerIter++ ) 
+			for(vector< Animal >::iterator ute = VAnimals.begin(); ute != VAnimals.end(); )
 			{
-				if( BulletCounter->CollisionBox.x >= AnimalCounter->CollisionBox.x )
+				if( ite->LocAndSize.x > ute->LocAndSize.x && ite->LocAndSize.x < ute->LocAndSize.x + 64 && ite->LocAndSize.y > ute->LocAndSize.y && ite->LocAndSize.y < ute->LocAndSize.y + 64)
 				{
-					collision = true;
+						ute = VAnimals.erase(ute);
+						ite->DeActivate();
+				}
+				else
+				{
+					++ute;
 				}
 			}
+			if( !ite->isActive() )
+				ite = VBullets.erase(ite);
+			else
+				++ite;
 		}
 	};
 
-	int Box( std::list< Bullet* > My_Bullets, std::list< Animal* > iEnemy );
 	// Old collision controlls
 	bool CollisionBox( BaseCharacter *cPlayer, CEnemy *cEnemy, bool Show );
 

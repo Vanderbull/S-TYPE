@@ -10,11 +10,16 @@ const int SpriteWidth = 64;
 
 Animal::Animal()
 {
-	mPosition.x = 0;
-	mPosition.y = 0;
-	mPosition.z = 0;
-	mPosition.h = SpriteHeight;
-	mPosition.w = SpriteWidth;
+	Active = 1;
+	CollisionBox.h = 0;
+	CollisionBox.w = 0;
+	CollisionBox.x = SpriteHeight;
+	CollisionBox.y = SpriteWidth;
+
+	LocAndSize.x = 0;
+	LocAndSize.y = 0;
+	LocAndSize.h = SpriteHeight;
+	LocAndSize.w = SpriteWidth;
 
 	PrevFrame = 0;
 	Frame = 0;
@@ -35,10 +40,10 @@ int Animal::isColliding(SDL_Rect Box)
 	int PlayerTop = BCPlayer.GetPosition().y;
 	int PlayerBottom = BCPlayer.GetPosition().x + BCPlayer.GetPosition().h;
 
-	int EnemyRight = mPosition.x + mPosition.w;
-	int EnemyLeft = mPosition.x;
-	int EnemyTop = mPosition.y;
-	int EnemyBottom = mPosition.y + mPosition.h;
+	int EnemyRight = LocAndSize.x + LocAndSize.w;
+	int EnemyLeft = LocAndSize.x;
+	int EnemyTop = LocAndSize.y;
+	int EnemyBottom = LocAndSize.y + LocAndSize.h;
 
 	if (EnemyBottom < PlayerTop) return(0);
 	if (EnemyTop > PlayerBottom) return(0);
@@ -51,31 +56,31 @@ int Animal::isColliding(SDL_Rect Box)
 
 SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
 {
-	CollisionBox = Box;
+	CollisionBox = LocAndSize;
 	return CollisionBox;
 }
 
 void Animal::Update()
 {
-	mPosition.x -= AnimalSpeed * gamestate.DeltaTime;
+	LocAndSize.x -= AnimalSpeed * gamestate.DeltaTime;
 
-	Destination.h = SpriteHeight;
-	Destination.w = SpriteWidth;
-	Destination.x = mPosition.x;
-	Destination.y = mPosition.y; 
+	LocAndSize.h = SpriteHeight;
+	LocAndSize.w = SpriteWidth;
+	LocAndSize.x = LocAndSize.x;
+	LocAndSize.y = LocAndSize.y; 
 
 	PrevFrame = Frame++;
 	if( Frame >= ANIMAL_MAX_FRAMES )
 	{
 		Frame = 0;
 	}
-	UpdateCollisionBox(Destination);
+	UpdateCollisionBox(LocAndSize);
 }
 
 void Animal::Draw()
 {
 	#ifdef _DEBUG 
-	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 	
 	SDL_BlitSurface( 
@@ -84,30 +89,28 @@ void Animal::Draw()
 		Gfx.BackBuffer, 
 		&GetDestination() 
 	);
+
 }
 
 SDL_Rect Animal::GetDestination()
 {
-	return Destination;
+	return LocAndSize;
 }
 
 void ControlAnimals::DrawAnimals()
 {
- 	list< Animal* >::iterator i;
+	vector< Animal >::iterator i;
 
-	i = AnimalList.begin();
-	while(i != AnimalList.end() )
+	i = AnimalArrayRef.begin();
+
+	while(i != AnimalArrayRef.end() )
 	{
-		(*i)->Update();
-		(*i)->Draw();
+		i->Update();
+		i->Draw();
 		
-		if( (*i)->mPosition.x <= 0.0f - SpriteWidth )
+		if( i->LocAndSize.x <= 0.0f - SpriteWidth )
 		{
-			i = AnimalList.erase(i);
-		}
-		else if( (*i)->isColliding((*i)->CollisionBox) != 0 )
-		{
-			i = AnimalList.erase(i);
+			i = AnimalArrayRef.erase(i);
 		}
 		else
 		{
@@ -116,25 +119,14 @@ void ControlAnimals::DrawAnimals()
 	}
 }
 
-Animal * ControlAnimals::CreateAnimal( int xPos, int yPos, int surface )
-{
-	Animal * temp = new Animal;
-	temp->SurfaceID = surface;
-	temp->mPosition.x = xPos;
-	temp->mPosition.y = yPos;
-
-	return temp;
-}
-  
 void ControlAnimals::CreateAnimals(int iProgress )
 {
 	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < ANIMAL_MAX_PROGRESS )
 	{
-		if( AnimalList.size() < rand() % 5 )
+		if( AnimalArrayRef.size() < rand() % 5 )
 		{
 			cout << "Creating a animal..." << endl;
-			AnimalList.push_back( CreateAnimal( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
-			Animals.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
+			AnimalArrayRef.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
 		}
 	}
 	else
@@ -156,8 +148,8 @@ Animal ControlAnimals::CreateAnimalByReference( int xPos, int yPos, int surface 
 {
 	Animal temp;
 	temp.SurfaceID = surface;
-	temp.mPosition.x = xPos;
-	temp.mPosition.y = yPos;
+	temp.LocAndSize.x = xPos;
+	temp.LocAndSize.y = yPos;
 
 	return temp;
 }

@@ -107,7 +107,6 @@ public:
 
 	void RestartGame();
 	void ResetEnemies();
-	void ResetObjects();
 	void ResetRest();
 	void PlayOutro();
 	void Cleanup();

@@ -369,21 +369,14 @@ void ControlGfx::DrawSprite()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
-	if( gamestate.GameState.top() == GAME_BOSS_STATE )
-	{
-		ObjectController.DrawObjects();
-	}
-	else
-	{						  
 		BCPlayer.Update();
 		AnimalController.DrawAnimals();
-		CubeController.DrawCubes();
-		TriangleController.DrawTriangles();
+		//CubeController.DrawCubes();
+		//TriangleController.DrawTriangles();
 		BulletController.Draw_Bullets();
-		EnemyController.Update();
-		EnemyController.Draw_Enemies();
-		ObjectController.DrawObjects();
-	}	
+		//EnemyController.Update();
+		//EnemyController.Draw_Enemies();
+		//ObjectController.DrawObjects();
 }
 
 // ----------------------------------------------------------------------------

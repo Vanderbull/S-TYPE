@@ -36,14 +36,15 @@ Object::Object()
 	}
 }
 
-int Object::isActive()
+bool Object::isActive()
 {
-	return true;
+	return Active;
 }
 
 int Object::Initialize( SDL_Rect iData,  int _Frame = 0 )
 {
 	LocAndSize = iData;
+	CollisionBox = LocAndSize;
 	Frame = _Frame;
 
 	int ArraySize = sizeof(Clips) / sizeof(Clips[0]);

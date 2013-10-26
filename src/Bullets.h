@@ -4,6 +4,7 @@
 #include <stack>
 #include <SDL.h>
 #include "Objects.h"
+#include "Animals.h"
 
 #define BULLET_MAX_FRAMES 15
 
@@ -18,12 +19,14 @@ public:
 	void Update();
 	void Draw();
 	int GetSurfaceID();
-	void onCollision(){};
-	int isActive(){ return 0; };
-	void DeActivate(){};
-	void onDestruction(){};
+	void onCollision(){ DeActivate(); };
+	bool isActive(){ return Active; };
+	void DeActivate(){ Active = false; };
+	void Activate(){ Active = true; };
+	void onDestruction(){ DeActivate(); };
 	
 	SDL_Rect GetLocAndSize();
+	void Spawn() {};
 
 private:
 	SDL_Rect Clips[ 16 ];
@@ -42,15 +45,11 @@ public:
 	void LoadBullet( int xPos, int yPos, int iSurfaceID );
 	std::vector< Bullet > GetVBulletsByReference(){ return BulletArrayRef; };
 
-	std::list< Bullet > GetBulletsByReference(){ return Bullets;};
-
 	Bullet CreateBulletByReference( int xPos, int yPos, int surface );
 
-	
+	std::vector< Bullet > BulletArrayRef;	
 private:
-	std::vector< Bullet > BulletArrayRef;
 
-	std::list< Bullet > Bullets;
 };
 
 extern ControlBullets BulletController;
