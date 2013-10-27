@@ -55,7 +55,7 @@ int main( int argc, char * arg[] )
 
 	_putenv("SDL_VIDEO_WINDOW_POS=center");
 	_putenv("SDL_VIDEO_CENTERED=1");
-	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\LegendOfNimbus\\0000-0200.exe","", "", SW_SHOW );
+	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\LegendOfNimbus\\0000-0200.exe","", "", SW_SHOW );
 	//Sleep(8000);
 
 	//initialize all SDL subystems 
@@ -79,33 +79,11 @@ int main( int argc, char * arg[] )
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 		if( second.QuadPart >= 2000000 )
 		{	
-			//cout << "The resolution of this timer is: " << freq.QuadPart << " Hz." << endl;
-			//cout << "Time to calculate run one gameloop: " << (end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart << " microSeconds" << endl;
 			second.QuadPart = 0;
 		}
 
 		QueryPerformanceCounter(&start);
 
-		//DeltaTime = CurTick - PrevTick;
-		//PrevTick = CurTick;
-		//CurTick = clock();
-		//TotalTicks += DeltaTime;
-		//DeltaHistory.push(DeltaTime);
-		//cout << PrevTick << "->" << CurTick << endl;
-		//cout << "Framerate:" << CLOCKS_PER_SEC / (TotalTicks / DeltaHistory.size() ) << endl;
-
-		//if( DeltaHistory.size() > 10 )
-		//{
-		//	OldestTickDelta = DeltaHistory.front();
-		//	DeltaHistory.pop();
-		//	TotalTicks -= OldestTickDelta;
-		//}
-		
-
-		// Delta = CurrentTick - PreviusTick
-		// Delta / CLOCKS_PER_SEC for delta per second
-		//t = clock();		
-		
 		SDL_PollEvent( &event );
 
 		//while( SDL_PollEvent( &event ) )
@@ -116,25 +94,6 @@ int main( int argc, char * arg[] )
 		GameEngine.Update( event, gamestate.DeltaTime );
 		Gfx.FLIP();
 
-		//gamestate.AddTick()	;
-		//t = clock() - t;
-		//gamestate.DeltaTime = (float)t/CLOCKS_PER_SEC;
-		//clock_ticks += t;
-		//if( clock_ticks > CLOCKS_PER_SEC )
-		//{
-		//	printf ("FPS: %d .\n",framecount);
-		//	clock_ticks = 0;
-		//	framecount = 0;
-		//}
-		//else
-		//{
-		//	framecount++;
-		//}
-		//printf ("average ticks per frame: %f .\n",CalcAverageTick((int)t));
-
-
-		//t = clock() - t;
-		//printf ("It took me %d ticks (%f seconds).\n",t,((float)t)/CLOCKS_PER_SEC);
 		QueryPerformanceCounter(&end);
 	}
 

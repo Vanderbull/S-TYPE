@@ -28,7 +28,7 @@ void Bullet::Update()
 void Bullet::Draw()
 {
 	#ifdef _DEBUG 
-	 SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	 //SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 
 	SDL_BlitSurface( 
@@ -125,7 +125,7 @@ void ControlBullets::Create_Bullets()
 	{ 
 		LoadBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser );
 		//BulletArrayRef.push_back( CreateBulletByReference(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) );
-		//bullet_timer = 100;
+		bullet_timer = 10;
 	}
 	else
 	{
