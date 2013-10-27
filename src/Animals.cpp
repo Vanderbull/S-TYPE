@@ -4,7 +4,7 @@
 #include "ControlGfx.h"
 
 ControlAnimals AnimalController;
-const float AnimalSpeed = 0.0003f;
+const float AnimalSpeed = 0.0001f;
 const int SpriteHeight = 64;
 const int SpriteWidth = 64;
 

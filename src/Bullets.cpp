@@ -13,7 +13,7 @@ SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 
 void Bullet::Update()
 {
-	LocAndSize.x += 0.0003f * gamestate.DeltaTime;
+	LocAndSize.x += 0.0010f * gamestate.DeltaTime;
 	
 	PrevFrame = Frame++;
 	
@@ -21,14 +21,14 @@ void Bullet::Update()
 	{
 		Frame = 0;
 	}
-
-	//UpdateCollisionBox( LocAndSize );
+	
+	UpdateCollisionBox( LocAndSize );
 }
 
 void Bullet::Draw()
 {
 	#ifdef _DEBUG 
-	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	 SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 
 	SDL_BlitSurface( 
@@ -124,8 +124,8 @@ void ControlBullets::Create_Bullets()
 	if( bullet_timer <= 0 )
 	{ 
 		LoadBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser );
-		BulletArrayRef.push_back( CreateBulletByReference(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) );
-		bullet_timer = 10;
+		//BulletArrayRef.push_back( CreateBulletByReference(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) );
+		//bullet_timer = 100;
 	}
 	else
 	{

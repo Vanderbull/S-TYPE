@@ -14,24 +14,29 @@ public:
 
 	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Animal> &VAnimals )
 	{
-		for(vector< Bullet >::iterator ite = VBullets.begin(); ite != VBullets.end(); )
+		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
 		{
-			for(vector< Animal >::iterator ute = VAnimals.begin(); ute != VAnimals.end(); )
+			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
 			{
-				if( ite->LocAndSize.x > ute->LocAndSize.x && ite->LocAndSize.x < ute->LocAndSize.x + 64 && ite->LocAndSize.y > ute->LocAndSize.y && ite->LocAndSize.y < ute->LocAndSize.y + 64)
+				if( !( 
+					iBullet->LocAndSize.x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
+					iBullet->LocAndSize.x + iBullet->LocAndSize.w < iAnimal->LocAndSize.x || 
+					iBullet->LocAndSize.y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
+					iBullet->LocAndSize.y + iBullet->LocAndSize.h < iAnimal->LocAndSize.y
+					) )
 				{
-						ute = VAnimals.erase(ute);
-						ite->DeActivate();
+					iAnimal = VAnimals.erase(iAnimal);
+					iBullet->DeActivate();
 				}
 				else
 				{
-					++ute;
+					++iAnimal;
 				}
 			}
-			if( !ite->isActive() )
-				ite = VBullets.erase(ite);
+			if( !iBullet->isActive() )
+				iBullet = VBullets.erase(iBullet);
 			else
-				++ite;
+				++iBullet;
 		}
 	};
 
