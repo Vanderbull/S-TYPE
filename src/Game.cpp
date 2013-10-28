@@ -156,6 +156,7 @@ void Game::HandleEvents( SDL_Event _event )
 				BCPlayer.AddBeam("Laser");
 				cout << BCPlayer.GetBeam() << endl;
 				Gfx.FLIP();
+				if( SOUND == 3 )
 				Audio.PlaySoundEffect( 1 );
 			} break;
 		case SDLK_LALT:
@@ -179,7 +180,10 @@ void Game::HandleEvents( SDL_Event _event )
 
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
+		if( MUSIC == 5 )
 		Audio.PlayMusic(0);
+		else
+			Audio.PauseMusic();
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
@@ -631,12 +635,6 @@ void Gamestate::CreditScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	if( CreditsScreen->ButtonNewgame == true )
-	{
-		gamestate.GameState.pop();
-		gamestate.GameState.push(GAME_RUNNING_STATE);
-		CreditsScreen->ButtonNewgame = false;
-	}
 	return;
 }
 // ----------------------------------------------------------------------------
@@ -663,6 +661,29 @@ void Gamestate::OptionScreen(int iElapsedTime)
 				DIFFICULTY = i;
 			}
 		}
+		for( int i = 3; i < 5; i++ )
+		{
+			if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
+			MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
+			MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
+			MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
+			{
+				cout << "Sound set to -> " << i << "..." << endl;
+				SOUND = i;
+			}
+		}
+		for( int i = 5; i < 7; i++ )
+		{
+			if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
+			MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
+			MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
+			MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
+			{
+				cout << "Music set to -> " << i << "..." << endl;
+				MUSIC = i;
+			}
+		}
+
 		for( int i = 0; i < 8; i++ )
 		{
 			if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
@@ -727,17 +748,24 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	else
 	if( DIFFICULTY == 2 )
 	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-	SDL_FillRect(Gfx.GetSurface( OptionsScreen->surface),&OptionsScreen->ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+
+	if( SOUND == 3 )
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	else
+	if( SOUND == 4 )
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	
+	if( MUSIC == 5 )
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	else
+	if( MUSIC == 6 )
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+
+	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 
 
 	std::cout << "Rendering options screen like a god!!!!" << endl;
 
-
-	
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
 	string str = "OptionsScreen @";
@@ -745,12 +773,6 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	if( OptionsScreen->ButtonNewgame == true )
-	{
-		gamestate.GameState.pop();
-		gamestate.GameState.push(GAME_RUNNING_STATE);
-		OptionsScreen->ButtonNewgame = false;
-	}
 	return;
 }
 // ----------------------------------------------------------------------------

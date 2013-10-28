@@ -2,6 +2,8 @@
 // declaration of g_nValue 
 int g_nValue = 5;
 int DIFFICULTY = 0;
+int SOUND = 3;
+int MUSIC = 5;
 SDL_Rect ScreenSize = {0,0,800,600};
 #define _DEBUG 0
 
