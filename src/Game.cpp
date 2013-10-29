@@ -361,6 +361,25 @@ void Gamestate::load_files()
 
 	file.close();
 
+	file.open("highscore.txt");
+	if (!file)
+	{
+		cout << "CFG: File couldn't be found!\n" << endl;
+		exit(1);
+	}
+
+	lineNo = 0;
+	while (std::getline(file, line))
+	{
+		lineNo++;
+		HIGHSCORE = line;
+
+		if (HIGHSCORE.empty())
+			continue;
+	}
+
+	file.close();
+
 	m_srfCity = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
@@ -456,7 +475,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 		case GAME_RUNNING_STATE:
 			{
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
-				//CollisionController.ListByReference(BulletController.GetVBulletsByReference(),AnimalController.GetAnimalByReference());
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();

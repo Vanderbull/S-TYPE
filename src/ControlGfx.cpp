@@ -407,6 +407,11 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 	SDL_Surface * SrfScore;
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( xCoord, yCoord, SrfScore, Gfx.BackBuffer );
+	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, HIGHSCORE.c_str(), Gfx.WhiteRGB );
+	Gfx.apply_surface( 500, 0, SrfScore, Gfx.BackBuffer );
+	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, "HIGHSCORE: ", Gfx.WhiteRGB );
+	Gfx.apply_surface( 400, 0, SrfScore, Gfx.BackBuffer );
+
 }
 
 void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )

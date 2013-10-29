@@ -19,6 +19,7 @@ const int FRAMES_PER_SECOND = 20;
 extern int DIFFICULTY;
 extern int SOUND;
 extern int MUSIC;
+extern string HIGHSCORE;
 
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
 int MouseInBox(SDL_Rect &Rect);
