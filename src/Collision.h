@@ -39,7 +39,26 @@ public:
 				++iBullet;
 		}
 	};
-
+	void SpaceshipCollider( BaseCharacter Spaceship, std::vector<Animal> &VAnimals )
+	{
+			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
+			{
+				if( !( 
+					Spaceship.GetPosition().x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
+					Spaceship.GetPosition().x + Spaceship.GetPosition().w < iAnimal->LocAndSize.x || 
+					Spaceship.GetPosition().y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
+					Spaceship.GetPosition().y + Spaceship.GetPosition().h < iAnimal->LocAndSize.y
+					) )
+				{
+					iAnimal = VAnimals.erase(iAnimal);
+					Spaceship.Died();
+				}
+				else
+				{
+					++iAnimal;
+				}
+			}
+	};
 	// Old collision controlls
 	bool CollisionBox( BaseCharacter *cPlayer, CEnemy *cEnemy, bool Show );
 

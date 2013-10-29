@@ -156,8 +156,10 @@ void Game::HandleEvents( SDL_Event _event )
 				BCPlayer.AddBeam("Laser");
 				cout << BCPlayer.GetBeam() << endl;
 				Gfx.FLIP();
-				if( SOUND == 3 )
-				Audio.PlaySoundEffect( 1 );
+				if( gamestate.GameState.top() == GAME_RUNNING_STATE && SOUND == 3 )
+				{
+					Audio.PlaySoundEffect( 1 );
+				}
 			} break;
 		case SDLK_LALT:
 			{
@@ -475,6 +477,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 		case GAME_RUNNING_STATE:
 			{
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
+				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();

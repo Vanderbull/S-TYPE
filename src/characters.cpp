@@ -205,11 +205,18 @@ void BaseCharacter::Reset()
 
 void BaseCharacter::Died()
 {
+
+	//Gfx.DrawBackgroundBlack();
+	Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
+	Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
+	Gfx.FLIP();
+	Sleep(5000);
+
 	gamestate.RestartGame();
 
 	SDL_Event input;
 
-	while( gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
+	while( gamestate.GameState.top() == MENU_MAIN_STATE )
 	{
 		SDL_PollEvent( &input );
 		if( input.type == SDL_KEYDOWN )
