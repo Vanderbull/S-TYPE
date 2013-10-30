@@ -175,6 +175,9 @@
     <ClInclude Include="src\Triangles.h">
       <Filter>Enemies\Triangles</Filter>
     </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Audio">

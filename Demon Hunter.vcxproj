@@ -167,6 +167,7 @@
     <ClInclude Include="src\Timers.h" />
     <ClInclude Include="src\Triangles.h" />
     <ClInclude Include="src\World\CWorld.h" />
+    <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\resource.rc" />

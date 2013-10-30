@@ -72,4 +72,8 @@ const int STARTSCROLLING = 400;
 const int BOSS_ATTACK_START = 150;
 
 
+// Helper functions
+
+double CalcAverageTick(int newtick);
+
 #endif

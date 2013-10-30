@@ -250,57 +250,6 @@ void Game::HandleEvents( SDL_Event _event )
 						cout << "Hit button..." << i << endl;
 					}
 			}
-
-			if( gamestate.MainMenuScreen->ButtonOptions == true )
-			{
-				for( int i = 4; i < 8; i++ )
-				{
-					if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
-					_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
-					_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
-					_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
-					
-					if( _event.type == SDL_MOUSEBUTTONDOWN )
-					{
-						switch( i )
-						{
-							// Buttons within the options screen
-							//case 4: gamestate.MainMenuScreen->ButtonHighScore = true; break;
-							//case 5: gamestate.MainMenuScreen->ButtonCredits = true; break;
-							//case 6: gamestate.MainMenuScreen->ButtonSound = true; break;
-							//case 7: gamestate.MainMenuScreen->ButtonBack = true; break;
-						}
-					}
-				}
-
-			}
-			else
-			{
-				// checks if mousebutton is pressed at newgame, options or quit
-				//for( int i = 0; i < 3; i++ )
-				//{
-				//	if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
-				//		_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
-				//		_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
-				//		_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
-				//	{
-				//		switch( i )
-				//		{
-				//			case BUTTON_NEW_GAME: cout << "Hoovering new game button" << endl ; break;
-				//			case BUTTON_OPTIONS: cout << "Hoovering options button" << endl; break;
-				//			case BUTTON_QUIT: cout << "Hoovering quit button" << endl; Game::Quit = true; break;
-				//		}
-				//		if( _event.type == SDL_MOUSEBUTTONDOWN )
-				//		{
-				//			switch( i )
-				//			{
-				//				case BUTTON_NEW_GAME: gamestate.MainMenuScreen->ButtonNewgame = true; break;
-				//				case BUTTON_OPTIONS: gamestate.MainMenuScreen->ButtonOptions = true; break;
-				//			}
-				//		}
-				//	}					
-				//}
-			}
 		}
 	}
 	else
