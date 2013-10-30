@@ -296,6 +296,7 @@ void Gamestate::load_files()
 	if (!file)
 	{
 		cout << "CFG: File couldn't be found!\n" << endl;
+		MessageBox(NULL,"CFG: File couldn't be found!\n","Failed Loading",MB_OK);
 		exit(1);
 	}
 
@@ -316,7 +317,10 @@ void Gamestate::load_files()
 	if (!file)
 	{
 		cout << "CFG: File couldn't be found!\n" << endl;
-		exit(1);
+		MessageBox(NULL,"CFG: File couldn't be found!\n","Failed Loading",MB_OK);
+		cin.get();
+		cin.get();
+		//exit(1);
 	}
 
 	lineNo = 0;
