@@ -1,5 +1,5 @@
 #include "Global\Global.h"
-#include "Options.h" 
+#include "GameOver.h" 
 #include <SDL.h>
 
 enum BName {
@@ -15,9 +15,8 @@ enum BName {
 
 
 
-Options::Options( int ButtonX, int Surface, int SurfaceButtons )							
+GameOver::GameOver( int ButtonX, int Surface, int SurfaceButtons )							
 {
-	std::cout << "Options rendering like a god!!!!!" << endl;
 	surface = Surface;
 
 	SurfaceButt = SurfaceButtons;
@@ -44,7 +43,7 @@ Options::Options( int ButtonX, int Surface, int SurfaceButtons )
 	ButtonBack = false; 
 	ButtonSound = false;
 	ButtonCredits = false;
-	ButtonHighScore = false;
+	ButtonOptions = false;
 	ButtonNewgame = false;
 
 	objRectangle(ButtonClips[ BName::RESUME_GAME ], 401, 130, 350, 45 );

@@ -37,6 +37,7 @@ Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\Fonts\*.*"; DestDir: "{ap
 Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\graphics.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\highscore.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\Music\*.*"; DestDir: "{app}\Music"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\src\res\*.*"; DestDir: "{app}\src\res"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

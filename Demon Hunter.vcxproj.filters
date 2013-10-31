@@ -85,6 +85,9 @@
     <ClCompile Include="src\Triangles.cpp">
       <Filter>Enemies\Triangles</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameOver.cpp">
+      <Filter>Screens\GameOver</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DancingDragon.h">
@@ -178,6 +181,9 @@
     <ClInclude Include="version.h">
       <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameOver.h">
+      <Filter>Screens\GameOver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Audio">
@@ -263,6 +269,9 @@
     </Filter>
     <Filter Include="Enemies\DancingDragon">
       <UniqueIdentifier>{3670a4ae-5645-4469-93e3-d32ebeaabd82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\GameOver">
+      <UniqueIdentifier>{ba7c9773-0ac9-4b2d-b6cf-316e2cb62ec2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

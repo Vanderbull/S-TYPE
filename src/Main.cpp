@@ -50,8 +50,13 @@ int main( int argc, char * arg[] )
 		cout << "SDL_INIT_EVERYTHING..." << endl;
 		timeOfEvent = SDL_GetTicks();
 	}
-	SDL_WM_SetCaption("", "src/res/big.ico");
-	SDL_WM_SetIcon(SDL_LoadBMP("src/res/small.bmp"), NULL);
+	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");
+	SDL_Surface* icon = SDL_LoadBMP("src/res/small.bmp");
+	SDL_SetColorKey(icon, SDL_SRCCOLORKEY, SDL_MapRGB(icon->format, 255, 255, 255));
+	SDL_WM_SetIcon(icon, 0);
+
+
+	//SDL_WM_SetIcon(SDL_LoadBMP("src/res/small.bmp"), NULL);
 	
 	while( GameEngine.Quit == false )
 	{

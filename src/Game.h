@@ -21,6 +21,7 @@
 #include "Options.h"
 #include "Load.h"
 #include "Save.h"
+#include "GameOver.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -50,6 +51,7 @@ public:
 	Options * OptionsScreen;
 	Load * LoadsScreen;
 	Save * SavesScreen;
+	GameOver * GameOverScreen;
 
 	int m_srfCity, 
 		m_srfSky, 

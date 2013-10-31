@@ -31,6 +31,7 @@ using namespace std;
 #include "Bullets.h"
 #include "MainMenu.h"
 #include "Credits.h"
+#include "GameOver.h"
 #include "Load.h"
 #include "Save.h"
 #include "Collision.h"
@@ -265,8 +266,9 @@ Game::Game()
 	Quit = false;
 
 	// Setup of the application icons
-	SDL_WM_SetCaption("", "res/big.ico");
-	SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
+	//SDL_WM_SetCaption("", "res/big.ico");
+	
+	//SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 
 	Init( Gfx.screen );
 	
@@ -365,6 +367,7 @@ void Gamestate::load_files()
 	OptionsScreen = new Options( 290, m_srfOptions, m_srfButtons );
 	LoadsScreen = new Load( 290, m_srfLoad, m_srfButtons );
 	SavesScreen = new Save( 290, m_srfSave, m_srfButtons );
+	GameOverScreen = new GameOver( 290,  m_srfStart, m_srfButtons );
 
 	name = new StringInput();
 

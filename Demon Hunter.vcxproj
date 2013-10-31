@@ -119,6 +119,7 @@
     <ClCompile Include="src\Enemies.cpp" />
     <ClCompile Include="src\Enemies\CHeads.cpp" />
     <ClCompile Include="src\Enemies\Cubes.cpp" />
+    <ClCompile Include="src\GameOver.cpp" />
     <ClCompile Include="src\Global\Global.cpp" />
     <ClCompile Include="src\Load.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="src\Enemies\CHeads.h" />
     <ClInclude Include="src\Enemies\Cubes.h" />
     <ClInclude Include="src\Enemies\MovingThings.h" />
+    <ClInclude Include="src\GameOver.h" />
     <ClInclude Include="src\Global\Global.h" />
     <ClInclude Include="src\Load.h" />
     <ClInclude Include="src\MainMenu.h" />
