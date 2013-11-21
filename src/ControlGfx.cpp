@@ -31,6 +31,10 @@ ControlGfx::ControlGfx()
 	BlackRGB.r = 0;
 	BlackRGB.g = 0;
 	BlackRGB.b = 0;
+
+	m_SurfaceCollection["Screen"];
+	m_SurfaceCollection["BackBuffer"];
+	m_SurfaceCollection["srfText"];
 }
 
 // loads image with chosen value to not show
@@ -57,6 +61,7 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r, int g, int b )
 		}
 
 		m_surfaceList[ index ] =optimizedImage;
+		m_SurfaceCollection[filename] = *optimizedImage;
 		//free old image
 		SDL_FreeSurface( loadedimage );
 	}

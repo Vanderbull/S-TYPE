@@ -8,7 +8,8 @@
 #include <cmath>
 #include <vector>
 #include <string>
-
+#include <map>
+#include <utility>
 using namespace std;
 
 #include "Global\Global.h"
@@ -23,7 +24,7 @@ using namespace std;
 #include "Audio.h"
 #include "Objects.h"
 #include "Enemies.h"
-#include "TImers.h"
+#include "Timers.h"
 #include "Paralaxlayers.h"
 #include "Animals.h"
 #include "Enemies\Cubes.h"
@@ -80,105 +81,134 @@ void Gamestate::KeyMapping(SDL_Event _event)
 }
 
 void Game::HandleEvents( SDL_Event _event )
-{	
-	if( _event.type == SDL_KEYUP )
+{
+	switch ( _event.type )
 	{
-		BCPlayer.SetState(BaseCharacter::State::IDLE);
+		case SDL_MOUSEBUTTONDOWN:
+		{
+			std::cout << "Pressing a mouse button" << endl;
+		} break;
 
-		switch( _event.key.keysym.sym )		
+		case SDL_KEYDOWN:
 		{
-		case SDLK_ESCAPE:
+			switch( gamestate.GameState.top()  )
 			{
-				std::cout << "Trying to get to the menu eeeyyy!!" << endl;
-				gamestate.GameState.push(MENU_MAIN_STATE);
-			} break;
-		case SDLK_RIGHT:
-			{
-				BCPlayer.xVelocity = 0.0f;
-			} break;
-		case SDLK_LEFT:
-			{
-				BCPlayer.xVelocity = 0.0f;
-			} break;
-		case SDLK_UP:
-			{
-				BCPlayer.yVelocity = 0.0f;
-			} break;
-		case SDLK_DOWN:
-			{
-				BCPlayer.yVelocity = 0.0f;
-			} break;
-		case SDLK_SPACE:
-			{
-				//cout << "Released SPACEBAR key" << endl;
-			} break;
-		case SDLK_LALT:
-			{
-				//cout << "Released the LEFT ALT key" << endl;
-			} break;
-		}
-	}
-	else if( _event.type == SDL_QUIT  )
-	{
-		Quit = true;
-	}
-	else if( _event.type == SDL_ACTIVEEVENT  )
-	{
-		std::cout << "Hey stop focusing on other windows, get back here!" << endl;
-	}
-	else if( _event.type == SDL_KEYDOWN )
-	{
-		switch( _event.key.keysym.sym )
-		{
-		case SDLK_RIGHT:
-			{
-				BCPlayer.AddAction("RIGHT");
-				BCPlayer.xVelocity = 1.0f;
-			} break;
-		case SDLK_LEFT:
-			{
-				BCPlayer.AddAction("LEFT");
-				BCPlayer.xVelocity = -1.0f;
-			} break;
-		case SDLK_UP:
-			{
-				BCPlayer.AddAction("UP");
-				BCPlayer.yVelocity = 1.0f;
-			} break;
-		case SDLK_DOWN:
-			{
-				BCPlayer.AddAction("DOWN");
-				BCPlayer.yVelocity = -1.0f;
-			} break;
-		case SDLK_SPACE:
-			{
-				BulletController.Create_Bullets();
-				BCPlayer.AddAction("FIRE");
-				BCPlayer.AddBeam("Laser");
-				cout << BCPlayer.GetBeam() << endl;
-				Gfx.FLIP();
-				if( gamestate.GameState.top() == GAME_RUNNING_STATE && SOUND == 3 )
+				case MENU_MAIN_STATE:
 				{
-					Audio.PlaySoundEffect( 1 );
-				}
-			} break;
-		case SDLK_LALT:
-			{
-				BCPlayer.AddAction("FIRE_SPECIAL");
-			} break;
-		case SDLK_RETURN:
-			{
-				BCPlayer.AddAction("RETURN");
-			} break;
-		default:
-			{
-				BCPlayer.AddAction("DEFAULT");
+					switch( _event.key.keysym.sym )		
+					{
+						case SDLK_ESCAPE:
+						{
+							std::cout << "Trying to quit the game" << endl;
+							gamestate.GameState.pop();
+							Quit = true;
+						} break;
+					}
+				} break;
+				case GAME_RUNNING_STATE:
+				{
+						switch( _event.key.keysym.sym )
+						{
+							case SDLK_RIGHT:
+							{
+								BCPlayer.AddAction("RIGHT");
+								BCPlayer.xVelocity = 1.0f;
+							} break;
+							case SDLK_LEFT:
+							{
+								BCPlayer.AddAction("LEFT");
+								BCPlayer.xVelocity = -1.0f;
+							} break;
+							case SDLK_UP:
+							{
+								BCPlayer.AddAction("UP");
+								BCPlayer.yVelocity = 1.0f;
+							} break;
+							case SDLK_DOWN:
+							{
+								BCPlayer.AddAction("DOWN");
+								BCPlayer.yVelocity = -1.0f;
+							} break;
+							case SDLK_SPACE:
+							{
+								BulletController.Create_Bullets();
+								BCPlayer.AddAction("FIRE");
+								BCPlayer.AddBeam("Laser");
+								cout << BCPlayer.GetBeam() << endl;
+								Gfx.FLIP();
+								if( gamestate.GameState.top() == GAME_RUNNING_STATE && SOUND == 3 )
+								{
+									Audio.PlaySoundEffect( 1 );
+								}
+							} break;
+							case SDLK_LALT:
+							{
+								BCPlayer.AddAction("FIRE_SPECIAL");
+							} break;
+							case SDLK_RETURN:
+							{
+								BCPlayer.AddAction("RETURN");
+							} break;
+							case SDLK_ESCAPE:
+							{
+								std::cout << "Trying to get to the menu eeeyyy!!" << endl;
+								gamestate.GameState.push(MENU_MAIN_STATE);
+							} break;
+							default:
+							{
+								BCPlayer.AddAction("DEFAULT");
+							}
+					}
+				} break;
+				case GAME_OPTIONS_STATE:
+				{
+					cout << "YOU ARE IN THE OPTIONS WORLD!" << endl;
+				} break;
 			}
-		}
-	}
-	else
-	{
-		BCPlayer.SetState(BaseCharacter::State::IDLE);
+		} break;
+		case SDL_KEYUP:
+		{
+			switch( gamestate.GameState.top()  )
+			{
+				case MENU_MAIN_STATE:
+				{
+				} break;
+				case GAME_RUNNING_STATE:
+				{
+					switch( _event.key.keysym.sym )		
+					{
+						case SDLK_ESCAPE:
+						{
+							gamestate.GameState.push(MENU_MAIN_STATE);
+						} break;
+						case SDLK_RIGHT:
+						{
+							BCPlayer.xVelocity = 0.0f;
+						} break;
+						case SDLK_LEFT:
+						{
+							BCPlayer.xVelocity = 0.0f;
+						} break;
+						case SDLK_UP:
+						{
+							BCPlayer.yVelocity = 0.0f;
+						} break;
+						case SDLK_DOWN:
+						{
+							BCPlayer.yVelocity = 0.0f;
+						} break;
+					}
+				} break;
+			}
+		} break;
+		case SDL_ACTIVEEVENT:
+		{
+			std::cout << "Hey stop focusing on other windows, get back here!" << endl;
+		} break;
+		case SDL_QUIT:
+		{
+			Quit = true;
+		} break;
 	}
 
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
@@ -362,6 +392,38 @@ void Gamestate::load_files()
 	m_srfCube = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
 	m_srfTriangle = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
 	
+	/*
+	std::map<string,int> m_SurfaceCollection;
+	
+	m_SurfaceCollection["Graphics/srfCity.png"] = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/srfClouds.png"] = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfBlack.png"] = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/srfSky.png"] = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/demonSurface.png"] = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfEnemyZombie.png"] = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
+	m_SurfaceCollection["Graphics/srfCrow.png"] = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfdemonLife.png"] = Gfx.Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfdemonHealthAndFire.png"] = Gfx.Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/srfDragon.png"] = Gfx.Load_imageAlpha( "Graphics/srfDragon.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/srfStart.png"] = Gfx.Load_imageAlpha( "Graphics/srfStart.png", 237, 234, 214 );
+	m_SurfaceCollection["Graphics/srfButtons.png"] = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfIntro.png"] = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfMorphing.png"] = Gfx.Load_imageAlpha( "Graphics/srfMorphing.png", 255, 255, 241 );
+	m_SurfaceCollection["Graphics/srfOutro.png"] = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/srfButton.png"] = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/srfHealth.png"] = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
+	m_SurfaceCollection["Graphics/srfLaser.png"] = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfCredits.png"] = Gfx.Load_imageAlpha( "Graphics/srfCredits.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfOptions.png"] = Gfx.Load_imageAlpha( "Graphics/srfOptions.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfLoad.png"] = Gfx.Load_imageAlpha( "Graphics/srfLoad.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfSave.png"] = Gfx.Load_imageAlpha( "Graphics/srfSave.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfCube.png"] = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
+	m_SurfaceCollection["Graphics/srfTriangle.png"] = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
+	
+	for (const auto &p : m_SurfaceCollection)
+		std::cout << p.first << " => " << p.second << '\n';
+*/
+
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
 	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons );
 	OptionsScreen = new Options( 290, m_srfOptions, m_srfButtons );
@@ -527,8 +589,8 @@ void Gamestate::Loading()
 // MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen(int iElapsedTime)
-{
-	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+{	
+	SDL_BlitSurface( &Gfx.m_SurfaceCollection["Graphics/srfStart.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
@@ -619,9 +681,16 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(int iElapsedTime)
 {
-	Sleep(100);
+	const Uint8 *state = SDL_GetKeyState(NULL);
+	if ( state[SDLK_ESCAPE] ) {
+		//gamestate.GameState.pop();
+		gamestate.GameState.push(MENU_MAIN_STATE);
+		printf("<ESCAPE> is pressed.\n");
+	}
 	SDL_Event _event;
+	Sleep(25);
 	SDL_PollEvent( &_event );
+
 	if( _event.type == SDL_MOUSEBUTTONDOWN )
 	{
 		int MouseXCoordinates, MouseYCoordinates;
@@ -730,13 +799,21 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	else
 	if( SOUND == 4 )
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	{
+		SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	}
 	
 	if( MUSIC == 5 )
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	{
+		SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		Audio.PlayMusic(0);
+	}
 	else
 	if( MUSIC == 6 )
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	{
+		SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		Audio.PauseMusic();
+	}
 
 	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 
@@ -752,6 +829,25 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	return;
 }
+
+// ----------------------------------------------------------------------------
+// MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
+// ----------------------------------------------------------------------------
+void Gamestate::GameoverScreen(int iElapsedTime)
+{
+	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+
+	stringstream ss;
+	ss << (float)iElapsedTime / 1000000;
+	string str = "Gameover @ ";
+	str.append(ss.str());
+	SDL_Surface * srfElapsedTime;
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
+	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	return;
+}
+
+
 // ----------------------------------------------------------------------------
 // EnterName() - checks for input demon name
 // ----------------------------------------------------------------------------
@@ -815,10 +911,11 @@ void Game::Cleanup()
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
-	Gfx.screen = 0;
+	screen = 0;
 
 	//set up the screen
-	Gfx.screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	Gfx.m_SurfaceCollection["Screen"] = *SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
 	SDL_Rect** modes;
 	int i;

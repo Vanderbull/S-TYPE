@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <map>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -36,9 +37,10 @@ public:
 
 	TTF_Font * DefaultFont;
 
-
+	std::map<std::string,SDL_Surface> m_SurfaceCollection;
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACES ];
+
 };
 
 extern ControlGfx Gfx;

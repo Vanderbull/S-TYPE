@@ -125,7 +125,6 @@
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GetInput.cpp" />
-    <ClCompile Include="src\HighScore.cpp" />
     <ClCompile Include="src\Intro.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Objects.cpp" />
@@ -158,7 +157,6 @@
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GetInput.h" />
-    <ClInclude Include="src\HighScore.h" />
     <ClInclude Include="src\Intro.h" />
     <ClInclude Include="src\Objects.h" />
     <ClInclude Include="src\Options.h" />

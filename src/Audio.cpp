@@ -149,12 +149,12 @@ void ControlAudio::PlaySoundEffect( int effect )
 
 void ControlAudio::PauseMusic()
 {
-	static int once = 0;
-	if( once != 1)
+	//static int once = 0;
+	if( Mix_PlayingMusic() == 1 )
 	{
 		Mix_FadeOutMusic(3000);
 		//Mix_PauseMusic();
-		once = 1;
+		//once = 1;
 	}
 }
 

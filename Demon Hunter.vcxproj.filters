@@ -25,9 +25,6 @@
     <ClCompile Include="src\GetInput.cpp">
       <Filter>GetInput</Filter>
     </ClCompile>
-    <ClCompile Include="src\HighScore.cpp">
-      <Filter>Highscore</Filter>
-    </ClCompile>
     <ClCompile Include="src\Intro.cpp">
       <Filter>Screens\Intro</Filter>
     </ClCompile>
@@ -113,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="src\GetInput.h">
       <Filter>GetInput</Filter>
-    </ClInclude>
-    <ClInclude Include="src\HighScore.h">
-      <Filter>Highscore</Filter>
     </ClInclude>
     <ClInclude Include="src\Intro.h">
       <Filter>Screens\Intro</Filter>
@@ -206,9 +200,6 @@
     </Filter>
     <Filter Include="GetInput">
       <UniqueIdentifier>{b493b229-983e-4607-ab04-3c88c8acb3d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Highscore">
-      <UniqueIdentifier>{3bb813d7-e72b-44ca-a2b4-4f42c1793846}</UniqueIdentifier>
     </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{b09540d1-2926-40f7-a57b-3fa80d114054}</UniqueIdentifier>

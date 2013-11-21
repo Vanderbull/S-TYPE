@@ -25,7 +25,6 @@
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
-#include "HighScore.h"
 #include "DancingDragon.h"
 #include "World\CWorld.h"
 
@@ -79,6 +78,8 @@ public:
 		m_srfCube,
 		m_srfTriangle;
 
+	std::map<string,int> m_SurfaceCollection;
+
 	// Active menu
 	int ActiveMenu;
 
@@ -86,10 +87,14 @@ public:
 	void NewGame(){};
 	void LoadGame(){};
 	void SaveGame(){};
+
+	void MainScreen(int iElapsedTime);
 	void CreditScreen(int iElapsedTime);
 	void OptionScreen(int iElapsedTime);
 	void LoadScreen(int iElapsedTime);
 	void SaveScreen(int iElapsedTime);
+	void GameoverScreen(int iElapsedTime);
+
 	void Quit(){};
 
 
@@ -99,7 +104,7 @@ public:
 	void Loading();
 	void DrawAllText();
 	
-	void MainScreen(int iElapsedTime);
+
 	void EnterName();
 	void setUpParallaxLayers();
 	void load_files();
