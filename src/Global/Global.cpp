@@ -4,9 +4,11 @@ int g_nValue = 5;
 int DIFFICULTY = 0;
 int SOUND = 3;
 int MUSIC = 5;
+int CURRENT_HIGHSCORE = 0;
 string HIGHSCORE = "";
 SDL_Rect ScreenSize = {0,0,800,600};
 SDL_Rect ButtonClips[ 10 ];
+
 #define _DEBUG 0
 
 //return by reference

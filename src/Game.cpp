@@ -756,21 +756,6 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(int iElapsedTime)
 {
-	
-	//const Uint8 *state = SDL_GetKeyState(NULL);
-	//if ( state[SDLK_ESCAPE] ) {
-	//	gamestate.GameState.pop();
-	//	gamestate.GameState.push(MENU_MAIN_STATE);
-	//	printf("<ESCAPE> is pressed.\n");
-	//}
-	//SDL_Event _event;
-	//SDL_PollEvent( &_event );
-
-	//if( _event.type == SDL_MOUSEBUTTONDOWN )
-	//{
-
-
-
 	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 
 	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ),&SDL_GetVideoSurface()->clip_rect,Gfx.BackBuffer,&SDL_GetVideoSurface()->clip_rect);
