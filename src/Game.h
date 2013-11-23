@@ -99,10 +99,8 @@ public:
 
 
 	void CreateAll();
-	void AddTick();
 
 	void Loading();
-	void DrawAllText();
 	
 
 	void EnterName();

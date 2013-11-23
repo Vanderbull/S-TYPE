@@ -86,7 +86,105 @@ void Game::HandleEvents( SDL_Event _event )
 	{
 		case SDL_MOUSEBUTTONDOWN:
 		{
-			std::cout << "Pressing a mouse button" << endl;
+			switch( gamestate.GameState.top()  )
+			{
+				case MENU_MAIN_STATE:
+				{
+				} break;
+				case GAME_RUNNING_STATE:
+				{
+				} break;
+				case GAME_OPTIONS_STATE:
+				{
+						ButtonClips[ 0 ].h = 30;
+						ButtonClips[ 0 ].w = 103;
+						ButtonClips[ 0 ].x = 280;
+						ButtonClips[ 0 ].y = 130;
+
+						ButtonClips[ 1 ].h = 30;
+						ButtonClips[ 1 ].w = 103;
+						ButtonClips[ 1 ].x = 412;
+						ButtonClips[ 1 ].y = 130;
+
+						ButtonClips[ 2 ].h = 30;
+						ButtonClips[ 2 ].w = 103;
+						ButtonClips[ 2 ].x = 554;
+						ButtonClips[ 2 ].y = 130;
+
+						ButtonClips[ 3 ].h = 30;
+						ButtonClips[ 3 ].w = 103;
+						ButtonClips[ 3 ].x = 280;
+						ButtonClips[ 3 ].y = 170;
+
+						ButtonClips[ 4 ].h = 30;
+						ButtonClips[ 4 ].w = 103;
+						ButtonClips[ 4 ].x = 412;
+						ButtonClips[ 4 ].y = 170;
+
+						ButtonClips[ 5 ].h = 30;
+						ButtonClips[ 5 ].w = 103;
+						ButtonClips[ 5 ].x = 280;
+						ButtonClips[ 5 ].y = 220;
+
+						ButtonClips[ 6 ].h = 30;
+						ButtonClips[ 6 ].w = 103;
+						ButtonClips[ 6 ].x = 412;
+						ButtonClips[ 6 ].y = 220;
+
+						ButtonClips[ 7 ].h = 30;
+						ButtonClips[ 7 ].w = 103;
+						ButtonClips[ 7 ].x = 632;
+						ButtonClips[ 7 ].y = 534;
+
+						int MouseXCoordinates, MouseYCoordinates;
+						SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
+						cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+						for( int i = 0; i < 3; i++ )
+						{
+							if(MouseXCoordinates > ButtonClips[ i ].x && 
+							MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
+							MouseYCoordinates > ButtonClips[ i ].y &&
+							MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+							{
+								cout << "Difficuty set to -> " << i << "..." << endl;
+								DIFFICULTY = i;
+							}
+						}
+						for( int i = 3; i < 5; i++ )
+						{
+							if(MouseXCoordinates > ButtonClips[ i ].x && 
+							MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
+							MouseYCoordinates > ButtonClips[ i ].y &&
+							MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+							{
+								cout << "Sound set to -> " << i << "..." << endl;
+								SOUND = i;
+							}
+						}
+						for( int i = 5; i < 7; i++ )
+						{
+							if(MouseXCoordinates > ButtonClips[ i ].x && 
+							MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
+							MouseYCoordinates > ButtonClips[ i ].y &&
+							MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+							{
+								cout << "Music set to -> " << i << "..." << endl;
+								MUSIC = i;
+							}
+						}
+
+						for( int i = 0; i < 8; i++ )
+						{
+							if(MouseXCoordinates > ButtonClips[ i ].x && 
+							MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
+							MouseYCoordinates > ButtonClips[ i ].y &&
+							MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+							{
+								cout << "Entering button " << i << "..." << endl;
+							}
+						}
+				} break;
+			}
 		} break;
 
 		case SDL_KEYDOWN:
@@ -100,8 +198,8 @@ void Game::HandleEvents( SDL_Event _event )
 						case SDLK_ESCAPE:
 						{
 							std::cout << "Trying to quit the game" << endl;
-							gamestate.GameState.pop();
-							Quit = true;
+							//gamestate.GameState.pop();
+							//Quit = true;
 						} break;
 					}
 				} break;
@@ -162,7 +260,14 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_OPTIONS_STATE:
 				{
-					cout << "YOU ARE IN THE OPTIONS WORLD!" << endl;
+					switch( _event.key.keysym.sym )
+					{
+						case SDLK_ESCAPE:
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(MENU_MAIN_STATE);
+						} break;
+					}
 				} break;
 			}
 		} break;
@@ -500,8 +605,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();
 				Gfx.DrawScore(300,25,UpdateScore());
-				
-				gamestate.DrawAllText();
 			} break;
 		case GAME_BOSS_STATE:
 			{
@@ -546,34 +649,6 @@ void Gamestate::PlayOutro()
 	gamestate.RestartGame();
 
 	return;
-}
-
-// ----------------------------------------------------------------------------
-// DrawAllText() - draws all text thats currently shown on the screen.
-// ----------------------------------------------------------------------------
-void Gamestate::DrawAllText()
-{
-	//if( State == GAME_STORY_STATE || State == GAME_PLAYER_DIED_STATE )
-	if( gamestate.GameState.top() == GAME_STORY_STATE  || gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
-	{
-		if( gamestate.GameState.top() == GAME_PLAYER_DIED_STATE )
-		{
-			//sprintf_s( gamestate.Text, 256, " Press Space For Menu " );
-			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space For Menu ", Gfx.WhiteRGB, Gfx.BlackRGB );
-			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
-			Gfx.apply_surface( 200, 500, Gfx.srfText, Gfx.BackBuffer );
-		}
-		else
-		{
-			//sprintf_s( gamestate.Text, 256, " Press Space To Start " );		
-			Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space To Start ", Gfx.WhiteRGB, Gfx.BlackRGB );
-			//gamestate.apply_surface( 200, 500, gamestate.textIntro, gamestate.BackBuffer );
-			Gfx.apply_surface( 200, 500, Gfx.srfText, Gfx.BackBuffer );
-		}
-	}
-	else
-	{
-	}
 }
 
 // ----------------------------------------------------------------------------
@@ -681,105 +756,19 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(int iElapsedTime)
 {
-	const Uint8 *state = SDL_GetKeyState(NULL);
-	if ( state[SDLK_ESCAPE] ) {
-		//gamestate.GameState.pop();
-		gamestate.GameState.push(MENU_MAIN_STATE);
-		printf("<ESCAPE> is pressed.\n");
-	}
-	SDL_Event _event;
-	Sleep(25);
-	SDL_PollEvent( &_event );
+	
+	//const Uint8 *state = SDL_GetKeyState(NULL);
+	//if ( state[SDLK_ESCAPE] ) {
+	//	gamestate.GameState.pop();
+	//	gamestate.GameState.push(MENU_MAIN_STATE);
+	//	printf("<ESCAPE> is pressed.\n");
+	//}
+	//SDL_Event _event;
+	//SDL_PollEvent( &_event );
 
-	if( _event.type == SDL_MOUSEBUTTONDOWN )
-	{
-		int MouseXCoordinates, MouseYCoordinates;
-		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
-		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
-		for( int i = 0; i < 3; i++ )
-		{
-			if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
-			MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
-			MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
-			MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
-			{
-				cout << "Difficuty set to -> " << i << "..." << endl;
-				DIFFICULTY = i;
-			}
-		}
-		for( int i = 3; i < 5; i++ )
-		{
-			if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
-			MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
-			MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
-			MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
-			{
-				cout << "Sound set to -> " << i << "..." << endl;
-				SOUND = i;
-			}
-		}
-		for( int i = 5; i < 7; i++ )
-		{
-			if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
-			MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
-			MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
-			MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
-			{
-				cout << "Music set to -> " << i << "..." << endl;
-				MUSIC = i;
-			}
-		}
+	//if( _event.type == SDL_MOUSEBUTTONDOWN )
+	//{
 
-		for( int i = 0; i < 8; i++ )
-		{
-			if(MouseXCoordinates > OptionsScreen->ButtonClips[ i ].x && 
-			MouseXCoordinates < OptionsScreen->ButtonClips[ i ].x + OptionsScreen->ButtonClips[ i ].w &&
-			MouseYCoordinates > OptionsScreen->ButtonClips[ i ].y &&
-			MouseYCoordinates < OptionsScreen->ButtonClips[ i ].y + OptionsScreen->ButtonClips[ i ].h )
-			{
-				cout << "Entering button " << i << "..." << endl;
-			}
-		}
-	}
-	OptionsScreen->ButtonClips[ 0 ].h = 30;
-	OptionsScreen->ButtonClips[ 0 ].w = 103;
-	OptionsScreen->ButtonClips[ 0 ].x = 280;
-	OptionsScreen->ButtonClips[ 0 ].y = 130;
-
-	OptionsScreen->ButtonClips[ 1 ].h = 30;
-	OptionsScreen->ButtonClips[ 1 ].w = 103;
-	OptionsScreen->ButtonClips[ 1 ].x = 412;
-	OptionsScreen->ButtonClips[ 1 ].y = 130;
-
-	OptionsScreen->ButtonClips[ 2 ].h = 30;
-	OptionsScreen->ButtonClips[ 2 ].w = 103;
-	OptionsScreen->ButtonClips[ 2 ].x = 554;
-	OptionsScreen->ButtonClips[ 2 ].y = 130;
-
-	OptionsScreen->ButtonClips[ 3 ].h = 30;
-	OptionsScreen->ButtonClips[ 3 ].w = 103;
-	OptionsScreen->ButtonClips[ 3 ].x = 280;
-	OptionsScreen->ButtonClips[ 3 ].y = 170;
-
-	OptionsScreen->ButtonClips[ 4 ].h = 30;
-	OptionsScreen->ButtonClips[ 4 ].w = 103;
-	OptionsScreen->ButtonClips[ 4 ].x = 412;
-	OptionsScreen->ButtonClips[ 4 ].y = 170;
-
-	OptionsScreen->ButtonClips[ 5 ].h = 30;
-	OptionsScreen->ButtonClips[ 5 ].w = 103;
-	OptionsScreen->ButtonClips[ 5 ].x = 280;
-	OptionsScreen->ButtonClips[ 5 ].y = 220;
-
-	OptionsScreen->ButtonClips[ 6 ].h = 30;
-	OptionsScreen->ButtonClips[ 6 ].w = 103;
-	OptionsScreen->ButtonClips[ 6 ].x = 412;
-	OptionsScreen->ButtonClips[ 6 ].y = 220;
-
-	OptionsScreen->ButtonClips[ 7 ].h = 30;
-	OptionsScreen->ButtonClips[ 7 ].w = 103;
-	OptionsScreen->ButtonClips[ 7 ].x = 632;
-	OptionsScreen->ButtonClips[ 7 ].y = 534;
 
 
 	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
@@ -787,35 +776,35 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ),&SDL_GetVideoSurface()->clip_rect,Gfx.BackBuffer,&SDL_GetVideoSurface()->clip_rect);
 
 	if( DIFFICULTY == 0 )
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	else
 	if( DIFFICULTY == 1 )
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	else
 	if( DIFFICULTY == 2 )
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 
 	if( SOUND == 3 )
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	else
 	if( SOUND == 4 )
 	{
-		SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	}
 	
 	if( MUSIC == 5 )
 	{
-		SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 		Audio.PlayMusic(0);
 	}
 	else
 	if( MUSIC == 6 )
 	{
-		SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 		Audio.PauseMusic();
 	}
 
-	SDL_FillRect(Gfx.BackBuffer,&OptionsScreen->ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 
 
 	std::cout << "Rendering options screen like a god!!!!" << endl;
@@ -914,8 +903,8 @@ bool Game::Init(SDL_Surface * &screen)
 	screen = 0;
 
 	//set up the screen
-	screen = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-	Gfx.m_SurfaceCollection["Screen"] = *SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	Gfx.m_SurfaceCollection["Screen"] = *SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
 	SDL_Rect** modes;
 	int i;
@@ -979,15 +968,10 @@ void Gamestate::CreateAll()
 	static int iScore = 0;
 
 	AnimalController.CreateAnimals(iScore++);
-	CubeController.CreateCubes( iScore );
-	TriangleController.CreateTriangles( iScore );
+	CubeController.CreateCubes( iScore++ );
+	TriangleController.CreateTriangles( iScore++ );
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();
-}
-
-void Gamestate::AddTick()
-{
-	UpdateAnimationSpeed += ( 1000.0f * ( gamestate.DeltaTime / 1000.0f ) );
 }
 
 // ----------------------------------------------------------------------------
