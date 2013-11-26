@@ -203,6 +203,39 @@ void Game::HandleEvents( SDL_Event _event )
 						} break;
 					}
 				} break;
+				case GAME_CREDITS_STATE:
+				{
+					switch( _event.key.keysym.sym )
+					{
+						case SDLK_ESCAPE:
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(MENU_MAIN_STATE);
+						} break;
+					}
+				} break;
+				case GAME_SAVING_STATE:
+				{
+					switch( _event.key.keysym.sym )
+					{
+						case SDLK_ESCAPE:
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(MENU_MAIN_STATE);
+						} break;
+					}
+				} break;
+				case GAME_LOADING_STATE:
+				{
+					switch( _event.key.keysym.sym )
+					{
+						case SDLK_ESCAPE:
+						{
+							gamestate.GameState.pop();
+							gamestate.GameState.push(MENU_MAIN_STATE);
+						} break;
+					}
+				} break;
 				case GAME_RUNNING_STATE:
 				{
 						switch( _event.key.keysym.sym )

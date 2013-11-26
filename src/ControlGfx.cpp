@@ -381,7 +381,7 @@ void ControlGfx::DrawObjects()
 		BulletController.Draw_Bullets();
 		//EnemyController.Update();
 		//EnemyController.Draw_Enemies();
-		//ObjectController.DrawObjects();
+		ObjectController.DrawObjects();
 }
 
 // ----------------------------------------------------------------------------
