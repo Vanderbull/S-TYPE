@@ -132,8 +132,7 @@ public:
 	bool Init( SDL_Surface * &screen );
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
-	int UpdateScore(){ return _Score++; };
-	void ResetScore(){ _Score = 0; };
+	int UpdateScore(){ return _SCORE++; };
 	bool Quit;
 	int MouseXCoordinates; // the last recorded x coordinate of the mouse
 	int MouseYCoordinates; // the last recorded y coordinate of the mouse
@@ -142,6 +141,5 @@ public:
 private:
 	Gamestate _State;
 	World _World;
-	int _Score;
 };
 

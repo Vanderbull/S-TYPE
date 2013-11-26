@@ -376,8 +376,8 @@ void ControlGfx::DrawObjects()
 {
 		BCPlayer.Update();
 		AnimalController.DrawAnimals();
-		//CubeController.DrawCubes();
-		//TriangleController.DrawTriangles();
+		CubeController.DrawCubes();
+		TriangleController.DrawTriangles();
 		BulletController.Draw_Bullets();
 		//EnemyController.Update();
 		//EnemyController.Draw_Enemies();

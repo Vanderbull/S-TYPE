@@ -403,10 +403,8 @@ void Game::HandleEvents( SDL_Event _event )
 						}
 						if( i == 1 )
 						{
-							ResetScore();
-							BCPlayer.Reset();
-							gamestate.RestartGame();
 							Audio.PauseMusic();
+							gamestate.RestartGame();
 							gamestate.GameState.pop();
 							gamestate.GameState.push(GAME_RUNNING_STATE);
 						}
@@ -430,7 +428,7 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
-	ResetScore();
+	_SCORE = 0;
 	Quit = false;
 
 	// Setup of the application icons
@@ -874,6 +872,8 @@ void Gamestate::EnterName()
 
 void Gamestate::RestartGame()
 {
+	BCPlayer.Reset();
+	_SCORE = 0;
 	// does nothing yet!
 }
 
@@ -983,11 +983,9 @@ bool Game::Init(SDL_Surface * &screen)
 
 void Gamestate::CreateAll()
 {
-	static int iScore = 0;
-
-	AnimalController.CreateAnimals(iScore++);
-	CubeController.CreateCubes( iScore++ );
-	TriangleController.CreateTriangles( iScore++ );
+	AnimalController.CreateAnimals(_SCORE++ );
+	CubeController.CreateCubes( _SCORE++ );
+	TriangleController.CreateTriangles( _SCORE++ );
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();
 }

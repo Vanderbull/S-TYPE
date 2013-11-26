@@ -22,6 +22,7 @@ extern int MUSIC;
 extern string HIGHSCORE;
 extern SDL_Rect ButtonClips[ 10 ];
 extern int CURRENT_HIGHSCORE;
+extern int _SCORE;
 
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
 int MouseInBox(SDL_Rect &Rect);
