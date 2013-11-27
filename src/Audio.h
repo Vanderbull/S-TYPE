@@ -1,8 +1,6 @@
 #pragma once
 #include <SDL_mixer.h>
 
-// @date 2012-08-07
-
 enum{	
 	MUSIC_START, 
 	MUSIC_MENU, 
@@ -16,22 +14,21 @@ enum{
 	SOUND_FIREBALL_EXPLODE 
 };
 
-/// <summary>A class that controls the audio</summary>
 class ControlAudio
 {
 public:
 	Mix_Music *music; 
 	Mix_Music *MenuMusic_;
 	Mix_Music *OutroMusic_;
+	Mix_Music *Playlist[3];
 	 
 	Mix_Chunk *SfxHit_;
 	int donkey;
 
 	ControlAudio();
-	~ControlAudio(){};
+	~ControlAudio();
 
 	void LoadAudio();
-	int IsPlaying();
 	int GetState();
 	void PlayMusic( int song );
 	void PlaySoundEffect( int effect );

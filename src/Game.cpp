@@ -45,8 +45,6 @@ Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
-	cout << "Gamestate::Loading Audio..." << endl;
-	Audio.LoadAudio();
 	cout << "Gamestate::Creating the world..." << endl;
 	WorldController.CreateWorld();
 
@@ -352,9 +350,10 @@ void Game::HandleEvents( SDL_Event _event )
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
 		if( MUSIC == 5 )
-		Audio.PlayMusic(0);
+			Audio.PlayMusic(rand()%3);
 		else
 			Audio.PauseMusic();
+
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
@@ -811,7 +810,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	if( MUSIC == 5 )
 	{
 		SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-		Audio.PlayMusic(0);
+		Audio.PlayMusic(rand()%3);
 	}
 	else
 	if( MUSIC == 6 )
