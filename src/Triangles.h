@@ -5,9 +5,8 @@
 
 #define TRIANGLE_MAX_FRAMES 15
 #define TRIANGLE_MAX_PROGRESS 7500
-#define TRIANGLE_MIN_PROGRESS 0
+#define TRIANGLE_MIN_PROGRESS 5000
 
-/// <summary>A basic ammo object</summary>
 class TriangleObject
 {
 public:
@@ -19,7 +18,7 @@ public:
 private:
 };
 
-/// <summary>Keeps the state of any animal</summary>
+
 class TriangleState
 {
 public:
@@ -29,7 +28,7 @@ public:
 	SDL_Rect Destination;
 };
 
-/// <summary>Used to create a Animal entity</summary>
+
 class Triangle : public TriangleState, public TriangleObject
 {
 
@@ -47,7 +46,7 @@ private:
 	int PrevFrame;
 };
 
-/// <summary>A class the controls the animals</summary> 
+
 class ControlTriangles
 {
 public:
