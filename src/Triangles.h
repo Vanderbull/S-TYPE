@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <vector>
 #include <stack>
 #include <SDL.h>
 
@@ -55,11 +56,12 @@ public:
 	void DrawTriangles();
 	void CreateTriangles( int iProgress );
 
-	Triangle * CreateTriangle( int xPos, int yPos, int surface );
-	std::list< Triangle* > GetTriangle(){ return TriangleList; };
-	
+	Triangle CreateTriangleByReference( int xPos, int yPos, int surface );
+	std::vector< Triangle > GetVectorWithTriangles(){ return TriangleArrayRef; };
+	std::vector< Triangle > TriangleArrayRef;
+
 private:
-	std::list< Triangle* > TriangleList;
+
 };
 
 extern ControlTriangles TriangleController;

@@ -5,6 +5,10 @@
 
 ControlCubes CubeController;
 
+const float CubeSpeed = 0.0001f;
+const int SpriteHeight = 64;
+const int SpriteWidth = 64;
+
 SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 {
 	CollisionBox = Box;
@@ -13,7 +17,7 @@ SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 
 void Cube::Update()
 {
-	xPos -= 0.0003f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
+	xPos -= 0.0003f * gamestate.DeltaTime;
 	Destination.h = Height;
 	Destination.w = Width;
 	Destination.x = xPos;
@@ -34,7 +38,7 @@ void Cube::Draw()
 	#endif
 	
 	SDL_BlitSurface( 
-		Gfx.GetSurface( Surface ),
+		Gfx.GetSurface( SurfaceID ),
 		&Clips[ PrevFrame ], 
 		Gfx.BackBuffer, 
 		&GetDestination() 
@@ -64,17 +68,18 @@ Cube::Cube()
 
 void ControlCubes::DrawCubes()
 {
- 	list< Cube* >::iterator i;
+	vector< Cube >::iterator i;
 
-	i = CubeList.begin();
-	while(i != CubeList.end() )
+	i = CubeArrayRef.begin();
+
+	while(i != CubeArrayRef.end() )
 	{
-		(*i)->Update();
-		(*i)->Draw();
+		i->Update();
+		i->Draw();
 		
-		if( (*i)->xPos <= 0.0f - (*i)->Width )
+		if( i->xPos <= 0.0f - SpriteWidth )
 		{
-			i = CubeList.erase(i);
+			i = CubeArrayRef.erase(i);
 		}
 		else
 		{
@@ -83,26 +88,13 @@ void ControlCubes::DrawCubes()
 	}
 }
 
-Cube * ControlCubes::CreateCube( int xPos, int yPos, int surface )
-{
-		Cube * temp = new Cube;
-		temp->Surface = surface;
-		temp->xPos = xPos;
-		temp->yPos = yPos;
-
-		temp->Radius = ( temp->Width > temp->Height ) ? temp->Width / 2 : temp->Height / 2;
-
-		return temp;
-}
-  
 void ControlCubes::CreateCubes(int iProgress )
 {
 	if( iProgress > CUBE_MIN_PROGRESS && iProgress < CUBE_MAX_PROGRESS )
 	{
-		if( CubeList.size() < rand() % 5 )
+		if( CubeArrayRef.size() < rand() % 5 )
 		{
-			cout << "Creating a cube..." << endl;
-			CubeList.push_back( CreateCube( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCube ) );
+			CubeArrayRef.push_back( CreateCubeByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCube ) );
 		}
 	}
 	else
@@ -111,6 +103,15 @@ void ControlCubes::CreateCubes(int iProgress )
 	}
 }
 
+Cube ControlCubes::CreateCubeByReference( int xPos, int yPos, int surface )
+{
+	Cube temp;
+	temp.SurfaceID = surface;
+	temp.xPos = xPos;
+	temp.yPos = yPos;
+
+	return temp;
+}
 ControlCubes::ControlCubes()
 {
 }

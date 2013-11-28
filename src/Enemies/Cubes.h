@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include <vector>
 #include <stack>
 #include <SDL.h>
 
@@ -7,7 +8,6 @@
 #define CUBE_MAX_PROGRESS 5000
 #define CUBE_MIN_PROGRESS 2500
 
-/// <summary>A basic ammo object</summary>
 class CubeObject
 {
 public:
@@ -19,7 +19,6 @@ public:
 private:
 };
 
-/// <summary>Keeps the state of any animal</summary>
 class CubeState
 {
 public:
@@ -29,7 +28,6 @@ public:
 	SDL_Rect Destination;
 };
 
-/// <summary>Used to create a Animal entity</summary>
 class Cube : public CubeState, public CubeObject
 {
 
@@ -47,7 +45,6 @@ private:
 	int PrevFrame;
 };
 
-/// <summary>A class the controls the animals</summary> 
 class ControlCubes
 {
 public:
@@ -56,11 +53,11 @@ public:
 	void DrawCubes();
 	void CreateCubes( int iProgress );
 
-	Cube * CreateCube( int xPos, int yPos, int surface );
-	std::list< Cube* > GetCube(){ return CubeList; };
+	Cube CreateCubeByReference( int xPos, int yPos, int surface );
+	std::vector< Cube > GetVectorWithCubes(){ return CubeArrayRef; };
+	std::vector< Cube > CubeArrayRef;
 	
 private:
-	std::list< Cube* > CubeList;
 };
 
 extern ControlCubes CubeController;

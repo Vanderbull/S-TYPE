@@ -5,6 +5,10 @@
 
 ControlTriangles TriangleController;
 
+const float CubeSpeed = 0.0001f;
+const int SpriteHeight = 64;
+const int SpriteWidth = 64;
+
 SDL_Rect Triangle::UpdateCollisionBox(SDL_Rect Box)
 {
 	CollisionBox = Box;
@@ -34,7 +38,7 @@ void Triangle::Draw()
 	#endif
 	
 	SDL_BlitSurface( 
-		Gfx.GetSurface( Surface ),
+		Gfx.GetSurface( SurfaceID ),
 		&Clips[ PrevFrame ], 
 		Gfx.BackBuffer, 
 		&GetDestination() 
@@ -64,17 +68,18 @@ Triangle::Triangle()
 
 void ControlTriangles::DrawTriangles()
 {
- 	list< Triangle* >::iterator i;
+	vector< Triangle >::iterator i;
 
-	i = TriangleList.begin();
-	while(i != TriangleList.end() )
+	i = TriangleArrayRef.begin();
+
+	while(i != TriangleArrayRef.end() )
 	{
-		(*i)->Update();
-		(*i)->Draw();
+		i->Update();
+		i->Draw();
 		
-		if( (*i)->xPos <= 0.0f - (*i)->Width )
+		if( i->xPos <= 0.0f - SpriteWidth )
 		{
-			i = TriangleList.erase(i);
+			i = TriangleArrayRef.erase(i);
 		}
 		else
 		{
@@ -83,32 +88,29 @@ void ControlTriangles::DrawTriangles()
 	}
 }
 
-Triangle * ControlTriangles::CreateTriangle( int xPos, int yPos, int surface )
-{
-		Triangle * temp = new Triangle;
-		temp->Surface = surface;
-		temp->xPos = xPos;
-		temp->yPos = yPos;
-
-		temp->Radius = ( temp->Width > temp->Height ) ? temp->Width / 2 : temp->Height / 2;
-
-		return temp;
-}
-  
 void ControlTriangles::CreateTriangles(int iProgress )
 {
 	if( iProgress > TRIANGLE_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
 	{
-		if( TriangleList.size() < rand() % 5 )
+		if( TriangleArrayRef.size() < rand() % 5 )
 		{
-			cout << "Creating a triangle..." << endl;
-			TriangleList.push_back( CreateTriangle( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfTriangle ) );
+			TriangleArrayRef.push_back( CreateTriangleByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfTriangle ) );
 		}
 	}
 	else
 	{
 		cout << "Progress passed the target range... " << endl;
 	}
+}
+
+Triangle ControlTriangles::CreateTriangleByReference( int xPos, int yPos, int surface )
+{
+	Triangle temp;
+	temp.SurfaceID = surface;
+	temp.xPos = xPos;
+	temp.yPos = yPos;
+
+	return temp;
 }
 
 ControlTriangles::ControlTriangles()
