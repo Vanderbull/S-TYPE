@@ -10,7 +10,7 @@ class Object
 {
 protected:
 	Object();
-	~Object(){ std::cout << "Destroying a object" << endl; };
+	~Object(){};
 
 public:
 

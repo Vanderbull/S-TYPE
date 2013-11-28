@@ -142,6 +142,7 @@ void BaseCharacter::Update()
 
 		BCPlayer.isHit = false;
 	}
+	std::cout << "Exiting Update" << endl;
 }
 
 
@@ -205,32 +206,10 @@ void BaseCharacter::Reset()
 
 void BaseCharacter::Died()
 {
-
-	//Gfx.DrawBackgroundBlack();
 	Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
 	Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
 	Gfx.FLIP();
 
-	gamestate.GameState.push(MENU_MAIN_STATE);
-	gamestate.RestartGame();
-	Sleep(5000);
-	//SDL_Event input;
-
-	//while( gamestate.GameState.top() == MENU_MAIN_STATE )
-	//{
-	//	SDL_PollEvent( &input );
-	//	if( input.type == SDL_KEYDOWN )
-	//	{
- // 			switch( input.key.keysym.sym )
-	//		{
-	//		case SDLK_SPACE:
-	//			gamestate.GameState.push(MENU_MAIN_STATE);
-	//			break;
-	//		}
-	//	}
-	//	Gfx.DrawBackgroundBlack();
-	//	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ), &Gfx.screen->clip_rect, Gfx.BackBuffer, &Gfx.screen->clip_rect );
-	//	Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " Press Space For Menu ", Gfx.WhiteRGB, Gfx.BlackRGB );
-	//	Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
-	//}
+	gamestate.GameState.push(GAME_PLAYER_DIED_STATE);
+	std::cout << "Exiting Died" << endl;
 }

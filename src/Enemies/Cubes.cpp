@@ -68,6 +68,8 @@ Cube::Cube()
 
 void ControlCubes::DrawCubes()
 {
+	if( CubeArrayRef.size() < 1 )
+		return;
 	vector< Cube >::iterator i;
 
 	i = CubeArrayRef.begin();

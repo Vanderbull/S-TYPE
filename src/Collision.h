@@ -16,6 +16,7 @@ public:
 
 	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Animal> &VAnimals )
 	{
+		std::cout << "Object Collider Animals" << endl;
 		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
 		{
 			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
@@ -43,6 +44,7 @@ public:
 	};
 	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Cube> &VCubes )
 	{
+		std::cout << "Object Collider Cubes" << endl;
 		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
 		{
 			for(vector< Cube >::iterator iCube = VCubes.begin(); iCube != VCubes.end(); )
@@ -70,6 +72,7 @@ public:
 	};
 	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Triangle> &VTriangles )
 	{
+		std::cout << "Object Collider Triangles" << endl;
 		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
 		{
 			for(vector< Triangle >::iterator iTriangle = VTriangles.begin(); iTriangle != VTriangles.end(); )
@@ -98,6 +101,11 @@ public:
 
 	void SpaceshipCollider( BaseCharacter Spaceship, std::vector<Animal> &VAnimals )
 	{
+		if(VAnimals.empty() || VAnimals.size() < 1)
+		{
+			std::cout << "NO animals in the zoo" << endl;
+			return;
+		}
 			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
 			{
 				if( !( 
@@ -109,12 +117,14 @@ public:
 				{
 					iAnimal = VAnimals.erase(iAnimal);
 					Spaceship.Died();
+					std::cout << "Just died Animal" << endl;
 				}
 				else
 				{
 					++iAnimal;
 				}
 			}
+			std::cout << "Exitting SPaceshipCollider" << endl;
 	};
 	void SpaceshipCollider( BaseCharacter Spaceship, std::vector<Cube> &VCubes )
 	{
@@ -129,12 +139,14 @@ public:
 				{
 					iCube = VCubes.erase(iCube);
 					Spaceship.Died();
+					std::cout << "Just died CUBES" << endl;
 				}
 				else
 				{
 					++iCube;
 				}
 			}
+			std::cout << "Exitting SPaceshipCollider" << endl;
 	};
 	void SpaceshipCollider( BaseCharacter Spaceship, std::vector<Triangle> &VTriangles )
 	{
@@ -149,12 +161,14 @@ public:
 				{
 					iTriangle = VTriangles.erase(iTriangle);
 					Spaceship.Died();
+					std::cout << "Just died triangles" << endl;
 				}
 				else
 				{
 					++iTriangle;
 				}
 			}
+			std::cout << "Exitting SPaceshipCollider" << endl;
 	};
 	// Old collision controlls
 	bool CollisionBox( BaseCharacter *cPlayer, CEnemy *cEnemy, bool Show );

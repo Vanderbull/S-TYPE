@@ -67,6 +67,8 @@ Triangle::Triangle()
 
 void ControlTriangles::DrawTriangles()
 {
+	if( TriangleArrayRef.size() < 1 )
+		return;
 	vector< Triangle >::iterator i;
 
 	i = TriangleArrayRef.begin();

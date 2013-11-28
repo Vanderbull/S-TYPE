@@ -99,7 +99,7 @@ SDL_Rect Animal::GetDestination()
 
 void ControlAnimals::DrawAnimals()
 {
-	vector< Animal >::iterator i;
+	std::vector< Animal >::iterator i;
 
 	i = AnimalArrayRef.begin();
 
@@ -137,6 +137,7 @@ void ControlAnimals::CreateAnimals(int iProgress )
 
 ControlAnimals::ControlAnimals()
 {
+	cout << "Creating the Animal Controller..." << endl;
 }
 
 ControlAnimals::~ControlAnimals()

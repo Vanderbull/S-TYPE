@@ -81,7 +81,7 @@ void Gamestate::KeyMapping(SDL_Event _event)
 void Game::HandleEvents( SDL_Event _event )
 {
 	switch ( _event.type )
-	{
+	{ 
 		case SDL_MOUSEBUTTONDOWN:
 		{
 			switch( gamestate.GameState.top()  )
@@ -428,6 +428,11 @@ void Game::HandleEvents( SDL_Event _event )
 Game::Game()
 {
 	_SCORE = 0;
+	ifstream myfile;
+	myfile.open ("highscore.txt");
+	myfile >> CURRENT_HIGHSCORE;
+	myfile.close();
+
 	Quit = false;
 
 	// Setup of the application icons
@@ -475,28 +480,6 @@ void Gamestate::load_files()
 		std::string temp = line;
 
 		if (temp.empty())
-			continue;
-	}
-
-	file.close();
-
-	file.open("highscore.txt");
-	if (!file)
-	{
-		cout << "CFG: File couldn't be found!\n" << endl;
-		MessageBox(NULL,"CFG: File couldn't be found!\n","Failed Loading",MB_OK);
-		cin.get();
-		cin.get();
-		//exit(1);
-	}
-
-	lineNo = 0;
-	while (std::getline(file, line))
-	{
-		lineNo++;
-		HIGHSCORE = line;
-
-		if (HIGHSCORE.empty())
 			continue;
 	}
 
@@ -601,7 +584,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 	
 
 	//CollisionController.Box(BulletController.GetBullets(), AnimalController.GetAnimal());
-	cout << BCPlayer.GetAction() << endl;
+	//cout << BCPlayer.GetAction() << endl;
 
 
 	// Check game state
@@ -629,20 +612,22 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_RUNNING_STATE:
 			{
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
-				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
-				CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
-				CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();
 				Gfx.DrawScore(300,25,UpdateScore());
+				
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
+				
+				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
+				CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
+				CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
 			} break;
 		case GAME_BOSS_STATE:
 			{
-				Gfx.DrawScore(300,0,UpdateScore());
+				//Gfx.DrawScore(300,0,UpdateScore());
 			} break;
 		case GAME_OUTRO_STATE:
 			{
@@ -650,7 +635,10 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_PLAYER_DIED_STATE:
 			{
-				BCPlayer.Died();
+				gamestate.RestartGame();
+				gamestate.GameState.pop();
+				gamestate.GameState.push(MENU_MAIN_STATE);
+				std::cout << "GAME_PLAYER_DIED_STATE" << endl;
 			} break;
 	}
 }
@@ -679,9 +667,6 @@ void Gamestate::PlayOutro()
 			}
 		}
 	}
-
-	gamestate.RestartGame();
-
 	return;
 }
 
@@ -876,8 +861,15 @@ void Gamestate::EnterName()
 void Gamestate::RestartGame()
 {
 	BCPlayer.Reset();
+	AnimalController.Destroy();
+	CubeController.CubeArrayRef.clear();
+	TriangleController.TriangleArrayRef.clear();
 	_SCORE = 0;
-	// does nothing yet!
+	ifstream myfile;
+	myfile.open ("highscore.txt");
+	myfile >> CURRENT_HIGHSCORE;
+	myfile.close();
+	std::cout << "Exiting RestartGame" << endl;
 }
 
 void Gamestate::Cleanup()

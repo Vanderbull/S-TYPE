@@ -6,15 +6,15 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <fstream>
+#include <list>
 #include <windows.h>
 #include "Paralaxlayers.h"
 #include <iostream>
 #include "Objects.h"
 #include "SDL_mixer.h"
 #include "characters.h"
-#include <list>
 #include "Enemies.h"
-#include <fstream>
 #include "Global\Global.h"
 #include "MainMenu.h"
 #include "Credits.h"
