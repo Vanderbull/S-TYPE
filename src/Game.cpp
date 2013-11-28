@@ -630,7 +630,11 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 		case GAME_RUNNING_STATE:
 			{
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
+				CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
+				CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();

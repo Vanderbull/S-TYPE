@@ -6,6 +6,8 @@
 #include "ControlGfx.h"
 #include "Bullets.h"
 #include "Animals.h"
+#include "Enemies\Cubes.h"
+#include "Triangles.h"
 
 
 class ControlCollision
@@ -39,6 +41,61 @@ public:
 				++iBullet;
 		}
 	};
+	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Cube> &VCubes )
+	{
+		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
+		{
+			for(vector< Cube >::iterator iCube = VCubes.begin(); iCube != VCubes.end(); )
+			{
+				if( !( 
+					iBullet->LocAndSize.x > iCube->xPos + iCube->Width || 
+					iBullet->LocAndSize.x + iBullet->LocAndSize.w < iCube->xPos || 
+					iBullet->LocAndSize.y > iCube->yPos + iCube->Height || 
+					iBullet->LocAndSize.y + iBullet->LocAndSize.h < iCube->yPos
+					) )
+				{
+					iCube = VCubes.erase(iCube);
+					iBullet->DeActivate();
+				}
+				else
+				{
+					++iCube;
+				}
+			}
+			if( !iBullet->isActive() )
+				iBullet = VBullets.erase(iBullet);
+			else
+				++iBullet;
+		}
+	};
+	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Triangle> &VTriangles )
+	{
+		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
+		{
+			for(vector< Triangle >::iterator iTriangle = VTriangles.begin(); iTriangle != VTriangles.end(); )
+			{
+				if( !( 
+					iBullet->LocAndSize.x > iTriangle->xPos + iTriangle->Width || 
+					iBullet->LocAndSize.x + iBullet->LocAndSize.w < iTriangle->xPos || 
+					iBullet->LocAndSize.y > iTriangle->yPos + iTriangle->Height || 
+					iBullet->LocAndSize.y + iBullet->LocAndSize.h < iTriangle->yPos
+					) )
+				{
+					iTriangle = VTriangles.erase(iTriangle);
+					iBullet->DeActivate();
+				}
+				else
+				{
+					++iTriangle;
+				}
+			}
+			if( !iBullet->isActive() )
+				iBullet = VBullets.erase(iBullet);
+			else
+				++iBullet;
+		}
+	};
+
 	void SpaceshipCollider( BaseCharacter Spaceship, std::vector<Animal> &VAnimals )
 	{
 			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
@@ -56,6 +113,46 @@ public:
 				else
 				{
 					++iAnimal;
+				}
+			}
+	};
+	void SpaceshipCollider( BaseCharacter Spaceship, std::vector<Cube> &VCubes )
+	{
+			for(vector< Cube >::iterator iCube = VCubes.begin(); iCube != VCubes.end(); )
+			{
+				if( !( 
+					Spaceship.GetPosition().x > iCube->xPos + iCube->Width || 
+					Spaceship.GetPosition().x + Spaceship.GetPosition().w < iCube->xPos || 
+					Spaceship.GetPosition().y > iCube->yPos + iCube->Height || 
+					Spaceship.GetPosition().y + Spaceship.GetPosition().h < iCube->yPos
+					) )
+				{
+					iCube = VCubes.erase(iCube);
+					Spaceship.Died();
+				}
+				else
+				{
+					++iCube;
+				}
+			}
+	};
+	void SpaceshipCollider( BaseCharacter Spaceship, std::vector<Triangle> &VTriangles )
+	{
+			for(vector< Triangle >::iterator iTriangle = VTriangles.begin(); iTriangle != VTriangles.end(); )
+			{
+				if( !( 
+					Spaceship.GetPosition().x > iTriangle->xPos + iTriangle->Width || 
+					Spaceship.GetPosition().x + Spaceship.GetPosition().w < iTriangle->xPos || 
+					Spaceship.GetPosition().y > iTriangle->yPos + iTriangle->Height || 
+					Spaceship.GetPosition().y + Spaceship.GetPosition().h < iTriangle->yPos
+					) )
+				{
+					iTriangle = VTriangles.erase(iTriangle);
+					Spaceship.Died();
+				}
+				else
+				{
+					++iTriangle;
 				}
 			}
 	};

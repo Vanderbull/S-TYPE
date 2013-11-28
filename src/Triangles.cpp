@@ -17,8 +17,7 @@ SDL_Rect Triangle::UpdateCollisionBox(SDL_Rect Box)
 
 void Triangle::Update()
 {
-	xPos -= 0.0003f * gamestate.DeltaTime;//(500.0f * gamestate.DeltaTime);
-	Destination.h = Height;
+	xPos -= 0.0003f * gamestate.DeltaTime;
 	Destination.w = Width;
 	Destination.x = xPos;
 	Destination.y = yPos; 
@@ -115,6 +114,7 @@ Triangle ControlTriangles::CreateTriangleByReference( int xPos, int yPos, int su
 
 ControlTriangles::ControlTriangles()
 {
+	cout << "Creating the Triangle Controller..." << endl;
 }
 
 ControlTriangles::~ControlTriangles()
