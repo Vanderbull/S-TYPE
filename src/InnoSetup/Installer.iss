@@ -20,7 +20,7 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=C:\Users\risk\Downloads\S-TYPE
 OutputBaseFilename=setup
-SetupIconFile=C:\Users\risk\Documents\GitHub\LegendOfNimbus\src\res\app.ico
+SetupIconFile=C:\Users\risk\Documents\GitHub\S-TYPE\src\res\app.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -31,13 +31,13 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\Debug\*.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\Graphics\*.*"; DestDir: "{app}\Graphics"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\Fonts\*.*"; DestDir: "{app}\Fonts"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\graphics.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\highscore.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\Music\*.*"; DestDir: "{app}\Music"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\LegendOfNimbus\src\res\*.*"; DestDir: "{app}\src\res"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Debug\*.*"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Graphics\*.*"; DestDir: "{app}\Graphics"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Fonts\*.*"; DestDir: "{app}\Fonts"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\graphics.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\highscore.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Music\*.*"; DestDir: "{app}\Music"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\src\res\*.*"; DestDir: "{app}\src\res"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
