@@ -25,7 +25,6 @@
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
-#include "DancingDragon.h"
 #include "World\CWorld.h"
 
 using namespace std;

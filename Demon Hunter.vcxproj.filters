@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\DancingDragon.cpp">
-      <Filter>Enemies\DancingDragon</Filter>
-    </ClCompile>
     <ClCompile Include="src\Audio.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
@@ -64,12 +61,6 @@
     <ClCompile Include="src\Animals.cpp">
       <Filter>Enemies\Asteroids</Filter>
     </ClCompile>
-    <ClCompile Include="src\Enemies\CHeads.cpp">
-      <Filter>Enemies\Bosses</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CBoss.cpp">
-      <Filter>Enemies\Bosses</Filter>
-    </ClCompile>
     <ClCompile Include="src\Enemies\Cubes.cpp">
       <Filter>Enemies\Cubes</Filter>
     </ClCompile>
@@ -90,9 +81,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\DancingDragon.h">
-      <Filter>Enemies\DancingDragon</Filter>
-    </ClInclude>
     <ClInclude Include="src\Audio.h">
       <Filter>Audio</Filter>
     </ClInclude>
@@ -156,12 +144,6 @@
     </ClInclude>
     <ClInclude Include="src\Animals.h">
       <Filter>Enemies\Asteroids</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\CHeads.h">
-      <Filter>Enemies\Bosses</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CBoss.h">
-      <Filter>Enemies\Bosses</Filter>
     </ClInclude>
     <ClInclude Include="src\Enemies\Cubes.h">
       <Filter>Enemies\Cubes</Filter>
@@ -234,9 +216,6 @@
     <Filter Include="Enemies\Asteroids">
       <UniqueIdentifier>{6a6ca93d-ed7f-4192-a684-d363e0d8b038}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemies\Bosses">
-      <UniqueIdentifier>{312f6bd3-0e68-417e-83f2-a23138c08d8e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Enemies\Cubes">
       <UniqueIdentifier>{ca6009e1-31cd-4ddf-9613-1a7dc05a105c}</UniqueIdentifier>
     </Filter>
@@ -263,9 +242,6 @@
     </Filter>
     <Filter Include="Enemies\Triangles">
       <UniqueIdentifier>{bc7d872e-9493-4f56-ba38-048860741daf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Enemies\DancingDragon">
-      <UniqueIdentifier>{3670a4ae-5645-4469-93e3-d32ebeaabd82}</UniqueIdentifier>
     </Filter>
     <Filter Include="Screens\GameOver">
       <UniqueIdentifier>{ba7c9773-0ac9-4b2d-b6cf-316e2cb62ec2}</UniqueIdentifier>

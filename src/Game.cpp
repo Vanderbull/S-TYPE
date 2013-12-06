@@ -38,7 +38,6 @@ using namespace std;
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
-#include "CBoss.h"
 #include "World\CWorld.h"
 
 Gamestate gamestate;
@@ -49,8 +48,6 @@ Gamestate::Gamestate()
 	WorldController.CreateWorld();
 
 	GameState.push(MENU_MAIN_STATE);
-
-	gBoss.SetSurface(1);
 
 	Parallax = 0.0f;
 	DeltaTime = 0.0f;

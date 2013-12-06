@@ -91,9 +91,6 @@ void ControlObject::DrawObjects()
 	list< CEnemy* >vRemoveEnemy;
 	list< CEnemy* >::iterator vRemoveIterEnemy; 
 
-	list< Heads* > vRemoveHead;
-	list< Heads* >::iterator vRemoveIterHead;
-
 	// x,y,w,h
 	SDL_Rect srfHealth = {0,0,64*3,64};
 	SDL_Rect Viewport_srfHealth = {0,0,64*3,64};

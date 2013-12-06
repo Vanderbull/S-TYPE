@@ -4,7 +4,6 @@
 #include "Enemies\Cubes.h"
 #include "Triangles.h"
 #include "Bullets.h"
-#include "CBoss.h"
 
 ControlGfx Gfx;
 
@@ -382,21 +381,6 @@ void ControlGfx::DrawObjects()
 		//EnemyController.Update();
 		//EnemyController.Draw_Enemies();
 		ObjectController.DrawObjects();
-}
-
-// ----------------------------------------------------------------------------
-// DrawBoss() - hmmm.
-// ----------------------------------------------------------------------------
-void ControlGfx::DrawBoss()
-{
-	//SDL_Rect srcRect = { 0, 0, 150, 300 };
-	//gamestate.pBoss->UpdateFrame();
-	//				SDL_BlitSurface( Gfx.GetSurface( gamestate.pBoss->Surface ), 
-	//				&gamestate.pBoss->GetClips( gamestate.pBoss->GetFrame() ),
-	//							gamestate.BackBuffer, &srcRect );
-	//Sleep(100);
-	//gamestate.pBoss->UpdateBoss();
-	gBoss.Update();
 }
 
 // ----------------------------------------------------------------------------
