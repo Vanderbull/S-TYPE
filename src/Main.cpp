@@ -2,7 +2,6 @@
 #include <queue>
 #include <iostream>
 using namespace std;
-//#include <vld.h>
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
@@ -14,8 +13,24 @@ using namespace std;
 #include "ConfigFileConverter.h"
 #include "resource.h"
 
+// 1. this should go into every .cpp , after all header inclusions
+#ifdef _WIN32
+#ifdef _DEBUG
+   #include <crtdbg.h>
+   #undef THIS_FILE
+   static char THIS_FILE[] = __FILE__;
+   #define new       new( _NORMAL_BLOCK, __FILE__, __LINE__)
+   #define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+#endif
+
 int main( int argc, char * arg[] )
 {
+    // 2. at the beginning of our app we need this
+    int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
+        tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
+    _CrtSetDbgFlag( tmpFlag );
+
 	srand( time( 0 ) );
 	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 }, second = { 0 };
 	SDL_Event event = {0};
@@ -84,6 +99,5 @@ int main( int argc, char * arg[] )
 
 	GameEngine.Cleanup();
 	gamestate.Cleanup();
-
 	return 0;
 }
