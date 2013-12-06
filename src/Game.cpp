@@ -485,20 +485,17 @@ void Gamestate::load_files()
 
 	file.close();
 
-	m_srfCity = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
+	m_srfBackdrop = Gfx.Load_imageAlpha( "Graphics/srfBackdrop.png", 0, 0, 0 );
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
 	m_srfSky = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
 	BCPlayer._Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
-	m_srfEnemyZombie = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
-	m_srfCrow = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
+	m_srfAsteroid = Gfx.Load_imageAlpha( "Graphics/srfAsteroid.png", 255, 255, 255 );
 	m_srfdemonLife = Gfx.Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
 	m_srfdemonHealthAndFire = Gfx.Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
-	m_srfDragon = Gfx.Load_imageAlpha( "Graphics/srfDragon.png", 0, 0, 0 );
 	m_srfStart = Gfx.Load_imageAlpha( "Graphics/srfStart.png", 237, 234, 214 );
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
-	m_srfMorphing = Gfx.Load_imageAlpha( "Graphics/srfMorphing.png", 255, 255, 241 );
 	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
@@ -1009,10 +1006,10 @@ void Gamestate::setUpParallaxLayers()
 	ParallaxBG->setLayer(	7, 0.1f, m_srfClouds, 
 						193, SDL_GetVideoSurface()->w, 12, 0, 193, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	ParallaxBG->setLayer( 8, 0.7f, m_srfCity, 
+	ParallaxBG->setLayer( 8, 0.7f, m_srfBackdrop, 
 						0, 5100, 535, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
-	ParallaxBG->setLayer(	9, 1.0f, m_srfCity, 
+	ParallaxBG->setLayer(	9, 1.0f, m_srfBackdrop, 
 						540, 5100, 60, 0, 535, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 }
 

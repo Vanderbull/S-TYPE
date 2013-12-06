@@ -125,7 +125,7 @@ void ControlAnimals::CreateAnimals(int iProgress )
 	{
 		if( AnimalArrayRef.size() < rand() % 5 )
 		{
-			AnimalArrayRef.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCrow ) );
+			AnimalArrayRef.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfAsteroid ) );
 		}
 	}
 	else

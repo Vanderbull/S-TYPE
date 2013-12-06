@@ -88,9 +88,6 @@ void ControlObject::CreateObjects()
 
 void ControlObject::DrawObjects()
 {
-	float speed = 500.0f * ( gamestate.DeltaTime / 1000.0f );
-    float CoffinTim = 50.0f * ( gamestate.DeltaTime / 1000.0f );
-
 	list< CEnemy* >vRemoveEnemy;
 	list< CEnemy* >::iterator vRemoveIterEnemy; 
 
