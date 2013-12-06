@@ -53,8 +53,7 @@ public:
 	GameOver * GameOverScreen;
 
 	int m_srfBackdrop, 
-		m_srfSky, 
-		m_srfFence, 
+		m_srfSky,
 		m_srfClouds,
 		m_srfAsteroid,
 		m_srfBlack,
