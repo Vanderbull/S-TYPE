@@ -56,8 +56,6 @@ public:
 		m_srfClouds,
 		m_srfAsteroid,
 		m_srfBlack,
-		m_srfdemonLife, 
-		m_srfdemonHealthAndFire, 
 		m_srfStart, 
 		m_srfButtons,
 		m_srfIntro, 
