@@ -428,10 +428,10 @@ void Game::HandleEvents( SDL_Event _event )
 Game::Game()
 {
 	_SCORE = 0;
-	ifstream myfile;
-	myfile.open ("highscore.txt");
-	myfile >> CURRENT_HIGHSCORE;
-	myfile.close();
+	//ifstream myfile;
+	//myfile.open ("highscore.txt");
+	//myfile >> CURRENT_HIGHSCORE;
+	//myfile.close();
 
 	Quit = false;
 
