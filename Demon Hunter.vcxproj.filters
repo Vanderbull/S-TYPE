@@ -85,6 +85,9 @@
     <ClCompile Include="src\GameOver.cpp">
       <Filter>Screens\GameOver</Filter>
     </ClCompile>
+    <ClCompile Include="src\Spaceship.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DancingDragon.h">
@@ -177,6 +180,9 @@
     </ClInclude>
     <ClInclude Include="src\GameOver.h">
       <Filter>Screens\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Spaceship.h">
+      <Filter>Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

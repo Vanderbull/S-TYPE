@@ -582,11 +582,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 	ObjectController.RemoveActiveObjects();
 	test = BulletController.GetVBulletsByReference();
 	
-
-	//CollisionController.Box(BulletController.GetBullets(), AnimalController.GetAnimal());
-	//cout << BCPlayer.GetAction() << endl;
-
-
 	// Check game state
 	switch( gamestate.GameState.top() )
 	{
@@ -617,13 +612,13 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				Gfx.DrawSprite();
 				Gfx.DrawScore(300,25,UpdateScore());
 				
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
+				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
+				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
+				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				
-				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
-				CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
-				CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
+				//CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
+				//CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
+				//CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
 			} break;
 		case GAME_BOSS_STATE:
 			{
@@ -638,7 +633,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				gamestate.RestartGame();
 				gamestate.GameState.pop();
 				gamestate.GameState.push(MENU_MAIN_STATE);
-				std::cout << "GAME_PLAYER_DIED_STATE" << endl;
 			} break;
 	}
 }
@@ -710,7 +704,6 @@ void Gamestate::MainScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::LoadScreen(int iElapsedTime)
 {
-	std::cout << "Rendering load screen like a god!!!!" << endl;
 	SDL_BlitSurface( Gfx.GetSurface( LoadsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
@@ -734,7 +727,6 @@ void Gamestate::LoadScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::SaveScreen(int iElapsedTime)
 {
-	std::cout << "Rendering save screen like a god!!!!" << endl;
 	SDL_BlitSurface( Gfx.GetSurface( SavesScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
@@ -758,7 +750,6 @@ void Gamestate::SaveScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::CreditScreen(int iElapsedTime)
 {
-	std::cout << "Rendering credits screen like a god!!!!" << endl;
 	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
@@ -809,9 +800,6 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	}
 
 	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
-
-
-	std::cout << "Rendering options screen like a god!!!!" << endl;
 
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
@@ -869,7 +857,6 @@ void Gamestate::RestartGame()
 	myfile.open ("highscore.txt");
 	myfile >> CURRENT_HIGHSCORE;
 	myfile.close();
-	std::cout << "Exiting RestartGame" << endl;
 }
 
 void Gamestate::Cleanup()

@@ -14,7 +14,6 @@ BaseCharacter::BaseCharacter()
 
 BaseCharacter::BaseCharacter(int surface, int Xpos, int Ypos, int height, int width)
 {
-	_Lives = 3;
 	BaseCharacter::SetAliveState(AliveState::ALIVE);
 
 	isHit            = false; 
@@ -102,15 +101,6 @@ bool BaseCharacter::IsAttacking()
 
 // updates BCPlayer animations and moving, moved code to Update function
 
-float positionX = 0.0f, positionY = 0.0f;     // Position of the character
-float velocityX = 0.0f, velocityY = 0.0f;     // Velocity of the character
-
-void Update(float time)
-{
-    positionX += velocityX * time;      // Apply horizontal velocity to X position
-    positionY += velocityY * time;      // Apply vertical velocity to Y position
-}
-
 void BaseCharacter::Update()
 {
 	if( yVelocity != 0 )
@@ -128,21 +118,20 @@ void BaseCharacter::Update()
 		}
 	}
 
-	if( isHit )
-	{
-		if( BCPlayer._Lives > 0 )
-		{
-			--BCPlayer._Lives;
-			BCPlayer.Reset();
-		}
-		else
-		{
-			BCPlayer.Died();
-		}
+	//if( isHit )
+	//{
+	//	if( BCPlayer._Lives > 0 )
+	//	{
+	//		--BCPlayer._Lives;
+	//		BCPlayer.Reset();
+	//	}
+	//	else
+	//	{
+	//		BCPlayer.Died();
+	//	}
 
-		BCPlayer.isHit = false;
-	}
-	std::cout << "Exiting Update" << endl;
+	//	BCPlayer.isHit = false;
+	//}
 }
 
 
@@ -165,30 +154,29 @@ void BaseCharacter::SetClips()
 
 void BaseCharacter::UpdatePosition(float xUnits, float yUnits)
 {
-	_Position.x += xUnits * gamestate.DeltaTime;
-	_Position.y += xUnits * gamestate.DeltaTime;
+	//_Position.x += xUnits * gamestate.DeltaTime;
+	//_Position.y += xUnits * gamestate.DeltaTime;
 
-	_Position.x += xUnits * gamestate.DeltaTime;
-	_Position.y += yUnits * gamestate.DeltaTime;
+	//_Position.x += xUnits * gamestate.DeltaTime;
+	//_Position.y += yUnits * gamestate.DeltaTime;
 
 	
 	if( _Position.x < 0.0f )
 	{
 		// Bumps the character to the right a bit if the BCPlayer isn't moving and to far to the left
-		_Position.x += 100.0f * gamestate.DeltaTime;
+		//_Position.x += 100.0f * gamestate.DeltaTime;
 	}
 	else
 	{
 		// Makes the character follow the parallax scrolling speed to make it look like he is standing still
-		_Position.x -= 2.0f * gamestate.DeltaTime;
+		//_Position.x -= 2.0f * gamestate.DeltaTime;
 	}
 	
-	_Position.y = 0;
+	//_Position.y = 0;
 }
 
 void BaseCharacter::Reset()
 {
-	_Lives = 3;
 	BaseCharacter::SetAliveState(AliveState::ALIVE);
 
 	isHit            = false; 
@@ -211,5 +199,26 @@ void BaseCharacter::Died()
 	Gfx.FLIP();
 
 	gamestate.GameState.push(GAME_PLAYER_DIED_STATE);
-	std::cout << "Exiting Died" << endl;
+}
+
+Uint32 BaseCharacter::TimeLeft(void)
+{
+	static Uint32 next_time = 0;
+	Uint32 now;
+
+	now = SDL_GetTicks();
+	if ( next_time <= now ) {
+		next_time = now+TICK_INTERVAL;
+		return(0);
+	}
+	return(next_time-now);
+}
+
+int BaseCharacter::Animate()
+{
+	if( _AnimationFrame > 6 )
+		_AnimationFrame = 0;
+	if(TimeLeft() == 0 )
+		++_AnimationFrame;
+	return _AnimationFrame;
 }

@@ -1,7 +1,4 @@
-// Parallax.cpp
 #include "Paralaxlayers.h"
-
-// @date 2012-08-07
 
 // struct ParallaxLayer
 // ************************************************************

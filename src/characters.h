@@ -1,6 +1,7 @@
 #pragma once
 
-#include<queue>
+#include <queue>
+#include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
 
@@ -8,7 +9,6 @@ class BaseCharacterInterface
 {
 public:
 	int _Surface;
-	int _Lives;
 	int _AlphaImmortal;
 	SDL_Rect CollisionBox;
 
@@ -23,10 +23,6 @@ public:
 	virtual SDL_Rect GetCollisionBox()=0;
 	virtual int isColliding( SDL_Rect CollisionObject )=0;
 };
-
-namespace Actor
-{ 
-}
 
 class BaseCharacter : public BaseCharacterInterface
 {
@@ -61,27 +57,10 @@ public:
 
 #define TICK_INTERVAL    125
 
-	Uint32 TimeLeft(void)
-	{
-		static Uint32 next_time = 0;
-		Uint32 now;
+	Uint32 TimeLeft(void);
 
-		now = SDL_GetTicks();
-		if ( next_time <= now ) {
-			next_time = now+TICK_INTERVAL;
-			return(0);
-		}
-		return(next_time-now);
-	}
+	int Animate();
 
-	int Animate()
-	{
-		if( _AnimationFrame > 6 )
-			_AnimationFrame = 0;
-		if(TimeLeft() == 0 )
-			++_AnimationFrame;
-		return _AnimationFrame;
-	}
 	// New update functionality
 	SDL_Rect GetPosition()
 	{
@@ -125,7 +104,7 @@ public:
 
 	void BaseCharacter::AddAction(std::string action_event)
 	{
-		Action.push(action_event);
+		//Action.push(action_event);
 	}
 
 	std::string BaseCharacter::GetVelocity()

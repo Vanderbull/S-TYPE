@@ -98,9 +98,8 @@ void ControlObject::DrawObjects()
 	list< Heads* >::iterator vRemoveIterHead;
 
 	// x,y,w,h
-	BCPlayer._Lives = 3;
-	SDL_Rect srfHealth = {0,0,64*BCPlayer._Lives,64};
-	SDL_Rect Viewport_srfHealth = {0,0,64*BCPlayer._Lives,64};
+	SDL_Rect srfHealth = {0,0,64*3,64};
+	SDL_Rect Viewport_srfHealth = {0,0,64*3,64};
 
 	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfHealth ), &srfHealth,
 					Gfx.BackBuffer, &Viewport_srfHealth );

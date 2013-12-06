@@ -77,7 +77,7 @@ public:
 	void Report(Object &rObject)
 	{
 		rObject.Active = false;
-		cout << "Object is " << rObject.isActive() << endl;
+		//cout << "Object is " << rObject.isActive() << endl;
 	}
 
 	void ReportList()

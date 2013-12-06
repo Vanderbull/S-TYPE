@@ -41,8 +41,8 @@ public:
 	~ControlAnimals();
 	void DrawAnimals();
 	void CreateAnimals( int iProgress );
-	void Destroy(){ AnimalArrayRef.clear(); cout << "Destroying animals..." << endl; };
-	std::vector< Animal > GetVectorWithAnimals(){ cout << "returning animals..." << endl; return AnimalArrayRef; };
+	void Destroy(){ AnimalArrayRef.clear(); };
+	std::vector< Animal > GetVectorWithAnimals(){ return AnimalArrayRef; };
 	Animal CreateAnimalByReference( int xPos, int yPos, int surface );
 
 	std::vector< Animal > AnimalArrayRef;
