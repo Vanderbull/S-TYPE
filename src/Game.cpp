@@ -490,23 +490,23 @@ void Gamestate::load_files()
 
 	file.close();
 
-	m_srfBackdrop = Gfx.Load_imageAlpha( "Graphics/srfBackdrop.png", 0, 0, 0 );
+	m_srfBackdrop = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfBackdrop.png", 0, 0, 0 );
 	m_srfClouds = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
 	m_srfSky = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
 	BCPlayer._Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfAsteroid = Gfx.Load_imageAlpha( "Graphics/srfAsteroid.png", 255, 255, 255 );
-	m_srfStart = Gfx.Load_imageAlpha( "Graphics/srfStart.png", 237, 234, 214 );
+	m_srfStart = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfStart.png", 237, 234, 214 );
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
 	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
 	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
-	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/srfCredits.png", 255, 255, 255 );
-	m_srfOptions = Gfx.Load_imageAlpha( "Graphics/srfOptions.png", 255, 255, 255 );
-	m_srfLoad = Gfx.Load_imageAlpha( "Graphics/srfLoad.png", 255, 255, 255 );
-	m_srfSave = Gfx.Load_imageAlpha( "Graphics/srfSave.png", 255, 255, 255 );
+	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfCredits.png", 255, 255, 255 );
+	m_srfOptions = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfOptions.png", 255, 255, 255 );
+	m_srfLoad = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfLoad.png", 255, 255, 255 );
+	m_srfSave = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfSave.png", 255, 255, 255 );
 	m_srfCube = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
 	m_srfTriangle = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
 	
@@ -678,7 +678,7 @@ void Gamestate::Loading()
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen(int iElapsedTime)
 {	
-	SDL_BlitSurface( &Gfx.m_SurfaceCollection["Graphics/srfStart.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	SDL_BlitSurface( &Gfx.m_SurfaceCollection["Graphics/Backdrops/srfStart.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
 	//SDL_FillRect(Gfx.GetSurface( TitleScreen->surface),&TitleScreen->ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( TitleScreen->surface)->format,255,0,255) );
