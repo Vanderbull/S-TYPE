@@ -52,8 +52,8 @@ Gamestate gamestate;
 
 Gamestate::Gamestate()
 {
-	cout << "Gamestate::Creating the world..." << endl;
-	WorldController.CreateWorld();
+	//cout << "Gamestate::Creating the world..." << endl;
+	//WorldController.CreateWorld();
 
 	GameState.push(MENU_MAIN_STATE);
 
@@ -500,7 +500,6 @@ void Gamestate::load_files()
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
 	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
-	m_srfButton = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
 	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfCredits.png", 255, 255, 255 );
@@ -610,15 +609,16 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();
+				
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
+				
+				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
+				CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
+				CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
+
 				Gfx.DrawScore(300,25,UpdateScore());
-				
-				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
-				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
-				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
-				
-				//CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
-				//CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
-				//CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
 			} break;
 		case GAME_BOSS_STATE:
 			{
@@ -876,6 +876,26 @@ void Gamestate::Cleanup()
 	if( gamestate.name != NULL )
 	{
 		delete name;
+	}
+	if( gamestate.ParallaxBG != NULL )
+	{
+		delete ParallaxBG;
+	}
+	if( gamestate.GameOverScreen != NULL )
+	{
+		delete GameOverScreen;
+	}
+	if( gamestate.OptionsScreen != NULL )
+	{
+		delete OptionsScreen;
+	}
+	if( gamestate.LoadsScreen != NULL )
+	{
+		delete LoadsScreen;
+	}
+	if( gamestate.SavesScreen != NULL )
+	{
+		delete SavesScreen;
 	}
 }
 

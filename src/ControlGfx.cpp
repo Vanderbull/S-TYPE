@@ -5,6 +5,17 @@
 #include "Triangles.h"
 #include "Bullets.h"
 
+// 1. this should go into every .cpp , after all header inclusions
+#ifdef _WIN32
+#ifdef _DEBUG
+   #include <crtdbg.h>
+   #undef THIS_FILE
+   static char THIS_FILE[] = __FILE__;
+   #define new       new( _NORMAL_BLOCK, __FILE__, __LINE__)
+   #define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+#endif
+
 ControlGfx Gfx;
 
 ControlGfx::ControlGfx()
@@ -362,6 +373,9 @@ void ControlGfx::DrawParallaxLayers()
 void ControlGfx::DrawSprite()
 {
 		BCPlayer.Update();
+		BCPlayer.SetCollisionBox(BCPlayer.GetPosition().x, BCPlayer.GetPosition().y + 35, 50, 120);
+		//DrawBackgroundBlack();
+		SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 
 		SDL_BlitSurface( Gfx.GetSurface( BCPlayer._Surface ), 
 			&BCPlayer.AnimationArrays[ BCPlayer.GetState() ][ BCPlayer.Animate() ],

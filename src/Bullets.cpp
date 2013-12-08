@@ -3,6 +3,17 @@
 #include "game.h"
 #include "ControlGfx.h"
 
+// 1. this should go into every .cpp , after all header inclusions
+#ifdef _WIN32
+#ifdef _DEBUG
+   #include <crtdbg.h>
+   #undef THIS_FILE
+   static char THIS_FILE[] = __FILE__;
+   #define new       new( _NORMAL_BLOCK, __FILE__, __LINE__)
+   #define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+#endif
+
 ControlBullets BulletController;
 
 SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
@@ -28,7 +39,7 @@ void Bullet::Update()
 void Bullet::Draw()
 {
 	#ifdef _DEBUG 
-	 //SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	 SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 
 	SDL_BlitSurface( 
@@ -119,18 +130,7 @@ Bullet ControlBullets::CreateBulletByReference( int xPos, int yPos, int surface 
 
 void ControlBullets::Create_Bullets()
 {
-	static int bullet_timer = 0;
-
-	if( bullet_timer <= 0 )
-	{ 
-		LoadBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser );
-		//BulletArrayRef.push_back( CreateBulletByReference(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser ) );
-		bullet_timer = 10;
-	}
-	else
-	{
-		bullet_timer--;
-	}
+	LoadBullet(BCPlayer.GetPosition().x + BCPlayer.CollisionBox.w / 2, BCPlayer.GetPosition().y + BCPlayer.CollisionBox.h / 2, gamestate.m_srfLaser );
 }
 
 ControlBullets::ControlBullets()

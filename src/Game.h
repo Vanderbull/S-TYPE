@@ -61,7 +61,6 @@ public:
 		m_srfIntro, 
 		m_srfPower, 
 		m_srfOutro, 
-		m_srfButton, 
 		m_srfHealth,
 		m_srfLaser,
 		m_srfCredits,

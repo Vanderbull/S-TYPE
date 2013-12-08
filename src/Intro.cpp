@@ -3,45 +3,17 @@
 #include "Game.h"
 #include "ControlGfx.h"
 
-// @date 2012-08-07
-/*
-void DancingDragon::SetFrame()
-{
-	if( Frame == 21 )
-	{
-		DancingDragon::Frame = 0;
-	}
-	else
-	{
-		DancingDragon::Frame++;
-	}
-}
+// 1. this should go into every .cpp , after all header inclusions
+#ifdef _WIN32
+#ifdef _DEBUG
+   #include <crtdbg.h>
+   #undef THIS_FILE
+   static char THIS_FILE[] = __FILE__;
+   #define new       new( _NORMAL_BLOCK, __FILE__, __LINE__)
+   #define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+#endif
 
-void DancingDragon::SetClips()
-{
-	for( int index = 0; index < 23; index++ )
-	{
-		DancingDragon::Clips[ index ].x = index * DancingDragon::Width;
-		DancingDragon::Clips[ index ].y = 0;
-		DancingDragon::Clips[ index ].h = DancingDragon::Height;
-		DancingDragon::Clips[ index ].w = DancingDragon::Width;
-	}
-}
-
-DancingDragon::DancingDragon( int Surface )
-{
-	DancingDragon::Frame = 0;
-	DancingDragon::PrevFrame = 0;
-	DancingDragon::StateCounter = 0;
-	DancingDragon::xPos = 0;
-	DancingDragon::yPos = 0;
-	DancingDragon::surface = Surface;
-	DancingDragon::Width = 64;
-	DancingDragon::Height = 64;
-	DancingDragon::SetClips();
-	DancingDragon::AnimationTimestamp = GetTickCount();
-}
-*/
 // sets up the intro where the dudes talk
 IntroTalk::IntroTalk( int Surface )
 {

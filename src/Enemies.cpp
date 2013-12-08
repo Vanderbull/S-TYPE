@@ -7,6 +7,17 @@
 #include "Collision.h"
 #include "ControlGfx.h"
 
+// 1. this should go into every .cpp , after all header inclusions
+#ifdef _WIN32
+#ifdef _DEBUG
+   #include <crtdbg.h>
+   #undef THIS_FILE
+   static char THIS_FILE[] = __FILE__;
+   #define new       new( _NORMAL_BLOCK, __FILE__, __LINE__)
+   #define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+#endif
+
 Control_Enemies EnemyController;
 
 CDwarf::CDwarf()
@@ -307,7 +318,7 @@ void Control_Enemies::Draw_Enemies()
 	//}	
 }
 
-// gives the enemy the attributes he should have
+// Memory leak here because of missing delete, code not used though so its not critical
 CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 {
 	CEnemy * temp = new CEnemy;
@@ -354,13 +365,13 @@ CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
 
 void Control_Enemies::Create_Enemies()
 {
-	if( SpawnTimer < 0 )
-	{
-		SpawnTimer = 500;
-		Enemies.push_back( CreateEnemy( SDL_GetVideoSurface()->w, GROUND_Y, SKELETON ) );
-	}
-	else
-		SpawnTimer--;
+	//if( SpawnTimer < 0 )
+	//{
+	//	SpawnTimer = 500;
+	//	Enemies.push_back( CreateEnemy( SDL_GetVideoSurface()->w, GROUND_Y, SKELETON ) );
+	//}
+	//else
+	//	SpawnTimer--;
 	//if( rand() % 350 == 2)
 		//Enemies.push_back( CreateEnemy( gamestate.SCREEN_WIDTH, GROUND_Y, ZOMBIE ) );
 	//if( rand() % 500 == 2)

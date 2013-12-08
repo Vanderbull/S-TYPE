@@ -61,7 +61,6 @@ public:
 
 	int Animate();
 
-	// New update functionality
 	SDL_Rect GetPosition()
 	{
 		return BaseCharacter::_Position;
@@ -135,6 +134,15 @@ public:
 	{
 		//Action.push(action_event);
 	}
+
+	void BaseCharacter::SetCollisionBox(int x, int y, int h, int w)
+	{
+		CollisionBox.x = x;
+		CollisionBox.y = y;
+		CollisionBox.h = h;
+		CollisionBox.w = w;
+	}
+
 	SDL_Rect BaseCharacter::GetCollisionBox()
 	{
 		return CollisionBox;
