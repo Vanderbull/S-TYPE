@@ -564,7 +564,7 @@ void Gamestate::load_files()
 	SavesScreen = new Save( 290, m_srfSave, m_srfButtons );
 	GameOverScreen = new GameOver( 290,  m_srfStart, m_srfButtons );
 
-	name = new StringInput();
+	//name = new StringInput();
 
 	setUpParallaxLayers();
 }
@@ -587,15 +587,15 @@ void Game::Audiotonic()
 // ----------------------------------------------------------------------------
 void Game::Update( SDL_Event input, int iElapsedTime )
 {
-	Asteroid SnowAsteroid(0,0,0);
+	//Asteroid SnowAsteroid(0,0,0);
 	// calling base class function instead of derived class
-	SnowAsteroid.Asteroid::isActive();
-	ObjectController.Report(SnowAsteroid);
+	//SnowAsteroid.Asteroid::isActive();
+	//ObjectController.Report(SnowAsteroid);
 
-	std::vector<Bullet> test;
+	//std::vector<Bullet> test;
 
-	ObjectController.RemoveActiveObjects();
-	test = BulletController.GetVBulletsByReference();
+	//ObjectController.RemoveActiveObjects();
+	//test = BulletController.GetVBulletsByReference();
 	
 	// Check game state
 	switch( gamestate.GameState.top() )
@@ -714,6 +714,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	SDL_FreeSurface(srfElapsedTime);
 	return;
 }
 
@@ -737,6 +738,7 @@ void Gamestate::LoadScreen(int iElapsedTime)
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		LoadsScreen->ButtonNewgame = false;
 	}
+	SDL_FreeSurface(srfElapsedTime);
 	return;
 }
 
@@ -777,7 +779,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	return;
+	SDL_FreeSurface(srfElapsedTime);
 }
 // ----------------------------------------------------------------------------
 // OptionScreen() - Draws the option screen
@@ -826,6 +828,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	SDL_FreeSurface(srfElapsedTime);
 	return;
 }
 
@@ -843,6 +846,7 @@ void Gamestate::GameoverScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
+	SDL_FreeSurface(srfElapsedTime);
 	return;
 }
 

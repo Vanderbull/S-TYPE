@@ -389,7 +389,7 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 	Gfx.apply_surface( 500, 0, SrfScore, Gfx.BackBuffer );
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, "HIGHSCORE: ", Gfx.WhiteRGB );
 	Gfx.apply_surface( 400, 0, SrfScore, Gfx.BackBuffer );
-
+	SDL_FreeSurface(SrfScore);
 	ofstream myfile;
 	myfile.open ("highscore.txt");
 	myfile << iScore;
