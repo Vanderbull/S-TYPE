@@ -28,11 +28,14 @@ SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 
 void Cube::Update()
 {
-	xPos -= 0.0003f * gamestate.DeltaTime;
+	double wavelength = 50;
+	int _sTime = 10, waveheight = 25;
+
+	xPos -= CubeSpeed * gamestate.DeltaTime;
 	Destination.h = Height;
 	Destination.w = Width;
 	Destination.x = xPos;
-	Destination.y = yPos; 
+	Destination.y = yPos; //(sin(xPos / wavelength )*waveheight) + 300;
 
 	PrevFrame = Frame++;
 	if( Frame >= CUBE_MAX_FRAMES )
@@ -45,7 +48,7 @@ void Cube::Update()
 void Cube::Draw()
 {
 	#ifdef _DEBUG 
-	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 	
 	SDL_BlitSurface( 
@@ -107,7 +110,7 @@ void ControlCubes::CreateCubes(int iProgress )
 	{
 		if( CubeArrayRef.size() < rand() % 5 )
 		{
-			CubeArrayRef.push_back( CreateCubeByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfCube ) );
+			CubeArrayRef.push_back( CreateCubeByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h - 64, gamestate.m_srfCube ) );
 		}
 	}
 	else
@@ -118,10 +121,21 @@ void ControlCubes::CreateCubes(int iProgress )
 
 Cube ControlCubes::CreateCubeByReference( int xPos, int yPos, int surface )
 {
+	static int old_y_pos = 0;
+	
+	while( yPos > old_y_pos && yPos < old_y_pos + 64 )
+	{
+		yPos = rand() % Gfx.BackBuffer->h - 64;
+	}
+	if( yPos < 64 )
+		yPos = 64;
+
 	Cube temp;
 	temp.SurfaceID = surface;
 	temp.xPos = xPos;
 	temp.yPos = yPos;
+
+	old_y_pos = yPos;
 
 	return temp;
 }

@@ -21,6 +21,7 @@ string HIGHSCORE = "";
 SDL_Rect ScreenSize = {0,0,800,600};
 SDL_Rect ButtonClips[ 10 ];
 int _SCORE = 0;
+int FIRED = 0;
 
 #define _DEBUG 0
 

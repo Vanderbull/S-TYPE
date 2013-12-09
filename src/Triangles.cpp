@@ -31,7 +31,7 @@ void Triangle::Update()
 	xPos -= 0.0003f * gamestate.DeltaTime;
 	Destination.w = Width;
 	Destination.x = xPos;
-	Destination.y = yPos; 
+	Destination.y = yPos+rand()% 12; 
 
 	PrevFrame = Frame++;
 	if( Frame >= TRIANGLE_MAX_FRAMES )
@@ -117,6 +117,15 @@ void ControlTriangles::CreateTriangles(int iProgress )
 
 Triangle ControlTriangles::CreateTriangleByReference( int xPos, int yPos, int surface )
 {
+	static int old_y_pos = 0;
+	
+	while( yPos > old_y_pos && yPos < old_y_pos + 64 )
+	{
+		yPos = rand() % Gfx.BackBuffer->h - 64;
+	}
+	if( yPos < 64 )
+		yPos = 64;
+
 	Triangle temp;
 	temp.SurfaceID = surface;
 	temp.xPos = xPos;

@@ -37,7 +37,7 @@ ControlAudio::ControlAudio()
 	for (i = 0; i < total; i++)
 		printf("Supported chunk decoder: [%s]\n", Mix_GetChunkDecoder(i));
 
-	cin.get();
+	//cin.get();
 	LoadAudio();
 }
 

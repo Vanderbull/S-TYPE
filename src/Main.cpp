@@ -50,7 +50,9 @@ int main( int argc, char * arg[] )
 
 	_putenv("SDL_VIDEO_WINDOW_POS=center");
 	_putenv("SDL_VIDEO_CENTERED=1");
-	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\LegendOfNimbus\\0000-0200.exe","", "", SW_SHOW );
+	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
+	//Sleep(10000);
+	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
 	//Sleep(8000);
 
 	//initialize all SDL subystems 
@@ -86,10 +88,7 @@ int main( int argc, char * arg[] )
 
 		SDL_PollEvent( &event );
 
-		//while( SDL_PollEvent( &event ) )
-		//{
-			GameEngine.HandleEvents( event );
-		//}		
+		GameEngine.HandleEvents( event );
 		
 		GameEngine.Update( event, gamestate.DeltaTime );
 		Gfx.FLIP();

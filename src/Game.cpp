@@ -39,6 +39,7 @@ using namespace std;
 #include "OutroFinish.h"
 #include "GetInput.h"
 #include "World\CWorld.h"
+
 #ifdef _WIN32
 #ifdef _DEBUG
    #include <crtdbg.h>
@@ -48,6 +49,7 @@ using namespace std;
    #define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
 #endif
 #endif
+
 Gamestate gamestate;
 
 Gamestate::Gamestate()
@@ -64,7 +66,6 @@ Gamestate::Gamestate()
 void Gamestate::KeyMapping(SDL_Event _event)
 {
 	bool KEYS[322];  // 322 is the number of SDLK_DOWN events
-
 
 	for(int i = 0; i < 322; i++) { // init them all to false
 	   KEYS[i] = false;
@@ -100,43 +101,43 @@ void Game::HandleEvents( SDL_Event _event )
 				case GAME_OPTIONS_STATE:
 				{
 						ButtonClips[ 0 ].h = 30;
-						ButtonClips[ 0 ].w = 103;
-						ButtonClips[ 0 ].x = 280;
+						ButtonClips[ 0 ].w = 40;
+						ButtonClips[ 0 ].x = 343;
 						ButtonClips[ 0 ].y = 130;
 
 						ButtonClips[ 1 ].h = 30;
-						ButtonClips[ 1 ].w = 103;
-						ButtonClips[ 1 ].x = 412;
+						ButtonClips[ 1 ].w = 40;
+						ButtonClips[ 1 ].x = 475;
 						ButtonClips[ 1 ].y = 130;
 
 						ButtonClips[ 2 ].h = 30;
-						ButtonClips[ 2 ].w = 103;
-						ButtonClips[ 2 ].x = 554;
+						ButtonClips[ 2 ].w = 40;
+						ButtonClips[ 2 ].x = 554+63;
 						ButtonClips[ 2 ].y = 130;
 
 						ButtonClips[ 3 ].h = 30;
-						ButtonClips[ 3 ].w = 103;
-						ButtonClips[ 3 ].x = 280;
+						ButtonClips[ 3 ].w = 40;
+						ButtonClips[ 3 ].x = 280+63;
 						ButtonClips[ 3 ].y = 170;
 
 						ButtonClips[ 4 ].h = 30;
-						ButtonClips[ 4 ].w = 103;
-						ButtonClips[ 4 ].x = 412;
+						ButtonClips[ 4 ].w = 40;
+						ButtonClips[ 4 ].x = 412+63;
 						ButtonClips[ 4 ].y = 170;
 
 						ButtonClips[ 5 ].h = 30;
-						ButtonClips[ 5 ].w = 103;
-						ButtonClips[ 5 ].x = 280;
+						ButtonClips[ 5 ].w = 40;
+						ButtonClips[ 5 ].x = 280+63;
 						ButtonClips[ 5 ].y = 220;
 
 						ButtonClips[ 6 ].h = 30;
-						ButtonClips[ 6 ].w = 103;
-						ButtonClips[ 6 ].x = 412;
+						ButtonClips[ 6 ].w = 40;
+						ButtonClips[ 6 ].x = 412+63;
 						ButtonClips[ 6 ].y = 220;
 
 						ButtonClips[ 7 ].h = 30;
-						ButtonClips[ 7 ].w = 103;
-						ButtonClips[ 7 ].x = 632;
+						ButtonClips[ 7 ].w = 40;
+						ButtonClips[ 7 ].x = 632+63;
 						ButtonClips[ 7 ].y = 534;
 
 						int MouseXCoordinates, MouseYCoordinates;
@@ -175,7 +176,18 @@ void Game::HandleEvents( SDL_Event _event )
 								MUSIC = i;
 							}
 						}
-
+						for( int i = 7; i < 8; i++ )
+						{
+							if(MouseXCoordinates > ButtonClips[ i ].x && 
+							MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
+							MouseYCoordinates > ButtonClips[ i ].y &&
+							MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+							{
+								cout << "Returning to main menu -> " << i << "..." << endl;
+								gamestate.GameState.pop();
+								gamestate.GameState.push(MENU_MAIN_STATE);
+							}
+						}
 						for( int i = 0; i < 8; i++ )
 						{
 							if(MouseXCoordinates > ButtonClips[ i ].x && 
@@ -201,8 +213,6 @@ void Game::HandleEvents( SDL_Event _event )
 						case SDLK_ESCAPE:
 						{
 							std::cout << "Trying to quit the game" << endl;
-							//gamestate.GameState.pop();
-							//Quit = true;
 						} break;
 					}
 				} break;
@@ -245,30 +255,32 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							case SDLK_RIGHT:
 							{
-								BCPlayer.AddAction("RIGHT");
+								//BCPlayer.AddAction("RIGHT");
 								BCPlayer.xVelocity = 1.0f;
 							} break;
 							case SDLK_LEFT:
 							{
-								BCPlayer.AddAction("LEFT");
+								//BCPlayer.AddAction("LEFT");
 								BCPlayer.xVelocity = -1.0f;
 							} break;
 							case SDLK_UP:
 							{
-								BCPlayer.AddAction("UP");
+								//BCPlayer.AddAction("UP");
 								BCPlayer.yVelocity = 1.0f;
 							} break;
 							case SDLK_DOWN:
 							{
-								BCPlayer.AddAction("DOWN");
+								//BCPlayer.AddAction("DOWN");
 								BCPlayer.yVelocity = -1.0f;
 							} break;
 							case SDLK_SPACE:
 							{
+								if( FIRED == 0 ) 
 								BulletController.Create_Bullets();
-								BCPlayer.AddAction("FIRE");
-								BCPlayer.AddBeam("Laser");
-								cout << BCPlayer.GetBeam() << endl;
+								FIRED = 1;
+								//BCPlayer.AddAction("FIRE");
+								//BCPlayer.AddBeam("Laser");
+								//cout << BCPlayer.GetBeam() << endl;
 								Gfx.FLIP();
 								if( gamestate.GameState.top() == GAME_RUNNING_STATE && SOUND == 3 )
 								{
@@ -337,6 +349,10 @@ void Game::HandleEvents( SDL_Event _event )
 						case SDLK_DOWN:
 						{
 							BCPlayer.yVelocity = 0.0f;
+						} break;
+						case SDLK_SPACE:
+						{
+							FIRED = 0;
 						} break;
 					}
 				} break;
@@ -635,6 +651,8 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				gamestate.GameState.push(MENU_MAIN_STATE);
 			} break;
 	}
+	if( _SCORE > 10000 ) 
+		_SCORE = 0;
 }
 
 // ----------------------------------------------------------------------------
@@ -985,9 +1003,9 @@ bool Game::Init(SDL_Surface * &screen)
 
 void Gamestate::CreateAll()
 {
-	AnimalController.CreateAnimals(_SCORE++ );
-	CubeController.CreateCubes( _SCORE++ );
-	TriangleController.CreateTriangles( _SCORE++ );
+	AnimalController.CreateAnimals(_SCORE );
+	CubeController.CreateCubes( _SCORE );
+	TriangleController.CreateTriangles( _SCORE );
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();
 }

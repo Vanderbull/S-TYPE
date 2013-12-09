@@ -260,37 +260,12 @@ void ControlGfx::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* 
 
 void ControlGfx::DrawParallaxLayers()
 {
-	//if( gamestate.State != GAME_BOSS_STATE && gamestate.State != GAME_OUTRO_STATE )
 	if( gamestate.GameState.top() != GAME_BOSS_STATE || gamestate.GameState.top() != GAME_OUTRO_STATE )
 	{
-		/*
-		if( BCPlayer.xVel >= STARTSCROLLING - 50 )
-		{
-			// Updating the background to scroll when character is moving
-			if( BCPlayer.isMovingRight )
-			{
-				gamestate.m_paralax += 20;
-			}
-			else if( BCPlayer.isMovingLeft )
-			{
-				gamestate.m_paralax -= 20;
-			}
-		}
-		*/
 		gamestate.CreateAll();
 	}
-	else
-	{
-		//if( !BossStart )
-		//{
-		//	//BCPlayer.demonHunter = true;
-		//	//BCPlayer.SmallHunter = false;
-		//	gamestate.pBoss = gamestate.CreateBoss( SDL_GetVideoSurface()->w - 180, GROUND_Y - 210, m_srfBoss );
-		//	BossStart = true;
-		//}
-	}
 
-		//// Draw parallax layers
+	//// Draw parallax layers
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = gamestate.ParallaxBG->getLayer( 0 );
 
@@ -375,7 +350,7 @@ void ControlGfx::DrawSprite()
 		BCPlayer.Update();
 		BCPlayer.SetCollisionBox(BCPlayer.GetPosition().x, BCPlayer.GetPosition().y + 35, 50, 120);
 		//DrawBackgroundBlack();
-		SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
+		//SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 
 		SDL_BlitSurface( Gfx.GetSurface( BCPlayer._Surface ), 
 			&BCPlayer.AnimationArrays[ BCPlayer.GetState() ][ BCPlayer.Animate() ],

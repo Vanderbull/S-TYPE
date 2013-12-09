@@ -15,7 +15,7 @@
 #endif
 
 ControlAnimals AnimalController;
-const float AnimalSpeed = 0.0001f;
+const float AnimalSpeed = 0.0003f;
 const int SpriteHeight = 64;
 const int SpriteWidth = 64;
 
@@ -73,12 +73,10 @@ SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
 
 void Animal::Update()
 {
-	LocAndSize.x -= AnimalSpeed * gamestate.DeltaTime;
-
+	xPos = AnimalSpeed * gamestate.DeltaTime;
+	LocAndSize.x -= xPos;
 	LocAndSize.h = SpriteHeight;
 	LocAndSize.w = SpriteWidth;
-	LocAndSize.x = LocAndSize.x;
-	LocAndSize.y = LocAndSize.y; 
 
 	PrevFrame = Frame++;
 	if( Frame >= ANIMAL_MAX_FRAMES )
@@ -91,7 +89,7 @@ void Animal::Update()
 void Animal::Draw()
 {
 	#ifdef _DEBUG 
-	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 	
 	SDL_BlitSurface( 
@@ -134,10 +132,8 @@ void ControlAnimals::CreateAnimals(int iProgress )
 {
 	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < ANIMAL_MAX_PROGRESS )
 	{
-		if( AnimalArrayRef.size() < rand() % 5 )
-		{
+		if( rand() % 100 + 1 > 99 )
 			AnimalArrayRef.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfAsteroid ) );
-		}
 	}
 	else
 	{
@@ -157,6 +153,16 @@ ControlAnimals::~ControlAnimals()
 
 Animal ControlAnimals::CreateAnimalByReference( int xPos, int yPos, int surface )
 {
+	static int old_y_pos = 0;
+	
+	while( yPos > old_y_pos && yPos < old_y_pos + 64 )
+	{
+		yPos = rand() % Gfx.BackBuffer->h - 64;
+	}
+	if( yPos < 64 )
+		yPos = 64;
+	if( yPos > Gfx.BackBuffer->h - 64 )
+		yPos = Gfx.BackBuffer->h - 64;
 	Animal temp;
 	temp.SurfaceID = surface;
 	temp.LocAndSize.x = xPos;

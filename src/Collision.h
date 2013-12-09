@@ -21,14 +21,15 @@ public:
 			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
 			{
 				if( !( 
-					iBullet->LocAndSize.x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
-					iBullet->LocAndSize.x + iBullet->LocAndSize.w < iAnimal->LocAndSize.x || 
-					iBullet->LocAndSize.y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
-					iBullet->LocAndSize.y + iBullet->LocAndSize.h < iAnimal->LocAndSize.y
+					iBullet->GetCollisionBox().x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
+					iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iAnimal->LocAndSize.x || 
+					iBullet->GetCollisionBox().y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
+					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iAnimal->LocAndSize.y
 					) )
 				{
 					iAnimal = VAnimals.erase(iAnimal);
 					iBullet->DeActivate();
+					_SCORE += 100;
 				}
 				else
 				{
@@ -48,14 +49,15 @@ public:
 			for(vector< Cube >::iterator iCube = VCubes.begin(); iCube != VCubes.end(); )
 			{
 				if( !( 
-					iBullet->LocAndSize.x > iCube->xPos + iCube->Width || 
-					iBullet->LocAndSize.x + iBullet->LocAndSize.w < iCube->xPos || 
-					iBullet->LocAndSize.y > iCube->yPos + iCube->Height || 
-					iBullet->LocAndSize.y + iBullet->LocAndSize.h < iCube->yPos
+					iBullet->GetCollisionBox().x > iCube->xPos + iCube->Width || 
+					iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iCube->xPos || 
+					iBullet->GetCollisionBox().y > iCube->yPos + iCube->Height || 
+					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iCube->yPos
 					) )
 				{
 					iCube = VCubes.erase(iCube);
 					iBullet->DeActivate();
+					_SCORE += 100;
 				}
 				else
 				{
@@ -75,14 +77,15 @@ public:
 			for(vector< Triangle >::iterator iTriangle = VTriangles.begin(); iTriangle != VTriangles.end(); )
 			{
 				if( !( 
-					iBullet->LocAndSize.x > iTriangle->xPos + iTriangle->Width || 
-					iBullet->LocAndSize.x + iBullet->LocAndSize.w < iTriangle->xPos || 
-					iBullet->LocAndSize.y > iTriangle->yPos + iTriangle->Height || 
-					iBullet->LocAndSize.y + iBullet->LocAndSize.h < iTriangle->yPos
+					iBullet->GetCollisionBox().x > iTriangle->xPos + iTriangle->Width || 
+					iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iTriangle->xPos || 
+					iBullet->GetCollisionBox().y > iTriangle->yPos + iTriangle->Height || 
+					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iTriangle->yPos
 					) )
 				{
 					iTriangle = VTriangles.erase(iTriangle);
 					iBullet->DeActivate();
+					_SCORE += 100;
 				}
 				else
 				{
@@ -105,10 +108,10 @@ public:
 			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
 			{
 				if( !( 
-					Spaceship.GetPosition().x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
-					Spaceship.GetPosition().x + Spaceship.GetPosition().w < iAnimal->LocAndSize.x || 
-					Spaceship.GetPosition().y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
-					Spaceship.GetPosition().y + Spaceship.GetPosition().h < iAnimal->LocAndSize.y
+					Spaceship.GetCollisionBox().x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
+					Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iAnimal->LocAndSize.x || 
+					Spaceship.GetCollisionBox().y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
+					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iAnimal->LocAndSize.y
 					) )
 				{
 					iAnimal = VAnimals.erase(iAnimal);
@@ -125,10 +128,10 @@ public:
 			for(vector< Cube >::iterator iCube = VCubes.begin(); iCube != VCubes.end(); )
 			{
 				if( !( 
-					Spaceship.GetPosition().x > iCube->xPos + iCube->Width || 
-					Spaceship.GetPosition().x + Spaceship.GetPosition().w < iCube->xPos || 
-					Spaceship.GetPosition().y > iCube->yPos + iCube->Height || 
-					Spaceship.GetPosition().y + Spaceship.GetPosition().h < iCube->yPos
+					Spaceship.GetCollisionBox().x > iCube->xPos + iCube->Width || 
+					Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iCube->xPos || 
+					Spaceship.GetCollisionBox().y > iCube->yPos + iCube->Height || 
+					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iCube->yPos
 					) )
 				{
 					iCube = VCubes.erase(iCube);
@@ -145,10 +148,10 @@ public:
 			for(vector< Triangle >::iterator iTriangle = VTriangles.begin(); iTriangle != VTriangles.end(); )
 			{
 				if( !( 
-					Spaceship.GetPosition().x > iTriangle->xPos + iTriangle->Width || 
-					Spaceship.GetPosition().x + Spaceship.GetPosition().w < iTriangle->xPos || 
-					Spaceship.GetPosition().y > iTriangle->yPos + iTriangle->Height || 
-					Spaceship.GetPosition().y + Spaceship.GetPosition().h < iTriangle->yPos
+					Spaceship.GetCollisionBox().x > iTriangle->xPos + iTriangle->Width || 
+					Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iTriangle->xPos || 
+					Spaceship.GetCollisionBox().y > iTriangle->yPos + iTriangle->Height || 
+					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iTriangle->yPos
 					) )
 				{
 					iTriangle = VTriangles.erase(iTriangle);

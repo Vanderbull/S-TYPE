@@ -31,6 +31,7 @@ public:
 	bool Active;
 	int SurfaceID;
 	int Frame;
+	float xPos, yPos;
 	SDL_Rect LocAndSize;
 	SDL_Rect CollisionBox;
 
