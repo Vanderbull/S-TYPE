@@ -130,7 +130,7 @@ void ControlAnimals::DrawAnimals()
 
 void ControlAnimals::CreateAnimals(int iProgress )
 {
-	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < ANIMAL_MAX_PROGRESS )
+	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
 	{
 		if( rand() % 100 + 1 > 99 )
 			AnimalArrayRef.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfAsteroid ) );
@@ -155,14 +155,14 @@ Animal ControlAnimals::CreateAnimalByReference( int xPos, int yPos, int surface 
 {
 	static int old_y_pos = 0;
 	
-	while( yPos > old_y_pos && yPos < old_y_pos + 64 )
+	while( yPos > old_y_pos && yPos < old_y_pos + 128 )
 	{
-		yPos = rand() % Gfx.BackBuffer->h - 64;
+		yPos = rand() % Gfx.BackBuffer->h - 128;
 	}
 	if( yPos < 64 )
 		yPos = 64;
-	if( yPos > Gfx.BackBuffer->h - 64 )
-		yPos = Gfx.BackBuffer->h - 64;
+	if( yPos > Gfx.BackBuffer->h - 128 )
+		yPos = Gfx.BackBuffer->h - 128;
 	Animal temp;
 	temp.SurfaceID = surface;
 	temp.LocAndSize.x = xPos;

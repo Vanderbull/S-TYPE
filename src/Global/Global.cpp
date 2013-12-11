@@ -22,9 +22,9 @@ SDL_Rect ScreenSize = {0,0,800,600};
 SDL_Rect ButtonClips[ 10 ];
 int _SCORE = 0;
 int FIRED = 0;
-
-#define _DEBUG 0
-
+float SpaceScrollingSpeed = 0.0001f;
+int LevelSize = 300000;
+int LevelProgress = 0;
 //return by reference
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height)
 {

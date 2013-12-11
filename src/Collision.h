@@ -8,7 +8,7 @@
 #include "Animals.h"
 #include "Enemies\Cubes.h"
 #include "Triangles.h"
-
+#include "Audio.h"
 
 class ControlCollision
 {
@@ -27,6 +27,7 @@ public:
 					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iAnimal->LocAndSize.y
 					) )
 				{
+					Audio.PlaySoundEffect( 5 );
 					iAnimal = VAnimals.erase(iAnimal);
 					iBullet->DeActivate();
 					_SCORE += 100;
@@ -55,6 +56,7 @@ public:
 					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iCube->yPos
 					) )
 				{
+					Audio.PlaySoundEffect( 5 );
 					iCube = VCubes.erase(iCube);
 					iBullet->DeActivate();
 					_SCORE += 100;
@@ -83,6 +85,7 @@ public:
 					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iTriangle->yPos
 					) )
 				{
+					Audio.PlaySoundEffect( 5 );
 					iTriangle = VTriangles.erase(iTriangle);
 					iBullet->DeActivate();
 					_SCORE += 100;
@@ -114,6 +117,7 @@ public:
 					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iAnimal->LocAndSize.y
 					) )
 				{
+					Audio.PlaySoundEffect( 5 );
 					iAnimal = VAnimals.erase(iAnimal);
 					Spaceship.Died();
 				}
@@ -134,6 +138,7 @@ public:
 					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iCube->yPos
 					) )
 				{
+					Audio.PlaySoundEffect( 5 );
 					iCube = VCubes.erase(iCube);
 					Spaceship.Died();
 				}
@@ -154,6 +159,7 @@ public:
 					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iTriangle->yPos
 					) )
 				{
+					Audio.PlaySoundEffect( 5 );
 					iTriangle = VTriangles.erase(iTriangle);
 					Spaceship.Died();
 				}

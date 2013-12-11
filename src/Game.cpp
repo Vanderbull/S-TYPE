@@ -275,16 +275,12 @@ void Game::HandleEvents( SDL_Event _event )
 							} break;
 							case SDLK_SPACE:
 							{
-								if( FIRED == 0 ) 
-								BulletController.Create_Bullets();
-								FIRED = 1;
-								//BCPlayer.AddAction("FIRE");
-								//BCPlayer.AddBeam("Laser");
-								//cout << BCPlayer.GetBeam() << endl;
-								Gfx.FLIP();
-								if( gamestate.GameState.top() == GAME_RUNNING_STATE && SOUND == 3 )
+								if( FIRED == 0 )
 								{
-									Audio.PlaySoundEffect( 1 );
+									BulletController.Create_Bullets();
+									FIRED = 1;
+									Gfx.FLIP();
+									Audio.PlaySoundEffect( 4 );
 								}
 							} break;
 							case SDLK_LALT:
@@ -622,17 +618,22 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_RUNNING_STATE:
 			{
+				LevelProgress += iElapsedTime / 150;
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
 				Gfx.DrawSprite();
 				
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
+				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				
 				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
 				CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
 				CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
+				
+				SDL_Surface * SrfProgress;
+				SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );
+				Gfx.apply_surface( 300, 50, SrfProgress, Gfx.BackBuffer );
 
 				Gfx.DrawScore(300,25,UpdateScore());
 			} break;

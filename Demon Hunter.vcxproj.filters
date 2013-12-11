@@ -22,9 +22,6 @@
     <ClCompile Include="src\GetInput.cpp">
       <Filter>GetInput</Filter>
     </ClCompile>
-    <ClCompile Include="src\Intro.cpp">
-      <Filter>Screens\Intro</Filter>
-    </ClCompile>
     <ClCompile Include="src\Main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
@@ -101,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="src\GetInput.h">
       <Filter>GetInput</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Intro.h">
-      <Filter>Screens\Intro</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects.h">
       <Filter>Objects</Filter>
@@ -230,9 +224,6 @@
     </Filter>
     <Filter Include="Screens\Save">
       <UniqueIdentifier>{685cddc8-dafe-4247-b121-eb6baba8f6ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Screens\Intro">
-      <UniqueIdentifier>{a12cf371-3418-42de-bf60-554b3a62233c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Screens\Credits">
       <UniqueIdentifier>{b3c48f4e-8d42-4090-b5e1-5f2c2f532ec4}</UniqueIdentifier>

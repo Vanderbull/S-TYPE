@@ -340,9 +340,7 @@ void ControlGfx::DrawParallaxLayers()
 		}
 						
 		//Scrolling the map
-		gamestate.Parallax += 0.0001f * gamestate.DeltaTime;
-		if( gamestate.Parallax > Gfx.GetSurface( gamestate.m_srfBackdrop )->w );
-		//gamestate.State = GAME_OUTRO_STATE;
+		gamestate.Parallax += SpaceScrollingSpeed * gamestate.DeltaTime;
 }
 
 void ControlGfx::DrawSprite()

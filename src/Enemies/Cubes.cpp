@@ -106,9 +106,10 @@ void ControlCubes::DrawCubes()
 
 void ControlCubes::CreateCubes(int iProgress )
 {
-	if( iProgress > CUBE_MIN_PROGRESS && iProgress < CUBE_MAX_PROGRESS )
+	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
 	{
-		if( CubeArrayRef.size() < rand() % 5 )
+		//if( CubeArrayRef.size() < rand() % 5 )
+		if( rand() % 100 + 1 >= 100 )
 		{
 			CubeArrayRef.push_back( CreateCubeByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h - 64, gamestate.m_srfCube ) );
 		}
@@ -122,6 +123,14 @@ void ControlCubes::CreateCubes(int iProgress )
 Cube ControlCubes::CreateCubeByReference( int xPos, int yPos, int surface )
 {
 	static int old_y_pos = 0;
+	static int old_x_pos = 0;
+
+	while( xPos > old_x_pos && xPos < old_x_pos + 64 )
+	{
+		xPos = rand() % Gfx.BackBuffer->w - 64;
+	}
+	if( xPos < 64 )
+		xPos = 64;
 	
 	while( yPos > old_y_pos && yPos < old_y_pos + 64 )
 	{

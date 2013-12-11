@@ -49,13 +49,8 @@ void ControlAudio::LoadAudio()
 	Playlist[1] = Mix_LoadMUS( "Music/Let_the_Machines_do_the_Whistling_instrumental.ogg" );
 	Playlist[2] = Mix_LoadMUS( "Music/Coffin_Ships.ogg" );
 
-	music = Mix_LoadMUS( "Music/MenuMusic.ogg" );
-
-	MenuMusic_ = Mix_LoadMUS( "Music/MenuMusic.ogg" );
-
-	OutroMusic_ = Mix_LoadMUS( "Music/Coffin_Ships.ogg" );
-
-	SfxHit_ = Mix_LoadWAV( "Music/SfxHit.ogg" );
+	Sfx[0] = Mix_LoadWAV( "Sfx/Laser.ogg" );
+	Sfx[1] = Mix_LoadWAV( "Sfx/Explosion.ogg" );
 }
 
 int ControlAudio::GetState()
@@ -81,14 +76,13 @@ void ControlAudio::PlayMusic( int song )
 }
 void ControlAudio::PlaySoundEffect( int effect )
 {
-	Mix_PlayChannel( -1, SfxHit_, 0 );
-	if( effect == SOUND_HIT )
+	if( effect == E_AUDIO::FIRE_LASER )
 	{
-			Mix_PlayChannel( -1, SfxHit_, 10 );
+			Mix_PlayChannel( -1, Sfx[0], 0 );
 	}
-	else if( effect == SOUND_GETS_HIT )
+	if( effect == E_AUDIO::EXPLOSION )
 	{
-			Mix_PlayChannel( -1, SfxHit_, 0 );
+			Mix_PlayChannel( -1, Sfx[1], 0 );
 	}
 }
 

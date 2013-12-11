@@ -35,14 +35,10 @@ int main( int argc, char * arg[] )
 	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 }, second = { 0 };
 	SDL_Event event = {0};
 	int timeOfEvent = 0;
-	float PrevTick = 0, CurTick = 0, TotalTicks = 0, TickDelta = 0, OldestTickDelta = 0,DeltaTime = 0;
-	UINT32 PreviousTick = 0, CurrentTick = 0;
-	UINT32 MILLISECONDS = 1000;
-	UINT32 UpdateStepping = 20; 
+ 
 	Game GameEngine;
 	Timer fps;
-	int framecount = 0;
-	int clock_ticks = 0;
+
 	std::queue<float> DeltaHistory;
   
 	QueryPerformanceFrequency(&freq);
