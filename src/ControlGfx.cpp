@@ -77,7 +77,7 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r, int g, int b )
 	}
 	else
 	{
-		MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
+		//MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
 	}
 
 	//if(optimizedImage != NULL)
