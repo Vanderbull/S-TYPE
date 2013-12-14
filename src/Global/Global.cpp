@@ -25,6 +25,9 @@ int FIRED = 0;
 float SpaceScrollingSpeed = 0.0001f;
 int LevelSize = 300000;
 int LevelProgress = 0;
+int SpriteWidth = 64;
+int SpriteHeight = 64;
+
 //return by reference
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height)
 {

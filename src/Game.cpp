@@ -23,6 +23,7 @@ using namespace std;
 #include "ControlGfx.h"
 #include "Audio.h"
 #include "Objects.h"
+#include "Enemies\Powerup.h"
 #include "Enemies.h"
 #include "Timers.h"
 #include "Paralaxlayers.h"
@@ -636,6 +637,15 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				Gfx.apply_surface( 300, 50, SrfProgress, Gfx.BackBuffer );
 
 				Gfx.DrawScore(300,25,UpdateScore());
+
+				if(LevelProgress < 50000)
+				{
+									Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,"You have just escaped from the clutches of the evil empire of 'Are you square or round'. Good luck!",Gfx.WhiteRGB);//TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
+									Gfx.apply_surface( Gfx.BackBuffer->w /4, Gfx.BackBuffer->h/2, Gfx.srfText, Gfx.BackBuffer );
+				}
+				Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,"v 1.0",Gfx.WhiteRGB);
+				Gfx.apply_surface( Gfx.BackBuffer->w - 100, Gfx.BackBuffer->h-50, Gfx.srfText, Gfx.BackBuffer );
+				Gfx.FLIP();
 			} break;
 		case GAME_BOSS_STATE:
 			{

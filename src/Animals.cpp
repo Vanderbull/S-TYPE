@@ -1,5 +1,7 @@
-#include "Animals.h"
 #include <SDL.h>
+
+//#include "Global\Global.h"
+#include "Animals.h"
 #include "game.h"
 #include "ControlGfx.h"
 
@@ -16,8 +18,6 @@
 
 ControlAnimals AnimalController;
 const float AnimalSpeed = 0.0003f;
-const int SpriteHeight = 64;
-const int SpriteWidth = 64;
 
 Animal::Animal()
 {

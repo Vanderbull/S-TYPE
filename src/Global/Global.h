@@ -27,6 +27,8 @@ extern int FIRED;
 extern float SpaceScrollingSpeed;
 extern int LevelSize;
 extern int LevelProgress;
+extern int SpriteWidth;
+extern int SpriteHeight;
 
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
 int MouseInBox(SDL_Rect &Rect);

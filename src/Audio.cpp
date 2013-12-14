@@ -53,11 +53,6 @@ void ControlAudio::LoadAudio()
 	Sfx[1] = Mix_LoadWAV( "Sfx/Explosion.ogg" );
 }
 
-int ControlAudio::GetState()
-{
-	return state_;
-}
-
 void ControlAudio::PlayMusic( int song )
 {
 	//If there is no music playing
@@ -103,9 +98,33 @@ void ControlAudio::UnpauseMusic()
 }
 ControlAudio::~ControlAudio()
 {
-	std::cout << "Destroying ControlAudio object" << endl;
-	for( int i=0; i < 3; i++ )
+	std::cout << "Destroying ControlAudio object..." << endl;
+
+	// Removing reference to loaded Sound Tracks
+	for( int i=0; i < (sizeof Playlist / sizeof Playlist[0]); i++ )
 	{
 		Playlist[i] = NULL;
+	}
+	
+	// Removing reference to loaded SFX
+	for( int i=0; i < (sizeof Sfx / sizeof Sfx[0]); i++ )
+	{
+		Sfx[i] = NULL;
+	}
+}
+
+void GetFadeStatusMusic()
+{ 	
+// check the music fade status
+switch(Mix_FadingMusic()) {
+    case MIX_NO_FADING:
+        cout << "Not fading music." << endl;
+        break;
+    case MIX_FADING_OUT:
+        cout << "Fading out music." << endl;
+        break;
+    case MIX_FADING_IN:
+        cout << "Fading in music." << endl;
+        break;
 	}
 }

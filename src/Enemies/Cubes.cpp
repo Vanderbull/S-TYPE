@@ -17,8 +17,6 @@
 ControlCubes CubeController;
 
 const float CubeSpeed = 0.0001f;
-const int SpriteHeight = 64;
-const int SpriteWidth = 64;
 
 SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 {
