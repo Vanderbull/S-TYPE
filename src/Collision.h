@@ -31,6 +31,9 @@ public:
 					iAnimal = VAnimals.erase(iAnimal);
 					iBullet->DeActivate();
 					_SCORE += 100;
+					SDL_Surface * SrfProgress;
+					SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, "POWER UP COOL *YEA GRIIM!!!!!", Gfx.WhiteRGB );
+					Gfx.apply_surface( 150, 150, SrfProgress, Gfx.BackBuffer );
 				}
 				else
 				{

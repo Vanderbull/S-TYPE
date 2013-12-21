@@ -101,44 +101,52 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_OPTIONS_STATE:
 				{
-						ButtonClips[ 0 ].h = 30;
-						ButtonClips[ 0 ].w = 40;
-						ButtonClips[ 0 ].x = 343;
-						ButtonClips[ 0 ].y = 130;
+						// easy option
+						ButtonClips[ 0 ].h = 33;
+						ButtonClips[ 0 ].w = 101;
+						ButtonClips[ 0 ].x = 284;
+						ButtonClips[ 0 ].y = 128;
 
-						ButtonClips[ 1 ].h = 30;
-						ButtonClips[ 1 ].w = 40;
-						ButtonClips[ 1 ].x = 475;
-						ButtonClips[ 1 ].y = 130;
+						//medium option
+						ButtonClips[ 1 ].h = 33;
+						ButtonClips[ 1 ].w = 101;
+						ButtonClips[ 1 ].x = 414;
+						ButtonClips[ 1 ].y = 128;
 
-						ButtonClips[ 2 ].h = 30;
-						ButtonClips[ 2 ].w = 40;
-						ButtonClips[ 2 ].x = 554+63;
-						ButtonClips[ 2 ].y = 130;
+						//hard option
+						ButtonClips[ 2 ].h = 33;
+						ButtonClips[ 2 ].w = 101;
+						ButtonClips[ 2 ].x = 554;
+						ButtonClips[ 2 ].y = 128;
 
-						ButtonClips[ 3 ].h = 30;
-						ButtonClips[ 3 ].w = 40;
-						ButtonClips[ 3 ].x = 280+63;
-						ButtonClips[ 3 ].y = 170;
+						// sound on
+						ButtonClips[ 3 ].h = 33;
+						ButtonClips[ 3 ].w = 101;
+						ButtonClips[ 3 ].x = 284;
+						ButtonClips[ 3 ].y = 168;
 
-						ButtonClips[ 4 ].h = 30;
-						ButtonClips[ 4 ].w = 40;
-						ButtonClips[ 4 ].x = 412+63;
-						ButtonClips[ 4 ].y = 170;
+						// sound off
+						ButtonClips[ 4 ].h = 33;
+						ButtonClips[ 4 ].w = 101;
+						ButtonClips[ 4 ].x = 414;
+						ButtonClips[ 4 ].y = 168;
 
-						ButtonClips[ 5 ].h = 30;
-						ButtonClips[ 5 ].w = 40;
-						ButtonClips[ 5 ].x = 280+63;
-						ButtonClips[ 5 ].y = 220;
+						// music on
+						ButtonClips[ 5 ].h = 33;
+						ButtonClips[ 5 ].w = 101;
+						ButtonClips[ 5 ].x = 284;
+						ButtonClips[ 5 ].y = 218;
 
-						ButtonClips[ 6 ].h = 30;
-						ButtonClips[ 6 ].w = 40;
-						ButtonClips[ 6 ].x = 412+63;
-						ButtonClips[ 6 ].y = 220;
+						// music off
+						ButtonClips[ 6 ].h = 33;
+						ButtonClips[ 6 ].w = 101;
+						ButtonClips[ 6 ].x = 414;
+						ButtonClips[ 6 ].y = 218;
 
-						ButtonClips[ 7 ].h = 30;
-						ButtonClips[ 7 ].w = 40;
-						ButtonClips[ 7 ].x = 632+63;
+						// back to main menu
+						ButtonClips[ 7 ].h = 33;
+						ButtonClips[ 7 ].w = 101;
+						ButtonClips[ 7 ].x = 632;
 						ButtonClips[ 7 ].y = 534;
 
 						int MouseXCoordinates, MouseYCoordinates;
@@ -521,6 +529,7 @@ void Gamestate::load_files()
 	m_srfSave = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfSave.png", 255, 255, 255 );
 	m_srfCube = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
 	m_srfTriangle = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
+	m_srfButtonActive = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfButtonActive.png", 255, 255, 255 );
 	
 	/*
 	std::map<string,int> m_SurfaceCollection;
@@ -625,7 +634,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				Gfx.DrawSprite();
 				
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
-				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
+				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				
 				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
@@ -734,7 +743,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::LoadScreen(int iElapsedTime)
 {
-	SDL_BlitSurface( Gfx.GetSurface( LoadsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	SDL_BlitSurface( Gfx.GetSurface( LoadsScreen->surface ),&ButtonClips[ 0 ], Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
@@ -799,38 +808,47 @@ void Gamestate::OptionScreen(int iElapsedTime)
 {
 	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 
-	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ),&SDL_GetVideoSurface()->clip_rect,Gfx.BackBuffer,&SDL_GetVideoSurface()->clip_rect);
 
+	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ),&SDL_GetVideoSurface()->clip_rect,Gfx.BackBuffer,&SDL_GetVideoSurface()->clip_rect);
+	
 	if( DIFFICULTY == 0 )
-	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+			SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 0 ]);
+	//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 0 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	else
 	if( DIFFICULTY == 1 )
-	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 1 ]);
+	//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 1 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	else
 	if( DIFFICULTY == 2 )
-	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 2 ]);
+	//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 2 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 
 	if( SOUND == 3 )
-	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 3 ]);
+	//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 3 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	else
 	if( SOUND == 4 )
 	{
-		SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 4 ]);
+		//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 4 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 	}
 	
 	if( MUSIC == 5 )
 	{
-		SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 5 ]);
+		//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 5 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 		Audio.PlayMusic(rand()%3);
 	}
 	else
 	if( MUSIC == 6 )
 	{
-		SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 6 ]);
+		//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 6 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 		Audio.PauseMusic();
 	}
 
-	SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
+	SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 7 ]);
+	//SDL_FillRect(Gfx.BackBuffer,&ButtonClips[ 7 ],SDL_MapRGB(Gfx.GetSurface( OptionsScreen->surface)->format,255,0,255) );
 
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;

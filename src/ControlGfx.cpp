@@ -347,7 +347,7 @@ void ControlGfx::DrawParallaxLayers()
 void ControlGfx::DrawSprite()
 {
 		BCPlayer.Update();
-		BCPlayer.SetCollisionBox(BCPlayer.GetPosition().x, BCPlayer.GetPosition().y + 35, 50, 120);
+		BCPlayer.SetCollisionBox(BCPlayer.GetPosition().x, BCPlayer.GetPosition().y + 35, 50, 80);
 		//DrawBackgroundBlack();
 		//SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 

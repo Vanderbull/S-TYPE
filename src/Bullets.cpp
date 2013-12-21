@@ -24,7 +24,7 @@ SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 
 void Bullet::Update()
 {
-	SetCollisionBox(this->GetLocAndSize().x, this->GetLocAndSize().y + 35, 5, 120);
+	SetCollisionBox(this->GetLocAndSize().x, this->GetLocAndSize().y + 30, 5, 80);
 	LocAndSize.x += 0.0010f * gamestate.DeltaTime;
 	
 	PrevFrame = Frame++;
@@ -40,7 +40,7 @@ void Bullet::Update()
 void Bullet::Draw()
 {
 	#ifdef _DEBUG 
-	// SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	 SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 
 	SDL_BlitSurface( 

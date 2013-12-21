@@ -68,7 +68,8 @@ public:
 		m_srfLoad,
 		m_srfSave,
 		m_srfCube,
-		m_srfTriangle;
+		m_srfTriangle,
+		m_srfButtonActive;
 
 	std::map<string,int> m_SurfaceCollection;
 
