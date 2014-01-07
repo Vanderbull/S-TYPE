@@ -52,8 +52,6 @@ public:
 	GameOver * GameOverScreen;
 
 	int m_srfBackdrop, 
-		m_srfSky,
-		m_srfClouds,
 		m_srfAsteroid,
 		m_srfBlack,
 		m_srfStart, 
@@ -93,9 +91,6 @@ public:
 
 	void CreateAll();
 
-	void Loading();
-	
-
 	void EnterName();
 	void setUpParallaxLayers();
 	void load_files();
@@ -120,7 +115,6 @@ class Game
 public:
 	Game();
 	~Game(){ std::cout << "Destroying Game::Object..." << endl; };
-	void Audiotonic();
 	void Update( SDL_Event input, int iElapsedTime );
 	bool Init( SDL_Surface * &screen );
 	void HandleEvents( SDL_Event input );

@@ -19,93 +19,155 @@
 
 ControlPowerup PowerupController;
 
-// Default Constructor for objects
 Powerup::Powerup()
 {
-	Active = 0;
-	SurfaceID = 0;
-	Frame = 0;
-	
-	LocAndSize.h = 0;
-	LocAndSize.w = 0;
-	LocAndSize.x = 0;
-	LocAndSize.y = 0;
-
+	Active = 1;
 	CollisionBox.h = 0;
 	CollisionBox.w = 0;
-	CollisionBox.x = 0;
-	CollisionBox.y = 0;
+	CollisionBox.x = SpriteHeight;
+	CollisionBox.y = SpriteWidth;
 
-	int ArraySize = sizeof(Clips) / sizeof(Clips[0]);
-	// Zeroing the Clips array
-	for( int i = 0; i < ArraySize; i++ )
+	LocAndSize.x = 0;
+	LocAndSize.y = 0;
+	LocAndSize.h = SpriteHeight;
+	LocAndSize.w = SpriteWidth;
+
+	PrevFrame = 0;
+	Frame = 0;
+
+	for( int i = 0; i < 16; i++ )
 	{
-		Clips[ i ].x = 0;
+		Clips[ i ].x = i * SpriteWidth;
 		Clips[ i ].y = 0;
-		Clips[ i ].w = 0;
-		Clips[ i ].h = 0;
+		Clips[ i ].h = SpriteHeight;
+		Clips[ i ].w = SpriteWidth;
 	}
 }
 
-bool Powerup::isActive()
+int Powerup::isColliding(SDL_Rect Box)
 {
-	return Active;
+	int PlayerRight = BCPlayer.GetPosition().x + BCPlayer.GetPosition().w;
+	int PlayerLeft = BCPlayer.GetPosition().x;
+	int PlayerTop = BCPlayer.GetPosition().y;
+	int PlayerBottom = BCPlayer.GetPosition().x + BCPlayer.GetPosition().h;
+
+	int EnemyRight = LocAndSize.x + LocAndSize.w;
+	int EnemyLeft = LocAndSize.x;
+	int EnemyTop = LocAndSize.y;
+	int EnemyBottom = LocAndSize.y + LocAndSize.h;
+
+	if (EnemyBottom < PlayerTop) return(0);
+	if (EnemyTop > PlayerBottom) return(0);
+  
+	if (EnemyRight < PlayerLeft) return(0);
+	if (EnemyLeft > PlayerRight) return(0);
+
+	return(1);
 }
 
-int Powerup::Initialize( SDL_Rect iData,  int _Frame = 0 )
+SDL_Rect Powerup::UpdateCollisionBox(SDL_Rect Box)
 {
-	LocAndSize = iData;
 	CollisionBox = LocAndSize;
-	Frame = _Frame;
+	return CollisionBox;
+}
 
-	int ArraySize = sizeof(Clips) / sizeof(Clips[0]);
-	// Zeroing the Clips array
-	for( int i = 0; i < ArraySize; i++ )
+void Powerup::Update()
+{
+	//xPos = 0.0003f * gamestate.DeltaTime;
+	LocAndSize.x = 150;
+	LocAndSize.y = 150;
+	LocAndSize.h = SpriteHeight;
+	LocAndSize.w = SpriteWidth;
+
+	PrevFrame = Frame++;
+	if( Frame >= ANIMAL_MAX_FRAMES )
 	{
-		Clips[ i ].x = 0;
-		Clips[ i ].y = 0;
-		Clips[ i ].w = 0;
-		Clips[ i ].h = 0;
+		Frame = 0;
 	}
-	return 0;
+	UpdateCollisionBox(LocAndSize);
 }
 
-int Powerup::SetClips(int _xStepping = 0, int _yStepping = 0, int _Width = 0, int _Height = 0)
+void Powerup::Draw()
 {
-	int ArraySize = sizeof(Clips) / sizeof(Clips[0]);
-	for( int i = 0; i < ArraySize; i++ )
-	{
-		Clips[ i ].x = _xStepping * i;
-		Clips[ i ].y = _yStepping;
-		Clips[ i ].w = _Width;
-		Clips[ i ].h = _Height;
-	}
-	return 0;
+	#ifdef _DEBUG 
+	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	#endif
+	
+	SDL_BlitSurface( 
+		Gfx.GetSurface( SurfaceID ),
+		&Clips[ PrevFrame ], 
+		Gfx.BackBuffer, 
+		&GetDestination() 
+	);
+
 }
 
-ControlPowerup::ControlPowerup()
+SDL_Rect Powerup::GetDestination()
 {
-	destHealth.x = 50; 
-	destHealth.y = 550;
-	destHealth.w = 70;
-	destHealth.h = 20;
-
-	FrameHealth = 0;
-}
-
-void ControlPowerup::CreatePowerup()
-{
+	return LocAndSize;
 }
 
 void ControlPowerup::DrawPowerup()
 {
-	list< CEnemy* >vRemoveEnemy;
-	list< CEnemy* >::iterator vRemoveIterEnemy; 
+	std::vector< Powerup >::iterator i;
 
-	// x,y,w,h
-	SDL_Rect srfHealth = {0,0,64*3,64};
-	SDL_Rect Viewport_srfHealth = {0,0,64*3,64};
+	i = PowerupArrayRef.begin();
 
-	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfHealth ), &srfHealth,
-					Gfx.BackBuffer, &Viewport_srfHealth );
+	while(i != PowerupArrayRef.end() )
+	{
+		i->Update();
+		i->Draw();
+		
+		if( i->LocAndSize.x <= 0.0f - SpriteWidth )
+		{
+			i = PowerupArrayRef.erase(i);
+		}
+		else
+		{
+			++i;
+		}
+	}
+}
+
+void ControlPowerup::CreatePowerup(int iProgress )
+{
+	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
+	{
+		if( rand() % 100 + 1 > 99 )
+			PowerupArrayRef.push_back( CreatePowerupByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfAsteroid ) );
+	}
+	else
+	{
+		cout << "Progress passed the target range..." << endl;
+	}
+}
+
+ControlPowerup::ControlPowerup()
+{
+	cout << "Creating the Powerup Controller..." << endl;
+}
+
+ControlPowerup::~ControlPowerup()
+{
+	cout << "Destroying the POwerup Controller..." << endl;
+}
+
+Powerup ControlPowerup::CreatePowerupByReference( int xPos, int yPos, int surface )
+{
+	static int old_y_pos = 0;
+	
+	while( yPos > old_y_pos && yPos < old_y_pos + 128 )
+	{
+		yPos = rand() % Gfx.BackBuffer->h - 128;
+	}
+	if( yPos < 64 )
+		yPos = 64;
+	if( yPos > Gfx.BackBuffer->h - 128 )
+		yPos = Gfx.BackBuffer->h - 128;
+	Powerup temp;
+	temp.SurfaceID = surface;
+	temp.LocAndSize.x = xPos;
+	temp.LocAndSize.y = yPos;
+
+	return temp;
 }

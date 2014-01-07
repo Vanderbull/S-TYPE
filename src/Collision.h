@@ -16,7 +16,7 @@ public:
 
 	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Animal> &VAnimals )
 	{
-		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
+ 		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
 		{
 			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
 			{
@@ -59,7 +59,7 @@ public:
 					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iCube->yPos
 					) )
 				{
-					Audio.PlaySoundEffect( 5 );
+ 					Audio.PlaySoundEffect( 5 );
 					iCube = VCubes.erase(iCube);
 					iBullet->DeActivate();
 					_SCORE += 100;
@@ -92,6 +92,7 @@ public:
 					iTriangle = VTriangles.erase(iTriangle);
 					iBullet->DeActivate();
 					_SCORE += 100;
+
 				}
 				else
 				{

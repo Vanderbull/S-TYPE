@@ -285,7 +285,7 @@ void ControlGfx::DrawParallaxLayers()
 		{		
 			// Calc rects
 			MyParaBackGround = gamestate.ParallaxBG->getLayer( i );
-			if( MyParaBackGround->m_surface == gamestate.m_srfClouds )
+			if( MyParaBackGround->m_surface == gamestate.m_srfBackdrop )
 			{
 				MyParaBackGround->AnimClouds += 100.0f * gamestate.DeltaTime;
 

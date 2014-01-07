@@ -7,97 +7,49 @@ using namespace std;
 #include <SDL.h>
 #include "../Objects.h"
 
-class Powerup
+#define ANIMAL_MAX_FRAMES 15
+#define ANIMAL_MIN_PROGRESS 0
+#define ANIMAL_MAX_PROGRESS 2500
+
+class Powerup : public Object
 {
-protected:
+
+public:
 	Powerup();
-	~Powerup(){};
+	
+	int isColliding(SDL_Rect Box);
+	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
+	void Update();
+	void Draw();
+	
+	SDL_Rect GetDestination();
 
-public:
-
-	virtual void Update() = 0;
-	virtual void Draw() = 0;
-	virtual bool isActive() = 0;
-	virtual void DeActivate() = 0;
-	virtual void Activate() = 0;
-	virtual void onCollision() = 0;
-	virtual void onDestruction() = 0;
-	virtual void Spawn() = 0;
-
-
-	int Initialize(SDL_Rect iData,int Frame);
-
-	int Powerup::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
-
-	bool Active;
-	int SurfaceID;
-	int Frame;
-	float xPos, yPos;
-	SDL_Rect LocAndSize;
-	SDL_Rect CollisionBox;
-
-	SDL_Rect Clips[ 10 ];
-	std::list<SDL_Rect> ImageClips;
-};
-
-class Red : public Powerup
-{
-public:
-
-	Red( int _xPos, int _yPos, int _SurfaceID ) {};
-	void Update() {};
-	void Draw() {};
-	bool isActive(){ return true; };
+	bool isActive(){ return Active; };
 	void DeActivate(){ Active = false; };
 	void Activate(){ Active = true; };
-	void onCollision(){};
-	void onDestruction(){};
-	void Spawn() {};
+	void onCollision(){ cout << "Im colliding with something" << endl; };
+	void onDestruction(){ cout << "Im getting destroyed here" << endl; };
+	void Spawn(){ cout << "Im getting spawned here" << endl; };
 
 private:
+	SDL_Rect Clips[ 16 ];
+	int PrevFrame;
 };
 
 class ControlPowerup
 {
 public:
 	ControlPowerup();
+	~ControlPowerup();
 	void DrawPowerup();
-	void CreatePowerup();
-	
-	SDL_Rect destHealth;
-	int FrameHealth;
-	
-	//vector of objects
-	std::vector<Red> ActiveRed;
-	Red SpawnPowerup( int _xPos, int _yPos, int _SurfaceID )
-	{
-		Red PowerupBuilder(_xPos,_yPos,_SurfaceID);
-		return PowerupBuilder;
-	};
+	void CreatePowerup( int iProgress );
+	void Destroy(){ PowerupArrayRef.clear(); };
+	std::vector< Powerup > GetVectorWithPowerups(){ return PowerupArrayRef; };
+	Powerup CreatePowerupByReference( int xPos, int yPos, int surface );
 
-	void Report(Object &rObject)
-	{
-		rObject.Active = false;
-	}
-
-	void ReportList()
-	{
-		cout << "Powerup is " << endl;
-	}
-
-	void RemoveActivePowerup()
-	{
-		for(std::vector<Red>::iterator it = ActiveRed.begin(); it != ActiveRed.end(); ++it) 
-		{
-			std::cout << (*it).isActive() << endl;
-			if( !(*it).isActive() )
-			{
-				std::cout << "This should remove the Powerup from the vector" << endl;
-			}
-		}
-	}
-
+	std::vector< Powerup > PowerupArrayRef;
 private:
+
 };
 
 extern ControlPowerup PowerupController;

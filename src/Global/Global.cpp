@@ -28,6 +28,57 @@ int LevelProgress = 0;
 int SpriteWidth = 64;
 int SpriteHeight = 64;
 
+void SetGameOptionButtons()
+{
+						// easy option
+						ButtonClips[ 0 ].h = 33;
+						ButtonClips[ 0 ].w = 101;
+						ButtonClips[ 0 ].x = 284;
+						ButtonClips[ 0 ].y = 128;
+
+						//medium option
+						ButtonClips[ 1 ].h = 33;
+						ButtonClips[ 1 ].w = 101;
+						ButtonClips[ 1 ].x = 414;
+						ButtonClips[ 1 ].y = 128;
+
+						//hard option
+						ButtonClips[ 2 ].h = 33;
+						ButtonClips[ 2 ].w = 101;
+						ButtonClips[ 2 ].x = 554;
+						ButtonClips[ 2 ].y = 128;
+
+						// sound on
+						ButtonClips[ 3 ].h = 33;
+						ButtonClips[ 3 ].w = 101;
+						ButtonClips[ 3 ].x = 284;
+						ButtonClips[ 3 ].y = 168;
+
+						// sound off
+						ButtonClips[ 4 ].h = 33;
+						ButtonClips[ 4 ].w = 101;
+						ButtonClips[ 4 ].x = 414;
+						ButtonClips[ 4 ].y = 168;
+
+						// music on
+						ButtonClips[ 5 ].h = 33;
+						ButtonClips[ 5 ].w = 101;
+						ButtonClips[ 5 ].x = 284;
+						ButtonClips[ 5 ].y = 218;
+
+						// music off
+						ButtonClips[ 6 ].h = 33;
+						ButtonClips[ 6 ].w = 101;
+						ButtonClips[ 6 ].x = 414;
+						ButtonClips[ 6 ].y = 218;
+
+						// back to main menu
+						ButtonClips[ 7 ].h = 33;
+						ButtonClips[ 7 ].w = 101;
+						ButtonClips[ 7 ].x = 632;
+						ButtonClips[ 7 ].y = 534;
+}
+
 //return by reference
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height)
 {

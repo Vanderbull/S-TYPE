@@ -30,6 +30,7 @@ extern int LevelProgress;
 extern int SpriteWidth;
 extern int SpriteHeight;
 
+void SetGameOptionButtons();
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
 int MouseInBox(SDL_Rect &Rect);
 //Use like this:
