@@ -6,14 +6,13 @@
 struct ParallaxLayer
 {
 	ParallaxLayer();
-	void set(	float p, int s, int sy, int w, int h, int DestX, int DestY,
-				int DestW, int DestH  );
+	void set(	float p, Uint16 s, Uint16 sy, Uint16 w, Uint16 h, Uint16 DestX, Uint16 DestY, Uint16 DestW, Uint16 DestH  );
 
 
 	float m_parallax;
-	int m_surface, m_surfaceYOffset;
-	int m_width, m_height;
-	int DX, DY, DW, DH;
+	Uint16 m_surface, m_surfaceYOffset;
+	Uint16 m_width, m_height;
+	Uint16 DX, DY, DW, DH;
 	int Xpos;
 	int HowFarGone;
 	float AnimClouds;
@@ -35,8 +34,7 @@ class ParallaxBackground
 		// Get/Set
 		int getLayerCount() { return m_layerCount; }
 		ParallaxLayer *getLayer( int index );
-		void setLayer(	int index, float p, int s, int sy, int w, int h, int DestX, int DestY,
-						int DestW, int DestH );
+		void setLayer(	int index, float p, Uint16 s, Uint16 sy, Uint16 w, Uint16 h, Uint16 DestX, Uint16 DestY, Uint16 DestW, Uint16 DestH );
 
 
 	private:

@@ -1,7 +1,7 @@
 #include <cmath>
 #include "Objects.h"
 #include "Game.h"
-#include "characters.h"
+#include "SpaceShip.h"
 #include "Timers.h"
 #include "Collision.h"
 #include "ControlGfx.h"
@@ -103,8 +103,8 @@ void ControlObject::DrawObjects()
 	list< CEnemy* >::iterator vRemoveIterEnemy; 
 
 	// x,y,w,h
-	SDL_Rect srfHealth = {0,0,64*3,64};
-	SDL_Rect Viewport_srfHealth = {0,0,64*3,64};
+	SDL_Rect srfHealth = {0,0,64*BCSpaceShip._Lives,64};
+	SDL_Rect Viewport_srfHealth = {0,0,64*BCSpaceShip._Lives,64};
 
 	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfHealth ), &srfHealth,
 					Gfx.BackBuffer, &Viewport_srfHealth );

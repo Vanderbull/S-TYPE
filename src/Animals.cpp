@@ -46,10 +46,10 @@ Animal::Animal()
 
 int Animal::isColliding(SDL_Rect Box)
 {
-	int PlayerRight = BCPlayer.GetPosition().x + BCPlayer.GetPosition().w;
-	int PlayerLeft = BCPlayer.GetPosition().x;
-	int PlayerTop = BCPlayer.GetPosition().y;
-	int PlayerBottom = BCPlayer.GetPosition().x + BCPlayer.GetPosition().h;
+	int PlayerRight = BCSpaceShip.GetPosition().x + BCSpaceShip.GetPosition().w;
+	int PlayerLeft = BCSpaceShip.GetPosition().x;
+	int PlayerTop = BCSpaceShip.GetPosition().y;
+	int PlayerBottom = BCSpaceShip.GetPosition().x + BCSpaceShip.GetPosition().h;
 
 	int EnemyRight = LocAndSize.x + LocAndSize.w;
 	int EnemyLeft = LocAndSize.x;
@@ -61,7 +61,6 @@ int Animal::isColliding(SDL_Rect Box)
   
 	if (EnemyRight < PlayerLeft) return(0);
 	if (EnemyLeft > PlayerRight) return(0);
-
 	return(1);
 }
 
@@ -133,7 +132,9 @@ void ControlAnimals::CreateAnimals(int iProgress )
 	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
 	{
 		if( rand() % 100 + 1 > 99 )
+		{
 			AnimalArrayRef.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfAsteroid ) );
+		}
 	}
 	else
 	{
@@ -151,7 +152,7 @@ ControlAnimals::~ControlAnimals()
 	cout << "Destroying the Animal Controller..." << endl;
 }
 
-Animal ControlAnimals::CreateAnimalByReference( int xPos, int yPos, int surface )
+Animal ControlAnimals::CreateAnimalByReference( Sint16 xPos, Sint16 yPos, int surface )
 {
 	static int old_y_pos = 0;
 	

@@ -19,7 +19,7 @@ using namespace std;
 #include <SDL_mixer.h>
 
 #include "Game.h"
-#include "characters.h"
+#include "SpaceShip.h"
 #include "ControlGfx.h"
 #include "Audio.h"
 #include "Objects.h"
@@ -214,19 +214,19 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							case SDLK_RIGHT:
 							{
-								BCPlayer.xVelocity = 1.0f;
+								BCSpaceShip.xVelocity = 1.0f;
 							} break;
 							case SDLK_LEFT:
 							{
-								BCPlayer.xVelocity = -1.0f;
+								BCSpaceShip.xVelocity = -1.0f;
 							} break;
 							case SDLK_UP:
 							{
-								BCPlayer.yVelocity = 1.0f;
+								BCSpaceShip.yVelocity = 1.0f;
 							} break;
 							case SDLK_DOWN:
 							{
-								BCPlayer.yVelocity = -1.0f;
+								BCSpaceShip.yVelocity = -1.0f;
 							} break;
 							case SDLK_SPACE:
 							{
@@ -240,11 +240,11 @@ void Game::HandleEvents( SDL_Event _event )
 							} break;
 							case SDLK_LALT:
 							{
-								BCPlayer.AddAction("FIRE_SPECIAL");
+								BCSpaceShip.AddAction("FIRE_SPECIAL");
 							} break;
 							case SDLK_RETURN:
 							{
-								BCPlayer.AddAction("RETURN");
+								BCSpaceShip.AddAction("RETURN");
 							} break;
 							case SDLK_ESCAPE:
 							{
@@ -253,7 +253,7 @@ void Game::HandleEvents( SDL_Event _event )
 							} break;
 							default:
 							{
-								BCPlayer.AddAction("DEFAULT");
+								BCSpaceShip.AddAction("DEFAULT");
 							}
 					}
 				} break;
@@ -287,19 +287,19 @@ void Game::HandleEvents( SDL_Event _event )
 						} break;
 						case SDLK_RIGHT:
 						{
-							BCPlayer.xVelocity = 0.0f;
+							BCSpaceShip.xVelocity = 0.0f;
 						} break;
 						case SDLK_LEFT:
 						{
-							BCPlayer.xVelocity = 0.0f;
+							BCSpaceShip.xVelocity = 0.0f;
 						} break;
 						case SDLK_UP:
 						{
-							BCPlayer.yVelocity = 0.0f;
+							BCSpaceShip.yVelocity = 0.0f;
 						} break;
 						case SDLK_DOWN:
 						{
-							BCPlayer.yVelocity = 0.0f;
+							BCSpaceShip.yVelocity = 0.0f;
 						} break;
 						case SDLK_SPACE:
 						{
@@ -417,7 +417,7 @@ Game::Game()
 	gamestate.load_files();
 
 	//new setclips function
-	BCPlayer.SetClips();
+	BCSpaceShip.SetClips();
 	
 	// New button stuff
 	
@@ -458,7 +458,7 @@ void Gamestate::load_files()
 
 	m_srfBackdrop = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfBackdrop.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
-	BCPlayer._Surface = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
+	BCSpaceShip._SurfaceID = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfAsteroid = Gfx.Load_imageAlpha( "Graphics/srfAsteroid.png", 255, 255, 255 );
 	m_srfStart = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfStart.png", 237, 234, 214 );
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
@@ -573,9 +573,9 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				
-				CollisionController.SpaceshipCollider(BCPlayer,AnimalController.AnimalArrayRef );
-				CollisionController.SpaceshipCollider(BCPlayer,CubeController.CubeArrayRef );
-				CollisionController.SpaceshipCollider(BCPlayer,TriangleController.TriangleArrayRef );
+				CollisionController.SpaceshipCollider(BCSpaceShip,AnimalController.AnimalArrayRef );
+				CollisionController.SpaceshipCollider(BCSpaceShip,CubeController.CubeArrayRef );
+				CollisionController.SpaceshipCollider(BCSpaceShip,TriangleController.TriangleArrayRef );
 				
 				SDL_Surface * SrfProgress;
 				SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );
@@ -588,18 +588,27 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 									Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,"You have just escaped from the clutches of the evil empire of 'Are you square or round'. Good luck!",Gfx.WhiteRGB);//TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
 									Gfx.apply_surface( Gfx.BackBuffer->w /4, Gfx.BackBuffer->h/2, Gfx.srfText, Gfx.BackBuffer );
 				}
-				Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,"v 1.0",Gfx.WhiteRGB);
-				Gfx.apply_surface( Gfx.BackBuffer->w - 100, Gfx.BackBuffer->h-50, Gfx.srfText, Gfx.BackBuffer );
+
 				// rising text for score
-				static int raise = 50;
+				static int raise = -1;
+
+				if(!PopupScore.empty())
+				{
+					if( raise < 0 )
+					{
+						raise = PopupScore.back();
+						PopupScore.pop_back();
+					}
+				}
 				
 				if(raise < 0)
 				{
-					raise = 50;
+					Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,std::to_string(raise).c_str(),Gfx.WhiteRGB);
+					Gfx.apply_surface( Gfx.BackBuffer->w / 2, Gfx.BackBuffer->h / 2 -50, Gfx.srfText, Gfx.BackBuffer );
 				}
 				else
 				{
-					Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,"Rising score should go here",Gfx.WhiteRGB);
+					Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,std::to_string(raise).c_str(),Gfx.WhiteRGB);
 					Gfx.apply_surface( Gfx.BackBuffer->w / 2, Gfx.BackBuffer->h / 2 + raise, Gfx.srfText, Gfx.BackBuffer );
 					raise--;
 				}
@@ -615,6 +624,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_PLAYER_DIED_STATE:
 			{
+				BCSpaceShip._Lives--;
 				gamestate.RestartGame();
 				gamestate.GameState.pop();
 				gamestate.GameState.push(MENU_MAIN_STATE);
@@ -824,7 +834,7 @@ void Gamestate::EnterName()
 
 void Gamestate::RestartGame()
 {
-	BCPlayer.Reset();
+	BCSpaceShip.Reset();
 	AnimalController.Destroy();
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();

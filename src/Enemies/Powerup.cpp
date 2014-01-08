@@ -1,7 +1,7 @@
 #include <cmath>
 #include "Powerup.h"
 #include "../Game.h"
-#include "../characters.h"
+#include "../SpaceShip.h"
 #include "../Timers.h"
 #include "../Collision.h"
 #include "../ControlGfx.h"
@@ -46,10 +46,10 @@ Powerup::Powerup()
 
 int Powerup::isColliding(SDL_Rect Box)
 {
-	int PlayerRight = BCPlayer.GetPosition().x + BCPlayer.GetPosition().w;
-	int PlayerLeft = BCPlayer.GetPosition().x;
-	int PlayerTop = BCPlayer.GetPosition().y;
-	int PlayerBottom = BCPlayer.GetPosition().x + BCPlayer.GetPosition().h;
+	int PlayerRight = BCSpaceShip.GetPosition().x + BCSpaceShip.GetPosition().w;
+	int PlayerLeft = BCSpaceShip.GetPosition().x;
+	int PlayerTop = BCSpaceShip.GetPosition().y;
+	int PlayerBottom = BCSpaceShip.GetPosition().x + BCSpaceShip.GetPosition().h;
 
 	int EnemyRight = LocAndSize.x + LocAndSize.w;
 	int EnemyLeft = LocAndSize.x;

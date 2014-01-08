@@ -8,7 +8,7 @@ public:
 	//float xPos, yPos;
 	int Frame;
 	int Radius;
-	int Width, Height;
+	Sint16 Width, Height;
 	float Speed;
 	
 	int Surface;

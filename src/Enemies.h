@@ -57,7 +57,7 @@ public:
 	std::list<CDwarf*> _Dwarves;
 	std::list<CSkeleton*> _Skeletons;
 	std::list< CEnemy* > Enemies;
-	CEnemy * CreateEnemy( int xPos, int yPos, int surface );	
+	CEnemy * CreateEnemy( Sint16 xPos, Sint16 yPos, int surface );	
 private:
 
 	int SpawnTimer;

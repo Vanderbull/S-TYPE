@@ -32,7 +32,7 @@ ControlGfx::ControlGfx()
 
 	DefaultFont = TTF_OpenFont("Fonts/Mecha.ttf", 14);
 	if (Gfx.DefaultFont == NULL){
-      printf("Unable to load font: %s %s \n", "cour.ttf", TTF_GetError());
+      printf("Unable to load font: %s %s \n", "Fonts/Mecha.ttf", TTF_GetError());
       // Handle the error here.
     }
 
@@ -195,8 +195,8 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 // ----------------------------------------------------------------------------
 bool ControlGfx::FLIP()
 {
-	SDL_Rect srcRect = { 0, 0, Gfx.BackBuffer->w, Gfx.BackBuffer->h };
-	SDL_Rect destRect = { 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h };
+	SDL_Rect srcRect = { 0, 0, (Uint16)Gfx.BackBuffer->w, (Uint16)Gfx.BackBuffer->h };
+	SDL_Rect destRect = { 0, 0, (Uint16)SDL_GetVideoSurface()->w, (Uint16)SDL_GetVideoSurface()->h };
 					
 	//gamestate.PasteScreenToAnother( srcRect, destRect );
 	Gfx.PasteScreenToAnother( srcRect, destRect);
@@ -246,7 +246,7 @@ void ControlGfx::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect 
 
 }
 
-void ControlGfx::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
+void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
 {
     //Holds offsets
     SDL_Rect offset;
@@ -346,14 +346,14 @@ void ControlGfx::DrawParallaxLayers()
 
 void ControlGfx::DrawSprite()
 {
-		BCPlayer.Update();
-		BCPlayer.SetCollisionBox(BCPlayer.GetPosition().x, BCPlayer.GetPosition().y + 35, 50, 80);
+		BCSpaceShip.Update();
+		BCSpaceShip.SetCollisionBox(BCSpaceShip.GetPosition().x, BCSpaceShip.GetPosition().y + 35, 50, 80);
 		//DrawBackgroundBlack();
 		//SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 
-		SDL_BlitSurface( Gfx.GetSurface( BCPlayer._Surface ), 
-			&BCPlayer.AnimationArrays[ BCPlayer.GetState() ][ BCPlayer.Animate() ],
-			Gfx.BackBuffer, &BCPlayer.GetPosition() );
+		SDL_BlitSurface( Gfx.GetSurface( BCSpaceShip._SurfaceID ), 
+			&BCSpaceShip.AnimationArrays[ BCSpaceShip.GetState() ][ BCSpaceShip.Animate() ],
+			Gfx.BackBuffer, &BCSpaceShip.GetPosition() );
 }
 
 // ----------------------------------------------------------------------------
@@ -361,7 +361,7 @@ void ControlGfx::DrawSprite()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
-		BCPlayer.Update();
+		BCSpaceShip.Update();
 		AnimalController.DrawAnimals();
 		CubeController.DrawCubes();
 		TriangleController.DrawTriangles();

@@ -26,7 +26,7 @@ public:
 	void onDestruction(){ DeActivate(); };
 	
 	SDL_Rect GetLocAndSize();
-	void SetCollisionBox(int x, int y, int h, int w)
+	void SetCollisionBox(Sint16 x, Sint16 y, Sint16 h, Sint16 w)
 	{
 		CollisionBox.x = x;
 		CollisionBox.y = y;

@@ -7,7 +7,7 @@ using namespace std;
 #include <SDL_ttf.h>
 #include "Global\Global.h"
 #include "Game.h"
-#include "characters.h"
+#include "SpaceShip.h"
 #include "time.h"
 #include "Timers.h"
 #include "ConfigFileConverter.h"

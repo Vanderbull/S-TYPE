@@ -17,7 +17,7 @@ ControlCollision CollisionController;
 // ----------------------------------------------------------------------------
 // ChecksCollision - test if any collision occurs with BCPlayer
 // ----------------------------------------------------------------------------
-bool ControlCollision::CheckCollision( CEnemy *MyEnemy, int WhichCollisionToUse, BaseCharacter *Mydemon )
+bool ControlCollision::CheckCollision( CEnemy *MyEnemy, int WhichCollisionToUse, BaseSpaceShip *Mydemon )
 {
 	return CollisionBox( Mydemon, MyEnemy, true );
 }
@@ -25,7 +25,7 @@ bool ControlCollision::CheckCollision( CEnemy *MyEnemy, int WhichCollisionToUse,
 // ----------------------------------------------------------------------------
 // CheckBoxCollision - test if box collision occurs
 // ----------------------------------------------------------------------------
-bool ControlCollision::CollisionBox( BaseCharacter *cPlayer, CEnemy *cEnemy, bool Show = true)
+bool ControlCollision::CollisionBox( BaseSpaceShip *cPlayer, CEnemy *cEnemy, bool Show = true)
 {
 	SDL_FillRect(Gfx.BackBuffer, &cPlayer->GetPosition(), 0xFFFFFF);
 	SDL_FillRect(Gfx.BackBuffer, &cEnemy->GetPosition(), 0xFFFFFF);

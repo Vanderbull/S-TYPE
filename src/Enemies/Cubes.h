@@ -12,7 +12,7 @@ class CubeObject
 {
 public:
 	float xPos,yPos;
-	int Height,Width;
+	Sint16 Height,Width;
 	int SurfaceID;
 	SDL_Rect CollisionBox;
 

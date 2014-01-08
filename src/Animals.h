@@ -43,7 +43,7 @@ public:
 	void CreateAnimals( int iProgress );
 	void Destroy(){ AnimalArrayRef.clear(); };
 	std::vector< Animal > GetVectorWithAnimals(){ return AnimalArrayRef; };
-	Animal CreateAnimalByReference( int xPos, int yPos, int surface );
+	Animal CreateAnimalByReference( Sint16 xPos, Sint16 yPos, int surface );
 
 	std::vector< Animal > AnimalArrayRef;
 private:

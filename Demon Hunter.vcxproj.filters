@@ -7,9 +7,6 @@
     <ClCompile Include="src\Collision.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
-    <ClCompile Include="src\characters.cpp">
-      <Filter>Characters</Filter>
-    </ClCompile>
     <ClCompile Include="src\ControlGfx.cpp">
       <Filter>ControlGfx</Filter>
     </ClCompile>
@@ -86,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="src\Collision.h">
       <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="src\characters.h">
-      <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="src\ControlGfx.h">
       <Filter>ControlGfx</Filter>

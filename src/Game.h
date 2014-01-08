@@ -13,7 +13,7 @@
 #include <iostream>
 #include "Objects.h"
 #include "SDL_mixer.h"
-#include "characters.h"
+#include "SpaceShip.h"
 #include "Enemies.h"
 #include "Global\Global.h"
 #include "MainMenu.h"

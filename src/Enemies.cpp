@@ -210,11 +210,11 @@ void Control_Enemies::Draw_Enemies()
 
 				// checks collision with demon using circlecollision
 				//Collide = CollisionController.CheckCollisionWithdemon( enemy, 1 );
-				Collide = CollisionController.CheckCollision( (*i), 1, &BCPlayer);
+				Collide = CollisionController.CheckCollision( (*i), 1, &BCSpaceShip);
 
 				//Attack = demon.IsInStateAttack();
 				
-				if( Collide == true && BCPlayer.IsAttacking() ) // && Attack == true
+				if( Collide == true && BCSpaceShip.IsAttacking() ) // && Attack == true
 				{
 						if( (*i)->Surface == DWARF )
 						{
@@ -319,7 +319,7 @@ void Control_Enemies::Draw_Enemies()
 }
 
 // Memory leak here because of missing delete, code not used though so its not critical
-CEnemy * Control_Enemies::CreateEnemy( int xPos, int yPos, int surface )
+CEnemy * Control_Enemies::CreateEnemy( Sint16 xPos, Sint16 yPos, int surface )
 {
 	CEnemy * temp = new CEnemy;
 	temp->Surface = surface;
@@ -420,8 +420,5 @@ Control_Enemies::Control_Enemies()
 	Collide = false;
 	CollideFire = false;
 	SpawnTimer = 0;
-
-	//Zombie = 7;
-	//Skeleton = 8;
 }
 

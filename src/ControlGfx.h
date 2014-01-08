@@ -20,7 +20,7 @@ public:
 	void PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect );
 	bool FLIP();
 	void stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect );
-	void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL );
+	void apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip = NULL );
 	void DrawParallaxLayers();
 	void DrawSprite();
 	void DrawObjects();

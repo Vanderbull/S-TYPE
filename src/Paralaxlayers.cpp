@@ -35,8 +35,7 @@ ParallaxLayer::ParallaxLayer()
 // ------------------------------------------------------------
 // set() - set members
 // ------------------------------------------------------------
-void ParallaxLayer::set( float p, int s, int sy, int w, int h, int DestX, int DestY,
-									int DestW, int DestH  )
+void ParallaxLayer::set( float p, Uint16 s, Uint16 sy, Uint16 w, Uint16 h, Uint16 DestX, Uint16 DestY, Uint16 DestW, Uint16 DestH  )
 {
 	m_parallax = p; 
 	m_surface = s; 
@@ -102,8 +101,7 @@ void ParallaxBackground::createLayers( int count )
 // ------------------------------------------------------------
 // setLayer() - sets internal data for a layer
 // ------------------------------------------------------------
-void ParallaxBackground::setLayer(	int index, float p, int s, int sy, int w, int h, int DestX, int DestY,
-									int DestW, int DestH )
+void ParallaxBackground::setLayer(	int index, float p, Uint16 s, Uint16 sy, Uint16 w, Uint16 h, Uint16 DestX, Uint16 DestY, Uint16 DestW, Uint16 DestH )
 {
 	// Sanity check
 	if( ( index < 0 ) || ( index >= m_layerCount ) )

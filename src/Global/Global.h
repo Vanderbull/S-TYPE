@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cmath>
+#include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -27,8 +28,8 @@ extern int FIRED;
 extern float SpaceScrollingSpeed;
 extern int LevelSize;
 extern int LevelProgress;
-extern int SpriteWidth;
-extern int SpriteHeight;
+extern Sint16 SpriteWidth;
+extern Uint16 SpriteHeight;
 
 void SetGameOptionButtons();
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
@@ -71,16 +72,16 @@ const int ANIMPACESLOWER = 300;
 const int ANIMPACEENEMY = 50;
 const int ANIMPACEBOSSHEAD = 5;
 
-const int demonHEIGHT = 100;
-const int demonWIDTH = 130;
-const int demonWIDTHREAL = 25;
-const int demonHEIGHTREAL = 25;
+const int SPACESHIP_HEIGHT = 100;
+const int SPACESHIP_WIDTH = 130;
+const int SPACESHIP_WIDTH_REAL = 25;
+const int SPACESHIP_HEIGHT_REAL = 25;
 
 const int GROUND_Y = 500;
 const int GROUND_X = 400;
 const int STARTSCROLLING = 400;
 const int BOSS_ATTACK_START = 150;
-
+extern std::vector< int > PopupScore;
 
 // Helper functions
 

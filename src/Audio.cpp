@@ -24,7 +24,8 @@ ControlAudio::ControlAudio()
 	{
 		Playlist[i] = NULL;
 	}
-	if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024)==-1) {
+	if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024)==-1) 
+	{
 		cout << "Mix_OpenAudio: " << Mix_GetError() << endl;
 		exit(2);
 	}
@@ -35,9 +36,10 @@ ControlAudio::ControlAudio()
     int i;
 	const int total = Mix_GetNumChunkDecoders();
 	for (i = 0; i < total; i++)
-		printf("Supported chunk decoder: [%s]\n", Mix_GetChunkDecoder(i));
+	{
+		cout << "Supported chunk decoder: [" << Mix_GetChunkDecoder(i) << "]" << endl;
+	}
 
-	//cin.get();
 	LoadAudio();
 }
 

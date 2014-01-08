@@ -25,9 +25,9 @@ int FIRED = 0;
 float SpaceScrollingSpeed = 0.0001f;
 int LevelSize = 300000;
 int LevelProgress = 0;
-int SpriteWidth = 64;
-int SpriteHeight = 64;
-
+Sint16 SpriteWidth = 64;
+Uint16 SpriteHeight = 64;
+std::vector< int > PopupScore;
 void SetGameOptionButtons()
 {
 						// easy option
