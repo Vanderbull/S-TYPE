@@ -99,6 +99,7 @@ public:
 	void KeyMapping(SDL_Event _event);
 
 	void RestartGame();
+	void Reset();
 	void ResetEnemies();
 	void ResetRest();
 	void PlayOutro();
@@ -125,8 +126,12 @@ public:
 	int MouseYCoordinates; // the last recorded y coordinate of the mouse
 	std::map <string, SDL_Rect> _Button;
 
+	Uint16 SPAWN_POSITION_X;
+	Uint16 SPAWN_POSITION_Y;
+
 private:
 	Gamestate _State;
 	World _World;
 };
 
+extern Game Engine;

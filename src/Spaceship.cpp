@@ -15,7 +15,7 @@
 #endif
 #endif
 
-BaseSpaceShip BCSpaceShip(0,GROUND_X, GROUND_Y, SPACESHIP_HEIGHT, SPACESHIP_WIDTH);
+BaseSpaceShip BCSpaceShip(0,0, 300, SPACESHIP_HEIGHT, SPACESHIP_WIDTH);
 
 BaseSpaceShip::BaseSpaceShip()
 {
@@ -109,8 +109,8 @@ void BaseSpaceShip::Reset()
 
 	isHit            = false; 
 
-	_Position.x = GROUND_X;
-	_Position.y = GROUND_Y;
+	_Position.x = Engine.SPAWN_POSITION_X;
+	_Position.y = Engine.SPAWN_POSITION_Y;
 	_Position.h = SPACESHIP_HEIGHT;
 	_Position.w = SPACESHIP_WIDTH;
 

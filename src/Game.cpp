@@ -52,6 +52,7 @@ using namespace std;
 #endif
 
 Gamestate gamestate;
+Game Engine;
 
 Gamestate::Gamestate()
 {
@@ -399,11 +400,9 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
+	SPAWN_POSITION_X = 0;
+	SPAWN_POSITION_Y = 0;
 	_SCORE = 0;
-	//ifstream myfile;
-	//myfile.open ("highscore.txt");
-	//myfile >> CURRENT_HIGHSCORE;
-	//myfile.close();
 
 	Quit = false;
 
@@ -625,9 +624,18 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 		case GAME_PLAYER_DIED_STATE:
 			{
 				BCSpaceShip._Lives--;
-				gamestate.RestartGame();
-				gamestate.GameState.pop();
-				gamestate.GameState.push(MENU_MAIN_STATE);
+				if(BCSpaceShip._Lives>0)
+				{
+					gamestate.Reset();
+					gamestate.GameState.pop();
+					gamestate.GameState.push(GAME_RUNNING_STATE);
+				}
+				else
+				{
+					gamestate.RestartGame();
+					gamestate.GameState.pop();
+					gamestate.GameState.push(MENU_MAIN_STATE);
+				}
 			} break;
 	}
 	if( _SCORE > 10000 ) 
@@ -839,12 +847,20 @@ void Gamestate::RestartGame()
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();
 	_SCORE = 0;
-	ifstream myfile;
-	myfile.open ("highscore.txt");
-	myfile >> CURRENT_HIGHSCORE;
-	myfile.close();
+	BCSpaceShip._Lives = 3;
+	//ifstream myfile;
+	//myfile.open ("highscore.txt");
+	//myfile >> CURRENT_HIGHSCORE;
+	//myfile.close();
 }
-
+void Gamestate::Reset()
+{
+	BCSpaceShip.Reset();
+	AnimalController.Destroy();
+	CubeController.CubeArrayRef.clear();
+	TriangleController.TriangleArrayRef.clear();
+	_SCORE = 0;
+}
 void Gamestate::Cleanup()
 {
 	if( MainMenuScreen != NULL )
