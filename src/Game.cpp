@@ -86,13 +86,17 @@ void Gamestate::KeyMapping(SDL_Event _event)
 void Game::HandleEvents( SDL_Event _event )
 {
 	switch ( _event.type )
-	{ 
+	{
+		// Handle mouse button events
+        case SDL_MOUSEBUTTONDOWN:
+        {} break;
 		case SDL_MOUSEBUTTONUP:
 		{
 			switch( gamestate.GameState.top()  )
 			{
 				case MENU_MAIN_STATE:
 				{
+					cout << "Release mouse button" << endl;
 				} break;
 				case GAME_RUNNING_STATE:
 				{
@@ -146,6 +150,7 @@ void Game::HandleEvents( SDL_Event _event )
 							cout << "Returning to main menu -> " << i << "..." << endl;
 							gamestate.GameState.pop();
 							gamestate.GameState.push(MENU_MAIN_STATE);
+							_event.type = 0;
 						}
 					}
 					for( int i = 0; i < 8; i++ )
@@ -160,7 +165,7 @@ void Game::HandleEvents( SDL_Event _event )
 					}
 				} break;
 			}
-		} break;
+		} break; // END OF MOUSEUP
 
 		case SDL_KEYDOWN:
 		{
@@ -318,6 +323,8 @@ void Game::HandleEvents( SDL_Event _event )
 		{
 			Quit = true;
 		} break;
+        default:
+            cout << "Unknown event please try again.." << endl;
 	}
 
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
@@ -339,7 +346,7 @@ void Game::HandleEvents( SDL_Event _event )
 				cout << "Entering button " << i << "..." << endl;
 			}
 		}
-		if( _event.type == SDL_MOUSEBUTTONUP )
+		if (_event.type == SDL_MOUSEBUTTONUP )
 		{
 			// if mouse click within boundries of one of the buttons
 			for( int i = 0; i < 8; i++ )
@@ -400,6 +407,7 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
+	cout << "Creating the Game::Game object..." << endl;
 	SPAWN_POSITION_X = 0;
 	SPAWN_POSITION_Y = 0;
 	_SCORE = 0;
@@ -691,7 +699,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::LoadScreen(int iElapsedTime)
 {
-	SDL_BlitSurface( Gfx.GetSurface( LoadsScreen->surface ),&ButtonClips[ 0 ], Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+    SDL_BlitSurface(Gfx.GetSurface(LoadsScreen->surface), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect);
 	
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
@@ -715,7 +723,7 @@ void Gamestate::LoadScreen(int iElapsedTime)
 void Gamestate::SaveScreen(int iElapsedTime)
 {
 	SDL_BlitSurface( Gfx.GetSurface( SavesScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
-	
+    
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
 	string str = "SaveScreen @";
@@ -729,6 +737,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		SavesScreen->ButtonNewgame = false;
 	}
+    SDL_FreeSurface(srfElapsedTime);
 }
 
 // ----------------------------------------------------------------------------

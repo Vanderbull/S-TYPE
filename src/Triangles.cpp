@@ -1,6 +1,6 @@
 #include "Triangles.h"
 #include <SDL.h>
-#include "Game.h"
+#include "game.h"
 #include "ControlGfx.h"
 
 // 1. this should go into every .cpp , after all header inclusions

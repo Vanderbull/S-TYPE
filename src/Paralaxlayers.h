@@ -1,6 +1,7 @@
 // Parallax.h
 #pragma once
 #include <SDL.h>
+#include <vector>
 
 // struct declarations
 struct ParallaxLayer
@@ -40,4 +41,5 @@ class ParallaxBackground
 	private:
 		int m_layerCount;
 		ParallaxLayer *m_demons;
+		std::vector<ParallaxLayer> m_ParallaxBackground;
 };

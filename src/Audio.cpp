@@ -20,6 +20,7 @@ ControlAudio Audio;
  
 ControlAudio::ControlAudio()
 {
+	cout << "Creating the Audio controller..." << endl;
 	for( int i=0; i < 3; i++ )
 	{
 		Playlist[i] = NULL;
@@ -45,8 +46,6 @@ ControlAudio::ControlAudio()
 
 void ControlAudio::LoadAudio()
 {
-	std::cout << "Loading audio..." << endl;
-
 	Playlist[0] = Mix_LoadMUS( "Music/MenuMusic.ogg" );
 	Playlist[1] = Mix_LoadMUS( "Music/Let_the_Machines_do_the_Whistling_instrumental.ogg" );
 	Playlist[2] = Mix_LoadMUS( "Music/Coffin_Ships.ogg" );

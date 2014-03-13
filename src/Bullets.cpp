@@ -136,10 +136,10 @@ void ControlBullets::Create_Bullets()
 
 ControlBullets::ControlBullets()
 {
-	cout << "Creating the ControlBullets class..." << endl;
+	cout << "Creating the Bullet Controller..." << endl;
 }
 
 ControlBullets::~ControlBullets()
 {
-	cout << "Destroying the ControlBullets class..." << endl;
+	cout << "Destroying the Bullet Controller..." << endl;
 }

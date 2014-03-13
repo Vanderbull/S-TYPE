@@ -36,11 +36,10 @@ int main( int argc, char * arg[] )
 	SDL_Event event = {0};
 	int timeOfEvent = 0;
  
-	Game GameEngine;
+	//Game GameEngine;
 	Timer fps;
 
 	std::queue<float> DeltaHistory;
-  
 	QueryPerformanceFrequency(&freq);
 
 
@@ -71,7 +70,7 @@ int main( int argc, char * arg[] )
 
 	//SDL_WM_SetIcon(SDL_LoadBMP("src/res/small.bmp"), NULL);
 	
-	while( GameEngine.Quit == false )
+	while( Engine.Quit == false )
 	{
 		second.QuadPart += ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
@@ -82,17 +81,16 @@ int main( int argc, char * arg[] )
 
 		QueryPerformanceCounter(&start);
 
-		SDL_PollEvent( &event );
-
-		GameEngine.HandleEvents( event );
+		while( SDL_PollEvent( &event ) )
+            Engine.HandleEvents( event );
 		
-		GameEngine.Update( event, gamestate.DeltaTime );
+		Engine.Update( event, gamestate.DeltaTime );
 		Gfx.FLIP();
 
 		QueryPerformanceCounter(&end);
 	}
 
-	GameEngine.Cleanup();
+	Engine.Cleanup();
 	gamestate.Cleanup();
 	return 0;
 }

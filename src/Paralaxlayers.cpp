@@ -28,6 +28,7 @@ ParallaxLayer::ParallaxLayer()
 	DH = 0;
 	HowFarGone = 0;
 	AnimClouds = 0;
+	Xpos = 0;
 }
 
 
@@ -61,7 +62,7 @@ void ParallaxLayer::set( float p, Uint16 s, Uint16 sy, Uint16 w, Uint16 h, Uint1
 ParallaxBackground::ParallaxBackground()
 {
 	m_layerCount = 0;
-	m_demons = 0;
+	m_demons = NULL;
 }
 
 
@@ -80,20 +81,15 @@ ParallaxBackground::~ParallaxBackground()
 
 
 // ------------------------------------------------------------
-// createLayers() - kills old layers and creates new ones
+// createLayers() - Create new Parallax layers
 // ------------------------------------------------------------
 void ParallaxBackground::createLayers( int count )
 {
-	// Kill old layers
-	if( m_demons ) 
-	{
-		delete [] m_demons; 
-	}
-
-
-	// Create new layers
+	ParallaxLayer temp_background;
+	for (int layers = 0; layers < count; layers++)
+		m_ParallaxBackground.push_back(temp_background);
 	m_layerCount = count;
-	m_demons = new ParallaxLayer[ count ];
+	m_demons = new ParallaxLayer[m_layerCount];
 }
 
 
@@ -104,11 +100,14 @@ void ParallaxBackground::createLayers( int count )
 void ParallaxBackground::setLayer(	int index, float p, Uint16 s, Uint16 sy, Uint16 w, Uint16 h, Uint16 DestX, Uint16 DestY, Uint16 DestW, Uint16 DestH )
 {
 	// Sanity check
-	if( ( index < 0 ) || ( index >= m_layerCount ) )
+	if( ( index < 0 ) || ( index >= getLayerCount() ) )
 		return;
 
 	// Set it!
 	m_demons[ index ].set( p, s, sy, w, h, DestX, DestY, DestW, DestH );
+
+	// new setit
+	m_ParallaxBackground.at(index).set(p, s, sy, w, h, DestX, DestY, DestW, DestH);
 }
 
 
@@ -119,7 +118,7 @@ void ParallaxBackground::setLayer(	int index, float p, Uint16 s, Uint16 sy, Uint
 ParallaxLayer *ParallaxBackground::getLayer( int index )
 {
 	// Sanity check
-	if( ( index < 0 ) || ( index >= m_layerCount ) )
+	if( ( index < 0 ) || ( index >= getLayerCount() ) )
 	{
 		return 0;
 	}
