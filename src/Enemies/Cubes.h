@@ -2,6 +2,7 @@
 #include <list>
 #include <vector>
 #include <stack>
+#include <ctime>
 #include <SDL.h>
 
 #define CUBE_MAX_FRAMES 15
@@ -10,22 +11,24 @@
 
 class CubeObject
 {
-public:
-	float xPos,yPos;
-	Sint16 Height,Width;
-	int SurfaceID;
-	SDL_Rect CollisionBox;
+    public:
+    	float xPos,yPos;
+    	Sint16 Height,Width;
+    	int SurfaceID;
+    	SDL_Rect CollisionBox;
 
-private:
+    private:
 };
 
 class CubeState
 {
-public:
-	int Frame, State;
-	int Radius;
-	int Surface;
-	SDL_Rect Destination;
+    public:
+	    int Frame, State;
+	    int Radius;
+	    int Surface;
+	    SDL_Rect Destination;
+
+    private:
 };
 
 class Cube : public CubeState, public CubeObject
@@ -50,12 +53,15 @@ class ControlCubes
 public:
 	ControlCubes();
 	~ControlCubes();
+    void LoadSpawnPoints();
 	void DrawCubes();
 	void CreateCubes( int iProgress );
 
 	Cube CreateCubeByReference( int xPos, int yPos, int surface );
 	std::vector< Cube > GetVectorWithCubes(){ return CubeArrayRef; };
 	std::vector< Cube > CubeArrayRef;
+
+    std::stack<int> cube_spawn_points;
 	
 private:
 };

@@ -346,14 +346,14 @@ void ControlGfx::DrawParallaxLayers()
 
 void ControlGfx::DrawSprite()
 {
-		BCSpaceShip.Update();
-		BCSpaceShip.SetCollisionBox(BCSpaceShip.GetPosition().x, BCSpaceShip.GetPosition().y + 35, 50, 80);
+    Spaceship.Update();
+    Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y + 35, 50, 80);
 		//DrawBackgroundBlack();
 		//SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 
-		SDL_BlitSurface( Gfx.GetSurface( BCSpaceShip._SurfaceID ), 
-			&BCSpaceShip.AnimationArrays[ BCSpaceShip.GetState() ][ BCSpaceShip.Animate() ],
-			Gfx.BackBuffer, &BCSpaceShip.GetPosition() );
+    SDL_BlitSurface(Gfx.GetSurface(Spaceship._SurfaceID),
+        &Spaceship.AnimationArrays[Spaceship.GetState()][Spaceship.Animate()],
+        Gfx.BackBuffer, &Spaceship.GetPosition());
 }
 
 // ----------------------------------------------------------------------------
@@ -361,13 +361,13 @@ void ControlGfx::DrawSprite()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
-		BCSpaceShip.Update();
-		AnimalController.DrawAnimals();
-		CubeController.DrawCubes();
-		TriangleController.DrawTriangles();
-		BulletController.Draw_Bullets();
-		ObjectController.DrawObjects();
-		PowerupController.DrawPowerup();
+    Spaceship.Update();
+	AnimalController.DrawAnimals();
+	CubeController.DrawCubes();
+	TriangleController.DrawTriangles();
+	BulletController.Draw_Bullets();
+	ObjectController.DrawObjects();
+	PowerupController.DrawPowerup();
 }
 
 // ----------------------------------------------------------------------------

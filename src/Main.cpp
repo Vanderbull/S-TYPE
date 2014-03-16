@@ -31,7 +31,7 @@ int main( int argc, char * arg[] )
         tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
     _CrtSetDbgFlag( tmpFlag );
 
-	srand( time( 0 ) );
+    srand(time_t(0));
 	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 }, second = { 0 };
 	SDL_Event event = {0};
 	int timeOfEvent = 0;

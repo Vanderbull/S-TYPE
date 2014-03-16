@@ -26,14 +26,22 @@ SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 
 void Cube::Update()
 {
-	double wavelength = 50;
-	int _sTime = 10, waveheight = 25;
+    //#define pi 3.14159;
+    //#define sign2(x) (( x > 0 ) - ( x < 0 ));
+    double _freq = 50;
+    int _sTime = 5, _amp = 100;
 
+    double full = (2 * 3.14159) * 50.f;// * _freq;
+    static double _x = 0;
+    int _y = (sin(xPos / _freq)*_amp) + 300;
+    if (_x >= full)
+        _x -= full;
+    _x++;
 	xPos -= CubeSpeed * gamestate.DeltaTime;
 	Destination.h = Height;
 	Destination.w = Width;
 	Destination.x = xPos;
-	Destination.y = yPos; //(sin(xPos / wavelength )*waveheight) + 300;
+    Destination.y = _y;//yPos; //(sin(xPos / wavelength )*waveheight) + 300;
 
 	PrevFrame = Frame++;
 	if( Frame >= CUBE_MAX_FRAMES )
@@ -46,7 +54,7 @@ void Cube::Update()
 void Cube::Draw()
 {
 	#ifdef _DEBUG 
-	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 	
 	SDL_BlitSurface( 
@@ -78,6 +86,28 @@ Cube::Cube()
 	}
 }
 
+// ControlCubes begins here
+void ControlCubes::LoadSpawnPoints()
+{
+    ifstream ifile;
+    ifile.open("cube_spawn_points.txt", ios::in);
+
+    if (!ifile.is_open()) {
+        cerr << "There was an error opening the input file!\n";
+        exit(0);
+    }
+    else
+    {
+        cout << "Opened cube_spawn_points.txt for reading" << endl;
+    }
+    int temp = 0;
+
+    while (ifile >> temp)
+    {
+        cube_spawn_points.push(temp);
+    }
+}
+
 void ControlCubes::DrawCubes()
 {
 	if( CubeArrayRef.size() < 1 )
@@ -104,18 +134,12 @@ void ControlCubes::DrawCubes()
 
 void ControlCubes::CreateCubes(int iProgress )
 {
-	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
-	{
-		//if( CubeArrayRef.size() < rand() % 5 )
-		if( rand() % 100 + 1 >= 100 )
-		{
-			CubeArrayRef.push_back( CreateCubeByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h - 64, gamestate.m_srfCube ) );
-		}
-	}
-	else
-	{
-		cout << "Progress passed the target range... " << endl;
-	}
+    int temp = cube_spawn_points.top();
+    if (iProgress == cube_spawn_points.top())
+    {
+        CubeArrayRef.push_back(CreateCubeByReference(SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h - 64, gamestate.m_srfCube));
+        cube_spawn_points.pop();
+    }
 }
 
 Cube ControlCubes::CreateCubeByReference( int xPos, int yPos, int surface )

@@ -15,11 +15,11 @@
 #endif
 #endif
 
-BaseSpaceShip BCSpaceShip(0,0, 300, SPACESHIP_HEIGHT, SPACESHIP_WIDTH);
+BaseSpaceShip Spaceship(0, 0, 300, SPACESHIP_HEIGHT, SPACESHIP_WIDTH);
 
 BaseSpaceShip::BaseSpaceShip()
 {
-	cout << "Constructor BaseCharacter..." << endl;
+	cout << "Creating Spaceship controller..." << endl;
 }
 
 BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int width)
@@ -34,7 +34,7 @@ BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int wi
 	_Position.h = 100;
 	_Position.w = 130;
 
-	_SurfaceID = surface;
+	//_SurfaceID = surface;
 
 	xVelocity = 0.000015f; 
 	yVelocity = 0.0f;
@@ -84,10 +84,10 @@ void BaseSpaceShip::SetClips()
 	{
 		for( int Row = 0; Row < ArraySizeRows; Row++ )
 		{
-			BCSpaceShip.AnimationArrays[ Column ][ Row ].x = Row * _Position.w;
-			BCSpaceShip.AnimationArrays[ Column ][ Row ].y = Column * _Position.h;
-			BCSpaceShip.AnimationArrays[ Column ][ Row ].h = _Position.h;
-			BCSpaceShip.AnimationArrays[ Column ][ Row ].w = _Position.w;
+            Spaceship.AnimationArrays[Column][Row].x = 0;//Row * _Position.w;
+            Spaceship.AnimationArrays[Column][Row].y = 0;//Column * _Position.h;
+            Spaceship.AnimationArrays[Column][Row].h = 130;//_Position.h;
+            Spaceship.AnimationArrays[Column][Row].w = 100;//_Position.w;
 		}
 	}
 }

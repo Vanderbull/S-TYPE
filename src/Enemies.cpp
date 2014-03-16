@@ -210,11 +210,11 @@ void Control_Enemies::Draw_Enemies()
 
 				// checks collision with demon using circlecollision
 				//Collide = CollisionController.CheckCollisionWithdemon( enemy, 1 );
-				Collide = CollisionController.CheckCollision( (*i), 1, &BCSpaceShip);
+            Collide = CollisionController.CheckCollision((*i), 1, &Spaceship);
 
 				//Attack = demon.IsInStateAttack();
 				
-				if( Collide == true && BCSpaceShip.IsAttacking() ) // && Attack == true
+            if (Collide == true && Spaceship.IsAttacking()) // && Attack == true
 				{
 						if( (*i)->Surface == DWARF )
 						{

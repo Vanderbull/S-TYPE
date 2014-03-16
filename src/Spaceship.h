@@ -188,4 +188,4 @@ private:
 	std::queue<std::string> Beam;
 };
 
-extern BaseSpaceShip BCSpaceShip;
+extern BaseSpaceShip Spaceship;

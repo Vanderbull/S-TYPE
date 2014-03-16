@@ -46,10 +46,10 @@ Animal::Animal()
 
 int Animal::isColliding(SDL_Rect Box)
 {
-	int PlayerRight = BCSpaceShip.GetPosition().x + BCSpaceShip.GetPosition().w;
-	int PlayerLeft = BCSpaceShip.GetPosition().x;
-	int PlayerTop = BCSpaceShip.GetPosition().y;
-	int PlayerBottom = BCSpaceShip.GetPosition().x + BCSpaceShip.GetPosition().h;
+	int PlayerRight = Spaceship.GetPosition().x + Spaceship.GetPosition().w;
+	int PlayerLeft = Spaceship.GetPosition().x;
+	int PlayerTop = Spaceship.GetPosition().y;
+	int PlayerBottom = Spaceship.GetPosition().x + Spaceship.GetPosition().h;
 
 	int EnemyRight = LocAndSize.x + LocAndSize.w;
 	int EnemyLeft = LocAndSize.x;

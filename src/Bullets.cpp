@@ -131,7 +131,7 @@ Bullet ControlBullets::CreateBulletByReference( int xPos, int yPos, int surface 
 
 void ControlBullets::Create_Bullets()
 {
-	LoadBullet(BCSpaceShip.GetPosition().x + BCSpaceShip._CollisionBox.w / 2, BCSpaceShip.GetPosition().y + BCSpaceShip._CollisionBox.h / 2, gamestate.m_srfLaser );
+    LoadBullet(Spaceship.GetPosition().x + Spaceship._CollisionBox.w / 2, Spaceship.GetPosition().y + Spaceship._CollisionBox.h / 2, gamestate.m_srfLaser);
 }
 
 ControlBullets::ControlBullets()

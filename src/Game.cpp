@@ -220,19 +220,19 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							case SDLK_RIGHT:
 							{
-								BCSpaceShip.xVelocity = 1.0f;
+								Spaceship.xVelocity = 1.0f;
 							} break;
 							case SDLK_LEFT:
 							{
-								BCSpaceShip.xVelocity = -1.0f;
+								Spaceship.xVelocity = -1.0f;
 							} break;
 							case SDLK_UP:
 							{
-								BCSpaceShip.yVelocity = 1.0f;
+								Spaceship.yVelocity = 1.0f;
 							} break;
 							case SDLK_DOWN:
 							{
-								BCSpaceShip.yVelocity = -1.0f;
+								Spaceship.yVelocity = -1.0f;
 							} break;
 							case SDLK_SPACE:
 							{
@@ -246,11 +246,11 @@ void Game::HandleEvents( SDL_Event _event )
 							} break;
 							case SDLK_LALT:
 							{
-								BCSpaceShip.AddAction("FIRE_SPECIAL");
+								Spaceship.AddAction("FIRE_SPECIAL");
 							} break;
 							case SDLK_RETURN:
 							{
-								BCSpaceShip.AddAction("RETURN");
+								Spaceship.AddAction("RETURN");
 							} break;
 							case SDLK_ESCAPE:
 							{
@@ -259,7 +259,7 @@ void Game::HandleEvents( SDL_Event _event )
 							} break;
 							default:
 							{
-								BCSpaceShip.AddAction("DEFAULT");
+								Spaceship.AddAction("DEFAULT");
 							}
 					}
 				} break;
@@ -293,19 +293,19 @@ void Game::HandleEvents( SDL_Event _event )
 						} break;
 						case SDLK_RIGHT:
 						{
-							BCSpaceShip.xVelocity = 0.0f;
+							Spaceship.xVelocity = 0.0f;
 						} break;
 						case SDLK_LEFT:
 						{
-							BCSpaceShip.xVelocity = 0.0f;
+							Spaceship.xVelocity = 0.0f;
 						} break;
 						case SDLK_UP:
 						{
-							BCSpaceShip.yVelocity = 0.0f;
+							Spaceship.yVelocity = 0.0f;
 						} break;
 						case SDLK_DOWN:
 						{
-							BCSpaceShip.yVelocity = 0.0f;
+							Spaceship.yVelocity = 0.0f;
 						} break;
 						case SDLK_SPACE:
 						{
@@ -408,6 +408,9 @@ void Game::HandleEvents( SDL_Event _event )
 Game::Game()
 {
 	cout << "Creating the Game::Game object..." << endl;
+
+    CubeController.LoadSpawnPoints();
+
 	SPAWN_POSITION_X = 0;
 	SPAWN_POSITION_Y = 0;
 	_SCORE = 0;
@@ -424,7 +427,7 @@ Game::Game()
 	gamestate.load_files();
 
 	//new setclips function
-	BCSpaceShip.SetClips();
+    Spaceship.SetClips();
 	
 	// New button stuff
 	
@@ -465,7 +468,7 @@ void Gamestate::load_files()
 
 	m_srfBackdrop = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfBackdrop.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
-	BCSpaceShip._SurfaceID = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
+	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
 	m_srfAsteroid = Gfx.Load_imageAlpha( "Graphics/srfAsteroid.png", 255, 255, 255 );
 	m_srfStart = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfStart.png", 237, 234, 214 );
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
@@ -574,15 +577,15 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				LevelProgress += iElapsedTime / 150;
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
-				Gfx.DrawSprite();
+				
 				
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				
-				CollisionController.SpaceshipCollider(BCSpaceShip,AnimalController.AnimalArrayRef );
-				CollisionController.SpaceshipCollider(BCSpaceShip,CubeController.CubeArrayRef );
-				CollisionController.SpaceshipCollider(BCSpaceShip,TriangleController.TriangleArrayRef );
+				CollisionController.SpaceshipCollider(Spaceship,AnimalController.AnimalArrayRef );
+				CollisionController.SpaceshipCollider(Spaceship,CubeController.CubeArrayRef );
+				CollisionController.SpaceshipCollider(Spaceship,TriangleController.TriangleArrayRef );
 				
 				SDL_Surface * SrfProgress;
 				SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );
@@ -619,6 +622,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 					Gfx.apply_surface( Gfx.BackBuffer->w / 2, Gfx.BackBuffer->h / 2 + raise, Gfx.srfText, Gfx.BackBuffer );
 					raise--;
 				}
+                Gfx.DrawSprite();
 				Gfx.FLIP();
 			} break;
 		case GAME_BOSS_STATE:
@@ -631,8 +635,8 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_PLAYER_DIED_STATE:
 			{
-				BCSpaceShip._Lives--;
-				if(BCSpaceShip._Lives>0)
+				Spaceship._Lives--;
+				if(Spaceship._Lives>0)
 				{
 					gamestate.Reset();
 					gamestate.GameState.pop();
@@ -851,12 +855,12 @@ void Gamestate::EnterName()
 
 void Gamestate::RestartGame()
 {
-	BCSpaceShip.Reset();
+	Spaceship.Reset();
 	AnimalController.Destroy();
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();
 	_SCORE = 0;
-	BCSpaceShip._Lives = 3;
+	Spaceship._Lives = 3;
 	//ifstream myfile;
 	//myfile.open ("highscore.txt");
 	//myfile >> CURRENT_HIGHSCORE;
@@ -864,7 +868,7 @@ void Gamestate::RestartGame()
 }
 void Gamestate::Reset()
 {
-	BCSpaceShip.Reset();
+	Spaceship.Reset();
 	AnimalController.Destroy();
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();
@@ -932,16 +936,22 @@ void Game::Cleanup()
 bool Game::Init(SDL_Surface * &screen)
 {
 	screen = 0;
-
+    Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF;
 	//set up the screen
-	screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-	Gfx.m_SurfaceCollection["Screen"] = *SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
+    Gfx.m_SurfaceCollection["Screen"] = *SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
+    
+    //Uint32 flags = SDL_SWSURFACE; /* Start with whatever flags you prefer */
+    //flags = screen->flags; /* Save the current flags in case toggling fails */
+    //screen = SDL_SetVideoMode(0, 0, 0, screen->flags ^ SDL_FULLSCREEN); /*Toggles FullScreen Mode */
+    //if (screen == NULL) screen = SDL_SetVideoMode(0, 0, 0, flags); /* If toggle FullScreen failed, then switch back */
+    //if (screen == NULL) exit(1); /* If you can't switch back for some reason, then epic fail */
 
 	SDL_Rect** modes;
 	int i;
    
     /* Get available fullscreen/hardware modes */
-    modes = SDL_ListModes(NULL, SDL_FULLSCREEN|SDL_HWSURFACE);
+    modes = SDL_ListModes(NULL, SDL_FULLSCREEN | SDL_HWSURFACE);
     
     /* Check if there are any modes available */
     if (modes == (SDL_Rect**)0) 
