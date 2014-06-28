@@ -46,12 +46,12 @@ ControlAudio::ControlAudio()
 
 void ControlAudio::LoadAudio()
 {
-	Playlist[0] = Mix_LoadMUS( "Music/MenuMusic.ogg" );
+	Playlist[0] = Mix_LoadMUS( "Music/sea_battles_in_space.ogg" );
 	Playlist[1] = Mix_LoadMUS( "Music/Let_the_Machines_do_the_Whistling_instrumental.ogg" );
-	Playlist[2] = Mix_LoadMUS( "Music/Coffin_Ships.ogg" );
+	Playlist[2] = Mix_LoadMUS( "Music/all_will_be_well.ogg" );
 
-	Sfx[0] = Mix_LoadWAV( "Sfx/Laser.ogg" );
-	Sfx[1] = Mix_LoadWAV( "Sfx/Explosion.ogg" );
+	Sfx[0] = Mix_LoadWAV( "Sfx/laser_blaster.ogg" );
+	Sfx[1] = Mix_LoadWAV( "Sfx/blaster_explosion.ogg" );
 }
 
 void ControlAudio::PlayMusic( int song )

@@ -5,6 +5,7 @@ class Save
 {
 public:
 	Save( int ButtonX, int Surface, int SurfaceButtons );
+    void SetGameOptionButtons();
 
 	int surface;
 	int SurfaceButt;

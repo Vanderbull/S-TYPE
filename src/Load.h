@@ -5,6 +5,7 @@ class Load
 {
 public:
 	Load( int ButtonX, int Surface, int SurfaceButtons );
+    void SetGameOptionButtons();
 
 	int surface;
 	int SurfaceButt;

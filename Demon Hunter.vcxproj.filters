@@ -237,6 +237,9 @@
     <Filter Include="Screens\GameOver">
       <UniqueIdentifier>{ba7c9773-0ac9-4b2d-b6cf-316e2cb62ec2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Gamecontroller">
+      <UniqueIdentifier>{0d1d844c-c03b-416c-8bf0-8cd3b6b42945}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\resource.rc">
