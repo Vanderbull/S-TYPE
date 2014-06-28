@@ -1,6 +1,8 @@
 #pragma once
 #include <SDL.h>
 
+// MainMenu for the game
+// input: int button,int surface,int surfacebutton
 class MainMenu
 {
 public:

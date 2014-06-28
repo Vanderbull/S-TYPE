@@ -37,7 +37,7 @@ Animal::Animal()
 
 	for( int i = 0; i < 16; i++ )
 	{
-		Clips[ i ].x = i * SpriteWidth;
+        Clips[i].x = (Sint16)i * SpriteWidth;
 		Clips[ i ].y = 0;
 		Clips[ i ].h = SpriteHeight;
 		Clips[ i ].w = SpriteWidth;
@@ -73,7 +73,7 @@ SDL_Rect Animal::UpdateCollisionBox(SDL_Rect Box)
 void Animal::Update()
 {
 	xPos = AnimalSpeed * gamestate.DeltaTime;
-	LocAndSize.x -= xPos;
+    LocAndSize.x -= (Sint16)xPos;
 	LocAndSize.h = SpriteHeight;
 	LocAndSize.w = SpriteWidth;
 
@@ -133,7 +133,7 @@ void ControlAnimals::CreateAnimals(int iProgress )
 	{
 		if( rand() % 100 + 1 > 99 )
 		{
-			AnimalArrayRef.push_back( CreateAnimalByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfAsteroid ) );
+            AnimalArrayRef.push_back(CreateAnimalByReference(SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h, gamestate.m_srfAsteroid));
 		}
 	}
 	else
@@ -158,12 +158,12 @@ Animal ControlAnimals::CreateAnimalByReference( Sint16 xPos, Sint16 yPos, int su
 	
 	while( yPos > old_y_pos && yPos < old_y_pos + 128 )
 	{
-		yPos = rand() % Gfx.BackBuffer->h - 128;
+        yPos = (Sint16)(rand() % Gfx.BackBuffer->h - 128);
 	}
 	if( yPos < 64 )
 		yPos = 64;
 	if( yPos > Gfx.BackBuffer->h - 128 )
-		yPos = Gfx.BackBuffer->h - 128;
+        yPos = (Sint16)(Gfx.BackBuffer->h - 128);
 	Animal temp;
 	temp.SurfaceID = surface;
 	temp.LocAndSize.x = xPos;

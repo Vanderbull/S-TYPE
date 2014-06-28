@@ -22,7 +22,6 @@ struct ParallaxLayer
 
 
 // ParallaxBackground - container for ParallaxLayer
-// ------------------------------------------------
 class ParallaxBackground
 {
 	public:	

@@ -3,14 +3,17 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+
+#include <iostream>
 #include <map>
 #include <string>
 #include <sstream>
 #include <fstream>
 #include <list>
 #include <windows.h>
+using namespace std;
+
 #include "Paralaxlayers.h"
-#include <iostream>
 #include "Objects.h"
 #include "SDL_mixer.h"
 #include "SpaceShip.h"
@@ -27,7 +30,6 @@
 #include "GetInput.h"
 #include "World\CWorld.h"
 
-using namespace std;
 
 class Gamestate
 {

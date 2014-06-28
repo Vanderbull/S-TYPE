@@ -347,7 +347,8 @@ void ControlGfx::DrawParallaxLayers()
 void ControlGfx::DrawSprite()
 {
     Spaceship.Update();
-    Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y + 35, 50, 80);
+    //Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y + 35, 50, 80);
+    Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y, 64, 64);
 		//DrawBackgroundBlack();
 		//SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 

@@ -71,7 +71,7 @@
       <Filter>Screens\GameOver</Filter>
     </ClCompile>
     <ClCompile Include="src\Spaceship.cpp">
-      <Filter>Characters</Filter>
+      <Filter>Spaceship</Filter>
     </ClCompile>
     <ClCompile Include="src\Enemies\Powerup.cpp">
       <Filter>Enemies</Filter>
@@ -155,7 +155,7 @@
       <Filter>Screens\GameOver</Filter>
     </ClInclude>
     <ClInclude Include="src\Spaceship.h">
-      <Filter>Characters</Filter>
+      <Filter>Spaceship</Filter>
     </ClInclude>
     <ClInclude Include="src\Enemies\Powerup.h">
       <Filter>Enemies</Filter>
@@ -167,9 +167,6 @@
     </Filter>
     <Filter Include="Collision">
       <UniqueIdentifier>{443d06f8-aa95-4847-b42a-0d46eb5713aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Characters">
-      <UniqueIdentifier>{178f93e9-18ea-4b41-813a-0f2b20ec20db}</UniqueIdentifier>
     </Filter>
     <Filter Include="ControlGfx">
       <UniqueIdentifier>{bc288d61-9723-4477-af4e-556fac0388fb}</UniqueIdentifier>
@@ -239,6 +236,9 @@
     </Filter>
     <Filter Include="Gamecontroller">
       <UniqueIdentifier>{0d1d844c-c03b-416c-8bf0-8cd3b6b42945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Spaceship">
+      <UniqueIdentifier>{178f93e9-18ea-4b41-813a-0f2b20ec20db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

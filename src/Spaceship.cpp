@@ -31,8 +31,8 @@ BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int wi
 
 	_Position.x = Xpos;
 	_Position.y = Ypos;
-	_Position.h = 100;
-	_Position.w = 130;
+	_Position.h = 64;
+	_Position.w = 64;
 
 	//_SurfaceID = surface;
 
@@ -61,14 +61,14 @@ void BaseSpaceShip::Update()
 {
 	if( yVelocity != 0 )
 	{
-		if( (BaseSpaceShip::_Position.y + yVelocity > 0) && (BaseSpaceShip::_Position.y + yVelocity < Gfx.screen->h - 100) )
+		if( (BaseSpaceShip::_Position.y + yVelocity > 0) && (BaseSpaceShip::_Position.y + yVelocity < Gfx.screen->h - 64) )
 		{
 			BaseSpaceShip::_Position.y += yVelocity;
 		}
 	}
 	if( xVelocity != 0 )
 	{
-		if( (BaseSpaceShip::_Position.x + xVelocity > 0) && (BaseSpaceShip::_Position.x + xVelocity < Gfx.screen->w - 128) )
+		if( (BaseSpaceShip::_Position.x + xVelocity > 0) && (BaseSpaceShip::_Position.x + xVelocity < Gfx.screen->w - 64) )
 		{
 			BaseSpaceShip::_Position.x += xVelocity;
 		}
@@ -86,8 +86,8 @@ void BaseSpaceShip::SetClips()
 		{
             Spaceship.AnimationArrays[Column][Row].x = 0;//Row * _Position.w;
             Spaceship.AnimationArrays[Column][Row].y = 0;//Column * _Position.h;
-            Spaceship.AnimationArrays[Column][Row].h = 130;//_Position.h;
-            Spaceship.AnimationArrays[Column][Row].w = 100;//_Position.w;
+            Spaceship.AnimationArrays[Column][Row].h = 64;//_Position.h;
+            Spaceship.AnimationArrays[Column][Row].w = 64;//_Position.w;
 		}
 	}
 }

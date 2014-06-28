@@ -72,8 +72,8 @@ const int ANIMPACESLOWER = 300;
 const int ANIMPACEENEMY = 50;
 const int ANIMPACEBOSSHEAD = 5;
 
-const int SPACESHIP_HEIGHT = 100;
-const int SPACESHIP_WIDTH = 130;
+const int SPACESHIP_HEIGHT = 64;
+const int SPACESHIP_WIDTH = 64;
 const int SPACESHIP_WIDTH_REAL = 25;
 const int SPACESHIP_HEIGHT_REAL = 25;
 

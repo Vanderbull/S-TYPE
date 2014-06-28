@@ -606,8 +606,8 @@ void Gamestate::load_files()
 
 	m_srfBackdrop = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfBackdrop.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
-	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
-	m_srfAsteroid = Gfx.Load_imageAlpha( "Graphics/srfAsteroid.png", 255, 255, 255 );
+	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "Graphics/srfSpaceship.png", 0, 0, 0 );
+	m_srfAsteroid = Gfx.Load_imageAlpha( "Graphics/srfAsteroid.png", 0, 0, 0 );
 	m_srfStart = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfStart.png", 237, 234, 214 );
 	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
