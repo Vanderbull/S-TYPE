@@ -26,7 +26,7 @@ using namespace std;
 
 int main( int argc, char * arg[] )
 {
-    // 2. at the beginning of our app we need this
+    // At the beginning of our app we need this
     int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
         tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
     _CrtSetDbgFlag( tmpFlag );
@@ -52,36 +52,13 @@ int main( int argc, char * arg[] )
 
 	//initialize all SDL subystems 
 
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK | SDL_INIT_EVERYTHING) == -1)
+    if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
 	{
 		cout << "SDL INIT FAILED..." << endl;
 		SDL_Quit();
 	}
 	else
 	{
-        cout << "Enabling the Game controllers event handling" << endl;
-        if (SDL_JoystickEventState(SDL_QUERY) == SDL_ENABLE)
-        {
-            cout << "Game controller already handling events...";
-        }
-        else if (SDL_JoystickEventState(SDL_QUERY) == SDL_QUERY)
-        {
-            cout << "Current state of the controller is = " << SDL_JoystickEventState(SDL_QUERY) << endl;
-        }
-        else
-        {
-            cout << "Game controller is disabled..." << endl;
-        }
-
-        cout << "(" << SDL_NumJoysticks() << ") Game Controller found..." << endl;
-
-        for (int i = 0; i < SDL_NumJoysticks(); i++)
-        {
-            cout << "Controller info" << endl;
-            cout << "---------------" << endl;
-            cout << SDL_JoystickName(i) << endl;
-        }
-        cin.get();
 		cout << "SDL_INIT_EVERYTHING..." << endl;
 		timeOfEvent = SDL_GetTicks();
 	}
@@ -92,9 +69,14 @@ int main( int argc, char * arg[] )
 
 
 	//SDL_WM_SetIcon(SDL_LoadBMP("src/res/small.bmp"), NULL);
+
+    cout << Engine.GamePad->CountDevices() << endl;
+    Engine.GamePad->init();
+    //Engine.GamePad->HandleInput();
 	
 	while( Engine.Quit == false )
 	{
+        Engine.GamePad->Update();
 		second.QuadPart += ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 		if( second.QuadPart >= 2000000 )

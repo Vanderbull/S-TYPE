@@ -29,7 +29,7 @@ using namespace std;
 #include "OutroFinish.h"
 #include "GetInput.h"
 #include "World\CWorld.h"
-
+#include "GameController\GameController.h"
 
 class Gamestate
 {
@@ -131,9 +131,11 @@ public:
 	Uint16 SPAWN_POSITION_X;
 	Uint16 SPAWN_POSITION_Y;
 
+    GameController *GamePad;
 private:
 	Gamestate _State;
 	World _World;
+
 };
 
 extern Game Engine;

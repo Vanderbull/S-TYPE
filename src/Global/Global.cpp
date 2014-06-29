@@ -115,3 +115,5 @@ double CalcAverageTick(int newtick)
     /* return average */
     return((double)ticksum/MAXSAMPLES);
 }
+
+SDL_Joystick *GamePad;

@@ -76,6 +76,9 @@
     <ClCompile Include="src\Enemies\Powerup.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameController\GameController.cpp">
+      <Filter>Gamecontroller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audio.h">
@@ -159,6 +162,9 @@
     </ClInclude>
     <ClInclude Include="src\Enemies\Powerup.h">
       <Filter>Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameController\GameController.h">
+      <Filter>Gamecontroller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
