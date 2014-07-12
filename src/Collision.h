@@ -64,7 +64,7 @@ public:
 					iCube = VCubes.erase(iCube);
 					iBullet->DeActivate();
 					PopupScore.push_back(50);
-					_SCORE += 100;
+                    _SCORE += 100;
 				}
 				else
 				{

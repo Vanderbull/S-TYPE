@@ -344,6 +344,7 @@ void ControlGfx::DrawParallaxLayers()
 		gamestate.Parallax += SpaceScrollingSpeed * gamestate.DeltaTime;
 }
 
+// Draws the spaceship
 void ControlGfx::DrawSprite()
 {
     Spaceship.Update();

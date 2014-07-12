@@ -104,138 +104,138 @@ void Game::HandleEvents( SDL_Event _event )
 
                 case GAME_LOADING_STATE:
                 {
-                                           SetGameOptionButtons();
-                                           int MouseXCoordinates, MouseYCoordinates;
-                                           SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
-                                           cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
-                                           for (int i = 0; i < 3; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Difficuty set to -> " << i << "..." << endl;
-                                                   DIFFICULTY = i;
-                                               }
-                                           }
-                                           for (int i = 3; i < 5; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Sound set to -> " << i << "..." << endl;
-                                                   SOUND = i;
-                                               }
-                                           }
-                                           for (int i = 5; i < 7; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Music set to -> " << i << "..." << endl;
-                                                   MUSIC = i;
-                                               }
-                                           }
-                                           for (int i = 7; i < 8; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Returning to main menu -> " << i << "..." << endl;
-                                                   gamestate.GameState.pop();
-                                                   gamestate.GameState.push(MENU_MAIN_STATE);
-                                                   _event.type = 0;
-                                               }
-                                           }
-                                           for (int i = 0; i < 8; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Entering button " << i << "..." << endl;
-                                               }
-                                           }
+                        SetGameOptionButtons();
+                        int MouseXCoordinates, MouseYCoordinates;
+                        SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
+                        cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+                        for (int i = 0; i < 3; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Difficuty set to -> " << i << "..." << endl;
+                                DIFFICULTY = i;
+                            }
+                        }
+                        for (int i = 3; i < 5; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Sound set to -> " << i << "..." << endl;
+                                SOUND = i;
+                            }
+                        }
+                        for (int i = 5; i < 7; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Music set to -> " << i << "..." << endl;
+                                MUSIC = i;
+                            }
+                        }
+                        for (int i = 7; i < 8; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Returning to main menu -> " << i << "..." << endl;
+                                gamestate.GameState.pop();
+                                gamestate.GameState.push(MENU_MAIN_STATE);
+                                _event.type = 0;
+                            }
+                        }
+                        for (int i = 0; i < 8; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Entering button " << i << "..." << endl;
+                            }
+                        }
                 } break;
 
                 case GAME_SAVING_STATE:
                 {
-                                           SetGameOptionButtons();
-                                           int MouseXCoordinates, MouseYCoordinates;
-                                           SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
-                                           cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
-                                           for (int i = 0; i < 3; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Saving -> " << i << "..." << endl;
-                                                   std::ofstream of("./saves/save.txt", std::ios::out);
-                                                   if (of.is_open())
-                                                   {
-                                                        of << "save\n";
-                                                   }
-                                                   else
-                                                   {
-                                                       exit(1);
-                                                   }
-                                               }
-                                           }
-                                           for (int i = 3; i < 5; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Sound set to -> " << i << "..." << endl;
-                                                   SOUND = i;
-                                               }
-                                           }
-                                           for (int i = 5; i < 7; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Music set to -> " << i << "..." << endl;
-                                                   MUSIC = i;
-                                               }
-                                           }
-                                           for (int i = 7; i < 8; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Returning to main menu -> " << i << "..." << endl;
-                                                   gamestate.GameState.pop();
-                                                   gamestate.GameState.push(MENU_MAIN_STATE);
-                                                   _event.type = 0;
-                                               }
-                                           }
-                                           for (int i = 0; i < 8; i++)
-                                           {
-                                               if (MouseXCoordinates > ButtonClips[i].x &&
-                                                   MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                                   MouseYCoordinates > ButtonClips[i].y &&
-                                                   MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
-                                               {
-                                                   cout << "Entering button " << i << "..." << endl;
-                                               }
-                                           }
+                        SetGameOptionButtons();
+                        int MouseXCoordinates, MouseYCoordinates;
+                        SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
+                        cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+                        for (int i = 0; i < 3; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Saving -> " << i << "..." << endl;
+                                std::ofstream of("./saves/save.txt", std::ios::out);
+                                if (of.is_open())
+                                {
+                                    of << "save\n";
+                                }
+                                else
+                                {
+                                    exit(1);
+                                }
+                            }
+                        }
+                        for (int i = 3; i < 5; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Sound set to -> " << i << "..." << endl;
+                                SOUND = i;
+                            }
+                        }
+                        for (int i = 5; i < 7; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Music set to -> " << i << "..." << endl;
+                                MUSIC = i;
+                            }
+                        }
+                        for (int i = 7; i < 8; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Returning to main menu -> " << i << "..." << endl;
+                                gamestate.GameState.pop();
+                                gamestate.GameState.push(MENU_MAIN_STATE);
+                                _event.type = 0;
+                            }
+                        }
+                        for (int i = 0; i < 8; i++)
+                        {
+                            if (MouseXCoordinates > ButtonClips[i].x &&
+                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
+                                MouseYCoordinates > ButtonClips[i].y &&
+                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            {
+                                cout << "Entering button " << i << "..." << endl;
+                            }
+                        }
                 } break;
 
 
@@ -358,19 +358,19 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							case SDLK_RIGHT:
 							{
-								Spaceship.xVelocity = 1.0f;
+								Spaceship.xVelocity = -1.0f;
 							} break;
 							case SDLK_LEFT:
 							{
-								Spaceship.xVelocity = -1.0f;
+								Spaceship.xVelocity = 1.0f;
 							} break;
 							case SDLK_UP:
 							{
-								Spaceship.yVelocity = 1.0f;
+								Spaceship.yVelocity = -1.0f;
 							} break;
 							case SDLK_DOWN:
 							{
-								Spaceship.yVelocity = -1.0f;
+								Spaceship.yVelocity = 1.0f;
 							} break;
 							case SDLK_SPACE:
 							{
@@ -613,7 +613,7 @@ void Gamestate::load_files()
 	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
 	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
-	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
+	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 0, 0, 0 );
 	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfCredits.png", 255, 255, 255 );
 	m_srfOptions = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfOptions.png", 255, 255, 255 );
 	m_srfLoad = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfLoad.png", 255, 255, 255 );
@@ -727,14 +727,14 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				
 				SDL_Surface * SrfProgress;
 				SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );
-				Gfx.apply_surface( 300, 50, SrfProgress, Gfx.BackBuffer );
+				Gfx.apply_surface( 700, 560, SrfProgress, Gfx.BackBuffer );
 
-				Gfx.DrawScore(300,25,UpdateScore());
+				Gfx.DrawScore(600,560,UpdateScore());
 
 				if(LevelProgress < 50000)
 				{
-									Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,"You have just escaped from the clutches of the evil empire of 'Are you square or round'. Good luck!",Gfx.WhiteRGB);//TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
-									Gfx.apply_surface( Gfx.BackBuffer->w /4, Gfx.BackBuffer->h/2, Gfx.srfText, Gfx.BackBuffer );
+					Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont,"You have just escaped from the clutches of the evil empire of 'Are you square or round'. Good luck!",Gfx.WhiteRGB);//TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
+					Gfx.apply_surface( Gfx.BackBuffer->w /4, Gfx.BackBuffer->h/2, Gfx.srfText, Gfx.BackBuffer );
 				}
 
 				// rising text for score
@@ -1171,6 +1171,14 @@ bool Game::Init(SDL_Surface * &screen)
 	}
 
 	return true;
+}
+
+int Game::UpdateScore(int score)
+{
+    if ( score == 0 )
+        return _SCORE++;
+    else
+        return _SCORE += score;
 }
 
 void Gamestate::CreateAll()

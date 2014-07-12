@@ -40,7 +40,7 @@ void Bullet::Update()
 void Bullet::Draw()
 {
 	#ifdef _DEBUG 
-	 SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	 //SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 
 	SDL_BlitSurface( 

@@ -27,7 +27,7 @@ BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int wi
 	_Lives = 3;
 	BaseSpaceShip::SetAliveState(AliveState::ALIVE);
 
-	isHit            = false; 
+	isHit = false; 
 
 	_Position.x = Xpos;
 	_Position.y = Ypos;

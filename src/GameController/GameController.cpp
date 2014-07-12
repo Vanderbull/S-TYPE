@@ -125,28 +125,106 @@ void GameController::Update()
     cout << "y-axis: " << (Sint16)SDL_JoystickGetAxis(GamePad, 1) << endl;
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -32768)
-        Spaceship.yVelocity = 1.0f;
-    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == 32767)
         Spaceship.yVelocity = -1.0f;
+    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == 32767)
+        Spaceship.yVelocity = 1.0f;
     else
         Spaceship.yVelocity = 0.0f;
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -32768)
-        Spaceship.xVelocity = 1.0f;
-    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == 32767)
         Spaceship.xVelocity = -1.0f;
+    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == 32767)
+        Spaceship.xVelocity = 1.0f;
     else
         Spaceship.xVelocity = 0.0f;
 
     if (SDL_JoystickGetButton(GamePad, 0) == 1)
     {
-        if (FIRED == 0)
+        if (FIRED == 0 && (gamestate.GameState.top() != MENU_MAIN_STATE))
         {
         BulletController.Create_Bullets();
         FIRED = 1;
         Gfx.FLIP();
         Audio.PlaySoundEffect(4);
         }
+        SDL_Surface * SrfText;
+        std::string ControlText;
+        ControlText = "Red Button: ";
+        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+
+        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        Gfx.FLIP();
+    }
+    else if (SDL_JoystickGetButton(GamePad, 1) == 1)
+    {
+        if (FIRED == 0 && (gamestate.GameState.top() != MENU_MAIN_STATE))
+        {
+            BulletController.Create_Bullets();
+            FIRED = 1;
+            Gfx.FLIP();
+            Audio.PlaySoundEffect(4);
+        }
+        SDL_Surface * SrfText;
+        std::string ControlText;
+        ControlText = "Yellow Button: ";
+        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+
+        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        Gfx.FLIP();
+    }
+    else if (SDL_JoystickGetButton(GamePad, 2) == 1)
+    {
+        SDL_Surface * SrfText;
+        std::string ControlText;
+        ControlText = "Green Button: ";
+        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+
+        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        Gfx.FLIP();
+        gamestate.GameState.pop();
+        gamestate.GameState.push(MENU_MAIN_STATE);
+    }
+    else if (SDL_JoystickGetButton(GamePad, 3) == 1)
+    {
+        SDL_Surface * SrfText;
+        std::string ControlText;
+        ControlText = "Blue Button: ";
+        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+
+        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        Gfx.FLIP();
+        gamestate.GameState.pop();
+        gamestate.GameState.push(MENU_MAIN_STATE);
+    }
+    else if (SDL_JoystickGetButton(GamePad, 8) == 1)
+    {
+        SDL_Surface * SrfText;
+        std::string ControlText;
+        ControlText = "Select Button: ";
+        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+
+        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        Gfx.FLIP();
+        gamestate.GameState.pop();
+        gamestate.GameState.push(MENU_MAIN_STATE);
+    }
+    else if (SDL_JoystickGetButton(GamePad, 9) == 1)
+    {
+        SDL_Surface * SrfText;
+        std::string ControlText;
+        ControlText = "Start Button: ";
+        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+
+        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        Gfx.FLIP();
+        gamestate.GameState.pop();
+        gamestate.GameState.push(MENU_MAIN_STATE);
     }
     else
     {

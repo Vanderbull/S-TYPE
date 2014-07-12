@@ -134,7 +134,7 @@ void ControlPowerup::CreatePowerup(int iProgress )
 	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
 	{
 		if( rand() % 100 + 1 > 99 )
-			PowerupArrayRef.push_back( CreatePowerupByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfAsteroid ) );
+			PowerupArrayRef.push_back( CreatePowerupByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , Spaceship._SurfaceID ) );
 	}
 	else
 	{

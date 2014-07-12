@@ -122,7 +122,7 @@ public:
 	bool Init( SDL_Surface * &screen );
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
-	int UpdateScore(){ return _SCORE++; };
+	int UpdateScore(int score = 0);
 	bool Quit;
 	int MouseXCoordinates; // the last recorded x coordinate of the mouse
 	int MouseYCoordinates; // the last recorded y coordinate of the mouse
