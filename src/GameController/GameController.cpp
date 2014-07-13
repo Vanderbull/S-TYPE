@@ -105,6 +105,7 @@ void GameController::Open(int index)
 }
 void GameController::Update()
 {
+    Audio.Render();
     SDL_JoystickUpdate();
     //Update all the buttons
     for (int i = 0; i < SDL_JoystickNumButtons(GamePad); i++){

@@ -5,6 +5,7 @@
 #include <Windows.h>
 using namespace std;
 
+#include "Game.h"
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
 #ifdef _DEBUG
@@ -40,8 +41,11 @@ ControlAudio::ControlAudio()
 	{
 		cout << "Supported chunk decoder: [" << Mix_GetChunkDecoder(i) << "]" << endl;
 	}
-
+    QuerySpec();
 	LoadAudio();
+    Reset();
+    cout << "Resetting with default value" << endl;
+    Reset(22050);
 }
 
 void ControlAudio::LoadAudio()
@@ -72,7 +76,7 @@ void ControlAudio::PlayMusic( int song )
 }
 void ControlAudio::PlaySoundEffect( int effect )
 {
-	if( effect == E_AUDIO::FIRE_LASER )
+	if( effect == E_AUDIO::LASER )
 	{
 			Mix_PlayChannel( -1, Sfx[0], 0 );
 	}
@@ -114,7 +118,7 @@ ControlAudio::~ControlAudio()
 	}
 }
 
-void GetFadeStatusMusic()
+void ControlAudio::GetFadeStatusMusic()
 { 	
 // check the music fade status
 switch(Mix_FadingMusic()) {
@@ -128,4 +132,62 @@ switch(Mix_FadingMusic()) {
         cout << "Fading in music." << endl;
         break;
 	}
+}
+
+void ControlAudio::QuerySpec()
+{
+    // get and print the audio format in use
+    int numtimesopened, frequency, channels;
+    Uint16 format;
+    numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
+    if (!numtimesopened) {
+        printf("Mix_QuerySpec: %s\n", Mix_GetError());
+    }
+    else {
+        char *format_str = "Unknown";
+        switch (format) {
+        case AUDIO_U8: format_str = "U8"; break;
+        case AUDIO_S8: format_str = "S8"; break;
+        case AUDIO_U16LSB: format_str = "U16LSB"; break;
+        case AUDIO_S16LSB: format_str = "S16LSB"; break;
+        case AUDIO_U16MSB: format_str = "U16MSB"; break;
+        case AUDIO_S16MSB: format_str = "S16MSB"; break;
+        }
+        cout << "opened=" << numtimesopened << " times " << "frequency=" << frequency << " Hz " << "format=" << format_str << " channels=" << channels << endl;
+        //printf("opened=%d times  frequency=%dHz  format=%s  channels=%d",
+        //    numtimesopened, frequency, format_str, channels);
+    }
+}
+void ControlAudio::Reset(int frequency, Uint16 format, int channels, int chunksize)
+{
+    cout << "Resetting the audio device..." << endl;
+    Mix_CloseAudio();
+    if (Mix_OpenAudio(frequency, format, channels, chunksize) == -1)
+    {
+        cout << "Mix_OpenAudio: " << Mix_GetError() << endl;
+        exit(2);
+    }
+    else
+    {
+        std::cout << "Opening audio mixer with MIX_DEFAULT_FORMAT" << endl;
+    }
+    QuerySpec();
+}
+void ControlAudio::Render()
+{
+    int numtimesopened, frequency, channels;
+    Uint16 format;
+    numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
+    SDL_Surface * SrfText;
+    std::string ControlText;
+    ControlText = "Frequency: ";
+    ControlText.append(std::to_string(frequency).c_str());
+    ControlText.append(",Format:");
+    ControlText.append(std::to_string(format).c_str());
+    ControlText.append(",Channels:");
+    ControlText.append(std::to_string(channels).c_str());
+
+    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 550, SrfText, Gfx.BackBuffer);
+    Gfx.FLIP();
 }
