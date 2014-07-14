@@ -27,7 +27,6 @@ void GameController::init()
     if (SDL_JoystickEventState(SDL_ENABLE) != SDL_ENABLE)
     {
         cout << "Cannot enable Joystick event polling!" << endl;
-        cin.get();
     }
         int num_joy;
         num_joy = SDL_NumJoysticks();
@@ -54,7 +53,6 @@ void GameController::init()
             //this->availableHats = SDL_JoystickNumHats(this->stick);
         }
         cout << "worked" << endl;
-        cin.get();
 }
 // Cleanup the game controller
 GameController::~GameController()

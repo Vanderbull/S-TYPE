@@ -16,11 +16,11 @@ public:
 
     //Initializing variables
     GameController();
-    void init(void);
-
     //Cleanup the game controller
     ~GameController();
 
+    void init(void);
+    
     //Handles input
     void HandleInput();
     void Act();

@@ -73,11 +73,11 @@
     <ClCompile Include="src\Spaceship.cpp">
       <Filter>Spaceship</Filter>
     </ClCompile>
-    <ClCompile Include="src\Enemies\Powerup.cpp">
-      <Filter>Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameController\GameController.cpp">
       <Filter>Gamecontroller</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies\Powerup.cpp">
+      <Filter>Powerups</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,11 +160,11 @@
     <ClInclude Include="src\Spaceship.h">
       <Filter>Spaceship</Filter>
     </ClInclude>
-    <ClInclude Include="src\Enemies\Powerup.h">
-      <Filter>Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameController\GameController.h">
       <Filter>Gamecontroller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\Powerup.h">
+      <Filter>Powerups</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +245,9 @@
     </Filter>
     <Filter Include="Spaceship">
       <UniqueIdentifier>{178f93e9-18ea-4b41-813a-0f2b20ec20db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Powerups">
+      <UniqueIdentifier>{708203f1-163b-4e11-8653-bb1db2a9cf22}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

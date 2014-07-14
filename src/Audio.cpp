@@ -66,7 +66,6 @@ void ControlAudio::PlayMusic( int song )
 		if(Mix_PlayMusic(Playlist[song], -1)==-1) 
 		{
 			std::cout << "Mix_PlayMusic: " << Mix_GetError() << endl;
-			cin.get();
 		}
 		else
 		{
@@ -154,8 +153,6 @@ void ControlAudio::QuerySpec()
         case AUDIO_S16MSB: format_str = "S16MSB"; break;
         }
         cout << "opened=" << numtimesopened << " times " << "frequency=" << frequency << " Hz " << "format=" << format_str << " channels=" << channels << endl;
-        //printf("opened=%d times  frequency=%dHz  format=%s  channels=%d",
-        //    numtimesopened, frequency, format_str, channels);
     }
 }
 void ControlAudio::Reset(int frequency, Uint16 format, int channels, int chunksize)

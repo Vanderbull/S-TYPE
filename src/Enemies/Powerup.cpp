@@ -21,8 +21,9 @@ ControlPowerup PowerupController;
 
 Powerup::Powerup()
 {
-	Active = 1;
-	CollisionBox.h = 0;
+    Activate();
+	
+    CollisionBox.h = 0;
 	CollisionBox.w = 0;
 	CollisionBox.x = SpriteHeight;
 	CollisionBox.y = SpriteWidth;
@@ -42,6 +43,7 @@ Powerup::Powerup()
 		Clips[ i ].h = SpriteHeight;
 		Clips[ i ].w = SpriteWidth;
 	}
+    Timer = 500;
 }
 
 int Powerup::isColliding(SDL_Rect Box)
@@ -73,24 +75,29 @@ SDL_Rect Powerup::UpdateCollisionBox(SDL_Rect Box)
 
 void Powerup::Update()
 {
+    Timer--;
+    xPos = 0.0003f * gamestate.DeltaTime;
+    LocAndSize.x -= (Sint16)xPos;
+    LocAndSize.h = SpriteHeight;
+    LocAndSize.w = SpriteWidth;
 	//xPos = 0.0003f * gamestate.DeltaTime;
-	LocAndSize.x = 150;
-	LocAndSize.y = 150;
-	LocAndSize.h = SpriteHeight;
-	LocAndSize.w = SpriteWidth;
+	//LocAndSize.x = 150;
+	//LocAndSize.y = 150;
+	//LocAndSize.h = SpriteHeight;
+	//LocAndSize.w = SpriteWidth;
 
 	PrevFrame = Frame++;
-	if( Frame >= ANIMAL_MAX_FRAMES )
+	if( Frame >= MAX_FRAMES )
 	{
 		Frame = 0;
 	}
-	UpdateCollisionBox(LocAndSize);
+	//UpdateCollisionBox(LocAndSize);
 }
 
 void Powerup::Draw()
 {
 	#ifdef _DEBUG 
-	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 	
 	SDL_BlitSurface( 
@@ -99,6 +106,13 @@ void Powerup::Draw()
 		Gfx.BackBuffer, 
 		&GetDestination() 
 	);
+
+    //PopupScore.push_back(50);
+    //_SCORE += 100;
+    SDL_Surface * SrfProgress;
+    SrfProgress = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER UP COOL *YEA GRIIM!!!!!", Gfx.WhiteRGB);
+    Gfx.apply_surface(GetDestination().x, GetDestination().y, SrfProgress, Gfx.BackBuffer);
+
 
 }
 
@@ -118,7 +132,7 @@ void ControlPowerup::DrawPowerup()
 		i->Update();
 		i->Draw();
 		
-		if( i->LocAndSize.x <= 0.0f - SpriteWidth )
+        if (i->GetTimer() <= 0)//if(PowerupArrayRef.size() > 50 )//if( i->LocAndSize.x <= 0.0f - SpriteWidth )
 		{
 			i = PowerupArrayRef.erase(i);
 		}
@@ -129,17 +143,10 @@ void ControlPowerup::DrawPowerup()
 	}
 }
 
-void ControlPowerup::CreatePowerup(int iProgress )
+void ControlPowerup::CreatePowerup( SDL_Rect Pobject )
 {
-	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
-	{
-		if( rand() % 100 + 1 > 99 )
-			PowerupArrayRef.push_back( CreatePowerupByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , Spaceship._SurfaceID ) );
-	}
-	else
-	{
-		cout << "Progress passed the target range..." << endl;
-	}
+    if (rand()%100 >= 50 )
+	PowerupArrayRef.push_back( CreatePowerupByReference( Pobject.x, Pobject.y , gamestate.m_srfCube ) );
 }
 
 ControlPowerup::ControlPowerup()
@@ -149,21 +156,21 @@ ControlPowerup::ControlPowerup()
 
 ControlPowerup::~ControlPowerup()
 {
-	cout << "Destroying the POwerup Controller..." << endl;
+	cout << "Destroying the Powerup Controller..." << endl;
 }
 
 Powerup ControlPowerup::CreatePowerupByReference( int xPos, int yPos, int surface )
 {
-	static int old_y_pos = 0;
-	
-	while( yPos > old_y_pos && yPos < old_y_pos + 128 )
-	{
-		yPos = rand() % Gfx.BackBuffer->h - 128;
-	}
-	if( yPos < 64 )
-		yPos = 64;
-	if( yPos > Gfx.BackBuffer->h - 128 )
-		yPos = Gfx.BackBuffer->h - 128;
+	//static int old_y_pos = 0;
+	//
+	//while( yPos > old_y_pos && yPos < old_y_pos + 128 )
+	//{
+	//	yPos = rand() % Gfx.BackBuffer->h - 128;
+	//}
+	//if( yPos < 64 )
+	//	yPos = 64;
+	//if( yPos > Gfx.BackBuffer->h - 128 )
+	//	yPos = Gfx.BackBuffer->h - 128;
 	Powerup temp;
 	temp.SurfaceID = surface;
 	temp.LocAndSize.x = xPos;

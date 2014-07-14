@@ -1184,7 +1184,7 @@ int Game::UpdateScore(int score)
 void Gamestate::CreateAll()
 {
 	AnimalController.CreateAnimals(_SCORE );
-	PowerupController.CreatePowerup(_SCORE );
+	//PowerupController.CreatePowerup( Spaceship.GetPosition() );
 	CubeController.CreateCubes( _SCORE );
 	TriangleController.CreateTriangles( _SCORE );
 	EnemyController.Create_Enemies();

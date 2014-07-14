@@ -1,6 +1,7 @@
 #pragma once
 #include "SpaceShip.h"
 #include "Game.h"
+#include "Enemies\Powerup.h"
 #include "Objects.h"
 #include "Enemies.h"
 #include "ControlGfx.h"
@@ -27,6 +28,7 @@ public:
 					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iAnimal->LocAndSize.y
 					) )
 				{
+                    PowerupController.CreatePowerup( iAnimal->LocAndSize );
 					Audio.PlaySoundEffect( 5 );
 					iAnimal = VAnimals.erase(iAnimal);
 					iBullet->DeActivate();
