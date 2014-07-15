@@ -1,4 +1,5 @@
 #include <cmath>
+#include <random>
 #include "Powerup.h"
 #include "../Game.h"
 #include "../SpaceShip.h"
@@ -109,9 +110,9 @@ void Powerup::Draw()
 
     //PopupScore.push_back(50);
     //_SCORE += 100;
-    SDL_Surface * SrfProgress;
-    SrfProgress = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER UP COOL *YEA GRIIM!!!!!", Gfx.WhiteRGB);
-    Gfx.apply_surface(GetDestination().x, GetDestination().y, SrfProgress, Gfx.BackBuffer);
+    //SDL_Surface * SrfProgress;
+    //SrfProgress = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER UP COOL *YEA GRIIM!!!!!", Gfx.WhiteRGB);
+    //Gfx.apply_surface(GetDestination().x, GetDestination().y, SrfProgress, Gfx.BackBuffer);
 
 
 }
@@ -145,8 +146,21 @@ void ControlPowerup::DrawPowerup()
 
 void ControlPowerup::CreatePowerup( SDL_Rect Pobject )
 {
-    if (rand()%100 >= 50 )
-	PowerupArrayRef.push_back( CreatePowerupByReference( Pobject.x, Pobject.y , gamestate.m_srfCube ) );
+    // Seed with a real random value, if available
+    std::random_device rd;
+
+    // Choose a random mean between 1 and 100
+    std::default_random_engine e1(rd());
+    std::uniform_int_distribution<int> uniform_dist(1, 100);
+    int Color = uniform_dist(e1);
+    std::cout << "Randomly-chosen mean: " << Color << '\n';
+
+    if ( Color <= 33 )
+        PowerupArrayRef.push_back(CreatePowerupByReference(Pobject.x, Pobject.y, gamestate.m_srfRedPowerup ));
+    else if ( Color <= 66 )
+        PowerupArrayRef.push_back(CreatePowerupByReference(Pobject.x, Pobject.y, gamestate.m_srfGreenPowerup));
+    else
+        PowerupArrayRef.push_back(CreatePowerupByReference(Pobject.x, Pobject.y, gamestate.m_srfBluePowerup));
 }
 
 ControlPowerup::ControlPowerup()

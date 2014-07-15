@@ -71,6 +71,10 @@ public:
 		m_srfTriangle,
 		m_srfButtonActive;
 
+    int m_srfRedPowerup;
+    int m_srfGreenPowerup;
+    int m_srfBluePowerup;
+
 	std::map<string,int> m_SurfaceCollection;
 
 	// Active menu

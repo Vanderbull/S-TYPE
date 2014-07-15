@@ -621,6 +621,10 @@ void Gamestate::load_files()
 	m_srfCube = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
 	m_srfTriangle = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
 	m_srfButtonActive = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfButtonActive.png", 255, 255, 255 );
+
+    m_srfRedPowerup = Gfx.Load_imageAlpha("Graphics/Powerups/srfRedPowerup.png", 0, 0, 0);
+    m_srfGreenPowerup = Gfx.Load_imageAlpha("Graphics/Powerups/srfGreenPowerup.png", 0, 0, 0);
+    m_srfBluePowerup = Gfx.Load_imageAlpha("Graphics/Powerups/srfBluePowerup.png", 0, 0, 0);
 	
 	/*
 	std::map<string,int> m_SurfaceCollection;
@@ -724,6 +728,8 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				CollisionController.SpaceshipCollider(Spaceship,AnimalController.AnimalArrayRef );
 				CollisionController.SpaceshipCollider(Spaceship,CubeController.CubeArrayRef );
 				CollisionController.SpaceshipCollider(Spaceship,TriangleController.TriangleArrayRef );
+
+                CollisionController.SpaceshipCollider(Spaceship, PowerupController.PowerupArrayRef);
 				
 				SDL_Surface * SrfProgress;
 				SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );

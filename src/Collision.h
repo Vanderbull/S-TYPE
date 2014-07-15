@@ -8,6 +8,7 @@
 #include "Bullets.h"
 #include "Animals.h"
 #include "Enemies\Cubes.h"
+#include "Enemies\Powerup.h"
 #include "Triangles.h"
 #include "Audio.h"
 
@@ -178,6 +179,33 @@ public:
 				}
 			}
 	};
+
+    void SpaceshipCollider(BaseSpaceShip Spaceship, std::vector<Powerup> &VPowerups)
+    {
+        if (VPowerups.empty() || VPowerups.size() < 1)
+        {
+            return;
+        }
+        for (vector< Powerup >::iterator iPowerup = VPowerups.begin(); iPowerup != VPowerups.end();)
+        {
+            if (!(
+                Spaceship.GetCollisionBox().x > iPowerup->LocAndSize.x + iPowerup->LocAndSize.w ||
+                Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iPowerup->LocAndSize.x ||
+                Spaceship.GetCollisionBox().y > iPowerup->LocAndSize.y + iPowerup->LocAndSize.h ||
+                Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iPowerup->LocAndSize.y
+                ))
+            {
+                Audio.PlaySoundEffect(10);
+                
+                iPowerup = VPowerups.erase(iPowerup);
+            }
+            else
+            {
+                ++iPowerup;
+            }
+        }
+    };
+
 	// Old collision controlls
 	bool CollisionBox( BaseSpaceShip *cPlayer, CEnemy *cEnemy, bool Show );
 

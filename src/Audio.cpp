@@ -56,6 +56,7 @@ void ControlAudio::LoadAudio()
 
 	Sfx[0] = Mix_LoadWAV( "Sfx/laser_blaster.ogg" );
 	Sfx[1] = Mix_LoadWAV( "Sfx/blaster_explosion.ogg" );
+    Sfx[2] = Mix_LoadWAV("Sfx/pew_pew.ogg");
 }
 
 void ControlAudio::PlayMusic( int song )
@@ -83,6 +84,10 @@ void ControlAudio::PlaySoundEffect( int effect )
 	{
 			Mix_PlayChannel( -1, Sfx[1], 0 );
 	}
+    if (effect == 10)
+    {
+        Mix_PlayChannel(-1, Sfx[2], 0);
+    }
 }
 
 void ControlAudio::PauseMusic()
