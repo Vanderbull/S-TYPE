@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+<<<<<<< HEAD
     <Filter Include="Source Files">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -54,92 +55,260 @@
   <ItemGroup>
     <ClCompile Include="characters.cpp">
       <Filter>Source Files\MainChar</Filter>
+=======
+    <ClCompile Include="src\Audio.cpp">
+      <Filter>Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Paralaxlayers.cpp">
-      <Filter>Source Files\ParalaxLayers</Filter>
+    <ClCompile Include="src\Collision.cpp">
+      <Filter>Collision</Filter>
+>>>>>>> origin/Create-Enemies
     </ClCompile>
-    <ClCompile Include="Enemies.cpp">
-      <Filter>Source Files\Enemies</Filter>
+    <ClCompile Include="src\ControlGfx.cpp">
+      <Filter>ControlGfx</Filter>
     </ClCompile>
-    <ClCompile Include="Objects.cpp">
-      <Filter>Source Files\Objects</Filter>
+    <ClCompile Include="src\Enemies.cpp">
+      <Filter>Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files\Game</Filter>
+    <ClCompile Include="src\Game.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files\Main</Filter>
+    <ClCompile Include="src\GetInput.cpp">
+      <Filter>GetInput</Filter>
     </ClCompile>
-    <ClCompile Include="Timers.cpp">
-      <Filter>Source Files\Timers</Filter>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="Animals.cpp">
-      <Filter>Source Files\Animal</Filter>
+    <ClCompile Include="src\Objects.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="Intro.cpp">
-      <Filter>Source Files\Intro&amp;Menu</Filter>
+    <ClCompile Include="src\Timers.cpp">
+      <Filter>Timers</Filter>
     </ClCompile>
-    <ClCompile Include="Start.cpp">
-      <Filter>Source Files\MainScreen</Filter>
+    <ClCompile Include="src\OutroFinish.cpp">
+      <Filter>OutroFinished</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Source Files\Collisions</Filter>
+    <ClCompile Include="src\Paralaxlayers.cpp">
+      <Filter>ParallaxLayers</Filter>
     </ClCompile>
-    <ClCompile Include="OutroFinish.cpp">
-      <Filter>Source Files\Outro</Filter>
+    <ClCompile Include="src\World\CWorld.cpp">
+      <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="GetInput.cpp">
-      <Filter>Source Files\GettingInput</Filter>
+    <ClCompile Include="src\MainMenu.cpp">
+      <Filter>Screens\MainMenu</Filter>
     </ClCompile>
-    <ClCompile Include="HighScore.cpp">
-      <Filter>Source Files\HighScore</Filter>
+    <ClCompile Include="src\Bullets.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
-    <ClCompile Include="SoundAndMusic.cpp">
-      <Filter>Source Files\Sound</Filter>
+    <ClCompile Include="src\Global\Global.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Credits.cpp">
+      <Filter>Screens\Credits</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Options.cpp">
+      <Filter>Screens\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Animals.cpp">
+      <Filter>Enemies\Asteroids</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies\Cubes.cpp">
+      <Filter>Enemies\Cubes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Load.cpp">
+      <Filter>Screens\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Save.cpp">
+      <Filter>Screens\Save</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Triangles.cpp">
+      <Filter>Enemies\Triangles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameOver.cpp">
+      <Filter>Screens\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Spaceship.cpp">
+      <Filter>Spaceship</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameController\GameController.cpp">
+      <Filter>Gamecontroller</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies\Powerup.cpp">
+      <Filter>Powerups</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="characters.h">
-      <Filter>Source Files\MainChar</Filter>
+    <ClInclude Include="src\Audio.h">
+      <Filter>Audio</Filter>
     </ClInclude>
-    <ClInclude Include="Paralaxlayers.h">
-      <Filter>Source Files\ParalaxLayers</Filter>
+    <ClInclude Include="src\Collision.h">
+      <Filter>Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Enemies.h">
-      <Filter>Source Files\Enemies</Filter>
+    <ClInclude Include="src\ControlGfx.h">
+      <Filter>ControlGfx</Filter>
     </ClInclude>
-    <ClInclude Include="Objects.h">
-      <Filter>Source Files\Objects</Filter>
+    <ClInclude Include="src\Enemies.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Source Files\Game</Filter>
+    <ClInclude Include="src\Game.h">
+      <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Timers.h">
-      <Filter>Source Files\Timers</Filter>
+    <ClInclude Include="src\GetInput.h">
+      <Filter>GetInput</Filter>
     </ClInclude>
-    <ClInclude Include="Animals.h">
-      <Filter>Source Files\Animal</Filter>
+    <ClInclude Include="src\Objects.h">
+      <Filter>Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Intro.h">
-      <Filter>Source Files\Intro&amp;Menu</Filter>
+    <ClInclude Include="src\Timers.h">
+      <Filter>Timers</Filter>
     </ClInclude>
-    <ClInclude Include="Start.h">
-      <Filter>Source Files\MainScreen</Filter>
+    <ClInclude Include="src\OutroFinish.h">
+      <Filter>OutroFinished</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Source Files\Collisions</Filter>
+    <ClInclude Include="src\Paralaxlayers.h">
+      <Filter>ParallaxLayers</Filter>
     </ClInclude>
-    <ClInclude Include="OutroFinish.h">
-      <Filter>Source Files\Outro</Filter>
+    <ClInclude Include="src\BaseController.h" />
+    <ClInclude Include="src\Enemies\MovingThings.h">
+      <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="GetInput.h">
-      <Filter>Source Files\GettingInput</Filter>
+    <ClInclude Include="src\World\CWorld.h">
+      <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="HighScore.h">
-      <Filter>Source Files\HighScore</Filter>
+    <ClInclude Include="src\MainMenu.h">
+      <Filter>Screens\MainMenu</Filter>
     </ClInclude>
-    <ClInclude Include="SoundAndMusic.h">
-      <Filter>Source Files\Sound</Filter>
+    <ClInclude Include="src\resource.h">
+      <Filter>Resource</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bullets.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Global\Global.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Credits.h">
+      <Filter>Screens\Credits</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Options.h">
+      <Filter>Screens\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animals.h">
+      <Filter>Enemies\Asteroids</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\Cubes.h">
+      <Filter>Enemies\Cubes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Load.h">
+      <Filter>Screens\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Save.h">
+      <Filter>Screens\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Triangles.h">
+      <Filter>Enemies\Triangles</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameOver.h">
+      <Filter>Screens\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Spaceship.h">
+      <Filter>Spaceship</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameController\GameController.h">
+      <Filter>Gamecontroller</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\Powerup.h">
+      <Filter>Powerups</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{15c50117-fcc0-4fc9-b403-4964ef809b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{443d06f8-aa95-4847-b42a-0d46eb5713aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ControlGfx">
+      <UniqueIdentifier>{bc288d61-9723-4477-af4e-556fac0388fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies">
+      <UniqueIdentifier>{26c78456-8dc3-4bf5-b9ac-1142d7bb479e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{84dd5aa4-eb8d-4e19-9bdc-55544e0a4f29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GetInput">
+      <UniqueIdentifier>{b493b229-983e-4607-ab04-3c88c8acb3d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{b09540d1-2926-40f7-a57b-3fa80d114054}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{e2a856dd-9e78-4b01-ba4b-774a010bcc26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timers">
+      <UniqueIdentifier>{fb3823d0-1bbd-42eb-b74f-8e16f3406c84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OutroFinished">
+      <UniqueIdentifier>{ba71ba1a-5e9e-4364-9420-31c2cd17d5c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParallaxLayers">
+      <UniqueIdentifier>{5ddeeddd-5c9d-436b-99a2-e8ed79427abb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="World">
+      <UniqueIdentifier>{6f899a7f-da15-486f-b733-00d71c55b154}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{ce71be52-268c-4150-90ac-fd4f7705cc94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{102ea0c0-7847-4725-895e-d3137c9327db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Asteroids">
+      <UniqueIdentifier>{6a6ca93d-ed7f-4192-a684-d363e0d8b038}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Cubes">
+      <UniqueIdentifier>{ca6009e1-31cd-4ddf-9613-1a7dc05a105c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens">
+      <UniqueIdentifier>{534f0d58-55e6-41b4-8ffb-f874ac437f00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Load">
+      <UniqueIdentifier>{4e6db59e-a075-4353-a0b8-6da8d500d302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\MainMenu">
+      <UniqueIdentifier>{67d9a765-4e40-43b2-bafd-8b3d275e40fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Save">
+      <UniqueIdentifier>{685cddc8-dafe-4247-b121-eb6baba8f6ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Credits">
+      <UniqueIdentifier>{b3c48f4e-8d42-4090-b5e1-5f2c2f532ec4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\Options">
+      <UniqueIdentifier>{81626e78-b7d0-428a-b7f3-d26ad223eec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\Triangles">
+      <UniqueIdentifier>{bc7d872e-9493-4f56-ba38-048860741daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\GameOver">
+      <UniqueIdentifier>{ba7c9773-0ac9-4b2d-b6cf-316e2cb62ec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gamecontroller">
+      <UniqueIdentifier>{0d1d844c-c03b-416c-8bf0-8cd3b6b42945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Spaceship">
+      <UniqueIdentifier>{178f93e9-18ea-4b41-813a-0f2b20ec20db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Powerups">
+      <UniqueIdentifier>{708203f1-163b-4e11-8653-bb1db2a9cf22}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\resource.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
