@@ -107,14 +107,6 @@ void Powerup::Draw()
 		Gfx.BackBuffer, 
 		&GetDestination() 
 	);
-
-    //PopupScore.push_back(50);
-    //_SCORE += 100;
-    //SDL_Surface * SrfProgress;
-    //SrfProgress = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER UP COOL *YEA GRIIM!!!!!", Gfx.WhiteRGB);
-    //Gfx.apply_surface(GetDestination().x, GetDestination().y, SrfProgress, Gfx.BackBuffer);
-
-
 }
 
 SDL_Rect Powerup::GetDestination()
@@ -133,7 +125,7 @@ void ControlPowerup::DrawPowerup()
 		i->Update();
 		i->Draw();
 		
-        if (i->GetTimer() <= 0)//if(PowerupArrayRef.size() > 50 )//if( i->LocAndSize.x <= 0.0f - SpriteWidth )
+        if (i->GetTimer() <= 0)
 		{
 			i = PowerupArrayRef.erase(i);
 		}
@@ -153,7 +145,6 @@ void ControlPowerup::CreatePowerup( SDL_Rect Pobject )
     std::default_random_engine e1(rd());
     std::uniform_int_distribution<int> uniform_dist(1, 100);
     int Color = uniform_dist(e1);
-    std::cout << "Randomly-chosen mean: " << Color << '\n';
 
     if ( Color <= 33 )
         PowerupArrayRef.push_back(CreatePowerupByReference(Pobject.x, Pobject.y, gamestate.m_srfRedPowerup ));
@@ -175,16 +166,6 @@ ControlPowerup::~ControlPowerup()
 
 Powerup ControlPowerup::CreatePowerupByReference( int xPos, int yPos, int surface )
 {
-	//static int old_y_pos = 0;
-	//
-	//while( yPos > old_y_pos && yPos < old_y_pos + 128 )
-	//{
-	//	yPos = rand() % Gfx.BackBuffer->h - 128;
-	//}
-	//if( yPos < 64 )
-	//	yPos = 64;
-	//if( yPos > Gfx.BackBuffer->h - 128 )
-	//	yPos = Gfx.BackBuffer->h - 128;
 	Powerup temp;
 	temp.SurfaceID = surface;
 	temp.LocAndSize.x = xPos;
