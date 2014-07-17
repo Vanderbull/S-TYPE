@@ -21,7 +21,10 @@
     <ConfigurationType>Application</ConfigurationType>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <PlatformToolset>v120</PlatformToolset>
+=======
+>>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
 =======
 >>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
     <CharacterSet>Unicode</CharacterSet>
@@ -49,6 +52,7 @@
   <PropertyGroup>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <_ProjectFileVersion>12.0.21005.1</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -65,12 +69,15 @@
 =======
 =======
 >>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
+=======
+>>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+<<<<<<< HEAD
 <<<<<<< HEAD
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Visual Leak Detector\include;$(ProjectDir)include;$(IncludePath)</IncludePath>
@@ -85,10 +92,15 @@
     <LibraryPath>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win32;$(ProjectDir)lib\x86;$(LibraryPath)</LibraryPath>
 >>>>>>> origin/Create-Enemies
 =======
+=======
+>>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\risk\Documents\GitHub\SDLDemonHunter\include;$(IncludePath)</IncludePath>
     <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\risk\Documents\GitHub\SDLDemonHunter\lib\x86;$(LibraryPath)</LibraryPath>
     <ReferencePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ReferencePath)</ReferencePath>
+<<<<<<< HEAD
+>>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
+=======
 >>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -100,7 +112,12 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       <PrecompiledHeader />
+=======
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+>>>>>>> 83dd8c3052a4cd74850475663b2a2247f9d0618e
 =======
       <PrecompiledHeader>
       </PrecompiledHeader>
