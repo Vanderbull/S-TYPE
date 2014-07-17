@@ -16,6 +16,7 @@ public:
 	ControlAudio();
 	~ControlAudio();
 
+    void SetVolume(int volume, int id);
 	void LoadAudio();
 	void PlayMusic( int song );
 	void PlaySoundEffect( int effect );

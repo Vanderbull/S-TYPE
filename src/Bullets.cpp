@@ -43,6 +43,7 @@ void Bullet::Draw()
 	 //SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 
+    //LocAndSize.y = LocAndSize.y - 10;
 	SDL_BlitSurface( 
 		Gfx.GetSurface( SurfaceID ),
 		&Clips[ PrevFrame ], 
@@ -113,7 +114,7 @@ void ControlBullets::LoadBullet( int xPos, int yPos, int surface )
 	Bullet tempBullet;
 
 	tempBullet.LocAndSize.x = xPos;
-	tempBullet.LocAndSize.y = yPos;
+	tempBullet.LocAndSize.y = yPos-15;
 	tempBullet.SurfaceID = surface;
 
 	BulletArrayRef.push_back( tempBullet );

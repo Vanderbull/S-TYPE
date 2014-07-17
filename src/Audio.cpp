@@ -48,6 +48,11 @@ ControlAudio::ControlAudio()
     Reset(22050);
 }
 
+void ControlAudio::SetVolume(int volume, int id)
+{
+    //Mix_VolumeChunk(Sfx[id], volume);
+}
+
 void ControlAudio::LoadAudio()
 {
 	Playlist[0] = Mix_LoadMUS( "Music/sea_battles_in_space.ogg" );
@@ -64,6 +69,7 @@ void ControlAudio::PlayMusic( int song )
 	//If there is no music playing
     if( Mix_PlayingMusic() == 0 )
     {
+        Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 		if(Mix_PlayMusic(Playlist[song], -1)==-1) 
 		{
 			std::cout << "Mix_PlayMusic: " << Mix_GetError() << endl;
@@ -78,6 +84,7 @@ void ControlAudio::PlaySoundEffect( int effect )
 {
 	if( effect == E_AUDIO::LASER )
 	{
+        Mix_VolumeChunk(Sfx[0], 10);
 			Mix_PlayChannel( -1, Sfx[0], 0 );
 	}
 	if( effect == E_AUDIO::EXPLOSION )

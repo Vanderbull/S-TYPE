@@ -29,7 +29,7 @@ void Triangle::Update()
 	xPos -= 0.0003f * gamestate.DeltaTime;
 	Destination.w = Width;
 	Destination.x = xPos;
-	Destination.y = yPos+rand()% 12; 
+	Destination.y = yPos;//+rand()% 12; 
 
 	PrevFrame = Frame++;
 	if( Frame >= TRIANGLE_MAX_FRAMES )

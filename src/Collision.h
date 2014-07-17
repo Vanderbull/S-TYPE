@@ -30,6 +30,7 @@ public:
 					) )
 				{
                     PowerupController.CreatePowerup( iAnimal->LocAndSize );
+                    Audio.SetVolume(10, 5);
 					Audio.PlaySoundEffect( 5 );
 					iAnimal = VAnimals.erase(iAnimal);
 					iBullet->DeActivate();
