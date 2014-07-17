@@ -45,29 +45,29 @@ Timer::Timer()
     started = false;
 }
 
-bool Timer::IsPaused()
+bool IsPaused()
 {
 	return paused;
 }
 
-bool Timer::IsStarted()
+bool IsStarted()
 {
 	return started;
 }
 
-int Timer::GetTicks()
+int GetTicks()
 {
 	return 0;
 };
-bool Timer::Unpause()
+bool Unpause()
 {
 	return false;
 };
-bool Timer::Pause()
+bool Pause()
 {
 	return false;
 };
-bool Timer::Stop()
+bool Stop()
 {
 	if( IsStarted() )
 	{
@@ -87,7 +87,7 @@ bool Timer::Stop()
 
 	//return false;
 };
-bool Timer::Start()
+bool Start()
 {
 	if( IsStarted() )
 	{
