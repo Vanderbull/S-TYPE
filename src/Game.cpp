@@ -1036,10 +1036,6 @@ void Gamestate::RestartGame()
 	TriangleController.TriangleArrayRef.clear();
 	_SCORE = 0;
 	Spaceship._Lives = 3;
-	//ifstream myfile;
-	//myfile.open ("highscore.txt");
-	//myfile >> CURRENT_HIGHSCORE;
-	//myfile.close();
 }
 void Gamestate::Reset()
 {
