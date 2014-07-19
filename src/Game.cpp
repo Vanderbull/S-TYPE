@@ -617,27 +617,27 @@ void Gamestate::load_files()
 
 	file.close();
 
-	m_srfBackdrop = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfBackdrop.png", 0, 0, 0 );
-	m_srfBlack = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
-	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "Graphics/srfSpaceship.png", 0, 0, 0 );
-	m_srfAsteroid = Gfx.Load_imageAlpha( "Graphics/srfAsteroid.png", 0, 0, 0 );
-	m_srfStart = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfStart.png", 237, 234, 214 );
-	m_srfButtons = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
-	m_srfIntro = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
-	m_srfOutro = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
-	m_srfHealth = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
-	m_srfLaser = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 0, 0, 0 );
-	m_srfCredits = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfCredits.png", 255, 255, 255 );
-	m_srfOptions = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfOptions.png", 255, 255, 255 );
-	m_srfLoad = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfLoad.png", 255, 255, 255 );
-	m_srfSave = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfSave.png", 255, 255, 255 );
-	m_srfCube = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
-	m_srfTriangle = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
-	m_srfButtonActive = Gfx.Load_imageAlpha( "Graphics/Backdrops/srfButtonActive.png", 255, 255, 255 );
+	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop.png", 0, 0, 0 );
+	m_srfBlack = Gfx.Load_imageAlpha( "assets/gfx/srfBlack.png", 0, 0, 0 );
+	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "assets/gfx/srfSpaceship.png", 0, 0, 0 );
+	m_srfAsteroid = Gfx.Load_imageAlpha( "assets/gfx/srfAsteroid.png", 0, 0, 0 );
+	m_srfStart = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfStart.png", 237, 234, 214 );
+	m_srfButtons = Gfx.Load_imageAlpha( "assets/gfx/srfButtons.png", 255, 255, 255 );
+	m_srfIntro = Gfx.Load_imageAlpha( "assets/gfx/srfIntro.png", 255, 255, 255 );
+	m_srfOutro = Gfx.Load_imageAlpha( "assets/gfx/srfOutro.png", 0, 0, 0 );
+	m_srfHealth = Gfx.Load_imageAlpha( "assets/gfx/srfHealth.png", 0, 0, 0 );
+	m_srfLaser = Gfx.Load_imageAlpha( "assets/gfx/srfLaser.png", 0, 0, 0 );
+	m_srfCredits = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfCredits.png", 255, 255, 255 );
+	m_srfOptions = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfOptions.png", 255, 255, 255 );
+	m_srfLoad = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfLoad.png", 255, 255, 255 );
+	m_srfSave = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfSave.png", 255, 255, 255 );
+	m_srfCube = Gfx.Load_imageAlpha( "assets/gfx/srfCube.png", 255, 255, 255 );
+	m_srfTriangle = Gfx.Load_imageAlpha( "assets/gfx/srfTriangle.png", 255, 255, 255 );
+	m_srfButtonActive = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfButtonActive.png", 255, 255, 255 );
 
-    m_srfRedPowerup = Gfx.Load_imageAlpha("Graphics/Powerups/srfRedPowerup.png", 0, 0, 0);
-    m_srfGreenPowerup = Gfx.Load_imageAlpha("Graphics/Powerups/srfGreenPowerup.png", 0, 0, 0);
-    m_srfBluePowerup = Gfx.Load_imageAlpha("Graphics/Powerups/srfBluePowerup.png", 0, 0, 0);
+    m_srfRedPowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfRedPowerup.png", 0, 0, 0);
+    m_srfGreenPowerup = Gfx.Load_imageAlpha("assets/gfx/pPowerups/srfGreenPowerup.png", 0, 0, 0);
+    m_srfBluePowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfBluePowerup.png", 0, 0, 0);
 	
 	/*
 	std::map<string,int> m_SurfaceCollection;
@@ -843,7 +843,7 @@ void Gamestate::PlayOutro()
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen(int iElapsedTime)
 {	
-	SDL_BlitSurface( &Gfx.m_SurfaceCollection["Graphics/Backdrops/srfStart.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+	SDL_BlitSurface( &Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfStart.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
     static int i;
     if ( i > 255 )
@@ -852,7 +852,7 @@ void Gamestate::MainScreen(int iElapsedTime)
     i++;
     SDL_Surface *surface;
 
-    surface = SDL_LoadBMP("Graphics/Backdrops/black.bmp");
+    surface = SDL_LoadBMP("assets/gfx/backdrops/black.bmp");
         SDL_SetAlpha(surface, SDL_RLEACCEL | SDL_SRCALPHA, i);
         SDL_BlitSurface(surface, NULL, Gfx.BackBuffer, NULL);
     //*Gfx.FLIP();
