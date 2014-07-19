@@ -13,6 +13,8 @@
 #include <SDL_mixer.h>
 
 using namespace std;
+
+extern const std::string path_assets;
 extern int g_nValue;
 extern SDL_Rect ScreenSize;
 #define MAXSAMPLES 100

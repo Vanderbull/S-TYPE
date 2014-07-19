@@ -13,6 +13,8 @@ using namespace std;
 #include "ConfigFileConverter.h"
 #include "resource.h"
 
+#pragma comment(linker,"/SUBSYSTEM:windows")
+
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
 #ifdef _DEBUG

@@ -83,6 +83,14 @@ void Gamestate::KeyMapping(SDL_Event _event)
 	}  
 }
 
+struct SaveGameData
+{
+    int version;
+    int difficulty;
+    int sound;
+    int music;
+} Savegame;
+
 void Game::HandleEvents( SDL_Event _event )
 {
 	switch ( _event.type )
@@ -180,9 +188,13 @@ void Game::HandleEvents( SDL_Event _event )
                                 MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
                             {
                                 cout << "Saving -> " << i << "..." << endl;
-                                std::ofstream of("./saves/save.txt", std::ios::out);
+                                std::ofstream of("./saves/game.sav", std::ios::out);
                                 if (of.is_open())
                                 {
+                                    of << Savegame.version << endl;
+                                    of << Savegame.difficulty << endl;
+                                    of << Savegame.music << endl;
+                                    of << Savegame.sound << endl;
                                     of << "save\n";
                                 }
                                 else
@@ -584,10 +596,11 @@ Game::Game()
 void Gamestate::load_files()
 {
 	std::ifstream file;
-	file.open("graphics.txt");
+    file.open(path_assets+"gfx.conf");
 	if (!file)
 	{
-		MessageBox(NULL,"CFG: File couldn't be found!\n","Failed Loading",MB_OK);
+        MessageBox(NULL, "Serious error", "gfx.conf not found", MB_ICONSTOP | MB_SETFOREGROUND);
+
 		exit(1);
 	}
 

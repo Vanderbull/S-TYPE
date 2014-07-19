@@ -11,6 +11,9 @@
 #endif
 #endif
 
+// Paths for files
+   const std::string path_assets = "assets/cfg/";
+
 // declaration of g_nValue 
 int g_nValue = 5;
 int DIFFICULTY = 0;
