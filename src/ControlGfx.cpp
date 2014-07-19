@@ -30,9 +30,9 @@ ControlGfx::ControlGfx()
 		 printf("initialize SDL_ttf: %s \n", TTF_GetError());
 	}
 
-	DefaultFont = TTF_OpenFont("Fonts/Mecha.ttf", 14);
+	DefaultFont = TTF_OpenFont("assets/fonts/Mecha.ttf", 14);
 	if (Gfx.DefaultFont == NULL){
-      printf("Unable to load font: %s %s \n", "Fonts/Mecha.ttf", TTF_GetError());
+      printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
       // Handle the error here.
     }
 
