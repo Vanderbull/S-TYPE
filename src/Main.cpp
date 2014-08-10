@@ -74,11 +74,9 @@ int main( int argc, char * arg[] )
 
     cout << Engine.GamePad->CountDevices() << endl;
     Engine.GamePad->init();
-    //Engine.GamePad->HandleInput();
 	
 	while( Engine.Quit == false )
 	{
-        Engine.GamePad->Update();
 		second.QuadPart += ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 		if( second.QuadPart >= 2000000 )
@@ -89,8 +87,11 @@ int main( int argc, char * arg[] )
 		QueryPerformanceCounter(&start);
 
 		while( SDL_PollEvent( &event ) )
+        {
             Engine.HandleEvents( event );
-		
+        }
+
+        Engine.GamePad->Update();
 		Engine.Update( event, gamestate.DeltaTime );
 		Gfx.FLIP();
 

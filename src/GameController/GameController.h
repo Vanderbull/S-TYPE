@@ -22,7 +22,7 @@ public:
     void init(void);
     
     //Handles input
-    void HandleInput();
+    void HandleInput(SDL_Event _event);
     void Act();
     int CountDevices();
     void Open(int index);

@@ -366,23 +366,25 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_RUNNING_STATE:
 				{
+                    //GamePad->HandleInput(_event);
+                    /*
 						switch( _event.key.keysym.sym )
 						{
 							case SDLK_RIGHT:
 							{
-								Spaceship.xVelocity = -1.0f;
+                                Spaceship.xVelocity = MAX_VELOCITY;
 							} break;
 							case SDLK_LEFT:
 							{
-								Spaceship.xVelocity = 1.0f;
+                                Spaceship.xVelocity = -MIN_VELOCITY;
 							} break;
 							case SDLK_UP:
 							{
-								Spaceship.yVelocity = -1.0f;
+                                Spaceship.yVelocity = MAX_VELOCITY;
 							} break;
 							case SDLK_DOWN:
 							{
-								Spaceship.yVelocity = 1.0f;
+                                Spaceship.yVelocity = -MIN_VELOCITY;
 							} break;
 							case SDLK_SPACE:
 							{
@@ -411,7 +413,7 @@ void Game::HandleEvents( SDL_Event _event )
 							{
 								Spaceship.AddAction("DEFAULT");
 							}
-					}
+					}*/
 				} break;
 				case GAME_OPTIONS_STATE:
 				{
@@ -435,33 +437,41 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_RUNNING_STATE:
 				{
+                    
+                    /*
 					switch( _event.key.keysym.sym )		
 					{
 						case SDLK_ESCAPE:
 						{
-							gamestate.GameState.push(MENU_MAIN_STATE);
+							//gamestate.GameState.push(MENU_MAIN_STATE);
 						} break;
 						case SDLK_RIGHT:
 						{
-							Spaceship.xVelocity = 0.0f;
+                            Spaceship.xVelocity = NO_VELOCITY;
 						} break;
 						case SDLK_LEFT:
 						{
-							Spaceship.xVelocity = 0.0f;
+                            Spaceship.xVelocity = NO_VELOCITY;
 						} break;
 						case SDLK_UP:
 						{
-							Spaceship.yVelocity = 0.0f;
+                            Spaceship.yVelocity = NO_VELOCITY;
 						} break;
 						case SDLK_DOWN:
 						{
-							Spaceship.yVelocity = 0.0f;
+                            Spaceship.yVelocity = NO_VELOCITY;
 						} break;
 						case SDLK_SPACE:
 						{
-							FIRED = 0;
+                            if (FIRED == 0)
+                            {
+                                BulletController.Create_Bullets();
+                                FIRED = 1;
+                                Gfx.FLIP();
+                                Audio.PlaySoundEffect(4);
+                            }
 						} break;
-					}
+					}*/
 				} break;
 			}
 		} break;
