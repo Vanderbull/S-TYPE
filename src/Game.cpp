@@ -1129,7 +1129,6 @@ void Game::Cleanup()
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
-    //Testing
     SDL_putenv("SDL_VIDEO_CENTERED=center"); //Center the game Window
 	screen = 0;
     Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF; //| SDL_FULLSCREEN;
