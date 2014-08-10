@@ -1130,7 +1130,7 @@ void Game::Cleanup()
 bool Game::Init(SDL_Surface * &screen)
 {
 	screen = 0;
-    Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF;
+    Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;
 	//set up the screen
 	screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
     Gfx.m_SurfaceCollection["Screen"] = *SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
