@@ -45,8 +45,8 @@ int main( int argc, char * arg[] )
 	QueryPerformanceFrequency(&freq);
 
 
-	_putenv("SDL_VIDEO_WINDOW_POS=center");
-	_putenv("SDL_VIDEO_CENTERED=1");
+	//_putenv("SDL_VIDEO_WINDOW_POS=center");
+	//_putenv("SDL_VIDEO_CENTERED=1");
 	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
 	//Sleep(10000);
 	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
@@ -54,16 +54,7 @@ int main( int argc, char * arg[] )
 
 	//initialize all SDL subystems 
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
-	{
-		cout << "SDL INIT FAILED..." << endl;
-		SDL_Quit();
-	}
-	else
-	{
-		cout << "SDL_INIT_EVERYTHING..." << endl;
-		timeOfEvent = SDL_GetTicks();
-	}
+
 	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");
 	SDL_Surface* icon = SDL_LoadBMP("src/res/small.bmp");
 	SDL_SetColorKey(icon, SDL_SRCCOLORKEY, SDL_MapRGB(icon->format, 255, 255, 255));
@@ -75,6 +66,8 @@ int main( int argc, char * arg[] )
     cout << Engine.GamePad->CountDevices() << endl;
     Engine.GamePad->init();
 	
+
+
 	while( Engine.Quit == false )
 	{
 		second.QuadPart += ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);

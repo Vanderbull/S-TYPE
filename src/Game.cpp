@@ -1129,10 +1129,32 @@ void Game::Cleanup()
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
+    SDL_putenv("SDL_VIDEO_CENTERED=center"); //Center the game Window
 	screen = 0;
-    Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN;
+    Uint32 flags = SDL_HWSURFACE | SDL_DOUBLEBUF; //| SDL_FULLSCREEN;
+    flags = SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_NOFRAME;
+    if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
+    {
+        cout << "SDL INIT FAILED..." << endl;
+        SDL_Quit();
+    }
+    else
+    {
+        cout << "SDL_INIT_EVERYTHING..." << endl;
+    }
+    const SDL_VideoInfo* info = SDL_GetVideoInfo();
+    ScreenSize.w = info->current_w;
+    ScreenSize.h = info->current_h;
 	//set up the screen
 	screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
+    //ScreenSize.w = SDL_GetVideoSurface()->w;
+    //ScreenSize.h = SDL_GetVideoSurface()->h;
+    //screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
+
+    // Get the current video hardware information
+    const SDL_VideoInfo* myPointer = SDL_GetVideoInfo();
+    
+    screen = SDL_SetVideoMode(myPointer->current_w, myPointer->current_h, 32, flags);
     Gfx.m_SurfaceCollection["Screen"] = *SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
     
     //Uint32 flags = SDL_SWSURFACE; /* Start with whatever flags you prefer */

@@ -15,7 +15,7 @@
    const std::string path_assets = "assets/cfg/";
 
 //Screen resolution
-SDL_Rect ScreenSize = { 0, 0, 800, 600 };
+SDL_Rect ScreenSize = { 0, 0, 1024, 600 };
 
 // declaration of g_nValue 
 int g_nValue = 5;
