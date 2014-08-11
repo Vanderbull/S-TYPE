@@ -377,7 +377,7 @@ void ControlGfx::DrawObjects()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawBackgroundBlack()
 {
-	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
+ 	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 }
 
 void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
@@ -389,6 +389,12 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 	Gfx.apply_surface( 500, 0, SrfScore, Gfx.BackBuffer );
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, "HIGHSCORE: ", Gfx.WhiteRGB );
 	Gfx.apply_surface( 400, 0, SrfScore, Gfx.BackBuffer );
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER LEVEL: ", Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 0, SrfScore, Gfx.BackBuffer);
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(PowerLevel).c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 100, SrfScore, Gfx.BackBuffer);
+
+
 	SDL_FreeSurface(SrfScore);
 }
 

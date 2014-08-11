@@ -261,33 +261,48 @@ void GameController::Update()
 
     if (SDL_JoystickGetButton(GamePad, 0) == 1)
     {
-        if (FIRED == 0 && (gamestate.GameState.top() != MENU_MAIN_STATE))
+        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevelSecond > 0)
         {
         BulletController.Create_Bullets();
         FIRED = 1;
         Gfx.FLIP();
         Audio.PlaySoundEffect(4);
+        PowerLevelSecond -= 5;
         }
     }
     else if (SDL_JoystickGetButton(GamePad, 1) == 1)
     {
-        if (FIRED == 0 && (gamestate.GameState.top() != MENU_MAIN_STATE))
+        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevelSecond > 0)
         {
             BulletController.Create_Bullets();
             FIRED = 1;
             Gfx.FLIP();
             Audio.PlaySoundEffect(4);
+            PowerLevelSecond -= 5;
         }
     }
     else if (SDL_JoystickGetButton(GamePad, 2) == 1)
     {
-        gamestate.GameState.pop();
-        gamestate.GameState.push(MENU_MAIN_STATE);
+        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevelSecond > 0)
+        {
+            BulletController.Create_Bullets();
+            FIRED = 1;
+            Gfx.FLIP();
+            Audio.PlaySoundEffect(4);
+            PowerLevelSecond -= 5;
+        }
     }
     else if (SDL_JoystickGetButton(GamePad, 3) == 1)
     {
-        gamestate.GameState.pop();
-        gamestate.GameState.push(MENU_MAIN_STATE);
+        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevel > 0)
+        {
+            BulletController.Create_Bullets();
+            FIRED = 1;
+            Gfx.FLIP();
+            Audio.PlaySoundEffect(4);
+            if (PowerLevel > 0)
+            PowerLevel -= 5;
+        }
     }
     else if (SDL_JoystickGetButton(GamePad, 8) == 1)
     {

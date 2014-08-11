@@ -627,16 +627,18 @@ void Gamestate::load_files()
 
 	file.close();
 
+    Gfx.Load_imageAlpha("assets/gfx/backdrops/black.png", 0, 0, 0);
+
 	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "assets/gfx/srfBlack.png", 0, 0, 0 );
 	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "assets/gfx/srfSpaceship.png", 0, 0, 0 );
 	m_srfAsteroid = Gfx.Load_imageAlpha( "assets/gfx/srfAsteroid.png", 0, 0, 0 );
-	m_srfStart = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfStart.png", 237, 234, 214 );
+	m_srfStart = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfStart.png", 0, 0, 0 );
 	m_srfButtons = Gfx.Load_imageAlpha( "assets/gfx/srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Gfx.Load_imageAlpha( "assets/gfx/srfIntro.png", 255, 255, 255 );
 	m_srfOutro = Gfx.Load_imageAlpha( "assets/gfx/srfOutro.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "assets/gfx/srfHealth.png", 0, 0, 0 );
-	m_srfLaser = Gfx.Load_imageAlpha( "assets/gfx/srfLaser.png", 0, 0, 0 );
+	m_srfLaser = Gfx.Load_imageAlpha( "assets/gfx/lasers/srfLaserGreen.png", 0, 0, 0 );
 	m_srfCredits = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfCredits.png", 255, 255, 255 );
 	m_srfOptions = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfOptions.png", 255, 255, 255 );
 	m_srfLoad = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfLoad.png", 255, 255, 255 );
@@ -739,6 +741,10 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_RUNNING_STATE:
 			{
+            if (PowerLevel < 100)
+                PowerLevel += 1;
+            if ( PowerLevelSecond < 5 )
+                PowerLevelSecond += 1;
 				LevelProgress += iElapsedTime / 150;
 				Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();
@@ -852,7 +858,10 @@ void Gamestate::PlayOutro()
 // MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen(int iElapsedTime)
-{	
+{
+    SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
+	
 	SDL_BlitSurface( &Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfStart.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
     static int i;
@@ -862,11 +871,11 @@ void Gamestate::MainScreen(int iElapsedTime)
     i++;
     SDL_Surface *surface;
 
-    surface = SDL_LoadBMP("assets/gfx/backdrops/black.bmp");
-        SDL_SetAlpha(surface, SDL_RLEACCEL | SDL_SRCALPHA, i);
-        SDL_BlitSurface(surface, NULL, Gfx.BackBuffer, NULL);
+    //surface = SDL_LoadBMP("assets/gfx/backdrops/black.bmp");
+    //    SDL_SetAlpha(surface, SDL_RLEACCEL | SDL_SRCALPHA, i);
+    //    SDL_BlitSurface(surface, NULL, Gfx.BackBuffer, NULL);
     //*Gfx.FLIP();
-    SDL_FreeSurface(surface);
+    //SDL_FreeSurface(surface);
 
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
@@ -883,6 +892,10 @@ void Gamestate::MainScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::LoadScreen(int iElapsedTime)
 {
+    SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
+
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect);
     SDL_BlitSurface(Gfx.GetSurface(LoadsScreen->surface), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect);
 
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &LoadsScreen->ButtonClips[0]);
@@ -915,6 +928,9 @@ void Gamestate::LoadScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::SaveScreen(int iElapsedTime)
 {
+    SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
+
 	SDL_BlitSurface( Gfx.GetSurface( SavesScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SavesScreen->ButtonClips[0]);
@@ -947,6 +963,9 @@ void Gamestate::SaveScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::CreditScreen(int iElapsedTime)
 {
+    SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
+
 	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 	
 	stringstream ss;
@@ -963,7 +982,9 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(int iElapsedTime)
 {
-	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
+    SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
+	
 
 
 	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ),&SDL_GetVideoSurface()->clip_rect,Gfx.BackBuffer,&SDL_GetVideoSurface()->clip_rect);
@@ -1251,7 +1272,7 @@ void Gamestate::setUpParallaxLayers()
 						0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
 
 	ParallaxBG->setLayer( 1, 0.0f, m_srfBackdrop, 
-						0, SDL_GetVideoSurface()->w, 400, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
+        0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h);
 
 	// must be here otherwise division by zero currently
 	ParallaxBG->setLayer( 2, 0.7f, m_srfBackdrop, 

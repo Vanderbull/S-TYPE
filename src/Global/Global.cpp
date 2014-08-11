@@ -15,7 +15,7 @@
    const std::string path_assets = "assets/cfg/";
 
 //Screen resolution
-SDL_Rect ScreenSize = { 0, 0, 1024, 600 };
+SDL_Rect ScreenSize = { 0, 0, 1920, 1080 };
 
 // declaration of g_nValue 
 int g_nValue = 5;
@@ -39,7 +39,8 @@ float MAX_VELOCITY = 5.0f;
 float MIN_VELOCITY = -5.0f;
 float NO_VELOCITY = 0.0f;
 
-
+int PowerLevel = 100;
+int PowerLevelSecond = 5;
 void SetGameOptionButtons()
 {
     // easy option

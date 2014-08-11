@@ -35,6 +35,10 @@ extern Uint16 SpriteHeight;
 extern float MAX_VELOCITY;
 extern float MIN_VELOCITY;
 extern float NO_VELOCITY;
+
+extern int PowerLevel;
+extern int PowerLevelSecond;
+
 void SetGameOptionButtons();
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
 int MouseInBox(SDL_Rect &Rect);
