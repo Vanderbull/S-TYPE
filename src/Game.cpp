@@ -27,7 +27,7 @@ using namespace std;
 #include "Enemies.h"
 #include "Timers.h"
 #include "Paralaxlayers.h"
-#include "Animals.h"
+#include "BlueShip.h"
 #include "Enemies\Cubes.h"
 #include "Triangles.h"
 #include "Bullets.h"
@@ -633,20 +633,20 @@ void Gamestate::load_files()
 
 	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop_1920_1080.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "assets/gfx/srfBlack.png", 0, 0, 0 );
-	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "assets/gfx/srfSpaceship.png", 0, 0, 0 );
-	m_srfAsteroid = Gfx.Load_imageAlpha( "assets/gfx/srfAsteroid.png", 0, 0, 0 );
+	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "assets/gfx/spaceship/srfSpaceship.png", 0, 0, 0 );
+	m_srfBlueShip = Gfx.Load_imageAlpha( "assets/gfx/enemies/srfBlueShip.png", 0, 0, 0 );
 	m_srfStart = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfStart.png", 0, 0, 0 );
 	m_srfButtons = Gfx.Load_imageAlpha( "assets/gfx/srfButtons.png", 255, 255, 255 );
 	m_srfIntro = Gfx.Load_imageAlpha( "assets/gfx/srfIntro.png", 255, 255, 255 );
 	m_srfOutro = Gfx.Load_imageAlpha( "assets/gfx/srfOutro.png", 0, 0, 0 );
-	m_srfHealth = Gfx.Load_imageAlpha( "assets/gfx/srfHealth.png", 0, 0, 0 );
+	m_srfHealth = Gfx.Load_imageAlpha( "assets/gfx/gui/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "assets/gfx/lasers/srfLaserGreen.png", 0, 0, 0 );
 	m_srfCredits = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfCredits.png", 255, 255, 255 );
 	m_srfOptions = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfOptions.png", 255, 255, 255 );
 	m_srfLoad = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfLoad.png", 255, 255, 255 );
 	m_srfSave = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfSave.png", 255, 255, 255 );
-	m_srfCube = Gfx.Load_imageAlpha( "assets/gfx/srfCube.png", 0, 0, 0 );
-	m_srfTriangle = Gfx.Load_imageAlpha( "assets/gfx/srfTriangle.png", 255, 255, 255 );
+	m_srfCube = Gfx.Load_imageAlpha( "assets/gfx/enemies/srfCube.png", 0, 0, 0 );
+	m_srfTriangle = Gfx.Load_imageAlpha( "assets/gfx/enemies/srfTriangle.png", 255, 255, 255 );
 	m_srfButtonActive = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfButtonActive.png", 255, 255, 255 );
 
     m_srfRedPowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfRedPowerup.png", 0, 0, 0);
@@ -745,15 +745,20 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 gamestate.CreateAll();
 
                 Gfx.DrawBackgroundBlack();
-                SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfBackdrop), 0, Gfx.BackBuffer, 0);
-                Gfx.DrawParallaxLayers();
+                SDL_Rect Scroller;
+                Scroller.h = 1080;
+                Scroller.w = 1920;
+                Scroller.x = Progressbar();
+                Scroller.y = 0;
+                SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfBackdrop), &Scroller, Gfx.BackBuffer, 0);
+                //Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();				
 				
-				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
+                CollisionController.ObjectCollider(BulletController.BulletArrayRef, BlueShipController.BlueShipArrayRef);
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				
-				CollisionController.SpaceshipCollider(Spaceship,AnimalController.AnimalArrayRef );
+                CollisionController.SpaceshipCollider(Spaceship, BlueShipController.BlueShipArrayRef);
 				CollisionController.SpaceshipCollider(Spaceship,CubeController.CubeArrayRef );
 				CollisionController.SpaceshipCollider(Spaceship,TriangleController.TriangleArrayRef );
 
@@ -890,6 +895,21 @@ void Gamestate::MainScreen(int iElapsedTime)
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
+
+    int w = 0;
+    int h = 0;
+
+    if ((TTF_SizeText(Gfx.DefaultFont, "SDL_ttf is awesome!", &w, &h) != -1))
+    {
+        // Print out the width and height of the string if I render it with myFont
+        std::cout << "Width : " << w << "\nHeight: " << h << std::endl;
+    }
+    else {
+        // Error...
+    }
+
+
+    Gfx.apply_surface(Gfx.BackBuffer->w - w, Gfx.BackBuffer->h - h, TTF_RenderText_Solid(Gfx.DefaultFont, "Version 1.0 Beta", Gfx.WhiteRGB), Gfx.BackBuffer);
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	SDL_FreeSurface(srfElapsedTime);
 }
@@ -920,7 +940,7 @@ void Gamestate::LoadScreen(int iElapsedTime)
 	string str = "LoadScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( LoadsScreen->ButtonNewgame == true )
 	{
@@ -956,7 +976,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 	string str = "SaveScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	if( SavesScreen->ButtonNewgame == true )
 	{
@@ -983,7 +1003,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 	string str = "CreditsScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	SDL_FreeSurface(srfElapsedTime);
 }
@@ -1042,7 +1062,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	string str = "OptionsScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.BlackRGB );
+	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
 	SDL_FreeSurface(srfElapsedTime);
 }
@@ -1070,7 +1090,7 @@ void Gamestate::RestartGame()
 {
     logger.write(__LINE__, __FILE__);
 	Spaceship.Reset();
-	AnimalController.Destroy();
+    BlueShipController.Destroy();
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();
 	_SCORE = 0;
@@ -1081,7 +1101,7 @@ void Gamestate::Reset()
 {
     logger.write(__LINE__, __FILE__);
 	Spaceship.Reset();
-	AnimalController.Destroy();
+    BlueShipController.Destroy();
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();
 	_SCORE = 0;
@@ -1144,7 +1164,7 @@ void Gamestate::ResetRest()
 void Game::Cleanup()
 {
     logger.write(__LINE__, __FILE__);
-	TTF_Quit();
+    atexit(TTF_Quit); // Ensure TTF_Quit() is called when we exit
 	SDL_Quit();
 }
 
@@ -1264,7 +1284,7 @@ int Game::Progressbar(int progress)
 void Gamestate::CreateAll()
 {
     logger.write(__LINE__, __FILE__);
-	AnimalController.CreateAnimals( Engine.Progressbar() );
+    BlueShipController.CreateBlueShip(Engine.Progressbar());
 	//PowerupController.CreatePowerup( Spaceship.GetPosition() );
     CubeController.CreateCubes(Engine.Progressbar());
     TriangleController.CreateTriangles(Engine.Progressbar());

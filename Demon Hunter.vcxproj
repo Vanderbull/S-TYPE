@@ -120,7 +120,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Animals.cpp" />
+    <ClCompile Include="src\BlueShip.cpp" />
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\Bullets.cpp" />
     <ClCompile Include="src\Collision.cpp" />
@@ -150,7 +150,7 @@
     <ClCompile Include="src\World\CWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Animals.h" />
+    <ClInclude Include="src\BlueShip.h" />
     <ClInclude Include="src\Audio.h" />
     <ClInclude Include="src\BaseController.h" />
     <ClInclude Include="src\Bullets.h" />

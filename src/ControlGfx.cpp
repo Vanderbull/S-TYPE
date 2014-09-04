@@ -1,6 +1,6 @@
 #include "ControlGfx.h"
 #include "Game.h"
-#include "Animals.h"
+#include "BlueShip.h"
 #include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
 #include "Triangles.h"
@@ -40,7 +40,15 @@ ControlGfx::ControlGfx()
         printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
     }
 
+    const SDL_version *linked_version = TTF_Linked_Version();
+    SDL_version compiled_version;
+    SDL_TTF_VERSION(&compiled_version);
 
+    std::cout << "Linked version:\n"
+        << linked_version->major << "." << linked_version->minor << "." << linked_version->patch;
+
+    std::cout << "Compiled version:\n"
+        << compiled_version.major << "." << compiled_version.minor << "." << compiled_version.patch << std::endl << std::endl;
 
 	WhiteRGB.r = 255;
 	WhiteRGB.g = 255;
@@ -372,7 +380,7 @@ void ControlGfx::DrawSprite()
 void ControlGfx::DrawObjects()
 {
     Spaceship.Update();
-	AnimalController.DrawAnimals();
+    BlueShipController.DrawBlueShip();
 	CubeController.DrawCubes();
 	TriangleController.DrawTriangles();
 	BulletController.Draw_Bullets();

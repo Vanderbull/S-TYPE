@@ -53,7 +53,8 @@ public:
 	Save * SavesScreen;
 	GameOver * GameOverScreen;
 
-	int m_srfBackdrop, 
+	int m_srfBlueShip,
+        m_srfBackdrop, 
 		m_srfAsteroid,
 		m_srfBlack,
 		m_srfStart, 

@@ -6,7 +6,7 @@
 #include "Enemies.h"
 #include "ControlGfx.h"
 #include "Bullets.h"
-#include "Animals.h"
+#include "BlueShip.h"
 #include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
 #include "Triangles.h"
@@ -16,23 +16,23 @@ class ControlCollision
 {
 public:
 
-	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Animal> &VAnimals )
+	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<BlueShip> &VBlueShip )
 	{
  		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
 		{
-			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
+			for(vector< BlueShip >::iterator iBlueShip = VBlueShip.begin(); iBlueShip != VBlueShip.end(); )
 			{
 				if( !( 
-					iBullet->GetCollisionBox().x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
-					iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iAnimal->LocAndSize.x || 
-					iBullet->GetCollisionBox().y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
-					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iAnimal->LocAndSize.y
+					iBullet->GetCollisionBox().x > iBlueShip->LocAndSize.x + iBlueShip->LocAndSize.w || 
+					iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iBlueShip->LocAndSize.x || 
+					iBullet->GetCollisionBox().y > iBlueShip->LocAndSize.y + iBlueShip->LocAndSize.h || 
+					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iBlueShip->LocAndSize.y
 					) )
 				{
-                    PowerupController.CreatePowerup( iAnimal->LocAndSize );
+                    PowerupController.CreatePowerup( iBlueShip->LocAndSize );
                     Audio.SetVolume(10, 5);
 					Audio.PlaySoundEffect( 5 );
-					iAnimal = VAnimals.erase(iAnimal);
+					iBlueShip = VBlueShip.erase(iBlueShip);
 					iBullet->DeActivate();
 					PopupScore.push_back(50);
 					_SCORE += 100;
@@ -42,7 +42,7 @@ public:
 				}
 				else
 				{
-					++iAnimal;
+					++iBlueShip;
 				}
 			}
 			if( !iBullet->isActive() )
@@ -113,28 +113,28 @@ public:
 		}
 	};
 
-	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<Animal> &VAnimals )
+	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<BlueShip> &VBlueShip )
 	{
-		if(VAnimals.empty() || VAnimals.size() < 1)
+        if (VBlueShip.empty() || VBlueShip.size() < 1)
 		{
 			return;
 		}
-			for(vector< Animal >::iterator iAnimal = VAnimals.begin(); iAnimal != VAnimals.end(); )
+        for (vector< BlueShip >::iterator iBlueShip = VBlueShip.begin(); iBlueShip != VBlueShip.end();)
 			{
 				if( !( 
-					Spaceship.GetCollisionBox().x > iAnimal->LocAndSize.x + iAnimal->LocAndSize.w || 
-					Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iAnimal->LocAndSize.x || 
-					Spaceship.GetCollisionBox().y > iAnimal->LocAndSize.y + iAnimal->LocAndSize.h || 
-					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iAnimal->LocAndSize.y
+                    Spaceship.GetCollisionBox().x > iBlueShip->LocAndSize.x + iBlueShip->LocAndSize.w ||
+                    Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iBlueShip->LocAndSize.x ||
+                    Spaceship.GetCollisionBox().y > iBlueShip->LocAndSize.y + iBlueShip->LocAndSize.h ||
+                    Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iBlueShip->LocAndSize.y
 					) )
 				{
 					Audio.PlaySoundEffect( 5 );
-					iAnimal = VAnimals.erase(iAnimal);
+                    iBlueShip = VBlueShip.erase(iBlueShip);
 					Spaceship.Died();
 				}
 				else
 				{
-					++iAnimal;
+                    ++iBlueShip;
 				}
 			}
 	};

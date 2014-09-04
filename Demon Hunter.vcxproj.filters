@@ -52,9 +52,6 @@
     <ClCompile Include="src\Options.cpp">
       <Filter>Screens\Options</Filter>
     </ClCompile>
-    <ClCompile Include="src\Animals.cpp">
-      <Filter>Enemies\Asteroids</Filter>
-    </ClCompile>
     <ClCompile Include="src\Enemies\Cubes.cpp">
       <Filter>Enemies\Cubes</Filter>
     </ClCompile>
@@ -84,6 +81,9 @@
     </ClCompile>
     <ClCompile Include="src\ParallaxEffect\ParallaxEffect.cpp">
       <Filter>ParallaxLayers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BlueShip.cpp">
+      <Filter>Enemies\BlueShip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,9 +142,6 @@
     <ClInclude Include="src\Options.h">
       <Filter>Screens\Options</Filter>
     </ClInclude>
-    <ClInclude Include="src\Animals.h">
-      <Filter>Enemies\Asteroids</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enemies\Cubes.h">
       <Filter>Enemies\Cubes</Filter>
     </ClInclude>
@@ -177,6 +174,9 @@
     </ClInclude>
     <ClInclude Include="src\ParallaxEffect\ParallaxEffect.h">
       <Filter>ParallaxLayers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BlueShip.h">
+      <Filter>Enemies\BlueShip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,9 +222,6 @@
     <Filter Include="Global">
       <UniqueIdentifier>{102ea0c0-7847-4725-895e-d3137c9327db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemies\Asteroids">
-      <UniqueIdentifier>{6a6ca93d-ed7f-4192-a684-d363e0d8b038}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Enemies\Cubes">
       <UniqueIdentifier>{ca6009e1-31cd-4ddf-9613-1a7dc05a105c}</UniqueIdentifier>
     </Filter>
@@ -260,6 +257,9 @@
     </Filter>
     <Filter Include="Powerups">
       <UniqueIdentifier>{708203f1-163b-4e11-8653-bb1db2a9cf22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\BlueShip">
+      <UniqueIdentifier>{6a6ca93d-ed7f-4192-a684-d363e0d8b038}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
