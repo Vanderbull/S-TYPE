@@ -30,11 +30,17 @@ ControlGfx::ControlGfx()
 		 printf("initialize SDL_ttf: %s \n", TTF_GetError());
 	}
 
-	DefaultFont = TTF_OpenFont("assets/fonts/Mecha.ttf", 14);
+	// Loading fonts
+    DefaultFont = TTF_OpenFont("assets/fonts/Mecha.ttf", 14);
 	if (Gfx.DefaultFont == NULL){
       printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
-      // Handle the error here.
     }
+    ScoreFont = TTF_OpenFont("assets/fonts/Mecha.ttf", 30);
+    if (Gfx.ScoreFont == NULL){
+        printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
+    }
+
+
 
 	WhiteRGB.r = 255;
 	WhiteRGB.g = 255;
@@ -275,7 +281,8 @@ void ControlGfx::DrawParallaxLayers()
 
 		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
 												
-		SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, Gfx.BackBuffer, &dtRect );
+		//SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, Gfx.BackBuffer, &dtRect );
+        SDL_BlitSurface(Gfx.GetSurface(MyParaBackGround->m_surface), 0, Gfx.BackBuffer, 0);
 		//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
 
 		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
@@ -330,6 +337,7 @@ void ControlGfx::DrawParallaxLayers()
 												MyParaBackGround->DW, MyParaBackGround->DH };
 
 				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, Gfx.BackBuffer, &destinationRect );
+                SDL_BlitSurface(Gfx.GetSurface(MyParaBackGround->m_surface), &sourceRect, Gfx.BackBuffer, &destinationRect);
 
 				//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
 				
@@ -384,15 +392,16 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 {
 	SDL_Surface * SrfScore;
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
-	Gfx.apply_surface( xCoord, yCoord, SrfScore, Gfx.BackBuffer );
-	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(CURRENT_HIGHSCORE).c_str(), Gfx.WhiteRGB );
-	Gfx.apply_surface( 500, 0, SrfScore, Gfx.BackBuffer );
+	Gfx.apply_surface( 100, 100, SrfScore, Gfx.BackBuffer );
+
+	//SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(CURRENT_HIGHSCORE).c_str(), Gfx.WhiteRGB );
+	//Gfx.apply_surface( 0, 0, SrfScore, Gfx.BackBuffer );
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, "HIGHSCORE: ", Gfx.WhiteRGB );
-	Gfx.apply_surface( 400, 0, SrfScore, Gfx.BackBuffer );
+	Gfx.apply_surface( 0, 100, SrfScore, Gfx.BackBuffer );
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER LEVEL: ", Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 0, SrfScore, Gfx.BackBuffer);
+    Gfx.apply_surface(0, 120, SrfScore, Gfx.BackBuffer);
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(PowerLevel).c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 100, SrfScore, Gfx.BackBuffer);
+    Gfx.apply_surface(100, 120, SrfScore, Gfx.BackBuffer);
 
 
 	SDL_FreeSurface(SrfScore);

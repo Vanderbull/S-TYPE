@@ -102,9 +102,9 @@ void ControlTriangles::CreateTriangles(int iProgress )
 {
 	if( iProgress > TRIANGLE_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
 	{
-		if( TriangleArrayRef.size() < rand() % 5 )
+		if( TriangleArrayRef.size() < std::rand() % 5 )
 		{
-			TriangleArrayRef.push_back( CreateTriangleByReference( SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h , gamestate.m_srfTriangle ) );
+			TriangleArrayRef.push_back( CreateTriangleByReference( SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h , gamestate.m_srfTriangle ) );
 		}
 	}
 	else
@@ -119,7 +119,7 @@ Triangle ControlTriangles::CreateTriangleByReference( int xPos, int yPos, int su
 	
 	while( yPos > old_y_pos && yPos < old_y_pos + 64 )
 	{
-		yPos = rand() % Gfx.BackBuffer->h - 64;
+		yPos = std::rand() % Gfx.BackBuffer->h - 64;
 	}
 	if( yPos < 64 )
 		yPos = 64;

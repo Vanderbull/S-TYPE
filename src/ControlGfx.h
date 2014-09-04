@@ -35,6 +35,7 @@ public:
 	SDL_Surface * srfText;
 
 	TTF_Font * DefaultFont;
+    TTF_Font * ScoreFont;
 
 	std::map<std::string,SDL_Surface> m_SurfaceCollection;
 private:

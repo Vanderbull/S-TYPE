@@ -14,6 +14,10 @@
 
 using namespace std;
 
+#include "../src/log/log.h"
+
+extern flog logger;
+
 extern const std::string path_assets;
 extern int g_nValue;
 extern SDL_Rect ScreenSize;

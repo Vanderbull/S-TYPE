@@ -17,21 +17,40 @@
 ControlCubes CubeController;
 
 const float CubeSpeed = 0.0001f;
+const int Frames = 16;
+
+Cube::Cube()
+{
+    logger.write(__LINE__, __FILE__);
+    PrevFrame = 0;
+    Frame = 0;
+    Height = 64;
+    Width = 64;
+
+    for (int CurrentFrame = 0; CurrentFrame < Frames; CurrentFrame++)
+    {
+        Clips[CurrentFrame].x = CurrentFrame * Width;
+        Clips[CurrentFrame].y = 0;
+        Clips[CurrentFrame].h = Height;
+        Clips[CurrentFrame].w = Width;
+    }
+}
 
 SDL_Rect Cube::UpdateCollisionBox(SDL_Rect Box)
 {
+    logger.write(__LINE__, __FILE__);
 	CollisionBox = Box;
 	return CollisionBox;
 }
 
 void Cube::Update()
 {
-    //#define pi 3.14159;
-    //#define sign2(x) (( x > 0 ) - ( x < 0 ));
+    logger.write(__LINE__, __FILE__);
+
     double _freq = 50;
     int _sTime = 5, _amp = 100;
 
-    double full = (2 * 3.14159) * 50.f;// * _freq;
+    double full = (2 * 3.14159) * 50.f;
     static double _x = 0;
     int _y = (sin(xPos / _freq)*_amp) + 300;
     if (_x >= full)
@@ -41,20 +60,22 @@ void Cube::Update()
 	Destination.h = Height;
 	Destination.w = Width;
 	Destination.x = xPos;
-    Destination.y = _y;//yPos; //(sin(xPos / wavelength )*waveheight) + 300;
+    Destination.y = _y;
 
 	PrevFrame = Frame++;
 	if( Frame >= CUBE_MAX_FRAMES )
 	{
 		Frame = 0;
 	}
+    Frame = 0;
 	UpdateCollisionBox(Destination);
 }
 
 void Cube::Draw()
 {
+    logger.write(__LINE__, __FILE__);
 	#ifdef _DEBUG 
-	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
+	SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 	
 	SDL_BlitSurface( 
@@ -67,30 +88,17 @@ void Cube::Draw()
 
 SDL_Rect Cube::GetDestination()
 {
+    logger.write(__LINE__, __FILE__);
 	return Destination;
-}
-
-Cube::Cube()
-{
-	PrevFrame = 0;
-	Frame = 0;
-	Height = 64;
-	Width =	64;
-
-	for( int i = 0; i < 16; i++ )
-	{
-		Clips[ i ].x = i * Width;
-		Clips[ i ].y = 0;
-		Clips[ i ].h = Height;
-		Clips[ i ].w = Width;
-	}
 }
 
 // ControlCubes begins here
 void ControlCubes::LoadSpawnPoints()
 {
+    logger.write(__LINE__, __FILE__);
+
     ifstream ifile;
-    ifile.open("cube_spawn_points.txt", ios::in);
+    ifile.open("./assets/cfg/cube_spawn_points.txt", ios::in);
 
     if (!ifile.is_open()) {
         cerr << "There was an error opening the input file!\n";
@@ -110,6 +118,7 @@ void ControlCubes::LoadSpawnPoints()
 
 void ControlCubes::DrawCubes()
 {
+    logger.write(__LINE__, __FILE__);
 	if( CubeArrayRef.size() < 1 )
 		return;
 	vector< Cube >::iterator i;
@@ -134,29 +143,31 @@ void ControlCubes::DrawCubes()
 
 void ControlCubes::CreateCubes(int iProgress )
 {
+    logger.write(__LINE__, __FILE__);
     int temp = cube_spawn_points.top();
     if (iProgress == cube_spawn_points.top())
     {
-        CubeArrayRef.push_back(CreateCubeByReference(SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h - 64, gamestate.m_srfCube));
+        CubeArrayRef.push_back(CreateCubeByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h - 64, gamestate.m_srfCube));
         cube_spawn_points.pop();
     }
 }
 
 Cube ControlCubes::CreateCubeByReference( int xPos, int yPos, int surface )
 {
+    logger.write(__LINE__, __FILE__);
 	static int old_y_pos = 0;
 	static int old_x_pos = 0;
 
 	while( xPos > old_x_pos && xPos < old_x_pos + 64 )
 	{
-		xPos = rand() % Gfx.BackBuffer->w - 64;
+		xPos = std::rand() % Gfx.BackBuffer->w - 64;
 	}
 	if( xPos < 64 )
 		xPos = 64;
 	
 	while( yPos > old_y_pos && yPos < old_y_pos + 64 )
 	{
-		yPos = rand() % Gfx.BackBuffer->h - 64;
+		yPos = std::rand() % Gfx.BackBuffer->h - 64;
 	}
 	if( yPos < 64 )
 		yPos = 64;
@@ -172,9 +183,10 @@ Cube ControlCubes::CreateCubeByReference( int xPos, int yPos, int surface )
 }
 ControlCubes::ControlCubes()
 {
+    logger.write(__LINE__, __FILE__);
 }
 
 ControlCubes::~ControlCubes()
 {
-	cout << "Destroying the Cube Controller..." << endl;
+    logger.write(__LINE__, __FILE__);
 }

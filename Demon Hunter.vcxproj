@@ -133,6 +133,7 @@
     <ClCompile Include="src\GameOver.cpp" />
     <ClCompile Include="src\Global\Global.cpp" />
     <ClCompile Include="src\Load.cpp" />
+    <ClCompile Include="src\log\log.cpp" />
     <ClCompile Include="src\MainMenu.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GetInput.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="src\Options.cpp" />
     <ClCompile Include="src\OutroFinish.cpp" />
     <ClCompile Include="src\Paralaxlayers.cpp" />
+    <ClCompile Include="src\ParallaxEffect\ParallaxEffect.cpp" />
     <ClCompile Include="src\Save.cpp" />
     <ClCompile Include="src\Spaceship.cpp" />
     <ClCompile Include="src\Timers.cpp" />
@@ -163,6 +165,7 @@
     <ClInclude Include="src\GameOver.h" />
     <ClInclude Include="src\Global\Global.h" />
     <ClInclude Include="src\Load.h" />
+    <ClInclude Include="src\log\log.h" />
     <ClInclude Include="src\MainMenu.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GetInput.h" />
@@ -170,6 +173,7 @@
     <ClInclude Include="src\Options.h" />
     <ClInclude Include="src\OutroFinish.h" />
     <ClInclude Include="src\Paralaxlayers.h" />
+    <ClInclude Include="src\ParallaxEffect\ParallaxEffect.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\Save.h" />
     <ClInclude Include="src\Spaceship.h" />

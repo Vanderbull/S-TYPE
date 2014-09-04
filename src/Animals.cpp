@@ -131,10 +131,14 @@ void ControlAnimals::CreateAnimals(int iProgress )
 {
 	if( iProgress > ANIMAL_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
 	{
-		if( rand() % 100 + 1 > 99 )
-		{
-            AnimalArrayRef.push_back(CreateAnimalByReference(SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h, gamestate.m_srfAsteroid));
-		}
+        if (std::rand() % 100 + 1 > 99)
+        {
+            AnimalArrayRef.push_back(CreateAnimalByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfAsteroid));
+        }
+		//if( rand() % 100 + 1 > 99 )
+		//{
+  //          AnimalArrayRef.push_back(CreateAnimalByReference(SDL_GetVideoSurface()->w, rand() % Gfx.BackBuffer->h, gamestate.m_srfAsteroid));
+		//}
 	}
 	else
 	{
@@ -158,7 +162,7 @@ Animal ControlAnimals::CreateAnimalByReference( Sint16 xPos, Sint16 yPos, int su
 	
 	while( yPos > old_y_pos && yPos < old_y_pos + 128 )
 	{
-        yPos = (Sint16)(rand() % Gfx.BackBuffer->h - 128);
+        yPos = (Sint16)(std::rand() % Gfx.BackBuffer->h - 128);
 	}
 	if( yPos < 64 )
 		yPos = 64;

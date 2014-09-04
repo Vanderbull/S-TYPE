@@ -1,6 +1,12 @@
 #include <cmath>
 #include <queue>
 #include <iostream>
+#include <iomanip>
+#include <string>
+#include <map>
+#include <random>
+#include <cmath>
+
 using namespace std;
 #include <SDL.h>
 #include <SDL_mixer.h>
@@ -28,12 +34,19 @@ using namespace std;
 
 int main( int argc, char * arg[] )
 {
+    logger.write(__LINE__,__FILE__);
+
+    std::srand(std::time(0)); // use current time as seed for random generator
+    int random_variable = std::rand();
+    std::cout << "Random value on [0 " << RAND_MAX << "]: "
+        << random_variable << '\n';
+
     // At the beginning of our app we need this
     int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
         tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
     _CrtSetDbgFlag( tmpFlag );
 
-    srand(time_t(0));
+    //srand(time_t(0));
 	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 }, second = { 0 };
 	SDL_Event event = {0};
 	int timeOfEvent = 0;
@@ -56,9 +69,9 @@ int main( int argc, char * arg[] )
 
 
 	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");
-	SDL_Surface* icon = SDL_LoadBMP("src/res/small.bmp");
-	SDL_SetColorKey(icon, SDL_SRCCOLORKEY, SDL_MapRGB(icon->format, 255, 255, 255));
-	SDL_WM_SetIcon(icon, 0);
+	//SDL_Surface* icon = SDL_LoadBMP("src/res/small.bmp");
+	//SDL_SetColorKey(icon, SDL_SRCCOLORKEY, SDL_MapRGB(icon->format, 255, 255, 255));
+	//SDL_WM_SetIcon(icon, 0);
 
 
 	//SDL_WM_SetIcon(SDL_LoadBMP("src/res/small.bmp"), NULL);

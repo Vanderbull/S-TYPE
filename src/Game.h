@@ -127,6 +127,9 @@ public:
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
 	int UpdateScore(int score = 0);
+    int Progressbar(int progress = 0);
+
+
 	bool Quit;
 	int MouseXCoordinates; // the last recorded x coordinate of the mouse
 	int MouseYCoordinates; // the last recorded y coordinate of the mouse
@@ -139,6 +142,7 @@ public:
 private:
 	Gamestate _State;
 	World _World;
+    int _Progress;
 
 };
 

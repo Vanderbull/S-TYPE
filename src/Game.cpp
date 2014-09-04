@@ -93,6 +93,8 @@ struct SaveGameData
 
 void Game::HandleEvents( SDL_Event _event )
 {
+    logger.write(__LINE__,__FILE__);
+
 	switch ( _event.type )
 	{
 		// Handle mouse button events
@@ -489,10 +491,10 @@ void Game::HandleEvents( SDL_Event _event )
 
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
-		if( MUSIC == 5 )
-			Audio.PlayMusic(rand()%3);
-		else
-			Audio.PauseMusic();
+		//if( MUSIC == 5 )
+			//Audio.PlayMusic( std::rand() % 3 );
+		//else
+			//Audio.PauseMusic();
 
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
@@ -567,8 +569,8 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
-	cout << "Creating the Game::Game object..." << endl;
-
+    logger.write(__LINE__, __FILE__);
+   
     CubeController.LoadSpawnPoints();
 
 	SPAWN_POSITION_X = 0;
@@ -581,7 +583,6 @@ Game::Game()
 	//SDL_WM_SetCaption("", "res/big.ico");
 	
 	//SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
-
 	Init( Gfx.screen );
 	
 	gamestate.load_files();
@@ -605,6 +606,7 @@ Game::Game()
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
 {
+    logger.write(__LINE__, __FILE__);
 	std::ifstream file;
     file.open(path_assets+"gfx.conf");
 	if (!file)
@@ -629,7 +631,7 @@ void Gamestate::load_files()
 
     Gfx.Load_imageAlpha("assets/gfx/backdrops/black.png", 0, 0, 0);
 
-	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop.png", 0, 0, 0 );
+	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop_1920_1080.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "assets/gfx/srfBlack.png", 0, 0, 0 );
 	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "assets/gfx/srfSpaceship.png", 0, 0, 0 );
 	m_srfAsteroid = Gfx.Load_imageAlpha( "assets/gfx/srfAsteroid.png", 0, 0, 0 );
@@ -643,7 +645,7 @@ void Gamestate::load_files()
 	m_srfOptions = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfOptions.png", 255, 255, 255 );
 	m_srfLoad = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfLoad.png", 255, 255, 255 );
 	m_srfSave = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfSave.png", 255, 255, 255 );
-	m_srfCube = Gfx.Load_imageAlpha( "assets/gfx/srfCube.png", 255, 255, 255 );
+	m_srfCube = Gfx.Load_imageAlpha( "assets/gfx/srfCube.png", 0, 0, 0 );
 	m_srfTriangle = Gfx.Load_imageAlpha( "assets/gfx/srfTriangle.png", 255, 255, 255 );
 	m_srfButtonActive = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfButtonActive.png", 255, 255, 255 );
 
@@ -695,6 +697,7 @@ void Gamestate::load_files()
 
 void Gamestate::ResetEnemies()
 {
+    logger.write(__LINE__, __FILE__);
 	if(EnemyController.Enemies.size() != NULL )
 	{
 		EnemyController.Enemies.clear();
@@ -706,15 +709,7 @@ void Gamestate::ResetEnemies()
 // ----------------------------------------------------------------------------
 void Game::Update( SDL_Event input, int iElapsedTime )
 {
-	//Asteroid SnowAsteroid(0,0,0);
-	// calling base class function instead of derived class
-	//SnowAsteroid.Asteroid::isActive();
-	//ObjectController.Report(SnowAsteroid);
-
-	//std::vector<Bullet> test;
-
-	//ObjectController.RemoveActiveObjects();
-	//test = BulletController.GetVBulletsByReference();
+    logger.write(__LINE__, __FILE__);
 	
 	// Check game state
 	switch( gamestate.GameState.top() )
@@ -746,9 +741,13 @@ void Game::Update( SDL_Event input, int iElapsedTime )
             if ( PowerLevelSecond < 5 )
                 PowerLevelSecond += 1;
 				LevelProgress += iElapsedTime / 150;
-				Gfx.DrawParallaxLayers();
-				Gfx.DrawObjects();
-				
+
+                gamestate.CreateAll();
+
+                Gfx.DrawBackgroundBlack();
+                SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfBackdrop), 0, Gfx.BackBuffer, 0);
+                Gfx.DrawParallaxLayers();
+				Gfx.DrawObjects();				
 				
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, AnimalController.AnimalArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
@@ -760,11 +759,16 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 
                 CollisionController.SpaceshipCollider(Spaceship, PowerupController.PowerupArrayRef);
 				
-				SDL_Surface * SrfProgress;
-				SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );
-				Gfx.apply_surface( 700, 560, SrfProgress, Gfx.BackBuffer );
+				//SDL_Surface * SrfProgress;
+				//SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );
+				//Gfx.apply_surface( 700, 560, SrfProgress, Gfx.BackBuffer );
 
-				Gfx.DrawScore(600,560,UpdateScore());
+                Gfx.DrawScore(Gfx.BackBuffer->w / 2, 0, UpdateScore());
+
+                Gfx.srfText = TTF_RenderText_Blended(Gfx.ScoreFont, std::to_string(UpdateScore()).c_str(), Gfx.WhiteRGB);
+                Gfx.apply_surface(Gfx.BackBuffer->w / 2, 0, Gfx.srfText, Gfx.BackBuffer);
+                
+                Gfx.DrawScore(Gfx.BackBuffer->w / 2, 50, Progressbar());
 
 				if(LevelProgress < 50000)
 				{
@@ -796,6 +800,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 					raise--;
 				}
                 Gfx.DrawSprite();
+               
 				Gfx.FLIP();
 			} break;
 		case GAME_BOSS_STATE:
@@ -832,6 +837,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 // ----------------------------------------------------------------------------
 void Gamestate::PlayOutro()
 {
+    logger.write(__LINE__, __FILE__);
 	SDL_BlitSurface( Gfx.GetSurface( gamestate.m_srfOutro ),
 					&ScreenSize, Gfx.BackBuffer, &ScreenSize );
 	Gfx.FLIP();
@@ -859,6 +865,7 @@ void Gamestate::PlayOutro()
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen(int iElapsedTime)
 {
+    logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
 	
@@ -892,6 +899,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::LoadScreen(int iElapsedTime)
 {
+    logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
 
@@ -928,6 +936,7 @@ void Gamestate::LoadScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::SaveScreen(int iElapsedTime)
 {
+    logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
 
@@ -963,6 +972,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::CreditScreen(int iElapsedTime)
 {
+    logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
 
@@ -982,6 +992,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(int iElapsedTime)
 {
+    logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
 	
@@ -1015,7 +1026,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	if( MUSIC == 5 )
 	{
 		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 5 ]);
-		Audio.PlayMusic(rand()%3);
+		//Audio.PlayMusic( std::rand() % 3 );
 	}
 	else
 	if( MUSIC == 6 )
@@ -1041,6 +1052,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::GameoverScreen(int iElapsedTime)
 {
+    logger.write(__LINE__, __FILE__);
 	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
 
 	stringstream ss;
@@ -1054,26 +1066,9 @@ void Gamestate::GameoverScreen(int iElapsedTime)
 	return;
 }
 
-
-// ----------------------------------------------------------------------------
-// EnterName() - checks for input demon name
-// ----------------------------------------------------------------------------
-void Gamestate::EnterName()
-{
-	SDL_BlitSurface( Gfx.GetSurface( MainMenuScreen->surface ), &ScreenSize, Gfx.BackBuffer, &ScreenSize );
-	SDL_Surface * srfEnter = 0;
-	//srfEnter = TTF_RenderText_Solid( Gfx.DefaultFont, gamestate.demonName.c_str(), Gfx.BlackRGB );
-	Gfx.apply_surface( 200, 400, srfEnter, Gfx.BackBuffer );
-
-	if( gamestate.name->handle_input(  ) == false )
-	{
-		gamestate.GameState.pop();
-		gamestate.GameState.push(GAME_STORY_STATE);
-	}
-}
-
 void Gamestate::RestartGame()
 {
+    logger.write(__LINE__, __FILE__);
 	Spaceship.Reset();
 	AnimalController.Destroy();
 	CubeController.CubeArrayRef.clear();
@@ -1081,16 +1076,20 @@ void Gamestate::RestartGame()
 	_SCORE = 0;
 	Spaceship._Lives = 3;
 }
+
 void Gamestate::Reset()
 {
+    logger.write(__LINE__, __FILE__);
 	Spaceship.Reset();
 	AnimalController.Destroy();
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();
 	_SCORE = 0;
 }
+
 void Gamestate::Cleanup()
 {
+    logger.write(__LINE__, __FILE__);
 	if( MainMenuScreen != NULL )
 	{
 		delete MainMenuScreen;
@@ -1131,6 +1130,7 @@ void Gamestate::Cleanup()
 
 void Gamestate::ResetRest()
 {
+    logger.write(__LINE__, __FILE__);
 	if( MainMenuScreen != NULL )
 	{
 		delete MainMenuScreen;
@@ -1143,6 +1143,7 @@ void Gamestate::ResetRest()
 
 void Game::Cleanup()
 {
+    logger.write(__LINE__, __FILE__);
 	TTF_Quit();
 	SDL_Quit();
 }
@@ -1150,6 +1151,8 @@ void Game::Cleanup()
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
+    logger.write(__LINE__, __FILE__);
+
     //Testing
     SDL_putenv("SDL_VIDEO_CENTERED=center"); //Center the game Window
 	screen = 0;
@@ -1242,20 +1245,29 @@ bool Game::Init(SDL_Surface * &screen)
 	return true;
 }
 
-int Game::UpdateScore(int score)
+int Game::UpdateScore(int add_score)
 {
-    if ( score == 0 )
-        return _SCORE++;
+    logger.write(__LINE__, __FILE__);
+    return _SCORE += add_score;
+}
+
+int Game::Progressbar(int progress)
+{
+    logger.write(__LINE__, __FILE__);
+    if ( progress == 0 )
+        return _Progress++;
     else
-        return _SCORE += score;
+        return _Progress += progress;
+
 }
 
 void Gamestate::CreateAll()
 {
-	AnimalController.CreateAnimals(_SCORE );
+    logger.write(__LINE__, __FILE__);
+	AnimalController.CreateAnimals( Engine.Progressbar() );
 	//PowerupController.CreatePowerup( Spaceship.GetPosition() );
-	CubeController.CreateCubes( _SCORE );
-	TriangleController.CreateTriangles( _SCORE );
+    CubeController.CreateCubes(Engine.Progressbar());
+    TriangleController.CreateTriangles(Engine.Progressbar());
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();
 }
@@ -1265,6 +1277,7 @@ void Gamestate::CreateAll()
 // ----------------------------------------------------------------------------
 void Gamestate::setUpParallaxLayers()
 {
+    logger.write(__LINE__, __FILE__);
 	ParallaxBG = new ParallaxBackground();
 	ParallaxBG->createLayers( 10 );
 

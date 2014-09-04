@@ -11,6 +11,7 @@
 #endif
 #endif
 
+flog logger;
 // Paths for files
    const std::string path_assets = "assets/cfg/";
 

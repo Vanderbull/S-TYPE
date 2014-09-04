@@ -79,6 +79,12 @@
     <ClCompile Include="src\Enemies\Powerup.cpp">
       <Filter>Powerups</Filter>
     </ClCompile>
+    <ClCompile Include="src\log\log.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParallaxEffect\ParallaxEffect.cpp">
+      <Filter>ParallaxLayers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audio.h">
@@ -165,6 +171,12 @@
     </ClInclude>
     <ClInclude Include="src\Enemies\Powerup.h">
       <Filter>Powerups</Filter>
+    </ClInclude>
+    <ClInclude Include="src\log\log.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParallaxEffect\ParallaxEffect.h">
+      <Filter>ParallaxLayers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
