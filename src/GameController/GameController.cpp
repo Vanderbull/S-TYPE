@@ -211,6 +211,17 @@ void GameController::Update()
     SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 1)).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 350, SrfUpdateController, Gfx.BackBuffer);
+
+    SrfText = "Velocity(X): ";
+    SrfText.append(std::to_string(Spaceship.GetVelocityX()).c_str());
+    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 370, SrfUpdateController, Gfx.BackBuffer);
+
+    SrfText = "Velocity(Y): ";
+    SrfText.append(std::to_string(Spaceship.GetVelocityY()).c_str());
+    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 390, SrfUpdateController, Gfx.BackBuffer);
+
     //Gfx.FLIP();
 
     Audio.Render();
@@ -235,28 +246,34 @@ void GameController::Update()
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -32768)
     {
-        Spaceship.yVelocity = -1.0f;
+        //Spaceship.yVelocity = -1.0f;
+        Spaceship.Accelerate(0.0f,-1.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == 32767)
     {
-        Spaceship.yVelocity = 1.0f;
+        //Spaceship.yVelocity = 1.0f;
+        Spaceship.Accelerate(0.0f, 1.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -1)
     {
-        Spaceship.yVelocity = 0.0f;
+        //Spaceship.yVelocity = 0.0f;
+        Spaceship.Accelerate(0.0f, 0.0f);
     }
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -32768)
     {
-        Spaceship.xVelocity = -1.0f;
+        //Spaceship.xVelocity = -1.0f;
+        Spaceship.Accelerate(-1.0f, 0.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == 32767)
     {
-        Spaceship.xVelocity = 1.0f;
+        //Spaceship.xVelocity = 1.0f;
+        Spaceship.Accelerate(1.0f, 0.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -1)
     {
-        Spaceship.xVelocity = 0.0f;
+        //Spaceship.xVelocity = 0.0f;
+        Spaceship.Accelerate(0.0f, 0.0f);
     }
 
     if (SDL_JoystickGetButton(GamePad, 0) == 1)
@@ -294,14 +311,18 @@ void GameController::Update()
     }
     else if (SDL_JoystickGetButton(GamePad, 3) == 1)
     {
+        Spaceship.DecreasePowerLevel();
         if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevel > 0)
         {
             BulletController.Create_Bullets();
             FIRED = 1;
             Gfx.FLIP();
             Audio.PlaySoundEffect(4);
+
             if (PowerLevel > 0)
-            PowerLevel -= 5;
+            {
+                PowerLevel -= 5;
+            }
         }
     }
     else if (SDL_JoystickGetButton(GamePad, 8) == 1)

@@ -1,2 +1,0 @@
-16 c:\users\risk\documents\github\s-type\src\log\log.cpp
-1276 c:\users\risk\documents\github\s-type\src\game.cpp

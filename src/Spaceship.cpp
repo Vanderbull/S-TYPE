@@ -36,12 +36,14 @@ BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int wi
 
 	//_SurfaceID = surface;
 
-	xVelocity = 0.000015f; 
+	xVelocity = 0.0f; 
 	yVelocity = 0.0f;
 	_CollisionBox.x = 0;
 	_CollisionBox.y = 0;
 	_CollisionBox.w = width;
 	_CollisionBox.h = height;
+
+    _PowerLevel = 100;
 }
 
 // checks if OK to move
@@ -59,6 +61,10 @@ bool BaseSpaceShip::IsAttacking()
 
 void BaseSpaceShip::Update()
 {
+    if (GetPowerLevel() < 100)
+    {
+        IncreasePowerLevel();
+    }
 	if( yVelocity != 0 )
 	{
 		if( (BaseSpaceShip::_Position.y + yVelocity > 0) && (BaseSpaceShip::_Position.y + yVelocity < Gfx.screen->h - 64) )
@@ -74,7 +80,6 @@ void BaseSpaceShip::Update()
 		}
 	}
 }
-
 
 void BaseSpaceShip::SetClips()
 {
@@ -114,7 +119,7 @@ void BaseSpaceShip::Reset()
 	_Position.h = SPACESHIP_HEIGHT;
 	_Position.w = SPACESHIP_WIDTH;
 
-	xVelocity = 0.000015f; 
+	xVelocity = 0.0f; 
 	yVelocity = 0.0f;
 }
 

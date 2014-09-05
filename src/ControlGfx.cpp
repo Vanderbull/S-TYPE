@@ -379,13 +379,13 @@ void ControlGfx::DrawSprite()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
-    Spaceship.Update();
     BlueShipController.DrawBlueShip();
 	CubeController.DrawCubes();
 	TriangleController.DrawTriangles();
 	BulletController.Draw_Bullets();
 	ObjectController.DrawObjects();
 	PowerupController.DrawPowerup();
+    Spaceship.Update();
 }
 
 // ----------------------------------------------------------------------------
@@ -410,6 +410,11 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
     Gfx.apply_surface(0, 120, SrfScore, Gfx.BackBuffer);
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(PowerLevel).c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(100, 120, SrfScore, Gfx.BackBuffer);
+
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER LEVEL(NEW): ", Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 140, SrfScore, Gfx.BackBuffer);
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(Spaceship.GetPowerLevel()).c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(100, 140, SrfScore, Gfx.BackBuffer);
 
 
 	SDL_FreeSurface(SrfScore);

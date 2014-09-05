@@ -736,8 +736,8 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_RUNNING_STATE:
 			{
-            if (PowerLevel < 100)
-                PowerLevel += 1;
+                if (PowerLevel < 100)
+                    PowerLevel += 1;
             if ( PowerLevelSecond < 5 )
                 PowerLevelSecond += 1;
 				LevelProgress += iElapsedTime / 150;
@@ -754,15 +754,15 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 //Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();				
 				
-                CollisionController.ObjectCollider(BulletController.BulletArrayRef, BlueShipController.BlueShipArrayRef);
+                CollisionController.ObjectCollider( BulletController.BulletArrayRef, BlueShipController.BlueShipArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, TriangleController.TriangleArrayRef );
 				
-                CollisionController.SpaceshipCollider(Spaceship, BlueShipController.BlueShipArrayRef);
-				CollisionController.SpaceshipCollider(Spaceship,CubeController.CubeArrayRef );
-				CollisionController.SpaceshipCollider(Spaceship,TriangleController.TriangleArrayRef );
+                CollisionController.SpaceshipCollider( Spaceship, BlueShipController.BlueShipArrayRef );
+				CollisionController.SpaceshipCollider( Spaceship,CubeController.CubeArrayRef );
+				CollisionController.SpaceshipCollider( Spaceship,TriangleController.TriangleArrayRef );
 
-                CollisionController.SpaceshipCollider(Spaceship, PowerupController.PowerupArrayRef);
+                CollisionController.SpaceshipCollider( Spaceship, PowerupController.PowerupArrayRef);
 				
 				//SDL_Surface * SrfProgress;
 				//SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );

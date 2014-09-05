@@ -8,6 +8,9 @@
 class SpaceshipInterface
 {
 public:
+
+    int _PowerLevel;
+
 	Sint16 _Lives;
 	Sint16 _SurfaceID;
 	Sint16 _Speed;
@@ -21,8 +24,8 @@ public:
 	{
 		_Velocity.x = _Speed + _Scale;
 		_Velocity.y = _Speed + _Scale;
-
 	};
+
 	virtual void Update() = 0;
 	virtual void SetClips() = 0;
 	virtual std::string GetAction() = 0;
@@ -33,6 +36,14 @@ public:
 	virtual void AddBeam(std::string beam_event) = 0;
 	virtual SDL_Rect GetCollisionBox() = 0;
 	virtual int isColliding( SDL_Rect CollisionObject ) = 0;
+    virtual int IncreasePowerLevel() = 0;
+    virtual int DecreasePowerLevel() = 0;
+    virtual int GetPowerLevel() = 0;
+
+    virtual int Accelerate(float x, float y) = 0;
+    virtual float GetVelocityX() = 0;
+    virtual float GetVelocityY() = 0;
+
 };
 
 class BaseSpaceShip : public SpaceshipInterface
@@ -178,6 +189,50 @@ public:
 
 		return(1);
 	}
+
+    int BaseSpaceShip::IncreasePowerLevel()
+    {
+        return _PowerLevel++;   
+    }
+
+    int BaseSpaceShip::DecreasePowerLevel()
+    {
+        return _PowerLevel = _PowerLevel - 5;
+    }
+    int BaseSpaceShip::GetPowerLevel()
+    {
+        return _PowerLevel;
+    }
+
+    int BaseSpaceShip::Accelerate(float x, float y)
+    {
+        if (y == 0.0f)
+            yVelocity = yVelocity;
+        else if (y < 0.0f && yVelocity >= -9.0f)
+            yVelocity += y;
+        else if (y > 0.0f && yVelocity <= 9.0f)
+            yVelocity += y;
+
+        if (x == 0.0f)
+            xVelocity = xVelocity;
+        else if (x < 0.0f && xVelocity >= -9.0f)
+            xVelocity += x;
+        else if (x > 0.0f && xVelocity <= 9.0f)
+            xVelocity += x;
+
+
+        return 0;
+    };
+
+    float BaseSpaceShip::GetVelocityX()
+    {
+        return xVelocity;
+    }
+    float BaseSpaceShip::GetVelocityY()
+    {
+        return yVelocity;
+    }
+
 
 private:
 	BaseSpaceShip::State _State;
