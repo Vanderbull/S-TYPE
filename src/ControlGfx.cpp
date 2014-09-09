@@ -400,11 +400,6 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 {
 	SDL_Surface * SrfScore;
 
-    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "HIGHSCORE: ", Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 100, SrfScore, Gfx.BackBuffer);
-	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
-	Gfx.apply_surface( 100, 100, SrfScore, Gfx.BackBuffer );
-
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER LEVEL: ", Gfx.WhiteRGB);
     Gfx.apply_surface(0, 120, SrfScore, Gfx.BackBuffer);
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(PowerLevel).c_str(), Gfx.WhiteRGB);

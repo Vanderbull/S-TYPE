@@ -27,6 +27,7 @@ public:
     int CountDevices();
     void Open(int index);
     void Update();
+    void KeyMapping(SDL_Event _event);
 
 private:
     SDL_Event Events;

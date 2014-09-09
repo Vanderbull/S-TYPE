@@ -54,9 +54,9 @@ int main( int argc, char * arg[] )
 	_putenv("SDL_VIDEO_WINDOW_POS=center");
 	_putenv("SDL_VIDEO_CENTERED=1");
 	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
-	Sleep(10000);
+	//Sleep(10000);
 	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
-	Sleep(8000);
+	//Sleep(8000);
 
 	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");
 
@@ -65,6 +65,7 @@ int main( int argc, char * arg[] )
 	
 	while( Engine.Quit == false )
 	{
+        logger.write_score(_SCORE);
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 
         logger.write_deltatime(gamestate.DeltaTime);

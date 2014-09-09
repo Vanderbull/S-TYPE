@@ -61,33 +61,17 @@ Gamestate::Gamestate()
 	DeltaTime = 0.0f;
 }
 
-void Gamestate::KeyMapping(SDL_Event _event)
-{
-	bool KEYS[322];  // 322 is the number of SDLK_DOWN events
-
-	for(int i = 0; i < 322; i++) { // init them all to false
-	   KEYS[i] = false;
-	}
-
-	SDL_EnableKeyRepeat(0,0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
-
-	switch (_event.type) 
-	{
-		case SDL_KEYDOWN:
-			KEYS[_event.key.keysym.sym] = true;
-            break;
-        case SDL_KEYUP:
-            KEYS[_event.key.keysym.sym] = false;
-            break;
-	}  
-}
-
 struct SaveGameData
 {
     int version;
     int difficulty;
     int sound;
     int music;
+    int score;
+    int progress;
+    int powerup;
+
+    SaveGameData(){version = 1; difficulty = DIFFICULTY; sound = SOUND; music = MUSIC; };
 } Savegame;
 
 void Game::HandleEvents( SDL_Event _event )
@@ -98,14 +82,14 @@ void Game::HandleEvents( SDL_Event _event )
 	{
 		// Handle mouse button events
         case SDL_MOUSEBUTTONDOWN:
-        {} break;
+        {
+        } break;
 		case SDL_MOUSEBUTTONUP:
 		{
 			switch( gamestate.GameState.top()  )
 			{
 				case MENU_MAIN_STATE:
 				{
-					cout << "Release mouse button" << endl;
 				} break;
 				case GAME_RUNNING_STATE:
 				{
@@ -126,6 +110,7 @@ void Game::HandleEvents( SDL_Event _event )
                             {
                                 cout << "Difficuty set to -> " << i << "..." << endl;
                                 DIFFICULTY = i;
+                                Savegame.difficulty = i;
                             }
                         }
                         for (int i = 3; i < 5; i++)
@@ -137,6 +122,7 @@ void Game::HandleEvents( SDL_Event _event )
                             {
                                 cout << "Sound set to -> " << i << "..." << endl;
                                 SOUND = i;
+                                Savegame.sound = i;
                             }
                         }
                         for (int i = 5; i < 7; i++)
@@ -148,6 +134,7 @@ void Game::HandleEvents( SDL_Event _event )
                             {
                                 cout << "Music set to -> " << i << "..." << endl;
                                 MUSIC = i;
+                                Savegame.music = i;
                             }
                         }
                         for (int i = 7; i < 8; i++)
@@ -197,10 +184,11 @@ void Game::HandleEvents( SDL_Event _event )
                                     of << Savegame.music << endl;
                                     of << Savegame.sound << endl;
                                     of << "save\n";
+                                    MessageBox(NULL, "Do you really want to save over savegame", "Override savegame", MB_YESNO | MB_ICONWARNING);
                                 }
                                 else
                                 {
-                                    exit(1);
+                                    MessageBox(NULL, "Do you really want to save over savegame", "Override savegame", MB_OK | MB_ICONERROR);
                                 }
                             }
                         }
@@ -572,38 +560,6 @@ void Gamestate::load_files()
     m_srfGreenPowerup = Gfx.Load_imageAlpha("assets/gfx/pPowerups/srfGreenPowerup.png", 0, 0, 0);
     m_srfBluePowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfBluePowerup.png", 0, 0, 0);
 	
-	/*
-	std::map<string,int> m_SurfaceCollection;
-	
-	m_SurfaceCollection["Graphics/srfCity.png"] = Gfx.Load_imageAlpha( "Graphics/srfCity.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/srfClouds.png"] = Gfx.Load_imageAlpha( "Graphics/srfClouds.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfBlack.png"] = Gfx.Load_imageAlpha( "Graphics/srfBlack.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/srfSky.png"] = Gfx.Load_imageAlpha( "Graphics/srfSky.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/demonSurface.png"] = Gfx.Load_imageAlpha( "Graphics/demonSurface.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfEnemyZombie.png"] = Gfx.Load_imageAlpha( "Graphics/srfEnemyZombie.png", 255, 0, 255 );
-	m_SurfaceCollection["Graphics/srfCrow.png"] = Gfx.Load_imageAlpha( "Graphics/srfCrow.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfdemonLife.png"] = Gfx.Load_imageAlpha( "Graphics/srfdemonLife.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfdemonHealthAndFire.png"] = Gfx.Load_imageAlpha( "Graphics/srfdemonHealthAndFire.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/srfDragon.png"] = Gfx.Load_imageAlpha( "Graphics/srfDragon.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/srfStart.png"] = Gfx.Load_imageAlpha( "Graphics/srfStart.png", 237, 234, 214 );
-	m_SurfaceCollection["Graphics/srfButtons.png"] = Gfx.Load_imageAlpha( "Graphics/srfButtons.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfIntro.png"] = Gfx.Load_imageAlpha( "Graphics/srfIntro.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfMorphing.png"] = Gfx.Load_imageAlpha( "Graphics/srfMorphing.png", 255, 255, 241 );
-	m_SurfaceCollection["Graphics/srfOutro.png"] = Gfx.Load_imageAlpha( "Graphics/srfOutro.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/srfButton.png"] = Gfx.Load_imageAlpha( "Graphics/srfButton.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/srfHealth.png"] = Gfx.Load_imageAlpha( "Graphics/srfHealth.png", 0, 0, 0 );
-	m_SurfaceCollection["Graphics/srfLaser.png"] = Gfx.Load_imageAlpha( "Graphics/srfLaser.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfCredits.png"] = Gfx.Load_imageAlpha( "Graphics/srfCredits.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfOptions.png"] = Gfx.Load_imageAlpha( "Graphics/srfOptions.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfLoad.png"] = Gfx.Load_imageAlpha( "Graphics/srfLoad.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfSave.png"] = Gfx.Load_imageAlpha( "Graphics/srfSave.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfCube.png"] = Gfx.Load_imageAlpha( "Graphics/srfCube.png", 255, 255, 255 );
-	m_SurfaceCollection["Graphics/srfTriangle.png"] = Gfx.Load_imageAlpha( "Graphics/srfTriangle.png", 255, 255, 255 );
-	
-	for (const auto &p : m_SurfaceCollection)
-		std::cout << p.first << " => " << p.second << '\n';
-*/
-
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
 	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons );
 	OptionsScreen = new Options( 290, m_srfOptions, m_srfButtons );
@@ -746,8 +702,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				}
 			} break;
 	}
-	if( _SCORE > 10000 ) 
-		_SCORE = 0;
 }
 
 // ----------------------------------------------------------------------------
@@ -994,7 +948,6 @@ void Gamestate::Reset()
     BlueShipController.Destroy();
 	CubeController.CubeArrayRef.clear();
 	TriangleController.TriangleArrayRef.clear();
-	_SCORE = 0;
 }
 
 void Gamestate::Cleanup()
@@ -1035,19 +988,6 @@ void Gamestate::Cleanup()
 	if( gamestate.SavesScreen != NULL )
 	{
 		delete SavesScreen;
-	}
-}
-
-void Gamestate::ResetRest()
-{
-    logger.write(__LINE__, __FILE__);
-	if( MainMenuScreen != NULL )
-	{
-		delete MainMenuScreen;
-	}
-	if( CreditsScreen != NULL )
-	{
-		delete CreditsScreen;
 	}
 }
 

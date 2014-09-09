@@ -359,3 +359,24 @@ void GameController::Update()
     //this->hat_old = this->hat;
     //this->hat = SDL_JoystickGetHat(this->stick, 0);
 }
+
+void GameController::KeyMapping(SDL_Event _event)
+{
+    bool KEYS[322];  // 322 is the number of SDLK_DOWN events
+
+    for (int i = 0; i < 322; i++) { // init them all to false
+        KEYS[i] = false;
+    }
+
+    SDL_EnableKeyRepeat(0, 0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
+
+    switch (_event.type)
+    {
+    case SDL_KEYDOWN:
+        KEYS[_event.key.keysym.sym] = true;
+        break;
+    case SDL_KEYUP:
+        KEYS[_event.key.keysym.sym] = false;
+        break;
+    }
+}

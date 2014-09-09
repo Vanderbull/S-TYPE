@@ -37,6 +37,21 @@ void flog::write_deltatime(float _deltatime = 0)
     }
 }
 
+void flog::write_score(int _score)
+{
+    std::ofstream log("./logs/score.txt", ios::out | ios::app);
+
+    if (log.is_open())
+    {
+        log << _score << endl;
+    }
+    // Close stream buffer before exiting
+    if (log.is_open())
+    {
+        log.close();
+    }
+}
+
 flog::~flog()
 {
 
