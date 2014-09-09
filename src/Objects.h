@@ -44,7 +44,7 @@ class Asteroid : public Object
 {
 public:
 
-	Asteroid( int _xPos, int _yPos, int _SurfaceID ) {};
+	Asteroid( int _x = 0, int _y = 0, int _SurfaceID = 0 ) { x = _x; y = _y; SurfaceID = _SurfaceID; };
 	void Update() {};
 	void Draw() {};
 	bool isActive(){ return true; };
@@ -55,6 +55,9 @@ public:
 	void Spawn() {};
 
 private:
+    int x;
+    int y;
+    int SurfaceID;
 };
 
 class ControlObject

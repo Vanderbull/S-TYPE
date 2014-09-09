@@ -370,7 +370,7 @@ void ControlGfx::DrawSprite()
 		//SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 
     SDL_BlitSurface(Gfx.GetSurface(Spaceship._SurfaceID),
-        &Spaceship.AnimationArrays[Spaceship.GetState()][Spaceship.Animate()],
+        &Spaceship.AnimationArrays[0][Spaceship.Animate()],
         Gfx.BackBuffer, &Spaceship.GetPosition());
 }
 
@@ -399,13 +399,12 @@ void ControlGfx::DrawBackgroundBlack()
 void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 {
 	SDL_Surface * SrfScore;
+
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "HIGHSCORE: ", Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 100, SrfScore, Gfx.BackBuffer);
 	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(iScore++).c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 100, 100, SrfScore, Gfx.BackBuffer );
 
-	//SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(CURRENT_HIGHSCORE).c_str(), Gfx.WhiteRGB );
-	//Gfx.apply_surface( 0, 0, SrfScore, Gfx.BackBuffer );
-	SrfScore = TTF_RenderText_Solid( Gfx.DefaultFont, "HIGHSCORE: ", Gfx.WhiteRGB );
-	Gfx.apply_surface( 0, 100, SrfScore, Gfx.BackBuffer );
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER LEVEL: ", Gfx.WhiteRGB);
     Gfx.apply_surface(0, 120, SrfScore, Gfx.BackBuffer);
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(PowerLevel).c_str(), Gfx.WhiteRGB);
@@ -423,4 +422,35 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )
 {
 	SDL_SetAlpha( Gfx.GetSurface( _SurfaceIndex ), SDL_SRCALPHA | SDL_RLEACCEL, _Opacity );
+}
+
+void ControlGfx::RenderText(std::string _Text, int _x , int _y )
+{
+    int w = 0;
+    int h = 0;
+
+    if ((TTF_SizeText(Gfx.DefaultFont, _Text.c_str(), &w, &h) != -1))
+    {
+        // Print out the width and height of the string if I render it with myFont
+        std::cout << "Width : " << w << "\nHeight: " << h << std::endl;
+    }
+    else {
+        // Error...
+    }
+
+    if ((TTF_SizeText(Gfx.DefaultFont, "Version 1.0 Beta", &w, &h) != -1))
+    {
+        // Print out the width and height of the string if I render it with myFont
+        std::cout << "Width : " << w << "\nHeight: " << h << std::endl;
+    }
+    else {
+        // Error...
+    }
+    Gfx.apply_surface(Gfx.BackBuffer->w - w, Gfx.BackBuffer->h - h, TTF_RenderText_Solid(Gfx.DefaultFont, "Version 1.0 Beta", Gfx.WhiteRGB), Gfx.BackBuffer);
+
+
+    SDL_Surface * SrfText;
+    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface( (Gfx.BackBuffer->w - w) / 2, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);
+    SDL_FreeSurface(SrfText);
 }

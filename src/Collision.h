@@ -10,7 +10,7 @@
 #include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
 #include "Triangles.h"
-#include "Audio.h"
+#include "Audio\Audio.h"
 
 class ControlCollision
 {
@@ -36,9 +36,6 @@ public:
 					iBullet->DeActivate();
 					PopupScore.push_back(50);
 					_SCORE += 100;
-					SDL_Surface * SrfProgress;
-					SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, "POWER UP COOL *YEA GRIIM!!!!!", Gfx.WhiteRGB );
-					Gfx.apply_surface( 150, 150, SrfProgress, Gfx.BackBuffer );
 				}
 				else
 				{

@@ -3,7 +3,6 @@
 #include "Powerup.h"
 #include "../Game.h"
 #include "../SpaceShip.h"
-#include "../Timers.h"
 #include "../Collision.h"
 #include "../ControlGfx.h"
 
@@ -77,15 +76,10 @@ SDL_Rect Powerup::UpdateCollisionBox(SDL_Rect Box)
 void Powerup::Update()
 {
     Timer--;
-    xPos = 0.0003f * gamestate.DeltaTime;
+    xPos = 0.0001f * gamestate.DeltaTime;
     LocAndSize.x -= (Sint16)xPos;
     LocAndSize.h = SpriteHeight;
     LocAndSize.w = SpriteWidth;
-	//xPos = 0.0003f * gamestate.DeltaTime;
-	//LocAndSize.x = 150;
-	//LocAndSize.y = 150;
-	//LocAndSize.h = SpriteHeight;
-	//LocAndSize.w = SpriteWidth;
 
 	PrevFrame = Frame++;
 	if( Frame >= MAX_FRAMES )

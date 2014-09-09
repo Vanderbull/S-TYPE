@@ -12,5 +12,6 @@ class flog
     public:
         flog();
         void write(int line, std::string file);
+        void write_deltatime(float _deltatime);
         ~flog();
 };

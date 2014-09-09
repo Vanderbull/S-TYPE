@@ -22,6 +22,21 @@ void flog::write(int line, std::string file)
 
 }
 
+void flog::write_deltatime(float _deltatime = 0)
+{
+    std::ofstream log("./logs/fps.txt", ios::out | ios::app);
+
+    if (log.is_open())
+    {
+        log << _deltatime << endl;
+    }
+    // Close stream buffer before exiting
+    if (log.is_open())
+    {
+        log.close();
+    }
+}
+
 flog::~flog()
 {
 

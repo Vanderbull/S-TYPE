@@ -143,7 +143,7 @@ public:
 private:
 	Gamestate _State;
 	World _World;
-    int _Progress;
+    double _Progress;
 
 };
 

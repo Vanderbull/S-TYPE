@@ -49,12 +49,6 @@ public:
 class BaseSpaceShip : public SpaceshipInterface
 {
 public:
-	enum State
-	{
-		IDLE,
-		MOVING_RIGHT,
-		MOVING_LEFT,
-	};
 
 	enum AliveState
 	{
@@ -90,14 +84,6 @@ public:
 	void Update();
 	void SetClips();
 	void UpdatePosition(float x, float y); 
-	void SetState( BaseSpaceShip::State state )
-	{
-		_State = state;
-	}
-	BaseSpaceShip::State GetState() const
-	{
-	   return _State;
-	}
 
 	void SetAliveState( BaseSpaceShip::AliveState state )
 	{
@@ -235,7 +221,7 @@ public:
 
 
 private:
-	BaseSpaceShip::State _State;
+
 	BaseSpaceShip::AliveState _AliveState;
 	SDL_Rect _Position;
 	int _AnimationFrame;

@@ -11,21 +11,20 @@
 class TriangleObject
 {
 public:
-	float xPos,yPos;
-	int Height,Width;
-	int SurfaceID;
+	Uint16 xPos,yPos;
+	Uint16 Height,Width;
+	Uint16 SurfaceID;
 	SDL_Rect CollisionBox;
 
 private:
 };
 
-
 class TriangleState
 {
 public:
-	int Frame, State;
-	int Radius;
-	int Surface;
+	Uint16 Frame, State;
+	Uint16 Radius;
+	Uint16 Surface;
 	SDL_Rect Destination;
 };
 

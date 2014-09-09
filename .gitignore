@@ -44,6 +44,9 @@ local.properties
 # Savegame files
 [Ss]aves/
 
+# Log files
+[Ll]ogs/
+
 # Build results
 [Dd]ebug/
 [Rr]elease/

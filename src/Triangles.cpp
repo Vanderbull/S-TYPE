@@ -26,10 +26,10 @@ SDL_Rect Triangle::UpdateCollisionBox(SDL_Rect Box)
 
 void Triangle::Update()
 {
-	xPos -= 0.0003f * gamestate.DeltaTime;
+	xPos -= (Sint16)(0.0003f * gamestate.DeltaTime);
 	Destination.w = Width;
 	Destination.x = xPos;
-	Destination.y = yPos;//+rand()% 12; 
+	Destination.y = yPos;
 
 	PrevFrame = Frame++;
 	if( Frame >= TRIANGLE_MAX_FRAMES )

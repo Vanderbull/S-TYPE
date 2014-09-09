@@ -21,11 +21,10 @@ using namespace std;
 #include "Game.h"
 #include "SpaceShip.h"
 #include "ControlGfx.h"
-#include "Audio.h"
+#include "Audio\Audio.h"
 #include "Objects.h"
 #include "Enemies\Powerup.h"
 #include "Enemies.h"
-#include "Timers.h"
 #include "Paralaxlayers.h"
 #include "BlueShip.h"
 #include "Enemies\Cubes.h"
@@ -368,54 +367,7 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_RUNNING_STATE:
 				{
-                    //GamePad->HandleInput(_event);
-                    /*
-						switch( _event.key.keysym.sym )
-						{
-							case SDLK_RIGHT:
-							{
-                                Spaceship.xVelocity = MAX_VELOCITY;
-							} break;
-							case SDLK_LEFT:
-							{
-                                Spaceship.xVelocity = -MIN_VELOCITY;
-							} break;
-							case SDLK_UP:
-							{
-                                Spaceship.yVelocity = MAX_VELOCITY;
-							} break;
-							case SDLK_DOWN:
-							{
-                                Spaceship.yVelocity = -MIN_VELOCITY;
-							} break;
-							case SDLK_SPACE:
-							{
-								if( FIRED == 0 )
-								{
-									BulletController.Create_Bullets();
-									FIRED = 1;
-									Gfx.FLIP();
-									Audio.PlaySoundEffect( 4 );
-								}
-							} break;
-							case SDLK_LALT:
-							{
-								Spaceship.AddAction("FIRE_SPECIAL");
-							} break;
-							case SDLK_RETURN:
-							{
-								Spaceship.AddAction("RETURN");
-							} break;
-							case SDLK_ESCAPE:
-							{
-								std::cout << "Trying to get to the menu eeeyyy!!" << endl;
-								gamestate.GameState.push(MENU_MAIN_STATE);
-							} break;
-							default:
-							{
-								Spaceship.AddAction("DEFAULT");
-							}
-					}*/
+ 
 				} break;
 				case GAME_OPTIONS_STATE:
 				{
@@ -439,41 +391,8 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_RUNNING_STATE:
 				{
-                    
-                    /*
-					switch( _event.key.keysym.sym )		
-					{
-						case SDLK_ESCAPE:
-						{
-							//gamestate.GameState.push(MENU_MAIN_STATE);
-						} break;
-						case SDLK_RIGHT:
-						{
-                            Spaceship.xVelocity = NO_VELOCITY;
-						} break;
-						case SDLK_LEFT:
-						{
-                            Spaceship.xVelocity = NO_VELOCITY;
-						} break;
-						case SDLK_UP:
-						{
-                            Spaceship.yVelocity = NO_VELOCITY;
-						} break;
-						case SDLK_DOWN:
-						{
-                            Spaceship.yVelocity = NO_VELOCITY;
-						} break;
-						case SDLK_SPACE:
-						{
-                            if (FIRED == 0)
-                            {
-                                BulletController.Create_Bullets();
-                                FIRED = 1;
-                                Gfx.FLIP();
-                                Audio.PlaySoundEffect(4);
-                            }
-						} break;
-					}*/
+                    GamePad->HandleInput(_event);
+ 
 				} break;
 			}
 		} break;
@@ -763,10 +682,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				CollisionController.SpaceshipCollider( Spaceship,TriangleController.TriangleArrayRef );
 
                 CollisionController.SpaceshipCollider( Spaceship, PowerupController.PowerupArrayRef);
-				
-				//SDL_Surface * SrfProgress;
-				//SrfProgress = TTF_RenderText_Solid( Gfx.DefaultFont, std::to_string(LevelProgress).c_str(), Gfx.WhiteRGB );
-				//Gfx.apply_surface( 700, 560, SrfProgress, Gfx.BackBuffer );
 
                 Gfx.DrawScore(Gfx.BackBuffer->w / 2, 0, UpdateScore());
 
@@ -805,12 +720,10 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 					raise--;
 				}
                 Gfx.DrawSprite();
-               
 				Gfx.FLIP();
 			} break;
 		case GAME_BOSS_STATE:
 			{
-				//Gfx.DrawScore(300,0,UpdateScore());
 			} break;
 		case GAME_OUTRO_STATE:
 			{
@@ -883,35 +796,12 @@ void Gamestate::MainScreen(int iElapsedTime)
     i++;
     SDL_Surface *surface;
 
-    //surface = SDL_LoadBMP("assets/gfx/backdrops/black.bmp");
-    //    SDL_SetAlpha(surface, SDL_RLEACCEL | SDL_SRCALPHA, i);
-    //    SDL_BlitSurface(surface, NULL, Gfx.BackBuffer, NULL);
-    //*Gfx.FLIP();
-    //SDL_FreeSurface(surface);
-
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
-	string str = "MainScreena @ ";
+	string str = "MainScreen @ ";
 	str.append(ss.str());
-	SDL_Surface * srfElapsedTime;
-	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
-
-    int w = 0;
-    int h = 0;
-
-    if ((TTF_SizeText(Gfx.DefaultFont, "SDL_ttf is awesome!", &w, &h) != -1))
-    {
-        // Print out the width and height of the string if I render it with myFont
-        std::cout << "Width : " << w << "\nHeight: " << h << std::endl;
-    }
-    else {
-        // Error...
-    }
-
-
-    Gfx.apply_surface(Gfx.BackBuffer->w - w, Gfx.BackBuffer->h - h, TTF_RenderText_Solid(Gfx.DefaultFont, "Version 1.0 Beta", Gfx.WhiteRGB), Gfx.BackBuffer);
-	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	SDL_FreeSurface(srfElapsedTime);
+	
+    Gfx.RenderText(str.c_str(), 0, 50);
 }
 
 // ----------------------------------------------------------------------------
@@ -1273,11 +1163,15 @@ int Game::UpdateScore(int add_score)
 
 int Game::Progressbar(int progress)
 {
+    double t = 0.0;
+    double dt = 1.0 / 60.0;
+
+
     logger.write(__LINE__, __FILE__);
     if ( progress == 0 )
-        return _Progress++;
+        return _Progress += dt * 20;
     else
-        return _Progress += progress;
+        return _Progress += dt * 20;
 
 }
 

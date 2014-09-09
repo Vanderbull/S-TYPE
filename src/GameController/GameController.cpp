@@ -182,7 +182,7 @@ void GameController::Update()
     SDL_Surface * SrfUpdateController;
     std::string SrfText;
 
-    SrfText         = "Updating the GameController";
+    SrfText = "Updating the GameController";
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 200, SrfUpdateController, Gfx.BackBuffer);
     SrfText = "Red button: ";
@@ -224,7 +224,7 @@ void GameController::Update()
 
     //Gfx.FLIP();
 
-    Audio.Render();
+    //Audio.Render();
     SDL_JoystickUpdate();
     //Update all the buttons
     for (int i = 0; i < SDL_JoystickNumButtons(GamePad); i++){

@@ -1,42 +1,31 @@
 #pragma once
 #include <SDL_mixer.h>
 
-// @date 2012-08-07
-
-enum{	MUSIC_START, MUSIC_MENU, MUSIC_OUTRO, SOUND_MORPH, SOUND_HIT, SOUND_FIRE, 
-		SOUND_GETS_HIT, SOUND_DIE, SOUND_BOSS, SOUND_FIREBALL_EXPLODE };
+enum E_AUDIO{	
+	LASER = 4,
+	EXPLOSION = 5
+};
 
 class ControlAudio
 {
 public:
+
+	Mix_Music *Playlist[100];
+	Mix_Chunk *Sfx[100];
+
 	ControlAudio();
+	~ControlAudio();
 
-	bool LoadFiles();
-
-	Mix_Music *music; 
-	Mix_Music *musicMenu;
-	Mix_Music *musicOutro;
-	
-	Mix_Chunk *Fireball; 
-	Mix_Chunk *Hit; 
-	Mix_Chunk *Punch; 
-	Mix_Chunk *Laugh; 
-	Mix_Chunk *Morph;
-	Mix_Chunk *Boss;
-	Mix_Chunk *FireBallExplode;
-
-	bool MusicOn;
-	bool MusicPaused;
-	bool BossEffect;
-
-	bool LevelSong, MenuSong, OutroSong;
-
+    void SetVolume(int volume, int id);
+	void LoadAudio();
 	void PlayMusic( int song );
 	void PlaySoundEffect( int effect );
 	void PauseMusic();
 	void UnpauseMusic();
-	void PlayIntroSong();
-	void PlayLevelSong();
+	void GetFadeStatusMusic();
+    void QuerySpec();
+    void Reset(int frequency = 44100, Uint16 format = MIX_DEFAULT_FORMAT, int channels = 2, int chunksize = 1024);
+    void Render();
 };
 
 extern ControlAudio Audio;

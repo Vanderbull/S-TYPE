@@ -15,7 +15,6 @@ using namespace std;
 #include "Game.h"
 #include "SpaceShip.h"
 #include "time.h"
-#include "Timers.h"
 #include "ConfigFileConverter.h"
 #include "resource.h"
 
@@ -35,8 +34,8 @@ using namespace std;
 int main( int argc, char * arg[] )
 {
     logger.write(__LINE__,__FILE__);
-
     std::srand(std::time(0)); // use current time as seed for random generator
+
     int random_variable = std::rand();
     std::cout << "Random value on [0 " << RAND_MAX << "]: "
         << random_variable << '\n';
@@ -46,50 +45,30 @@ int main( int argc, char * arg[] )
         tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
     _CrtSetDbgFlag( tmpFlag );
 
-    //srand(time_t(0));
 	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 }, second = { 0 };
 	SDL_Event event = {0};
 	int timeOfEvent = 0;
- 
-	//Game GameEngine;
-	Timer fps;
 
-	std::queue<float> DeltaHistory;
 	QueryPerformanceFrequency(&freq);
 
-
-	//_putenv("SDL_VIDEO_WINDOW_POS=center");
-	//_putenv("SDL_VIDEO_CENTERED=1");
-	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
-	//Sleep(10000);
-	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
-	//Sleep(8000);
-
-	//initialize all SDL subystems 
-
+	_putenv("SDL_VIDEO_WINDOW_POS=center");
+	_putenv("SDL_VIDEO_CENTERED=1");
+	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
+	Sleep(10000);
+	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
+	Sleep(8000);
 
 	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");
-	//SDL_Surface* icon = SDL_LoadBMP("src/res/small.bmp");
-	//SDL_SetColorKey(icon, SDL_SRCCOLORKEY, SDL_MapRGB(icon->format, 255, 255, 255));
-	//SDL_WM_SetIcon(icon, 0);
-
-
-	//SDL_WM_SetIcon(SDL_LoadBMP("src/res/small.bmp"), NULL);
 
     cout << Engine.GamePad->CountDevices() << endl;
     Engine.GamePad->init();
 	
-
-
 	while( Engine.Quit == false )
 	{
-		second.QuadPart += ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
-		if( second.QuadPart >= 2000000 )
-		{	
-			second.QuadPart = 0;
-		}
 
+        logger.write_deltatime(gamestate.DeltaTime);
+		
 		QueryPerformanceCounter(&start);
 
 		while( SDL_PollEvent( &event ) )
@@ -99,12 +78,13 @@ int main( int argc, char * arg[] )
 
         Engine.GamePad->Update();
 		Engine.Update( event, gamestate.DeltaTime );
+        Audio.Render();
 		Gfx.FLIP();
 
 		QueryPerformanceCounter(&end);
 	}
 
+    gamestate.Cleanup();
 	Engine.Cleanup();
-	gamestate.Cleanup();
 	return 0;
 }

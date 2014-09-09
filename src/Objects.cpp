@@ -2,7 +2,6 @@
 #include "Objects.h"
 #include "Game.h"
 #include "SpaceShip.h"
-#include "Timers.h"
 #include "Collision.h"
 #include "ControlGfx.h"
 

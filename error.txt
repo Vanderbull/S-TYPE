@@ -1,1 +1,0 @@
-bool Game::Init(SDL_Surface * &screen)

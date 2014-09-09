@@ -4,11 +4,15 @@
 #include <list>
 #include "Objects.h"
 #include "Enemies\MovingThings.h"
-#include "Enemies\CSkeleton.h"
-#include "Enemies\CDwarf.h"
 
-enum{ ENEMY_SKELETON,ENEMY_DWARF };
-enum{ SKELETON = 7, SKULL = 8, DWARF};
+#include "Enemies\CWave1.h"
+
+
+// Set_Clips enum
+enum{ ENEMY_WAVE1 };
+
+
+enum{ WAVE1 };
 
 // holds info for all the enemies
 
@@ -31,17 +35,9 @@ public:
 		CEnemy::_Position.h = CEnemy::Height;
 	}
 
-	int PrevFrame, Frame, Radius, 
-		WalkFrameLeft, WalkFrameRight, 
-		AttackFrameRight, AttackFrameLeft, 
-		DieFrameLeft, DieFrameRight, 
-		AnimCounter;
-
-	bool Walk, Attack, Die, LeftOfPlayer, RightOfPlayer;
+	int PrevFrame, Frame, Radius, AnimCounter;
 
 	std::list<SDL_Rect> Clips;
-	SDL_Rect SkeletonClips[ 4 ][ 14 ];
-	SDL_Rect DwarfClips[ 4 ][ 14 ];
 
 private:
 };
@@ -54,8 +50,7 @@ public:
 	void Update();
 	void Draw_Enemies();
 	void Create_Enemies();
-	std::list<CDwarf*> _Dwarves;
-	std::list<CSkeleton*> _Skeletons;
+	std::list<CWave1*> _Wave1;
 	std::list< CEnemy* > Enemies;
 	CEnemy * CreateEnemy( Sint16 xPos, Sint16 yPos, int surface );	
 private:

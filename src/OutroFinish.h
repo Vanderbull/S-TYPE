@@ -7,8 +7,8 @@ public:
 	Outro();
 	int surface;
 
-	int Height, Width;
-	int xPos, yPos;
+	Uint16 Height, Width;
+	Uint16 xPos, yPos;
 	
 	SDL_Rect ClipsOutro[ 2 ];
 };

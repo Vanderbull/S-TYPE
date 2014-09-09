@@ -46,6 +46,8 @@ BlueShip::BlueShip()
 
 int BlueShip::isColliding(SDL_Rect Box)
 {
+    SDL_Rect CollisionBox;
+    CollisionBox = Box;
 	int PlayerRight = Spaceship.GetPosition().x + Spaceship.GetPosition().w;
 	int PlayerLeft = Spaceship.GetPosition().x;
 	int PlayerTop = Spaceship.GetPosition().y;
@@ -66,6 +68,9 @@ int BlueShip::isColliding(SDL_Rect Box)
 
 SDL_Rect BlueShip::UpdateCollisionBox(SDL_Rect Box)
 {
+    SDL_Rect CollisionBox;
+    CollisionBox = Box;
+
 	CollisionBox = LocAndSize;
 	return CollisionBox;
 }

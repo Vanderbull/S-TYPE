@@ -27,6 +27,7 @@ public:
 	void DrawBackgroundBlack();
 	void DrawScore(unsigned int xCoord,unsigned int yCoord, int iScore);
 	void SetAlpha( int _SurfaceIndex, int _Opacity );
+    void RenderText(std::string _Text, int _x = 0, int _y = 0);
 
 	SDL_Color WhiteRGB,BlackRGB;
 
