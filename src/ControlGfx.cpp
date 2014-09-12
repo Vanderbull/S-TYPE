@@ -1,10 +1,11 @@
 #include "ControlGfx.h"
 #include "Game.h"
-#include "BlueShip.h"
+#include "Enemies\BlueShip.h"
 #include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
-#include "Triangles.h"
+#include "Enemies\BlueFish.h"
 #include "Bullets.h"
+#include "ParticleController\Particle.h"
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
@@ -21,6 +22,8 @@ ControlGfx Gfx;
 
 ControlGfx::ControlGfx()
 {
+    Particle p(Vector3D(1920 / 2, 1080 / 2, 0.0f));
+
 	if (TTF_Init() == -1) 
 	{
 		printf("Unable to initialize SDL_ttf: %s \n", TTF_GetError());
@@ -63,7 +66,7 @@ ControlGfx::ControlGfx()
 }
 
 // loads image with chosen value to not show
-int ControlGfx::Load_imageAlpha( std::string filename, int r, int g, int b )
+int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int b = 0 )
 {
 	//temp storage for the image loaded
 	SDL_Surface * loadedimage = NULL;
@@ -95,10 +98,10 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r, int g, int b )
 		//MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
 	}
 
-	//if(optimizedImage != NULL)
-	//{
-	//	SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
-	//}
+	if(optimizedImage != NULL)
+	{
+		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
+	}
 	
 
 	return index;
@@ -364,10 +367,7 @@ void ControlGfx::DrawParallaxLayers()
 void ControlGfx::DrawSprite()
 {
     Spaceship.Update();
-    //Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y + 35, 50, 80);
     Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y, 64, 64);
-		//DrawBackgroundBlack();
-		//SDL_FillRect(Gfx.BackBuffer, &BCPlayer.GetCollisionBox(), SDL_MapRGBA(Gfx.BackBuffer->format, 0xff,0xff,0x00,128));
 
     SDL_BlitSurface(Gfx.GetSurface(Spaceship._SurfaceID),
         &Spaceship.AnimationArrays[0][Spaceship.Animate()],
@@ -380,8 +380,8 @@ void ControlGfx::DrawSprite()
 void ControlGfx::DrawObjects()
 {
     BlueShipController.DrawBlueShip();
-	CubeController.DrawCubes();
-	TriangleController.DrawTriangles();
+	//CubeController.DrawCubes();
+	BlueFishController.DrawBlueFish();
 	BulletController.Draw_Bullets();
 	ObjectController.DrawObjects();
 	PowerupController.DrawPowerup();
@@ -398,6 +398,10 @@ void ControlGfx::DrawBackgroundBlack()
 
 void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
 {
+    p.checkEdges(1520,880);
+    p.Update();
+    p.applyForce(Vector3D(2 * (double)rand() / (double)RAND_MAX - 1, 2 * (double)rand() / (double)RAND_MAX - 1, 0));
+    p.Display();
 	SDL_Surface * SrfScore;
 
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "POWER LEVEL: ", Gfx.WhiteRGB);
@@ -410,13 +414,21 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(Spaceship.GetPowerLevel()).c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(100, 140, SrfScore, Gfx.BackBuffer);
 
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "PARTICLE(X): ", Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 160, SrfScore, Gfx.BackBuffer);
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(p.GetX()).c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(p.GetX(), p.GetY(), SrfScore, Gfx.BackBuffer);
 
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, "PARTICLE(Y): ", Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 180, SrfScore, Gfx.BackBuffer);
+    SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(p.GetY()).c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(100, 180, SrfScore, Gfx.BackBuffer);
 	SDL_FreeSurface(SrfScore);
 }
 
 void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )
 {
-	SDL_SetAlpha( Gfx.GetSurface( _SurfaceIndex ), SDL_SRCALPHA | SDL_RLEACCEL, _Opacity );
+	SDL_SetAlpha( Gfx.GetSurface( _SurfaceIndex ), SDL_SRCALPHA | SDL_RLEACCEL, (Uint8)_Opacity );
 }
 
 void ControlGfx::RenderText(std::string _Text, int _x , int _y )
@@ -447,5 +459,23 @@ void ControlGfx::RenderText(std::string _Text, int _x , int _y )
     SDL_Surface * SrfText;
     SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface( (Gfx.BackBuffer->w - w) / 2, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);
+    SDL_FreeSurface(SrfText);
+}
+
+void ControlGfx::RenderPowerupText(std::string _Text, int _x, int _y)
+{
+    int w = 0;
+    int h = 0;
+
+    if ((TTF_SizeText(Gfx.DefaultFont, _Text.c_str(), &w, &h) != -1))
+    {
+    }
+    else {
+        // Error...
+    }
+
+    SDL_Surface * SrfText;
+    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface( _x - w, _y - h, SrfText, Gfx.BackBuffer);
     SDL_FreeSurface(SrfText);
 }

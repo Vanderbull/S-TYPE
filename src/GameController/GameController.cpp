@@ -12,8 +12,7 @@ static char THIS_FILE[] = __FILE__;
 #endif
 #endif
 
-
-// Initializing variables
+// Initializing the GameControllers variables
 GameController::GameController()
 {
     cout << "Waking up the game controller for duty..." << endl;
@@ -22,47 +21,35 @@ GameController::GameController()
 ///Init must be called after SDL is initialied
 void GameController::init()
 {
-    SDL_Joystick *Jayman = NULL;
-
     if (SDL_JoystickEventState(SDL_ENABLE) != SDL_ENABLE)
     {
         cout << "Cannot enable Joystick event polling!" << endl;
     }
-        int num_joy;
-        num_joy = SDL_NumJoysticks();
-        printf("Name: %s\n", SDL_JoystickName(0));
-        // Close if opened
-        if (SDL_JoystickOpened(0))
-        {
-        
-            cout << "Joystick closed" << endl;
-            SDL_JoystickClose(GamePad);
-        }
-        else
-        {
-            cout << "Opened the joystick" << endl;
-            GamePad = SDL_JoystickOpen(0);
-        }
-        
-        //See if there is a joystick connected
-        if (num_joy > 0){
-            //this->name = SDL_JoystickName(0);
-            //this->available = true;
-            //GamePad = SDL_JoystickOpen(0);
-            //this->availableButtons = SDL_JoystickNumButtons(this->stick);
-            //this->availableHats = SDL_JoystickNumHats(this->stick);
-        }
-        cout << "worked" << endl;
+
+    // Close if opened
+    if (SDL_JoystickOpened(0))
+    {
+        cout << "Joystick closed" << endl;
+        SDL_JoystickClose(GamePad);
+    }
+    else
+    {
+        cout << "Opened the joystick" << endl;
+        GamePad = SDL_JoystickOpen(0);
+    }
 }
 // Cleanup the game controller
 GameController::~GameController()
 {
-    cout << "Putting the game controller to sleep" << endl;
+    cout << "GameController is Killed by a Headhunter..." << endl;
 }
 
 // Handles input
 void GameController::HandleInput(SDL_Event _event)
 {
+    //Calculate angle
+    //double joystickAngle = atan2((double)yDir, (double)xDir) * (180.0 / M_PI);
+
     switch (_event.type)
     {
         case SDL_KEYUP:
@@ -237,42 +224,32 @@ void GameController::Update()
         //}
     }
 
-    //Update the direction pad
-    //this->axis_old = this->axis;
-    Sint16 raw;
-
     cout << "x-axis: " << (Sint16)SDL_JoystickGetAxis(GamePad, 0) << endl;
     cout << "y-axis: " << (Sint16)SDL_JoystickGetAxis(GamePad, 1) << endl;
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -32768)
     {
-        //Spaceship.yVelocity = -1.0f;
         Spaceship.Accelerate(0.0f,-1.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == 32767)
     {
-        //Spaceship.yVelocity = 1.0f;
         Spaceship.Accelerate(0.0f, 1.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -1)
     {
-        //Spaceship.yVelocity = 0.0f;
         Spaceship.Accelerate(0.0f, 0.0f);
     }
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -32768)
     {
-        //Spaceship.xVelocity = -1.0f;
         Spaceship.Accelerate(-1.0f, 0.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == 32767)
     {
-        //Spaceship.xVelocity = 1.0f;
         Spaceship.Accelerate(1.0f, 0.0f);
     }
     else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -1)
     {
-        //Spaceship.xVelocity = 0.0f;
         Spaceship.Accelerate(0.0f, 0.0f);
     }
 

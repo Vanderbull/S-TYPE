@@ -2,8 +2,8 @@
 #include <list>
 #include <stack>
 #include <SDL.h>
-#include "Bullets.h"
-#include "Objects.h"
+#include "../Bullets.h"
+#include "../Objects.h"
 
 #define BLUESHIP_MAX_FRAMES 15
 #define BLUESHIP_MIN_PROGRESS 0

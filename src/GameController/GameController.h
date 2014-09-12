@@ -14,6 +14,7 @@ class GameController
 {
 public:
 
+    const int JOYSTICK_DEAD_ZONE = 8000;
     //Initializing variables
     GameController();
     //Cleanup the game controller

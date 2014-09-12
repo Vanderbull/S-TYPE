@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include "Paralaxlayers.h"
-
+#include "ParticleController\Particle.h"
 const int MAX_SURFACES = 128;
 
 class ControlGfx
@@ -28,6 +28,7 @@ public:
 	void DrawScore(unsigned int xCoord,unsigned int yCoord, int iScore);
 	void SetAlpha( int _SurfaceIndex, int _Opacity );
     void RenderText(std::string _Text, int _x = 0, int _y = 0);
+    void RenderPowerupText(std::string _Text, int _x = 0, int _y = 0);
 
 	SDL_Color WhiteRGB,BlackRGB;
 
@@ -41,6 +42,7 @@ public:
 	std::map<std::string,SDL_Surface> m_SurfaceCollection;
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACES ];
+    Particle p;
 
 };
 

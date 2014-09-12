@@ -23,10 +23,10 @@ Powerup::Powerup()
 {
     Activate();
 	
-    CollisionBox.h = 0;
-	CollisionBox.w = 0;
-	CollisionBox.x = SpriteHeight;
-	CollisionBox.y = SpriteWidth;
+    CollisionBox.x = 0;
+	CollisionBox.y = 0;
+	CollisionBox.h = SpriteHeight;
+	CollisionBox.w = SpriteWidth;
 
 	LocAndSize.x = 0;
 	LocAndSize.y = 0;
@@ -46,27 +46,6 @@ Powerup::Powerup()
     Timer = 500;
 }
 
-int Powerup::isColliding(SDL_Rect Box)
-{
-    int PlayerRight = Spaceship.GetPosition().x + Spaceship.GetPosition().w;
-    int PlayerLeft = Spaceship.GetPosition().x;
-    int PlayerTop = Spaceship.GetPosition().y;
-    int PlayerBottom = Spaceship.GetPosition().x + Spaceship.GetPosition().h;
-
-	int EnemyRight = LocAndSize.x + LocAndSize.w;
-	int EnemyLeft = LocAndSize.x;
-	int EnemyTop = LocAndSize.y;
-	int EnemyBottom = LocAndSize.y + LocAndSize.h;
-
-	if (EnemyBottom < PlayerTop) return(0);
-	if (EnemyTop > PlayerBottom) return(0);
-  
-	if (EnemyRight < PlayerLeft) return(0);
-	if (EnemyLeft > PlayerRight) return(0);
-
-	return(1);
-}
-
 SDL_Rect Powerup::UpdateCollisionBox(SDL_Rect Box)
 {
 	CollisionBox = LocAndSize;
@@ -80,21 +59,21 @@ void Powerup::Update()
     LocAndSize.x -= (Sint16)xPos;
     LocAndSize.h = SpriteHeight;
     LocAndSize.w = SpriteWidth;
-
-	PrevFrame = Frame++;
+    static int delay = 0;
+    delay++;
+    if ( delay > 1)
+    {
+	    PrevFrame = Frame++;
+        delay = 0;
+    }
 	if( Frame >= MAX_FRAMES )
 	{
 		Frame = 0;
 	}
-	//UpdateCollisionBox(LocAndSize);
 }
 
 void Powerup::Draw()
 {
-	#ifdef _DEBUG 
-	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
-	#endif
-	
 	SDL_BlitSurface( 
 		Gfx.GetSurface( SurfaceID ),
 		&Clips[ PrevFrame ], 
@@ -118,12 +97,15 @@ void ControlPowerup::DrawPowerup()
 	{
 		i->Update();
 		i->Draw();
-		
+
+        Gfx.RenderPowerupText("POWERUP!", i->LocAndSize.x, i->LocAndSize.y + i->GetTimer());
         if (i->GetTimer() <= 0)
 		{
 			i = PowerupArrayRef.erase(i);
 		}
 		else
+
+
 		{
 			++i;
 		}

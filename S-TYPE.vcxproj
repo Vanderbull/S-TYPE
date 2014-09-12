@@ -121,16 +121,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\Audio.cpp" />
-    <ClCompile Include="src\BlueShip.cpp" />
     <ClCompile Include="src\Bullets.cpp" />
     <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\ControlGfx.cpp" />
     <ClCompile Include="src\Credits.cpp" />
     <ClCompile Include="src\Enemies.cpp" />
+    <ClCompile Include="src\Enemies\BlueFish.cpp" />
+    <ClCompile Include="src\Enemies\BlueShip.cpp" />
     <ClCompile Include="src\Enemies\Cubes.cpp" />
     <ClCompile Include="src\Enemies\Powerup.cpp" />
     <ClCompile Include="src\GameController\GameController.cpp" />
-    <ClCompile Include="src\GameOver.cpp" />
     <ClCompile Include="src\Global\Global.cpp" />
     <ClCompile Include="src\Load.cpp" />
     <ClCompile Include="src\log\log.cpp" />
@@ -143,26 +143,25 @@
     <ClCompile Include="src\OutroFinish.cpp" />
     <ClCompile Include="src\Paralaxlayers.cpp" />
     <ClCompile Include="src\ParallaxEffect\ParallaxEffect.cpp" />
+    <ClCompile Include="src\ParticleController\Particle.cpp" />
     <ClCompile Include="src\Save.cpp" />
     <ClCompile Include="src\Spaceship.cpp" />
-    <ClCompile Include="src\Triangles.cpp" />
-    <ClCompile Include="src\World\CWorld.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audio\Audio.h" />
-    <ClInclude Include="src\BlueShip.h" />
     <ClInclude Include="src\BaseController.h" />
     <ClInclude Include="src\Bullets.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\ControlGfx.h" />
     <ClInclude Include="src\Credits.h" />
     <ClInclude Include="src\Enemies.h" />
+    <ClInclude Include="src\Enemies\BlueFish.h" />
+    <ClInclude Include="src\Enemies\BlueShip.h" />
     <ClInclude Include="src\Enemies\Cubes.h" />
     <ClInclude Include="src\Enemies\CWave1.h" />
     <ClInclude Include="src\Enemies\MovingThings.h" />
     <ClInclude Include="src\Enemies\Powerup.h" />
     <ClInclude Include="src\GameController\GameController.h" />
-    <ClInclude Include="src\GameOver.h" />
     <ClInclude Include="src\Global\Global.h" />
     <ClInclude Include="src\Load.h" />
     <ClInclude Include="src\log\log.h" />
@@ -174,11 +173,11 @@
     <ClInclude Include="src\OutroFinish.h" />
     <ClInclude Include="src\Paralaxlayers.h" />
     <ClInclude Include="src\ParallaxEffect\ParallaxEffect.h" />
+    <ClInclude Include="src\ParticleController\Particle.h" />
+    <ClInclude Include="src\ParticleController\Vector3D.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\Save.h" />
     <ClInclude Include="src\Spaceship.h" />
-    <ClInclude Include="src\Triangles.h" />
-    <ClInclude Include="src\World\CWorld.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>

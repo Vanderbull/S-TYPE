@@ -24,7 +24,7 @@ enum BName {
 	QUIT_GAME
 };
 
-Credits::Credits( int ButtonX, int Surface, int SurfaceButtons )							
+Credits::Credits( int ButtonX, int Surface = 0, int SurfaceButtons = 0 )							
 {
 	std::cout << "Credits rendering like a god!!!!!" << endl;
 	surface = Surface;

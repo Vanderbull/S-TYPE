@@ -10,6 +10,7 @@
 #include <sstream>
 #include <fstream>
 #include <list>
+#include <stack>
 #include <windows.h>
 using namespace std;
 
@@ -24,12 +25,11 @@ using namespace std;
 #include "Options.h"
 #include "Load.h"
 #include "Save.h"
-#include "GameOver.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
-#include "World\CWorld.h"
 #include "GameController\GameController.h"
+#include "ParticleController\Particle.h"
 
 class Gamestate
 {
@@ -51,9 +51,9 @@ public:
 	Options * OptionsScreen;
 	Load * LoadsScreen;
 	Save * SavesScreen;
-	GameOver * GameOverScreen;
 
 	int m_srfBlueShip,
+        m_srfBlueFish,
         m_srfBackdrop, 
 		m_srfAsteroid,
 		m_srfBlack,
@@ -72,9 +72,13 @@ public:
 		m_srfTriangle,
 		m_srfButtonActive;
 
+    // Powerup image index
     int m_srfRedPowerup;
     int m_srfGreenPowerup;
     int m_srfBluePowerup;
+
+    // Boss image index
+    int m_srfOctopus;
 
 	std::map<string,int> m_SurfaceCollection;
 
@@ -91,14 +95,12 @@ public:
 	void OptionScreen(int iElapsedTime);
 	void LoadScreen(int iElapsedTime);
 	void SaveScreen(int iElapsedTime);
-	void GameoverScreen(int iElapsedTime);
 
 	void Quit(){};
 
 
 	void CreateAll();
 
-	void EnterName();
 	void setUpParallaxLayers();
 	void load_files();
 
@@ -107,9 +109,9 @@ public:
 
 	void RestartGame();
 	void Reset();
-	void ResetEnemies();
-	void PlayOutro();
 	void Cleanup();
+
+    Particle p;
 	
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
@@ -127,7 +129,7 @@ public:
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
 	int UpdateScore(int score = 0);
-    int Progressbar(int progress = 0);
+    int Progressbar(int progress = 0, int _reset = 0);
 
 
 	bool Quit;
@@ -141,7 +143,6 @@ public:
     GameController *GamePad;
 private:
 	Gamestate _State;
-	World _World;
     double _Progress;
 
 };

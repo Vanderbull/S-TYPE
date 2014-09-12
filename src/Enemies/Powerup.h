@@ -17,8 +17,7 @@ class Powerup : public Object
 
 public:
 	Powerup();
-	
-	int isColliding(SDL_Rect Box);
+
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Update();
 	void Draw();

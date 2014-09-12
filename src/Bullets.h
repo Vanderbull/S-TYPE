@@ -4,7 +4,7 @@
 #include <stack>
 #include <SDL.h>
 #include "Objects.h"
-#include "BlueShip.h"
+#include "Enemies\BlueShip.h"
 
 #define BULLET_MAX_FRAMES 15
 

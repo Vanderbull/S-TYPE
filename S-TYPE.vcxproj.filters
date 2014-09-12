@@ -25,9 +25,6 @@
     <ClCompile Include="src\Paralaxlayers.cpp">
       <Filter>ParallaxLayers</Filter>
     </ClCompile>
-    <ClCompile Include="src\World\CWorld.cpp">
-      <Filter>World</Filter>
-    </ClCompile>
     <ClCompile Include="src\MainMenu.cpp">
       <Filter>Screens\MainMenu</Filter>
     </ClCompile>
@@ -52,12 +49,6 @@
     <ClCompile Include="src\Save.cpp">
       <Filter>Screens\Save</Filter>
     </ClCompile>
-    <ClCompile Include="src\Triangles.cpp">
-      <Filter>Enemies\Triangles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameOver.cpp">
-      <Filter>Screens\GameOver</Filter>
-    </ClCompile>
     <ClCompile Include="src\Spaceship.cpp">
       <Filter>Spaceship</Filter>
     </ClCompile>
@@ -73,14 +64,20 @@
     <ClCompile Include="src\ParallaxEffect\ParallaxEffect.cpp">
       <Filter>ParallaxLayers</Filter>
     </ClCompile>
-    <ClCompile Include="src\BlueShip.cpp">
-      <Filter>Enemies\BlueShip</Filter>
-    </ClCompile>
     <ClCompile Include="src\Enemies.cpp">
       <Filter>Enemies</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\Audio.cpp">
       <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleController\Particle.cpp">
+      <Filter>ParticleController</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies\BlueShip.cpp">
+      <Filter>Enemies\BlueShip</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Enemies\BlueFish.cpp">
+      <Filter>Enemies\BlueFish</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -109,9 +106,6 @@
     <ClInclude Include="src\Enemies\MovingThings.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="src\World\CWorld.h">
-      <Filter>World</Filter>
-    </ClInclude>
     <ClInclude Include="src\MainMenu.h">
       <Filter>Screens\MainMenu</Filter>
     </ClInclude>
@@ -139,14 +133,8 @@
     <ClInclude Include="src\Save.h">
       <Filter>Screens\Save</Filter>
     </ClInclude>
-    <ClInclude Include="src\Triangles.h">
-      <Filter>Enemies\Triangles</Filter>
-    </ClInclude>
     <ClInclude Include="version.h">
       <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameOver.h">
-      <Filter>Screens\GameOver</Filter>
     </ClInclude>
     <ClInclude Include="src\Spaceship.h">
       <Filter>Spaceship</Filter>
@@ -163,9 +151,6 @@
     <ClInclude Include="src\ParallaxEffect\ParallaxEffect.h">
       <Filter>ParallaxLayers</Filter>
     </ClInclude>
-    <ClInclude Include="src\BlueShip.h">
-      <Filter>Enemies\BlueShip</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enemies.h">
       <Filter>Enemies</Filter>
     </ClInclude>
@@ -174,6 +159,18 @@
     </ClInclude>
     <ClInclude Include="src\Audio\Audio.h">
       <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleController\Particle.h">
+      <Filter>ParticleController</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleController\Vector3D.h">
+      <Filter>ParticleController</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\BlueShip.h">
+      <Filter>Enemies\BlueShip</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\BlueFish.h">
+      <Filter>Enemies\BlueFish</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -207,9 +204,6 @@
     <Filter Include="ParallaxLayers">
       <UniqueIdentifier>{5ddeeddd-5c9d-436b-99a2-e8ed79427abb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="World">
-      <UniqueIdentifier>{6f899a7f-da15-486f-b733-00d71c55b154}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource">
       <UniqueIdentifier>{ce71be52-268c-4150-90ac-fd4f7705cc94}</UniqueIdentifier>
     </Filter>
@@ -237,12 +231,6 @@
     <Filter Include="Screens\Options">
       <UniqueIdentifier>{81626e78-b7d0-428a-b7f3-d26ad223eec5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Enemies\Triangles">
-      <UniqueIdentifier>{bc7d872e-9493-4f56-ba38-048860741daf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Screens\GameOver">
-      <UniqueIdentifier>{ba7c9773-0ac9-4b2d-b6cf-316e2cb62ec2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Gamecontroller">
       <UniqueIdentifier>{0d1d844c-c03b-416c-8bf0-8cd3b6b42945}</UniqueIdentifier>
     </Filter>
@@ -257,6 +245,12 @@
     </Filter>
     <Filter Include="Enemies\Wave1">
       <UniqueIdentifier>{ab491139-e75c-4fd3-b93a-3990b84b6e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ParticleController">
+      <UniqueIdentifier>{ed12fe1b-a64d-4e23-854c-d2e131d17720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\BlueFish">
+      <UniqueIdentifier>{bc7d872e-9493-4f56-ba38-048860741daf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

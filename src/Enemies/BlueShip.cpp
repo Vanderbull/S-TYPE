@@ -2,8 +2,12 @@
 
 //#include "Global\Global.h"
 #include "BlueShip.h"
-#include "game.h"
-#include "ControlGfx.h"
+#include "../Game.h"
+#include "../ControlGfx.h"
+
+#define BLUESHIP_MAX_FRAMES 15
+#define BLUESHIP_MAX_PROGRESS 10000
+#define BLUESHIP_MIN_PROGRESS 0
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
@@ -92,17 +96,12 @@ void BlueShip::Update()
 
 void BlueShip::Draw()
 {
-	#ifdef _DEBUG 
-	//SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
-	#endif
-	
 	SDL_BlitSurface( 
 		Gfx.GetSurface( SurfaceID ),
 		&Clips[ 0 ], //PrevFrame replaced with 0 as there is no animation
 		Gfx.BackBuffer, 
 		&GetDestination() 
 	);
-
 }
 
 SDL_Rect BlueShip::GetDestination()
@@ -134,16 +133,12 @@ void ControlBlueShip::DrawBlueShip()
 
 void ControlBlueShip::CreateBlueShip(int iProgress )
 {
-	if( iProgress > BLUESHIP_MIN_PROGRESS && iProgress < TRIANGLE_MAX_PROGRESS )
+	if( iProgress > BLUESHIP_MIN_PROGRESS && iProgress < BLUESHIP_MAX_PROGRESS )
 	{
         if (std::rand() % 100 + 1 > 99)
         {
             BlueShipArrayRef.push_back(CreateBlueShipByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfBlueShip));
         }
-	}
-	else
-	{
-		cout << "Progress passed the target range..." << endl;
 	}
 }
 
