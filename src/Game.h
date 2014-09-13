@@ -52,7 +52,8 @@ public:
 	Load * LoadsScreen;
 	Save * SavesScreen;
 
-	int m_srfBlueShip,
+	int m_srfPurpleShip,
+        m_srfBlueShip,
         m_srfBlueFish,
         m_srfBackdrop, 
 		m_srfAsteroid,

@@ -1,5 +1,6 @@
 #include "ControlGfx.h"
 #include "Game.h"
+#include "Enemies\PurpleShip.h"
 #include "Enemies\BlueShip.h"
 #include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
@@ -103,7 +104,6 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int
 		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
 	}
 	
-
 	return index;
 }
 
@@ -162,7 +162,7 @@ int ControlGfx::findAvailableIndex()
 		}
 	}
 
-	// None available
+	// No index available
 	return -1;
 }
 
@@ -215,15 +215,16 @@ bool ControlGfx::FLIP()
 	SDL_Rect srcRect = { 0, 0, (Uint16)Gfx.BackBuffer->w, (Uint16)Gfx.BackBuffer->h };
 	SDL_Rect destRect = { 0, 0, (Uint16)SDL_GetVideoSurface()->w, (Uint16)SDL_GetVideoSurface()->h };
 					
-	//gamestate.PasteScreenToAnother( srcRect, destRect );
 	Gfx.PasteScreenToAnother( srcRect, destRect);
-	//flips screen
+
 	if( SDL_Flip( Gfx.screen ) == -1)
 	{
-		//gamestate.GameOK = false;
 		return false;
 	}
-	return true;
+    else
+    { 
+	    return true;
+    }
 }
 
 void ControlGfx::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
@@ -240,7 +241,6 @@ void ControlGfx::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect 
 
 	float scaleWidth = srcRect.w / ( float )destRect.w;
 	float scaleHeight = srcRect.h / ( float )destRect.h; 
-
 
 	float fSrcX = srcRect.x,
 		  fSrcY = srcRect.y;
@@ -260,19 +260,16 @@ void ControlGfx::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect 
 
 	SDL_UnlockSurface( Gfx.BackBuffer );
 	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
-
 }
 
 void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
 {
-    //Holds offsets
     SDL_Rect offset;
     
-    //Get offsets
     offset.x = x;
     offset.y = y;
     
-    //Blit
+    // Applies the image from source upon the destination source
     SDL_BlitSurface( source, clip, destination, &offset );
 }
 
@@ -379,6 +376,7 @@ void ControlGfx::DrawSprite()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
+    PurpleShipController.DrawPurpleShip();
     BlueShipController.DrawBlueShip();
 	//CubeController.DrawCubes();
 	BlueFishController.DrawBlueFish();

@@ -6,8 +6,8 @@
 #include "../Objects.h"
 
 #define BLUEFISH_MAX_FRAMES 15
-#define BLUEFISH_MAX_PROGRESS 10000
-#define BLUEFISH_MIN_PROGRESS 0
+#define BLUEFISH_MAX_PROGRESS 20000
+#define BLUEFISH_MIN_PROGRESS 10000
 
 class BlueFish : public Object
 {

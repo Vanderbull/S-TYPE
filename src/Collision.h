@@ -6,6 +6,7 @@
 #include "Enemies.h"
 #include "ControlGfx.h"
 #include "Bullets.h"
+#include "Enemies\PurpleShip.h"
 #include "Enemies\BlueShip.h"
 #include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
@@ -16,6 +17,38 @@ class ControlCollision
 {
 public:
 
+    void ObjectCollider(std::vector<Bullet> &VBullets, std::vector<PurpleShip> &VPurpleShip)
+    {
+        for (vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end();)
+        {
+            for (vector< PurpleShip >::iterator iPurpleShip = VPurpleShip.begin(); iPurpleShip != VPurpleShip.end();)
+            {
+                if (!(
+                    iBullet->GetCollisionBox().x > iPurpleShip->LocAndSize.x + iPurpleShip->LocAndSize.w ||
+                    iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iPurpleShip->LocAndSize.x ||
+                    iBullet->GetCollisionBox().y > iPurpleShip->LocAndSize.y + iPurpleShip->LocAndSize.h ||
+                    iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iPurpleShip->LocAndSize.y
+                    ))
+                {
+                    PowerupController.CreatePowerup(iPurpleShip->LocAndSize);
+                    Audio.SetVolume(10, 5);
+                    Audio.PlaySoundEffect(5);
+                    iPurpleShip = VPurpleShip.erase(iPurpleShip);
+                    iBullet->DeActivate();
+                    PopupScore.push_back(50);
+                    _SCORE += 100;
+                }
+                else
+                {
+                    ++iPurpleShip;
+                }
+            }
+            if (!iBullet->isActive())
+                iBullet = VBullets.erase(iBullet);
+            else
+                ++iBullet;
+        }
+    };
 	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<BlueShip> &VBlueShip )
 	{
  		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
@@ -109,6 +142,32 @@ public:
 				++iBullet;
 		}
 	};
+
+    void SpaceshipCollider(BaseSpaceShip Spaceship, std::vector<PurpleShip> &VPurpleShip)
+    {
+        if (VPurpleShip.empty() || VPurpleShip.size() < 1)
+        {
+            return;
+        }
+        for (vector< PurpleShip >::iterator iPurpleShip = VPurpleShip.begin(); iPurpleShip != VPurpleShip.end();)
+        {
+            if (!(
+                Spaceship.GetCollisionBox().x > iPurpleShip->LocAndSize.x + iPurpleShip->LocAndSize.w ||
+                Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iPurpleShip->LocAndSize.x ||
+                Spaceship.GetCollisionBox().y > iPurpleShip->LocAndSize.y + iPurpleShip->LocAndSize.h ||
+                Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iPurpleShip->LocAndSize.y
+                ))
+            {
+                Audio.PlaySoundEffect(5);
+                iPurpleShip = VPurpleShip.erase(iPurpleShip);
+                Spaceship.Died();
+            }
+            else
+            {
+                ++iPurpleShip;
+            }
+        }
+    };
 
 	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<BlueShip> &VBlueShip )
 	{

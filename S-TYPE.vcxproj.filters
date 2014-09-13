@@ -79,6 +79,9 @@
     <ClCompile Include="src\Enemies\BlueFish.cpp">
       <Filter>Enemies\BlueFish</Filter>
     </ClCompile>
+    <ClCompile Include="src\Enemies\PurpleShip.cpp">
+      <Filter>Enemies\PurpleShip</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Collision.h">
@@ -172,6 +175,9 @@
     <ClInclude Include="src\Enemies\BlueFish.h">
       <Filter>Enemies\BlueFish</Filter>
     </ClInclude>
+    <ClInclude Include="src\Enemies\PurpleShip.h">
+      <Filter>Enemies\PurpleShip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Audio">
@@ -251,6 +257,9 @@
     </Filter>
     <Filter Include="Enemies\BlueFish">
       <UniqueIdentifier>{bc7d872e-9493-4f56-ba38-048860741daf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\PurpleShip">
+      <UniqueIdentifier>{4205ceb0-4a96-4a01-a5df-497e0275bd0d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

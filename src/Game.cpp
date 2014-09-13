@@ -26,6 +26,7 @@ using namespace std;
 #include "Enemies\Powerup.h"
 #include "Enemies.h"
 #include "Paralaxlayers.h"
+#include "Enemies\PurpleShip.h"
 #include "Enemies\BlueShip.h"
 #include "Enemies\Cubes.h"
 #include "Enemies\BlueFish.h"
@@ -541,6 +542,7 @@ void Gamestate::load_files()
     m_srfGreenPowerup = Gfx.Load_imageAlpha("assets/gfx/pPowerups/srfGreenPowerup.png", 0, 0, 0);
     m_srfBluePowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfBluePowerup.png", 0, 0, 0);
     // Enemies
+    m_srfPurpleShip = Gfx.Load_imageAlpha("assets/gfx/enemies/srfPurpleShip_128x128.png", 0, 0, 0);
     m_srfBlueShip = Gfx.Load_imageAlpha("assets/gfx/enemies/srfBlueShip.png", 0, 0, 0);
     m_srfBlueFish = Gfx.Load_imageAlpha("assets/gfx/enemies/srfBlueFish.png", 0, 0, 0);
     //Bosses
@@ -620,12 +622,13 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 //Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();				
 				
+                // Collision controllers for objects and player spaceship
+                CollisionController.ObjectCollider(BulletController.BulletArrayRef, PurpleShipController.PurpleShipArrayRef);
                 CollisionController.ObjectCollider( BulletController.BulletArrayRef, BlueShipController.BlueShipArrayRef );
-				//CollisionController.ObjectCollider( BulletController.BulletArrayRef, CubeController.CubeArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, BlueFishController.BlueFishArrayRef );
-				
+                
+                CollisionController.SpaceshipCollider(Spaceship, PurpleShipController.PurpleShipArrayRef);
                 CollisionController.SpaceshipCollider( Spaceship, BlueShipController.BlueShipArrayRef );
-				//CollisionController.SpaceshipCollider( Spaceship,CubeController.CubeArrayRef );
 				CollisionController.SpaceshipCollider( Spaceship,BlueFishController.BlueFishArrayRef );
 
                 CollisionController.SpaceshipCollider( Spaceship, PowerupController.PowerupArrayRef);
@@ -836,9 +839,11 @@ void Gamestate::RestartGame()
 {
     logger.write(__LINE__, __FILE__);
 	Spaceship.Reset();
+
+    PurpleShipController.Destroy();
     BlueShipController.Destroy();
-	//CubeController.CubeArrayRef.clear();
 	BlueFishController.BlueFishArrayRef.clear();
+
 	_SCORE = 0;
 	Spaceship._Lives = 3;
     Engine.Progressbar(0,1);
@@ -848,8 +853,9 @@ void Gamestate::Reset()
 {
     logger.write(__LINE__, __FILE__);
 	Spaceship.Reset();
+
+    PurpleShipController.Destroy();
     BlueShipController.Destroy();
-	//CubeController.CubeArrayRef.clear();
 	BlueFishController.BlueFishArrayRef.clear();
 }
 
@@ -1018,9 +1024,8 @@ int Game::Progressbar(int progress, int _reset)
 void Gamestate::CreateAll()
 {
     logger.write(__LINE__, __FILE__);
+    PurpleShipController.CreatePurpleShip(Engine.Progressbar());
     BlueShipController.CreateBlueShip(Engine.Progressbar());
-	//PowerupController.CreatePowerup( Spaceship.GetPosition() );
-    //CubeController.CreateCubes(Engine.Progressbar());
     BlueFishController.CreateBlueFish(Engine.Progressbar());
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();

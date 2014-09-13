@@ -5,16 +5,16 @@
 #include "../Bullets.h"
 #include "../Objects.h"
 
-#define BLUESHIP_MAX_FRAMES 15
-#define BLUESHIP_MAX_PROGRESS 10000
-#define BLUESHIP_MIN_PROGRESS 1000
+#define PURPLESHIP_MAX_FRAMES 15
+#define PURPLESHIP_MAX_PROGRESS 30000
+#define PURPLESHIP_MIN_PROGRESS 20000
 
 
-class BlueShip : public Object
+class PurpleShip : public Object
 {
 
 public:
-	BlueShip();
+	PurpleShip();
 	
 	int isColliding(SDL_Rect Box);
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
@@ -35,20 +35,20 @@ private:
 	int PrevFrame;
 };
 
-class ControlBlueShip
+class ControlPurpleShip
 {
 public:
-	ControlBlueShip();
-	~ControlBlueShip();
-	void DrawBlueShip();
-	void CreateBlueShip( int iProgress );
-	void Destroy(){ BlueShipArrayRef.clear(); };
-	std::vector< BlueShip > GetVectorWithBlueShip(){ return BlueShipArrayRef; };
-	BlueShip CreateBlueShipByReference( Sint16 xPos, Sint16 yPos, int surface );
+	ControlPurpleShip();
+	~ControlPurpleShip();
+	void DrawPurpleShip();
+	void CreatePurpleShip( int iProgress );
+	void Destroy(){ PurpleShipArrayRef.clear(); };
+	std::vector< PurpleShip > GetVectorWithPurpleShip(){ return PurpleShipArrayRef; };
+	PurpleShip CreatePurpleShipByReference( Sint16 xPos, Sint16 yPos, int surface );
 
-	std::vector< BlueShip > BlueShipArrayRef;
+	std::vector< PurpleShip > PurpleShipArrayRef;
 private:
 
 };
 
-extern ControlBlueShip BlueShipController;
+extern ControlPurpleShip PurpleShipController;
