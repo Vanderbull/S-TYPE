@@ -610,13 +610,13 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 Scroller.w = 1920;
                 Scroller.x = 1620;
                 Scroller.y = 0;
-                if (Progressbar() > 9000)
+                if (Progressbar() > 30000)
                 {
                     SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfOctopus), 0, Gfx.BackBuffer, &Scroller);
                 }
-                if (Progressbar() < 2000)
+                if (Progressbar() < 5000)
                 {
-                    Gfx.srfText = TTF_RenderText_Blended(Gfx.DefaultFont, "You have just escaped from the clutches of the evil empire of 'Are you square or round'. Good luck!", Gfx.WhiteRGB);//TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
+                    Gfx.srfText = TTF_RenderText_Blended(Gfx.TitleFont, "CHAPTER 1 - Chase of the octopus", Gfx.WhiteRGB);
                     Gfx.apply_surface(Gfx.BackBuffer->w / 4, Gfx.BackBuffer->h / 2, Gfx.srfText, Gfx.BackBuffer);
                 }
                 //Gfx.DrawParallaxLayers();
@@ -718,7 +718,8 @@ void Gamestate::LoadScreen(int iElapsedTime)
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		LoadsScreen->ButtonNewgame = false;
 	}
-	SDL_FreeSurface(srfElapsedTime);
+	//SDL_FreeSurface(srfElapsedTime);
+    //srfElapsedTime = NULL;
 }
 
 // ----------------------------------------------------------------------------
@@ -754,7 +755,8 @@ void Gamestate::SaveScreen(int iElapsedTime)
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		SavesScreen->ButtonNewgame = false;
 	}
-    SDL_FreeSurface(srfElapsedTime);
+    //SDL_FreeSurface(srfElapsedTime);
+    //srfElapsedTime = NULL;
 }
 
 // ----------------------------------------------------------------------------
@@ -775,7 +777,8 @@ void Gamestate::CreditScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	SDL_FreeSurface(srfElapsedTime);
+	//SDL_FreeSurface(srfElapsedTime);
+    //srfElapsedTime = NULL;
 }
 // ----------------------------------------------------------------------------
 // OptionScreen() - Draws the option screen
@@ -832,7 +835,8 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	SDL_FreeSurface(srfElapsedTime);
+	//SDL_FreeSurface(srfElapsedTime);
+    //srfElapsedTime = NULL;
 }
 
 void Gamestate::RestartGame()
@@ -873,6 +877,7 @@ void Gamestate::Cleanup()
 	for( int i = 0; i < ParallaxBG->getLayerCount(); i++ )
 	{
 		SDL_FreeSurface( m_surfaceList[ i ] );
+        m_surfaceList[i] = NULL;
 	}
 	if( gamestate.name != NULL )
 	{

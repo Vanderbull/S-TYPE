@@ -43,7 +43,10 @@ ControlGfx::ControlGfx()
     if (Gfx.ScoreFont == NULL){
         printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
     }
-
+    TitleFont = TTF_OpenFont("assets/fonts/Mecha.ttf", 60);
+    if (Gfx.TitleFont == NULL){
+        printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
+    }
     const SDL_version *linked_version = TTF_Linked_Version();
     SDL_version compiled_version;
     SDL_TTF_VERSION(&compiled_version);
@@ -93,6 +96,7 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int
 		m_SurfaceCollection[filename] = *optimizedImage;
 		//free old image
 		SDL_FreeSurface( loadedimage );
+        loadedimage = NULL;
 	}
 	else
 	{
@@ -271,6 +275,8 @@ void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Sur
     
     // Applies the image from source upon the destination source
     SDL_BlitSurface( source, clip, destination, &offset );
+    SDL_FreeSurface(source);
+    source = NULL;
 }
 
 void ControlGfx::DrawParallaxLayers()
@@ -378,7 +384,6 @@ void ControlGfx::DrawObjects()
 {
     PurpleShipController.DrawPurpleShip();
     BlueShipController.DrawBlueShip();
-	//CubeController.DrawCubes();
 	BlueFishController.DrawBlueFish();
 	BulletController.Draw_Bullets();
 	ObjectController.DrawObjects();
@@ -421,7 +426,8 @@ void ControlGfx::DrawScore(unsigned int xCoord,unsigned int yCoord,int iScore)
     Gfx.apply_surface(0, 180, SrfScore, Gfx.BackBuffer);
     SrfScore = TTF_RenderText_Solid(Gfx.DefaultFont, std::to_string(p.GetY()).c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(100, 180, SrfScore, Gfx.BackBuffer);
-	SDL_FreeSurface(SrfScore);
+	//SDL_FreeSurface(SrfScore);
+    //SrfScore = NULL;
 }
 
 void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )
@@ -450,14 +456,15 @@ void ControlGfx::RenderText(std::string _Text, int _x , int _y )
     }
     else {
         // Error...
-    }
-    Gfx.apply_surface(Gfx.BackBuffer->w - w, Gfx.BackBuffer->h - h, TTF_RenderText_Solid(Gfx.DefaultFont, "Version 1.0 Beta", Gfx.WhiteRGB), Gfx.BackBuffer);
+    } 
+    
+    //Gfx.apply_surface(Gfx.BackBuffer->w - w, Gfx.BackBuffer->h - h, TTF_RenderText_Solid(Gfx.DefaultFont, "Version 1.0 Beta", Gfx.WhiteRGB), Gfx.BackBuffer);
 
 
-    SDL_Surface * SrfText;
-    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface( (Gfx.BackBuffer->w - w) / 2, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);
-    SDL_FreeSurface(SrfText);
+    //SDL_Surface * SrfText;
+    //SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface( (Gfx.BackBuffer->w - w) / 2, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfText);
 }
 
 void ControlGfx::RenderPowerupText(std::string _Text, int _x, int _y)
@@ -475,5 +482,6 @@ void ControlGfx::RenderPowerupText(std::string _Text, int _x, int _y)
     SDL_Surface * SrfText;
     SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface( _x - w, _y - h, SrfText, Gfx.BackBuffer);
-    SDL_FreeSurface(SrfText);
+    //SDL_FreeSurface(SrfText);
+    //SrfText = NULL;
 }

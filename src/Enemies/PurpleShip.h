@@ -7,7 +7,7 @@
 
 #define PURPLESHIP_MAX_FRAMES 15
 #define PURPLESHIP_MAX_PROGRESS 30000
-#define PURPLESHIP_MIN_PROGRESS 20000
+#define PURPLESHIP_MIN_PROGRESS 0
 
 
 class PurpleShip : public Object
@@ -26,9 +26,10 @@ public:
 	bool isActive(){ return Active; };
 	void DeActivate(){ Active = false; };
 	void Activate(){ Active = true; };
-	void onCollision(){ cout << "Im colliding with something" << endl; };
-	void onDestruction(){ cout << "Im getting destroyed here" << endl; };
-	void Spawn(){ cout << "Im getting spawned here" << endl; };
+	void onCollision(){ };
+	void onDestruction(){  };
+	void Spawn(){ };
+    void FireMissile();
 
 private:
 	SDL_Rect Clips[ 16 ];

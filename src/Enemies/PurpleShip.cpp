@@ -76,6 +76,8 @@ SDL_Rect PurpleShip::UpdateCollisionBox(SDL_Rect Box)
 
 void PurpleShip::Update()
 {
+    //if (rand()%100 > 50)
+        FireMissile();
 	xPos = PurpleShipSpeed * gamestate.DeltaTime;
     LocAndSize.x -= (Sint16)xPos;
 	LocAndSize.h = SpriteHeight;
@@ -102,6 +104,25 @@ void PurpleShip::Draw()
 SDL_Rect PurpleShip::GetDestination()
 {
 	return LocAndSize;
+}
+
+void PurpleShip::FireMissile()
+{
+static int Flyby;
+SDL_Rect Position;
+if (Flyby > 100)
+    Flyby = 0;
+Position.x = GetDestination().x - Flyby;
+Position.y = GetDestination().y;
+Position.h = GetDestination().h;
+Position.w = GetDestination().w;
+Flyby++;
+    SDL_BlitSurface(
+        Gfx.GetSurface(SurfaceID),
+        &Clips[0],
+        Gfx.BackBuffer,
+        &Position
+        );
 }
 
 void ControlPurpleShip::DrawPurpleShip()

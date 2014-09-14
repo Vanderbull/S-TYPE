@@ -28,6 +28,7 @@ StringInput::~StringInput()
 {
     //Free text surface
     SDL_FreeSurface( text );
+    text = NULL;
     
     //Disable Unicode
     SDL_EnableUNICODE( SDL_DISABLE );  
@@ -67,6 +68,7 @@ bool StringInput::handle_input(   )
     {
             //Free the old surface
             SDL_FreeSurface( text );
+            text = NULL;
         
             //Render a new text surface
 			text = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), textColor );

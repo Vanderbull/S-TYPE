@@ -172,60 +172,72 @@ void GameController::Update()
     SrfText = "Updating the GameController";
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 200, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
+
     SrfText = "Red button: ";
     SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 230, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
+
     SrfText = "Blue button: ";
     SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 3)).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 260, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
+
     SrfText = "Green button: ";
     SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 2)).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 290, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
+
     SrfText = "Yellow button: ";
     SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 1)).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 310, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
 
     SrfText = "Xaxis: ";
     SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 0)).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 330, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
 
     SrfText = "Yaxis: ";
     SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 1)).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 350, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
 
     SrfText = "Velocity(X): ";
     SrfText.append(std::to_string(Spaceship.GetVelocityX()).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 370, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
 
     SrfText = "Velocity(Y): ";
     SrfText.append(std::to_string(Spaceship.GetVelocityY()).c_str());
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 390, SrfUpdateController, Gfx.BackBuffer);
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
 
-    //Gfx.FLIP();
+    //SDL_FreeSurface(SrfUpdateController);
+    //SrfUpdateController = NULL;
 
-    //Audio.Render();
     SDL_JoystickUpdate();
-    //Update all the buttons
-    for (int i = 0; i < SDL_JoystickNumButtons(GamePad); i++){
-        //unsigned int n = SDL_JoystickGetButton(GamePad, this->Buttons[i]->number);
-        //if (n == 0){
-            //this->Buttons[i]->release();
-        //}
-        //else{
-            //this->Buttons[i]->press();
-        //}
-    }
 
-    cout << "x-axis: " << (Sint16)SDL_JoystickGetAxis(GamePad, 0) << endl;
-    cout << "y-axis: " << (Sint16)SDL_JoystickGetAxis(GamePad, 1) << endl;
+    //cout << "x-axis: " << (Sint16)SDL_JoystickGetAxis(GamePad, 0) << endl;
+    //cout << "y-axis: " << (Sint16)SDL_JoystickGetAxis(GamePad, 1) << endl;
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -32768)
     {
@@ -314,6 +326,8 @@ void GameController::Update()
         Gfx.FLIP();
         gamestate.GameState.pop();
         gamestate.GameState.push(MENU_MAIN_STATE);
+        //SDL_FreeSurface(SrfText);
+        //SrfText = NULL;
     }
     else if (SDL_JoystickGetButton(GamePad, 9) == 1)
     {
@@ -327,14 +341,13 @@ void GameController::Update()
         Gfx.FLIP();
         gamestate.GameState.pop();
         gamestate.GameState.push(MENU_MAIN_STATE);
+        //SDL_FreeSurface(SrfText);
+        //SrfText = NULL;
     }
     else
     {
         FIRED = 0;
     }
-
-    //this->hat_old = this->hat;
-    //this->hat = SDL_JoystickGetHat(this->stick, 0);
 }
 
 void GameController::KeyMapping(SDL_Event _event)
