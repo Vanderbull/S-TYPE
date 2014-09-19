@@ -18,6 +18,9 @@ using namespace std;
 #include "ConfigFileConverter.h"
 #include "resource.h"
 
+#ifdef _DEBUG
+// THE CODE IS COMPILING IN DEBUG MODE.
+#endif
 #pragma comment(linker,"/SUBSYSTEM:windows")
 
 // 1. this should go into every .cpp , after all header inclusions
@@ -53,9 +56,9 @@ int main( int argc, char * arg[] )
 
 	_putenv("SDL_VIDEO_WINDOW_POS=center");
 	_putenv("SDL_VIDEO_CENTERED=1");
-	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
+	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
 	//Sleep(10000);
-	ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
+	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
 	//Sleep(8000);
 
 	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");

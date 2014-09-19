@@ -25,6 +25,8 @@ ControlGfx::ControlGfx()
 {
     Particle p(Vector3D(1920 / 2, 1080 / 2, 0.0f));
 
+
+
 	if (TTF_Init() == -1) 
 	{
 		printf("Unable to initialize SDL_ttf: %s \n", TTF_GetError());
@@ -45,6 +47,10 @@ ControlGfx::ControlGfx()
     }
     TitleFont = TTF_OpenFont("assets/fonts/Mecha.ttf", 60);
     if (Gfx.TitleFont == NULL){
+        printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
+    }
+    GameoverFont = TTF_OpenFont("assets/fonts/Mecha.ttf", 240);
+    if (Gfx.GameoverFont == NULL){
         printf("Unable to load font: %s %s \n", "assets/fonts/Mecha.ttf", TTF_GetError());
     }
     const SDL_version *linked_version = TTF_Linked_Version();
@@ -109,48 +115,6 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int
 	}
 	
 	return index;
-}
-
-void ControlGfx::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-{
-	int srcWidth = srcRect.w - srcRect.x;
-	int srcHeight = srcRect.h - srcRect.y,
-		DestWidth = destRect.w - destRect.x,
-		DestHeight = destRect.h - destRect.y;
-
-	SDL_LockSurface( Gfx.BackBuffer );
-	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
-
-	int dstPitch = Gfx.BackBuffer->pitch;
-	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
-
-	DWORD * dst = ( DWORD * )Gfx.BackBuffer->pixels;
-
-	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
-
-	float scaleWidth = srcWidth / ( float )DestWidth;
-	float scaleHeight = srcHeight / ( float )DestHeight; 
-
-
-	float fSrcX = srcRect.x,
-		  fSrcY = srcRect.y;
-
-	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-	{
-		fSrcX = 0;
-
-		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-		{
-			dst[ ( y * dstPitch / 4) + ( x ) ] = src[ int( ( fSrcY ) * ( pitch / 4 ) + int( fSrcX ) )];
-
-			fSrcX += scaleWidth;
-		}
-
-		fSrcY += scaleHeight;	
-	}
-
-	SDL_UnlockSurface( Gfx.BackBuffer );
-	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
 }
 
 // ----------------------------------------------------------------------------
@@ -231,41 +195,6 @@ bool ControlGfx::FLIP()
     }
 }
 
-void ControlGfx::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-{			
-	SDL_LockSurface( Gfx.BackBuffer );
-	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
-
-	int dstPitch = Gfx.BackBuffer->pitch;
-	int pitch = m_surfaceList[ layer->m_surface ]->pitch;
-
-	DWORD * dst = ( DWORD * )Gfx.BackBuffer->pixels;
-
-	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
-
-	float scaleWidth = srcRect.w / ( float )destRect.w;
-	float scaleHeight = srcRect.h / ( float )destRect.h; 
-
-	float fSrcX = srcRect.x,
-		  fSrcY = srcRect.y;
-
-	for(int y = destRect.y;  y < destRect.y + destRect.h; y++ )
-	{
-		fSrcX = srcRect.x;
-
-		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
-		{
-			dst[ (y * dstPitch / 4) + (x) ] = src[ int((fSrcY) * (pitch / 4) + int(fSrcX) )];
-
-			fSrcX += scaleWidth;
-		}
-		fSrcY += scaleHeight;	
-	}
-
-	SDL_UnlockSurface( Gfx.BackBuffer );
-	SDL_UnlockSurface( m_surfaceList[ layer->m_surface ] );
-}
-
 void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
 {
     SDL_Rect offset;
@@ -277,93 +206,6 @@ void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Sur
     SDL_BlitSurface( source, clip, destination, &offset );
     SDL_FreeSurface(source);
     source = NULL;
-}
-
-void ControlGfx::DrawParallaxLayers()
-{
-	if( gamestate.GameState.top() != GAME_BOSS_STATE || gamestate.GameState.top() != GAME_OUTRO_STATE )
-	{
-		gamestate.CreateAll();
-	}
-
-	//// Draw parallax layers
-		ParallaxLayer  * MyParaBackGround;
-		MyParaBackGround = gamestate.ParallaxBG->getLayer( 0 );
-
-		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
-									MyParaBackGround->m_height };
-
-		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
-												
-		//SDL_BlitSurface( Gfx.GetSurface(MyParaBackGround->m_surface), &scRect, Gfx.BackBuffer, &dtRect );
-        SDL_BlitSurface(Gfx.GetSurface(MyParaBackGround->m_surface), 0, Gfx.BackBuffer, 0);
-		//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
-
-		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
-
-		int x = 0;
-		for( int i = 1; i < gamestate.ParallaxBG->getLayerCount(); ++i )
-		{		
-			// Calc rects
-			MyParaBackGround = gamestate.ParallaxBG->getLayer( i );
-			if( MyParaBackGround->m_surface == gamestate.m_srfBackdrop )
-			{
-				MyParaBackGround->AnimClouds += 0.0003f * gamestate.DeltaTime;
-
-				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
-				if( x < 0 )	// neg -> pos
-				{
-					x *= -1;	// invert sign, because % only works with positive integers
-					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
-				}
-				else
-				{
-					x %= MyParaBackGround->m_width;
-				}
-
-				x -= MyParaBackGround->m_width;	// move one back
-			}
-			else
-			{
-
-				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.Parallax ) );  
-				if( x < 0 )	// neg -> pos
-				{
-					x *= -1;	// invert sign, because % only works with positive integers
-					x = MyParaBackGround->m_width - (x % MyParaBackGround->m_width);
-				}
-				else
-				{
-					x %= MyParaBackGround->m_width;
-				}
-
-				x -= MyParaBackGround->m_width;	// move one back
-			}
-
-			for( int i = 0; i < 2; i++ )
-			{
-				SDL_Rect sourceRect = { 0 + x, MyParaBackGround->m_surfaceYOffset,
-										MyParaBackGround->m_width, MyParaBackGround->m_height };
-
-				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY, 
-												MyParaBackGround->DW, MyParaBackGround->DH };
-
-				SDL_BlitSurface( Gfx.GetSurface( MyParaBackGround->m_surface ), &sourceRect, Gfx.BackBuffer, &destinationRect );
-                SDL_BlitSurface(Gfx.GetSurface(MyParaBackGround->m_surface), &sourceRect, Gfx.BackBuffer, &destinationRect);
-
-				//SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
-				
-				
-				x += MyParaBackGround->m_width;
-			}
-			MyParaBackGround->HowFarGone = MyParaBackGround->Xpos - MyParaBackGround->m_width;
-
-		}
-						
-		//Scrolling the map
-		gamestate.Parallax += SpaceScrollingSpeed * gamestate.DeltaTime;
 }
 
 // Draws the spaceship

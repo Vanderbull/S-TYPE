@@ -308,7 +308,7 @@ void GameController::Update()
             Gfx.FLIP();
             Audio.PlaySoundEffect(4);
 
-            if (PowerLevel > 0)
+            if (PowerLevel >= 5)
             {
                 PowerLevel -= 5;
             }

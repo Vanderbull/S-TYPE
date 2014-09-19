@@ -21,15 +21,20 @@
 #endif
 
 ControlBlueShip BlueShipController;
-const float BlueShipSpeed = 0.0001f;
+const float BlueShipSpeed = 0.0005f;
 
 BlueShip::BlueShip()
 {
+    acceleration = Vector3D(0, 0, 0);
+    velocity = Vector3D(0, 0, 0);
+    location = Vector3D(0, 0, 0);
+
+    lifespan = 255.0f;
 	Active = 1;
-	CollisionBox.h = 0;
-	CollisionBox.w = 0;
-	CollisionBox.x = SpriteHeight;
-	CollisionBox.y = SpriteWidth;
+	CollisionBox.h = SpriteHeight - 16;
+	CollisionBox.w = SpriteWidth - 16;
+	CollisionBox.x = location.x;
+	CollisionBox.y = location.y;
 
 	LocAndSize.x = 0;
 	LocAndSize.y = 0;
@@ -47,6 +52,37 @@ BlueShip::BlueShip()
 		Clips[ i ].w = SpriteWidth;
 	}
 }
+
+BlueShip::BlueShip(Vector3D v)
+{
+    acceleration = Vector3D(0, 0, 0);
+    velocity = Vector3D(0, 0, 0);
+    location = v;
+
+    lifespan = 255.0f;
+
+    Active = 1;
+    CollisionBox.h = SpriteHeight - 16;
+    CollisionBox.w = SpriteWidth - 16;
+    CollisionBox.x = location.x;
+    CollisionBox.y = location.y;
+
+    LocAndSize.x = 0;
+    LocAndSize.y = 0;
+    LocAndSize.h = SpriteHeight;
+    LocAndSize.w = SpriteWidth;
+
+    PrevFrame = 0;
+    Frame = 0;
+
+    for (int i = 0; i < 16; i++)
+    {
+        Clips[i].x = (Sint16)i * SpriteWidth;
+        Clips[i].y = 0;
+        Clips[i].h = SpriteHeight;
+        Clips[i].w = SpriteWidth;
+    }
+};
 
 int BlueShip::isColliding(SDL_Rect Box)
 {
@@ -81,10 +117,23 @@ SDL_Rect BlueShip::UpdateCollisionBox(SDL_Rect Box)
 
 void BlueShip::Update()
 {
+    checkEdges(1920,1080);
+    velocity = velocity + acceleration;
+    location = velocity + location;
+    // add acceleration to velocity
+    // add velocity to location
+    lifespan -= 2.0f;
+
 	xPos = BlueShipSpeed * gamestate.DeltaTime;
-    LocAndSize.x -= (Sint16)xPos;
+    LocAndSize.x = GetX();//(Sint16)xPos;
+    LocAndSize.y = GetY();//(Sint16)yPos;
 	LocAndSize.h = SpriteHeight;
 	LocAndSize.w = SpriteWidth;
+
+    CollisionBox.x = GetX() + 16;//(Sint16)xPos;
+    CollisionBox.y = GetY() + 16;//(Sint16)yPos;
+    CollisionBox.h = 16;
+    CollisionBox.w = 16;
 
 	PrevFrame = Frame++;
 	if( Frame >= BLUESHIP_MAX_FRAMES )
@@ -102,6 +151,7 @@ void BlueShip::Draw()
 		Gfx.BackBuffer, 
 		&GetDestination() 
 	);
+    SDL_FillRect(Gfx.BackBuffer, &CollisionBox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
 }
 
 SDL_Rect BlueShip::GetDestination()
@@ -118,6 +168,7 @@ void ControlBlueShip::DrawBlueShip()
 	while(i != BlueShipArrayRef.end() )
 	{
 		i->Update();
+        i->applyForce(Vector3D(0, 2 * (double)rand() / (double)RAND_MAX - 1, 0));
 		i->Draw();
 		
 		if( i->LocAndSize.x <= 0.0f - SpriteWidth )
@@ -144,12 +195,10 @@ void ControlBlueShip::CreateBlueShip(int iProgress )
 
 ControlBlueShip::ControlBlueShip()
 {
-	cout << "Creating the Animal Controller..." << endl;
 }
 
 ControlBlueShip::~ControlBlueShip()
 {
-	cout << "Destroying the Animal Controller..." << endl;
 }
 
 BlueShip ControlBlueShip::CreateBlueShipByReference( Sint16 xPos, Sint16 yPos, int surface )
@@ -169,5 +218,12 @@ BlueShip ControlBlueShip::CreateBlueShipByReference( Sint16 xPos, Sint16 yPos, i
 	temp.LocAndSize.x = xPos;
 	temp.LocAndSize.y = yPos;
 
-	return temp;
+    // Using Vector3D
+    BlueShip temp2(Vector3D(xPos,yPos,0.0f));
+    temp2.applyForce(Vector3D(-1, 0, 0));
+    temp2.SurfaceID = surface;
+    temp2.LocAndSize.x = temp2.GetX();
+    temp2.LocAndSize.y = temp2.GetY();
+
+	return temp2;
 }

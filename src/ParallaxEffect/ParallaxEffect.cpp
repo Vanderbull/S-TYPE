@@ -66,8 +66,6 @@ ParallaxLayer::ParallaxLayer()
     Xpos = 0;
 }
 
-
-
 // ------------------------------------------------------------
 // set() - set members
 // ------------------------------------------------------------
@@ -84,10 +82,6 @@ void ParallaxLayer::set(float p, Uint16 s, Uint16 sy, Uint16 w, Uint16 h, Uint16
     DH = DestH;
     Xpos = 0;
 }
-
-
-
-
 
 // class ParallaxBackground
 // ************************************************************

@@ -22,9 +22,6 @@
     <ClCompile Include="src\OutroFinish.cpp">
       <Filter>OutroFinished</Filter>
     </ClCompile>
-    <ClCompile Include="src\Paralaxlayers.cpp">
-      <Filter>ParallaxLayers</Filter>
-    </ClCompile>
     <ClCompile Include="src\MainMenu.cpp">
       <Filter>Screens\MainMenu</Filter>
     </ClCompile>
@@ -82,6 +79,12 @@
     <ClCompile Include="src\Enemies\PurpleShip.cpp">
       <Filter>Enemies\PurpleShip</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameOver.cpp">
+      <Filter>Screens\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fx\fx.cpp">
+      <Filter>Fx</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Collision.h">
@@ -101,9 +104,6 @@
     </ClInclude>
     <ClInclude Include="src\OutroFinish.h">
       <Filter>OutroFinished</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Paralaxlayers.h">
-      <Filter>ParallaxLayers</Filter>
     </ClInclude>
     <ClInclude Include="src\BaseController.h" />
     <ClInclude Include="src\Enemies\MovingThings.h">
@@ -177,6 +177,12 @@
     </ClInclude>
     <ClInclude Include="src\Enemies\PurpleShip.h">
       <Filter>Enemies\PurpleShip</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameOver.h">
+      <Filter>Screens\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fx\fx.h">
+      <Filter>Fx</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,6 +266,12 @@
     </Filter>
     <Filter Include="Enemies\PurpleShip">
       <UniqueIdentifier>{4205ceb0-4a96-4a01-a5df-497e0275bd0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Screens\GameOver">
+      <UniqueIdentifier>{24ce9457-65c4-4c4b-a2bd-7f5d21111671}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fx">
+      <UniqueIdentifier>{4fdc584a-a58e-41d3-9abf-46674fd8ef1d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

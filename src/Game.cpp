@@ -25,7 +25,6 @@ using namespace std;
 #include "Objects.h"
 #include "Enemies\Powerup.h"
 #include "Enemies.h"
-#include "Paralaxlayers.h"
 #include "Enemies\PurpleShip.h"
 #include "Enemies\BlueShip.h"
 #include "Enemies\Cubes.h"
@@ -479,11 +478,9 @@ void Game::HandleEvents( SDL_Event _event )
 Game::Game()
 {
     logger.write(__LINE__, __FILE__);
-   
-    //CubeController.LoadSpawnPoints();
 
 	SPAWN_POSITION_X = 0;
-	SPAWN_POSITION_Y = 0;
+	SPAWN_POSITION_Y = 1080/2;
 	_SCORE = 0;
 
 	Quit = false;
@@ -517,25 +514,27 @@ void Gamestate::load_files()
 {
     logger.write(__LINE__, __FILE__);
 
-    Gfx.Load_imageAlpha("assets/gfx/backdrops/black.png", 0, 0, 0);
+    // Backdrops and logos
+	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop_1920x1080.png", 0, 0, 0 );
+	m_srfBlack = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfMooPie_1920x1080.png", 0, 0, 0 );
 
-	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop_1920_1080.png", 0, 0, 0 );
-	m_srfBlack = Gfx.Load_imageAlpha( "assets/gfx/srfBlack.png", 0, 0, 0 );
+    // Player spaceship
 	Spaceship._SurfaceID = Gfx.Load_imageAlpha( "assets/gfx/spaceship/srfSpaceship.png", 0, 0, 0 );
 	
-	m_srfStart = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfStart.png", 0, 0, 0 );
-	m_srfButtons = Gfx.Load_imageAlpha( "assets/gfx/srfButtons.png", 255, 255, 255 );
-	m_srfIntro = Gfx.Load_imageAlpha( "assets/gfx/srfIntro.png", 255, 255, 255 );
-	m_srfOutro = Gfx.Load_imageAlpha( "assets/gfx/srfOutro.png", 0, 0, 0 );
+	m_srfStart = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfMainMenu_1920x1080.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "assets/gfx/gui/srfHealth.png", 0, 0, 0 );
-	m_srfLaser = Gfx.Load_imageAlpha( "assets/gfx/lasers/srfLaserGreen.png", 0, 0, 0 );
-	m_srfCredits = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfCredits.png", 255, 255, 255 );
-	m_srfOptions = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfOptions.png", 255, 255, 255 );
-	m_srfLoad = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfLoad.png", 255, 255, 255 );
-	m_srfSave = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfSave.png", 255, 255, 255 );
-	m_srfCube = Gfx.Load_imageAlpha( "assets/gfx/enemies/srfCube.png", 0, 0, 0 );
-	m_srfTriangle = Gfx.Load_imageAlpha( "assets/gfx/enemies/srfTriangle.png", 255, 255, 255 );
-	m_srfButtonActive = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfButtonActive.png", 255, 255, 255 );
+	m_srfLaser = Gfx.Load_imageAlpha( "assets/gfx/lasers/srfLaserBlue.png", 0, 0, 0 );
+	m_srfButtonActive = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfButtonActive_101x33.png", 255, 255, 255 );
+
+    // Sub menus & Screens
+    m_srfCredits = Gfx.Load_imageAlpha("assets/gfx/backdrops/srfCredits_1920x1080.png", 0, 0, 0);
+    m_srfOptions = Gfx.Load_imageAlpha("assets/gfx/backdrops/srfOptions_1920x1080.png", 0, 0, 0);
+    m_srfLoad = Gfx.Load_imageAlpha("assets/gfx/backdrops/srfLoad_1920x1080.png", 0, 0, 0);
+    m_srfSave = Gfx.Load_imageAlpha("assets/gfx/backdrops/srfSave_1920x1080.png", 0, 0, 0);
+    m_srfGameover = Gfx.Load_imageAlpha("assets/gfx/backdrops/srfGameover_1920x1080.png", 0, 0, 0);
+
+    // Laser colors
+    m_srfLaser = Gfx.Load_imageAlpha("assets/gfx/lasers/srfLaserBlue.png", 0, 0, 0);
 
     // Powerups
     m_srfRedPowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfRedPowerup.png", 0, 0, 0);
@@ -553,8 +552,7 @@ void Gamestate::load_files()
 	OptionsScreen = new Options( 290, m_srfOptions, m_srfButtons );
 	LoadsScreen = new Load( 290, m_srfLoad, m_srfButtons );
 	SavesScreen = new Save( 290, m_srfSave, m_srfButtons );
-
-	setUpParallaxLayers();
+    GameOverScreen = new GameOver(290, m_srfSave, m_srfButtons);
 }
 
 // ----------------------------------------------------------------------------
@@ -567,8 +565,15 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 	// Check game state
 	switch( gamestate.GameState.top() )
 	{
+        case GAMEOVER_STATE:
+            {
+                gamestate.Gameover(iElapsedTime);
+            } break;
 		case MENU_MAIN_STATE:
 			{
+                if (SDL_ShowCursor(SDL_QUERY) == SDL_DISABLE)
+                    SDL_ShowCursor(SDL_ENABLE);
+
 				gamestate.MainScreen(iElapsedTime);
 			} break;
 		case GAME_CREDITS_STATE:
@@ -589,23 +594,33 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 			} break;
 		case GAME_RUNNING_STATE:
 			{
+                if( SDL_ShowCursor(SDL_QUERY) == SDL_ENABLE)
+                    SDL_ShowCursor(SDL_DISABLE);
+
                 if (PowerLevel < 100)
+                {
                     PowerLevel += 1;
-            if ( PowerLevelSecond < 5 )
-                PowerLevelSecond += 1;
-				LevelProgress += iElapsedTime / 150;
+                }
+
+                if ( PowerLevelSecond < 5 )
+                {
+                    PowerLevelSecond += 1;
+                }
+				
+                LevelProgress += iElapsedTime / 150;
 
                 gamestate.CreateAll();
 
                 Gfx.DrawBackgroundBlack();
+                
                 SDL_Rect Scroller;
                 Scroller.h = 1080;
                 Scroller.w = 1920;
                 Scroller.x = Progressbar();
                 Scroller.y = 0;
-                SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfBackdrop), &Scroller, Gfx.BackBuffer, 0);
-
                 
+                SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfBackdrop), &Scroller, Gfx.BackBuffer, 0);
+                                
                 Scroller.h = 1080;
                 Scroller.w = 1920;
                 Scroller.x = 1620;
@@ -619,7 +634,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                     Gfx.srfText = TTF_RenderText_Blended(Gfx.TitleFont, "CHAPTER 1 - Chase of the octopus", Gfx.WhiteRGB);
                     Gfx.apply_surface(Gfx.BackBuffer->w / 4, Gfx.BackBuffer->h / 2, Gfx.srfText, Gfx.BackBuffer);
                 }
-                //Gfx.DrawParallaxLayers();
 				Gfx.DrawObjects();				
 				
                 // Collision controllers for objects and player spaceship
@@ -644,6 +658,15 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 Gfx.apply_surface(Gfx.BackBuffer->w - 150, 0, Gfx.srfText, Gfx.BackBuffer);
 
                 Gfx.DrawSprite();
+
+                // Gui options
+                SDL_Rect Powerlevel;
+                Powerlevel.x = 200;
+                Powerlevel.y = 0;
+                Powerlevel.h = 20;
+                Powerlevel.w = PowerLevel;
+                SDL_FillRect(Gfx.BackBuffer, &Powerlevel, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
+
 				Gfx.FLIP();
 			} break;
 		case GAME_PLAYER_DIED_STATE:
@@ -657,9 +680,8 @@ void Game::Update( SDL_Event input, int iElapsedTime )
 				}
 				else
 				{
-					gamestate.RestartGame();
 					gamestate.GameState.pop();
-					gamestate.GameState.push(MENU_MAIN_STATE);
+                    gamestate.GameState.push(GAMEOVER_STATE);
 				}
 			} break;
 	}
@@ -672,9 +694,8 @@ void Gamestate::MainScreen(int iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
-    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
-	
-	SDL_BlitSurface( &Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfStart.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfMooPie_1920x1080.png"], 0, Gfx.BackBuffer, 0);
+	SDL_BlitSurface( &Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfMainMenu_1920x1080.png"], 0, Gfx.BackBuffer, 0 );
 
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
@@ -691,10 +712,7 @@ void Gamestate::LoadScreen(int iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
-    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
-
-    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect);
-    SDL_BlitSurface(Gfx.GetSurface(LoadsScreen->surface), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect);
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfLoad_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &LoadsScreen->ButtonClips[0]);
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &LoadsScreen->ButtonClips[1]);
@@ -718,8 +736,6 @@ void Gamestate::LoadScreen(int iElapsedTime)
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		LoadsScreen->ButtonNewgame = false;
 	}
-	//SDL_FreeSurface(srfElapsedTime);
-    //srfElapsedTime = NULL;
 }
 
 // ----------------------------------------------------------------------------
@@ -729,9 +745,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
-    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
-
-	SDL_BlitSurface( Gfx.GetSurface( SavesScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfSave_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SavesScreen->ButtonClips[0]);
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SavesScreen->ButtonClips[1]);
@@ -755,8 +769,27 @@ void Gamestate::SaveScreen(int iElapsedTime)
 		gamestate.GameState.push(GAME_RUNNING_STATE);
 		SavesScreen->ButtonNewgame = false;
 	}
-    //SDL_FreeSurface(srfElapsedTime);
-    //srfElapsedTime = NULL;
+}
+
+// ----------------------------------------------------------------------------
+// Gameover() - Draws the gameover screen
+// ----------------------------------------------------------------------------
+
+void Gamestate::Gameover(int iElapsedTime)
+{
+    logger.write(__LINE__, __FILE__);
+    SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfGameover_1920x1080.png"], 0, Gfx.BackBuffer, 0);
+    
+    SDL_Surface * srfGameoverText;
+    srfGameoverText = TTF_RenderText_Solid(Gfx.GameoverFont, "GAME OVER", Gfx.WhiteRGB);
+    Gfx.apply_surface(500, 500, srfGameoverText, Gfx.BackBuffer);
+    if (GameOverScreen->ButtonNewgame == true)
+    {
+        gamestate.GameState.pop();
+        gamestate.GameState.push(GAME_RUNNING_STATE);
+        GameOverScreen->ButtonNewgame = false;
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -766,9 +799,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
-    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
-
-	SDL_BlitSurface( Gfx.GetSurface( CreditsScreen->surface ), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SDL_GetVideoSurface()->clip_rect );
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfCredits_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 	
 	stringstream ss;
 	ss << (float)iElapsedTime / 1000000;
@@ -777,9 +808,8 @@ void Gamestate::CreditScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	//SDL_FreeSurface(srfElapsedTime);
-    //srfElapsedTime = NULL;
 }
+
 // ----------------------------------------------------------------------------
 // OptionScreen() - Draws the option screen
 // ----------------------------------------------------------------------------
@@ -787,9 +817,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
-    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/black.png"], 0, Gfx.BackBuffer, 0);
-	
-	SDL_BlitSurface( Gfx.GetSurface( OptionsScreen->surface ),&SDL_GetVideoSurface()->clip_rect,Gfx.BackBuffer,&SDL_GetVideoSurface()->clip_rect);
+    SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfOptions_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 	
 	if( DIFFICULTY == 0 )
 	{
@@ -835,8 +863,6 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	SDL_Surface * srfElapsedTime;
 	srfElapsedTime = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB );
 	Gfx.apply_surface( 0, 0, srfElapsedTime, Gfx.BackBuffer );
-	//SDL_FreeSurface(srfElapsedTime);
-    //srfElapsedTime = NULL;
 }
 
 void Gamestate::RestartGame()
@@ -874,18 +900,9 @@ void Gamestate::Cleanup()
 	{
 		delete CreditsScreen;
 	}
-	for( int i = 0; i < ParallaxBG->getLayerCount(); i++ )
-	{
-		SDL_FreeSurface( m_surfaceList[ i ] );
-        m_surfaceList[i] = NULL;
-	}
 	if( gamestate.name != NULL )
 	{
 		delete name;
-	}
-	if( gamestate.ParallaxBG != NULL )
-	{
-		delete ParallaxBG;
 	}
 	if( gamestate.OptionsScreen != NULL )
 	{
@@ -932,10 +949,7 @@ bool Game::Init(SDL_Surface * &screen)
     ScreenSize.h = info->current_h;
 	//set up the screen
 	screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
-    //ScreenSize.w = SDL_GetVideoSurface()->w;
-    //ScreenSize.h = SDL_GetVideoSurface()->h;
-    //screen = SDL_SetVideoMode(ScreenSize.w, ScreenSize.h, 32, flags);
-
+ 
     // Get the current video hardware information
     const SDL_VideoInfo* myPointer = SDL_GetVideoInfo();
     
@@ -957,21 +971,23 @@ bool Game::Init(SDL_Surface * &screen)
     /* Check if there are any modes available */
     if (modes == (SDL_Rect**)0) 
 	{
-        printf("No modes available!\n");
-       exit(-1);
+        cout << "No modes available!" << endl;
+        exit(-1);
 	}
    
    /* Check if our resolution is restricted */
    if (modes == (SDL_Rect**)-1) 
    {
-       printf("All resolutions available.\n");
+       cout << "All resolutions available." << endl;
    }
    else
    {
        /* Print valid modes */
-       printf("Available Modes\n");
-       for (i=0; modes[i]; ++i)
-         printf("  %d x %d\n", modes[i]->w, modes[i]->h);
+       cout << "Available Modes" << endl;
+       for (i = 0; modes[i]; ++i)
+       {
+           cout << modes[i]->w << " x " << modes[i]->h << endl;
+       }
    }
 
 	if( screen == NULL )
@@ -989,13 +1005,15 @@ bool Game::Init(SDL_Surface * &screen)
 	/* SDL interprets each pixel as a 32-bit number, so our masks must depend
 	   on the endianness (byte order) of the machine */
 
-	rmask = 0x00000000;
-	gmask = 0x00000000;
-	bmask = 0x00000000;
-	amask = 0x00000000;
+	//rmask = 0x00000000;
+	//gmask = 0x00000000;
+	//bmask = 0x00000000;
+	//amask = 0x00000000;
 
-	Gfx.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel,
-								   rmask, gmask, bmask, amask);
+	//Gfx.BackBuffer = SDL_CreateRGBSurface( SDL_HWSURFACE, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel,
+	//							   rmask, gmask, bmask, amask);
+
+    Gfx.BackBuffer = SDL_CreateRGBSurface(0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, SDL_GetVideoSurface()->format->BitsPerPixel, 0, 0, 0, 0);
 	
 	if( Gfx.BackBuffer == NULL )
 	{
@@ -1035,46 +1053,3 @@ void Gamestate::CreateAll()
 	EnemyController.Create_Enemies();
 	ObjectController.CreateObjects();
 }
-
-// ----------------------------------------------------------------------------
-// setUpParallaxLayers() - initializes parallax-struct
-// ----------------------------------------------------------------------------
-void Gamestate::setUpParallaxLayers()
-{
-    logger.write(__LINE__, __FILE__);
-	ParallaxBG = new ParallaxBackground();
-	ParallaxBG->createLayers( 10 );
-
-	ParallaxBG->setLayer( 0, 0.0f, m_srfBlack, 
-						0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-
-	ParallaxBG->setLayer( 1, 0.0f, m_srfBackdrop, 
-        0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h);
-
-	// must be here otherwise division by zero currently
-	ParallaxBG->setLayer( 2, 0.7f, m_srfBackdrop, 
-						0, 1172, 170, 0, 370, SDL_GetVideoSurface()->w, 170 ); 
-
-	ParallaxBG->setLayer(	3, 0.5f, m_srfBackdrop, 
-						0, SDL_GetVideoSurface()->w, 38, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-
-	ParallaxBG->setLayer(	4, 0.4f, m_srfBackdrop, 
-						38, SDL_GetVideoSurface()->w, 87, 0, 38, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-
-	ParallaxBG->setLayer(	5, 0.3f, m_srfBackdrop, 
-						126, SDL_GetVideoSurface()->w, 46, 0, 126, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-
-	ParallaxBG->setLayer(	6, 0.2f, m_srfBackdrop, 
-						172, SDL_GetVideoSurface()->w, 21, 0, 172, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-
-	ParallaxBG->setLayer(	7, 0.1f, m_srfBackdrop, 
-						193, SDL_GetVideoSurface()->w, 12, 0, 193, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-
-	ParallaxBG->setLayer( 8, 0.7f, m_srfBackdrop, 
-						0, 5100, 535, 0, 0, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-
-	ParallaxBG->setLayer(	9, 0.9f, m_srfBackdrop, 
-						540, 5100, 60, 0, 535, SDL_GetVideoSurface()->w, SDL_GetVideoSurface()->h );
-}
-
-

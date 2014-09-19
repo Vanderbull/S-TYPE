@@ -26,7 +26,7 @@ public:
         velocity = Vector3D(0, 0, 0);
         location = v;
 
-        lifespan = 255.0f;
+        lifespan = 2550.0f;
     };
 
 

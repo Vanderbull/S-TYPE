@@ -51,6 +51,7 @@ int MouseInBox(SDL_Rect &Rect);
 // Used in Game.h file
 typedef enum
 {
+    GAMEOVER_STATE,
 	GAME_RESUME_STATE,
 	GAME_NEW_STATE,
 	GAME_LOAD_STATE,

@@ -14,7 +14,6 @@
 #include <windows.h>
 using namespace std;
 
-#include "Paralaxlayers.h"
 #include "Objects.h"
 #include "SDL_mixer.h"
 #include "SpaceShip.h"
@@ -25,6 +24,7 @@ using namespace std;
 #include "Options.h"
 #include "Load.h"
 #include "Save.h"
+#include "GameOver.h"
 #include "Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
@@ -39,8 +39,6 @@ public:
 	
 	std::stack<InGameStates> GameState;
 
-	ParallaxBackground *ParallaxBG;
-
 	float DeltaTime;
 	float UpdateAnimationSpeed;
 	float Parallax;
@@ -51,8 +49,10 @@ public:
 	Options * OptionsScreen;
 	Load * LoadsScreen;
 	Save * SavesScreen;
+    GameOver * GameOverScreen;
 
-	int m_srfPurpleShip,
+	int m_srfGameover,
+        m_srfPurpleShip,
         m_srfBlueShip,
         m_srfBlueFish,
         m_srfBackdrop, 
@@ -96,13 +96,13 @@ public:
 	void OptionScreen(int iElapsedTime);
 	void LoadScreen(int iElapsedTime);
 	void SaveScreen(int iElapsedTime);
+    void Gameover(int iElapsedTime);
 
 	void Quit(){};
 
 
 	void CreateAll();
 
-	void setUpParallaxLayers();
 	void load_files();
 
 	// Key Mapping trial
