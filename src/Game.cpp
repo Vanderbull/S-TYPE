@@ -625,9 +625,10 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 Scroller.w = 1920;
                 Scroller.x = 1620;
                 Scroller.y = 0;
-                if (Progressbar() > 30000)
+                if (Progressbar() > 1000)
                 {
                     SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfOctopus), 0, Gfx.BackBuffer, &Scroller);
+                    OctoBulletController.CreateOctoBullets();
                 }
                 if (Progressbar() < 5000)
                 {

@@ -15,6 +15,7 @@
 #endif
 
 ControlBullets BulletController;
+ControlBullets OctoBulletController;
 
 SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 {
@@ -35,6 +36,19 @@ void Bullet::Update()
 	}
 	
 	//UpdateCollisionBox( LocAndSize );
+}
+
+void Bullet::OctoUpdate()
+{
+    SetCollisionBox(this->GetLocAndSize().x, this->GetLocAndSize().y + 30, 5, 80);
+    LocAndSize.x -= 0.0010f * gamestate.DeltaTime;
+
+    PrevFrame = Frame++;
+
+    if (Frame >= BULLET_MAX_FRAMES)
+    {
+        Frame = 0;
+    }
 }
 
 void Bullet::Draw()
@@ -109,6 +123,27 @@ void ControlBullets::Draw_Bullets()
 	}
 }
 
+void ControlBullets::DrawOctoBullets()
+{
+    std::vector< Bullet >::iterator BulletCounter;
+
+    BulletCounter = BulletArrayRef.begin();
+
+    while (BulletCounter != BulletArrayRef.end())
+    {
+        BulletCounter->OctoUpdate();
+        BulletCounter->Draw();
+        if (BulletCounter->LocAndSize.x >= Gfx.screen->w - BulletCounter->LocAndSize.w)
+        {
+            BulletCounter = BulletArrayRef.erase(BulletCounter);
+        }
+        else
+        {
+            ++BulletCounter;
+        }
+    }
+}
+
 void ControlBullets::LoadBullet( int xPos, int yPos, int surface )
 {
 	Bullet tempBullet;
@@ -133,6 +168,11 @@ Bullet ControlBullets::CreateBulletByReference( int xPos, int yPos, int surface 
 void ControlBullets::Create_Bullets()
 {
     LoadBullet(Spaceship.GetPosition().x + Spaceship._CollisionBox.w / 2, Spaceship.GetPosition().y + Spaceship._CollisionBox.h / 2, gamestate.m_srfLaser);
+}
+
+void ControlBullets::CreateOctoBullets()
+{
+    LoadBullet(rand() % 1920, rand() % 1080, gamestate.m_srfLaser);
 }
 
 ControlBullets::ControlBullets()

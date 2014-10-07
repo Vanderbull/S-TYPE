@@ -17,6 +17,8 @@ public:
 	
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Update();
+    // Octobullet Update
+    void OctoUpdate();
 	void Draw();
 	int GetSurfaceID();
 	void onCollision(){ DeActivate(); };
@@ -49,7 +51,9 @@ public:
 	~ControlBullets();
 	void Draw_Bullets();
 	void Create_Bullets();
-
+    // OctoBullet creators
+    void CreateOctoBullets();
+    void DrawOctoBullets();
 	void LoadBullet( int xPos, int yPos, int iSurfaceID );
 	std::vector< Bullet > GetVBulletsByReference(){ return BulletArrayRef; };
 
@@ -61,3 +65,4 @@ private:
 };
 
 extern ControlBullets BulletController;
+extern ControlBullets OctoBulletController;

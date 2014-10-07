@@ -228,6 +228,7 @@ void ControlGfx::DrawObjects()
     BlueShipController.DrawBlueShip();
 	BlueFishController.DrawBlueFish();
 	BulletController.Draw_Bullets();
+    OctoBulletController.DrawOctoBullets();
 	ObjectController.DrawObjects();
 	PowerupController.DrawPowerup();
     Spaceship.Update();
