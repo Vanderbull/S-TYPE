@@ -80,8 +80,10 @@ int main( int argc, char * arg[] )
             Engine.HandleEvents( event );
         }
 
-        Engine.GamePad->Update();
+
 		Engine.Update( event, gamestate.DeltaTime );
+        Engine.GamePad->Update();
+        Engine.GamePad->HandleInput(event);
         Audio.Render();
 		Gfx.FLIP();
 
