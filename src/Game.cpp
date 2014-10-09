@@ -545,7 +545,7 @@ void Gamestate::load_files()
     m_srfBlueShip = Gfx.Load_imageAlpha("assets/gfx/enemies/srfBlueShip.png", 0, 0, 0);
     m_srfBlueFish = Gfx.Load_imageAlpha("assets/gfx/enemies/srfBlueFish.png", 0, 0, 0);
     //Bosses
-    m_srfOctopus = Gfx.Load_imageAlpha("assets/gfx/bosses/octopus.png", 0, 0, 0);
+    m_srfOctoBoss = Gfx.Load_imageAlpha("assets/gfx/bosses/octopus.png", 0, 0, 0);
 	
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
 	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons );
@@ -625,10 +625,30 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 Scroller.w = 1920;
                 Scroller.x = 1620;
                 Scroller.y = 0;
+                static int Bossy = 0;
+                static int Direction = 0;
                 if (Progressbar() > 1000)
                 {
-                    SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfOctopus), 0, Gfx.BackBuffer, &Scroller);
+                    Scroller.y = Bossy;
+                    SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfOctoBoss), 0, Gfx.BackBuffer, &Scroller);
                     OctoBulletController.CreateOctoBullets();
+                    if (Direction == 0)
+                    {
+                        if ( Bossy == 1000)
+                        Direction = 1;
+                        else
+                        Bossy += 10;
+                    }                        
+                    else
+                    {
+                        if ( Bossy == 0)
+                        Direction = 0;
+                        else
+                        Bossy -= 10;
+                    }
+                    
+
+                   
                 }
                 if (Progressbar() < 5000)
                 {

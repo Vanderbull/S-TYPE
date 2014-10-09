@@ -85,6 +85,9 @@
     <ClCompile Include="src\fx\fx.cpp">
       <Filter>Fx</Filter>
     </ClCompile>
+    <ClCompile Include="src\Enemies\OctoBoss.cpp">
+      <Filter>Enemies\OctoBoss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Collision.h">
@@ -184,6 +187,9 @@
     <ClInclude Include="src\fx\fx.h">
       <Filter>Fx</Filter>
     </ClInclude>
+    <ClInclude Include="src\Enemies\OctoBoss.h">
+      <Filter>Enemies\OctoBoss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Audio">
@@ -272,6 +278,9 @@
     </Filter>
     <Filter Include="Fx">
       <UniqueIdentifier>{4fdc584a-a58e-41d3-9abf-46674fd8ef1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemies\OctoBoss">
+      <UniqueIdentifier>{25d37879-c16a-4e4e-8fff-652518a1bdd7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

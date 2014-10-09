@@ -43,7 +43,6 @@ private:
 	int PrevFrame;
 };
 
-/// <summary>A class the controls the animals</summary> 
 class ControlBullets
 {
 public:

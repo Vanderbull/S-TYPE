@@ -25,8 +25,6 @@ ControlGfx::ControlGfx()
 {
     Particle p(Vector3D(1920 / 2, 1080 / 2, 0.0f));
 
-
-
 	if (TTF_Init() == -1) 
 	{
 		printf("Unable to initialize SDL_ttf: %s \n", TTF_GetError());

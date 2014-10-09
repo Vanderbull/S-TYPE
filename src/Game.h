@@ -14,11 +14,11 @@
 #include <windows.h>
 using namespace std;
 
+#include "Global\Global.h"
 #include "Objects.h"
 #include "SDL_mixer.h"
 #include "SpaceShip.h"
 #include "Enemies.h"
-#include "Global\Global.h"
 #include "MainMenu.h"
 #include "Credits.h"
 #include "Options.h"
@@ -30,7 +30,7 @@ using namespace std;
 #include "GetInput.h"
 #include "GameController\GameController.h"
 #include "ParticleController\Particle.h"
-
+#include "Enemies\OctoBoss.h"
 class Gamestate
 {
 public:
@@ -79,7 +79,7 @@ public:
     int m_srfBluePowerup;
 
     // Boss image index
-    int m_srfOctopus;
+    int m_srfOctoBoss;
 
 	std::map<string,int> m_SurfaceCollection;
 
