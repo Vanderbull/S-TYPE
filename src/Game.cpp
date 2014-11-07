@@ -400,7 +400,7 @@ void Game::HandleEvents( SDL_Event _event )
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
 		//if( MUSIC == 5 )
-			//Audio.PlayMusic( std::rand() % 3 );
+			Audio.PlayMusic( 3 );
 		//else
 			//Audio.PauseMusic();
 
@@ -485,10 +485,6 @@ Game::Game()
 
 	Quit = false;
 
-	// Setup of the application icons
-	//SDL_WM_SetCaption("", "res/big.ico");
-	
-	//SDL_WM_SetIcon(SDL_LoadBMP("res/small.bmp"), NULL);
 	Init( Gfx.screen );
 	
 	gamestate.load_files();
@@ -546,7 +542,10 @@ void Gamestate::load_files()
     m_srfBlueFish = Gfx.Load_imageAlpha("assets/gfx/enemies/srfBlueFish.png", 0, 0, 0);
     //Bosses
     m_srfOctoBoss = Gfx.Load_imageAlpha("assets/gfx/bosses/octopus.png", 0, 0, 0);
-	
+    OctoController.LoadImageAlpha("assets/gfx/bosses/octopus.png",0,0,0);
+    OctoBossman.LoadImageAlpha("assets/gfx/bosses/octopus.png", 0, 0, 0);
+
+
 	MainMenuScreen = new MainMenu( 290,  m_srfStart, m_srfButtons );
 	CreditsScreen = new Credits( 290,  m_srfCredits, m_srfButtons );
 	OptionsScreen = new Options( 290, m_srfOptions, m_srfButtons );
@@ -629,24 +628,32 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 static int Direction = 0;
                 if (Progressbar() > 1000)
                 {
-                    Scroller.y = Bossy;
-                    SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfOctoBoss), 0, Gfx.BackBuffer, &Scroller);
-                    OctoBulletController.CreateOctoBullets();
-                    if (Direction == 0)
+                    OctoBossman.Update();
+                    OctoBossman.Draw();
+                    if (OctoBossman.onCollision(Spaceship.GetCollisionBox()))
                     {
-                        if ( Bossy == 1000)
-                        Direction = 1;
-                        else
-                        Bossy += 10;
-                    }                        
-                    else
-                    {
-                        if ( Bossy == 0)
-                        Direction = 0;
-                        else
-                        Bossy -= 10;
+                        OctoBossman.onDestruction();
+                        Spaceship.Died();
+                        Spaceship.Reset();
                     }
-                    
+                    //Scroller.y = Bossy;
+                    //SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfOctoBoss), 0, Gfx.BackBuffer, &Scroller);
+                    //OctoBulletController.CreateOctoBullets();
+                    //if (Direction == 0)
+                    //{
+                    //    if ( Bossy == 1000)
+                    //    Direction = 1;
+                    //    else
+                    //    Bossy += 10;
+                    //}                        
+                    //else
+                    //{
+                    //    if ( Bossy == 0)
+                    //    Direction = 0;
+                    //    else
+                    //    Bossy -= 10;
+                    //}
+                    //
 
                    
                 }
@@ -665,6 +672,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 CollisionController.SpaceshipCollider(Spaceship, PurpleShipController.PurpleShipArrayRef);
                 CollisionController.SpaceshipCollider( Spaceship, BlueShipController.BlueShipArrayRef );
 				CollisionController.SpaceshipCollider( Spaceship,BlueFishController.BlueFishArrayRef );
+                CollisionController.SpaceshipCollider( Spaceship,OctoBossman);
 
                 CollisionController.SpaceshipCollider( Spaceship, PowerupController.PowerupArrayRef);
 
@@ -798,6 +806,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 
 void Gamestate::Gameover(int iElapsedTime)
 {
+    OctoBossman.onDestruction();
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfGameover_1920x1080.png"], 0, Gfx.BackBuffer, 0);
@@ -889,6 +898,7 @@ void Gamestate::OptionScreen(int iElapsedTime)
 void Gamestate::RestartGame()
 {
     logger.write(__LINE__, __FILE__);
+    OctoBossman.onDestruction();
 	Spaceship.Reset();
 
     PurpleShipController.Destroy();

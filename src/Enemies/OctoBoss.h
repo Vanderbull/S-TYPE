@@ -16,65 +16,47 @@ class OctoBoss : public Object
 
 public:
     OctoBoss();
-    OctoBoss(Vector3D v);
-
-    void applyForce(Vector3D force)
-    {
-        acceleration = force;
-    }
-    float GetX()
-    {
-        return location.x;
-    }
-    float GetY()
-    {
-        return location.y;
-    }
-
-    void checkEdges(float width = 0, float height = 0)
-    {
-        if (location.x > width)
-        {
-            location.x = width;
-            velocity.x *= -1;
-        }
-        else if (location.x < 0)
-        {
-            velocity.x *= -1;
-            location.x = 0;
-        }
-
-        if (location.y > height)
-        {
-            velocity.y *= -1;
-            location.y = height;
-        }
-        else if (location.y < 0)
-        {
-            velocity.y *= -1;
-            location.y = 0;
-        }
-    }
-
-    int isColliding(SDL_Rect Box);
-    SDL_Rect UpdateCollisionBox(SDL_Rect Box);
+    OctoBoss(Vector3D v,std::string inSurfaceImage);
+    ~OctoBoss();
+    void applyForce(Vector3D force);
+    float GetX();
+    float GetY();
+    void checkEdges(float width, float height);
+    bool onCollision(SDL_Rect object);
+    void onCollision(){ };
     void Update();
     void Draw();
 
     SDL_Rect GetDestination();
-    int GetSurface();
+    int GetSurfaceID();
+    SDL_Surface* GetSurface();
+    void SetSurface(SDL_Surface* inSurface);
 
     bool isActive(){ return Active; };
     void DeActivate(){ Active = false; };
     void Activate(){ Active = true; };
-    void onCollision(){ };
-    void onDestruction(){ };
-    //void Spawn(Sint16 xPos, Sint16 yPos, int surface){ location.x = xPos; location.y = yPos; _Surface = surface; };
+
+    void onDestruction(){
+        location.x = 0;
+        location.y = 0;
+        location.z = 0;
+        velocity.x = 0;
+        velocity.y = 0;
+        velocity.z = 0;
+        _collisionbox.x = 0;
+        _collisionbox.y = 0;
+        _collisionbox.h = 0;
+        _collisionbox.w = 0;
+
+    };
     void Spawn(){ };
+    int LoadImageAlpha(std::string filename, int r, int g, int b);
+    void FireLaser();
 
 private:
     SDL_Rect Clips[16];
-    int _Surface;
+    int _SurfaceID;
+    SDL_Surface* _Surface;
 
     int PrevFrame;
 
@@ -83,22 +65,10 @@ private:
     Vector3D location;
 
     float lifespan;
+    std::vector<Bullet> mBullet;
+    int _clip_height;
+    int _clip_width;
+    SDL_Rect _collisionbox;
 };
 
-class ControlOctoBoss
-{
-public:
-    ControlOctoBoss();
-    ~ControlOctoBoss();
-    void DrawOctoBoss();
-    void CreateOctoBoss(int iProgress);
-    void Destroy(){ OctoBossArrayRef.clear(); };
-    std::vector< OctoBoss > GetVectorWithOctoBoss(){ return OctoBossArrayRef; };
-    OctoBoss CreateOctoBossByReference(Sint16 xPos, Sint16 yPos, int surface);
-
-    std::vector< OctoBoss > OctoBossArrayRef;
-private:
-
-};
-
-extern ControlOctoBoss OctoBossController;
+extern OctoBoss OctoController;

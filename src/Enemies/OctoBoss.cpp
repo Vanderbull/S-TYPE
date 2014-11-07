@@ -19,7 +19,8 @@ static char THIS_FILE[] = __FILE__;
 #endif
 #endif
 
-ControlOctoBoss OctoBossController;
+OctoBoss OctoController;
+
 const float OctoBossSpeed = 0.0005f;
 
 OctoBoss::OctoBoss()
@@ -30,29 +31,17 @@ OctoBoss::OctoBoss()
 
     lifespan = 255.0f;
     Active = 1;
-    CollisionBox.h = SpriteHeight - 16;
-    CollisionBox.w = SpriteWidth - 16;
-    CollisionBox.x = location.x;
-    CollisionBox.y = location.y;
 
     LocAndSize.x = 0;
     LocAndSize.y = 0;
     LocAndSize.h = SpriteHeight;
     LocAndSize.w = SpriteWidth;
 
-    PrevFrame = 0;
-    Frame = 0;
-
-    for (int i = 0; i < 16; i++)
-    {
-        Clips[i].x = (Sint16)i * SpriteWidth;
-        Clips[i].y = 0;
-        Clips[i].h = SpriteHeight;
-        Clips[i].w = SpriteWidth;
-    }
+    _clip_height = 300;
+    _clip_width = 300;
 }
 
-OctoBoss::OctoBoss(Vector3D v)
+OctoBoss::OctoBoss(Vector3D v, std::string inSurfaceImage)
 {
     acceleration = Vector3D(0, 0, 0);
     velocity = Vector3D(0, 0, 0);
@@ -61,57 +50,66 @@ OctoBoss::OctoBoss(Vector3D v)
     lifespan = 255.0f;
 
     Active = 1;
-    CollisionBox.h = SpriteHeight - 16;
-    CollisionBox.w = SpriteWidth - 16;
-    CollisionBox.x = location.x;
-    CollisionBox.y = location.y;
 
-    LocAndSize.x = 0;
-    LocAndSize.y = 0;
-    LocAndSize.h = SpriteHeight;
-    LocAndSize.w = SpriteWidth;
+    LocAndSize.x = GetX();
+    LocAndSize.y = GetY();
+    LocAndSize.h = _clip_height;
+    LocAndSize.w = _clip_width;
 
-    PrevFrame = 0;
-    Frame = 0;
-
-    for (int i = 0; i < 16; i++)
-    {
-        Clips[i].x = (Sint16)i * SpriteWidth;
-        Clips[i].y = 0;
-        Clips[i].h = SpriteHeight;
-        Clips[i].w = SpriteWidth;
-    }
 };
 
-int OctoBoss::isColliding(SDL_Rect Box)
+OctoBoss::~OctoBoss()
 {
-    SDL_Rect CollisionBox;
-    CollisionBox = Box;
-    int PlayerRight = Spaceship.GetPosition().x + Spaceship.GetPosition().w;
-    int PlayerLeft = Spaceship.GetPosition().x;
-    int PlayerTop = Spaceship.GetPosition().y;
-    int PlayerBottom = Spaceship.GetPosition().x + Spaceship.GetPosition().h;
-
-    int EnemyRight = LocAndSize.x + LocAndSize.w;
-    int EnemyLeft = LocAndSize.x;
-    int EnemyTop = LocAndSize.y;
-    int EnemyBottom = LocAndSize.y + LocAndSize.h;
-
-    if (EnemyBottom < PlayerTop) return(0);
-    if (EnemyTop > PlayerBottom) return(0);
-
-    if (EnemyRight < PlayerLeft) return(0);
-    if (EnemyLeft > PlayerRight) return(0);
-    return(1);
+    SDL_FreeSurface(_Surface);
 }
 
-SDL_Rect OctoBoss::UpdateCollisionBox(SDL_Rect Box)
+void OctoBoss::applyForce(Vector3D force)
 {
-    SDL_Rect CollisionBox;
-    CollisionBox = Box;
+    acceleration = force;
+}
 
-    CollisionBox = LocAndSize;
-    return CollisionBox;
+float OctoBoss::GetX()
+{
+    return location.x;
+}
+
+float OctoBoss::GetY()
+{
+    return location.y;
+}
+
+void OctoBoss::checkEdges(float width = 0, float height = 0)
+{
+    if (location.x +301 > width)
+    {
+        location.x = width - 301;
+        velocity.x *= -1;
+    }
+    else if (location.x < 0)
+    {
+        velocity.x *= -1;
+        location.x = 0;
+    }
+
+    if (location.y + 301 > height)
+    {
+        location.y = height - 301;
+        velocity.y *= -1;
+    }
+    else if (location.y < 0)
+    {
+        velocity.y *= -1;
+        location.y = 0;
+    }
+}
+
+bool OctoBoss::onCollision(SDL_Rect object)
+{
+    return !(
+            object.x > ( _collisionbox.x + _collisionbox.w )
+        ||  ( object.x + object.w ) < _collisionbox.x
+        ||  object.y > ( _collisionbox.y + _collisionbox.h )
+        ||  ( object.y + _collisionbox.h ) < _collisionbox.y );
 }
 
 void OctoBoss::Update()
@@ -123,34 +121,40 @@ void OctoBoss::Update()
     // add velocity to location
     lifespan -= 2.0f;
 
+    applyForce(Vector3D(1,1,0));
+
     xPos = OctoBossSpeed * gamestate.DeltaTime;
-    LocAndSize.x = GetX();//(Sint16)xPos;
-    LocAndSize.y = GetY();//(Sint16)yPos;
-    LocAndSize.h = SpriteHeight;
-    LocAndSize.w = SpriteWidth;
+    LocAndSize.x = GetX();
+    LocAndSize.y = GetY();
+    LocAndSize.h = _clip_height;
+    LocAndSize.w = _clip_width;
 
-    CollisionBox.x = GetX() + 16;//(Sint16)xPos;
-    CollisionBox.y = GetY() + 16;//(Sint16)yPos;
-    CollisionBox.h = 16;
-    CollisionBox.w = 16;
+    CollisionBox.x = GetX();
+    CollisionBox.y = GetY();
+    CollisionBox.h = _clip_height;
+    CollisionBox.w = _clip_width;
 
-    PrevFrame = Frame++;
-    if (Frame >= BLUESHIP_MAX_FRAMES)
-    {
-        Frame = 0;
-    }
-    UpdateCollisionBox(LocAndSize);
+    _collisionbox.x = GetX();
+    _collisionbox.y = GetY();
+    _collisionbox.h = _clip_height;
+    _collisionbox.w = _clip_width;
 }
 
 void OctoBoss::Draw()
 {
+    SDL_Rect m_location;
+    m_location.x = location.x;
+    m_location.y = location.y;
+    m_location.h = _Surface->clip_rect.h;
+    m_location.w = _Surface->clip_rect.w;
     SDL_BlitSurface(
-        Gfx.GetSurface(SurfaceID),
-        &Clips[0], //PrevFrame replaced with 0 as there is no animation
+        _Surface,
+        0, 
         Gfx.BackBuffer,
-        &GetDestination()
+        &m_location
         );
-    SDL_FillRect(Gfx.BackBuffer, &CollisionBox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
+    // Debug drawing of the collisionbox
+    //SDL_FillRect(Gfx.BackBuffer, &_collisionbox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
 }
 
 SDL_Rect OctoBoss::GetDestination()
@@ -158,75 +162,36 @@ SDL_Rect OctoBoss::GetDestination()
     return LocAndSize;
 }
 
-int OctoBoss::GetSurface()
+int OctoBoss::GetSurfaceID()
 {
+    return _SurfaceID;
+}
+
+SDL_Surface* OctoBoss::GetSurface()
+{   
     return _Surface;
 }
-void ControlOctoBoss::DrawOctoBoss()
+
+void OctoBoss::SetSurface(SDL_Surface* inSurface)
 {
-    std::vector< OctoBoss >::iterator i;
+    _Surface = inSurface;
+}
 
-    i = OctoBossArrayRef.begin();
-
-    while (i != OctoBossArrayRef.end())
+// loads image with chosen value to not show
+int OctoBoss::LoadImageAlpha(std::string filename, int r = 0, int g = 0, int b = 0)
+{
+    _Surface = IMG_Load(filename.c_str());
+    if (_Surface != NULL)
     {
-        i->Update();
-        i->applyForce(Vector3D(0, 2 * (double)rand() / (double)RAND_MAX - 1, 0));
-        i->Draw();
-
-        if (i->LocAndSize.x <= 0.0f - SpriteWidth)
-        {
-            i = OctoBossArrayRef.erase(i);
-        }
-        else
-        {
-            ++i;
-        }
+        _Surface = SDL_DisplayFormatAlpha(_Surface);
     }
-}
-
-void ControlOctoBoss::CreateOctoBoss(int iProgress)
-{
-    if (iProgress > OCTOBOSS_MIN_PROGRESS && iProgress < OCTOBOSS_MAX_PROGRESS)
+    if (_Surface != NULL)
     {
-        if (std::rand() % 100 + 1 > 99)
-        {
-            //OctoBossArrayRef.push_back(CreateOctoBossByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfOctoBoss));
-        }
+        SDL_SetColorKey(_Surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(_Surface->format, r, g, b));
     }
+    return 0;
 }
 
-ControlOctoBoss::ControlOctoBoss()
+void OctoBoss::FireLaser()
 {
-}
-
-ControlOctoBoss::~ControlOctoBoss()
-{
-}
-
-OctoBoss ControlOctoBoss::CreateOctoBossByReference(Sint16 xPos, Sint16 yPos, int surface)
-{
-    static int old_y_pos = 0;
-
-    while (yPos > old_y_pos && yPos < old_y_pos + 128)
-    {
-        yPos = (Sint16)(std::rand() % Gfx.BackBuffer->h - 128);
-    }
-    if (yPos < 64)
-        yPos = 64;
-    if (yPos > Gfx.BackBuffer->h - 128)
-        yPos = (Sint16)(Gfx.BackBuffer->h - 128);
-    OctoBoss temp;
-    temp.SurfaceID = surface;
-    temp.LocAndSize.x = xPos;
-    temp.LocAndSize.y = yPos;
-
-    // Using Vector3D
-    OctoBoss temp2(Vector3D(xPos, yPos, 0.0f));
-    temp2.applyForce(Vector3D(-1, 0, 0));
-    temp2.SurfaceID = surface;
-    temp2.LocAndSize.x = temp2.GetX();
-    temp2.LocAndSize.y = temp2.GetY();
-
-    return temp2;
 }

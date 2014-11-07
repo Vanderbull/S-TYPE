@@ -263,6 +263,16 @@ public:
         }
     };
 
+    void SpaceshipCollider(BaseSpaceShip Spaceship, OctoBoss &OctoBoss)
+    {
+        if( OctoBoss.onCollision(Spaceship.GetPosition()) )
+        {
+            Audio.PlaySoundEffect(5);
+            Spaceship.Died();
+            Spaceship.Reset();
+        }
+    };
+
 	// Old collision controlls
 	bool CollisionBox( BaseSpaceShip *cPlayer, CEnemy *cEnemy, bool Show );
 

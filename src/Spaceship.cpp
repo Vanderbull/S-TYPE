@@ -31,10 +31,8 @@ BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int wi
 
 	_Position.x = Xpos;
 	_Position.y = Ypos;
-	_Position.h = 64;
-	_Position.w = 64;
-
-	//_SurfaceID = surface;
+    _Position.h = SPACESHIP_HEIGHT;
+    _Position.w = SPACESHIP_WIDTH;
 
 	xVelocity = 0.0f; 
 	yVelocity = 0.0f;
@@ -46,7 +44,6 @@ BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int wi
     _PowerLevel = 100;
 }
 
-// checks if OK to move
 bool BaseSpaceShip::CheckBoundaries()
 {
 	return true;

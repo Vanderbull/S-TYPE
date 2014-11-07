@@ -15,6 +15,7 @@
 using namespace std;
 
 #include "../src/log/log.h"
+#include "../Enemies/OctoBoss.h"
 
 extern flog logger;
 
@@ -99,6 +100,6 @@ extern std::vector< int > PopupScore;
 double CalcAverageTick(int newtick);
 
 extern SDL_Joystick *GamePad;
-
+extern OctoBoss OctoBossman;
 
 #endif

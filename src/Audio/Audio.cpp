@@ -59,6 +59,7 @@ void ControlAudio::LoadAudio()
 	Playlist[0] = Mix_LoadMUS( "assets/sfx/sea_battles_in_space.ogg" );
 	Playlist[1] = Mix_LoadMUS( "assets/sfx/Let_the_Machines_do_the_Whistling_instrumental.ogg" );
 	Playlist[2] = Mix_LoadMUS( "assets/sfx/all_will_be_well.ogg" );
+    Playlist[3] = Mix_LoadMUS("assets/sfx/listen/04.ogg");
 
 	Sfx[0] = Mix_LoadWAV( "assets/sfx/laser_blaster.ogg" );
     Sfx[1] = Mix_LoadWAV( "assets/sfx/blaster_explosion.ogg");
@@ -81,16 +82,18 @@ void ControlAudio::PlayMusic( int song )
 		}
 	}
 }
+
 void ControlAudio::PlaySoundEffect( int effect )
 {
 	if( effect == E_AUDIO::LASER )
 	{
         Mix_VolumeChunk(Sfx[0], 10);
-			Mix_PlayChannel( -1, Sfx[0], 0 );
+		Mix_PlayChannel( -1, Sfx[0], 0 );
 	}
 	if( effect == E_AUDIO::EXPLOSION )
 	{
-			Mix_PlayChannel( -1, Sfx[1], 0 );
+        Mix_VolumeChunk(Sfx[1], 10);
+		Mix_PlayChannel( -1, Sfx[1], 0 );
 	}
     if (effect == 10)
     {
