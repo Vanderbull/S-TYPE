@@ -1,15 +1,14 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+using namespace std;
+
 #pragma once
 #include <SDL.h>
 #include <SDL_events.h>
 
 
-//Name
-//SDL_NumJoysticks -- Count available joysticks.
-//Synopsis
-//Description
-//Counts the number of joysticks attached to the system.
-//Return Value
-//Returns the number of attached joysticks
 class GameController
 {
 public:
@@ -24,7 +23,6 @@ public:
     
     //Handles input
     void HandleInput(SDL_Event _event);
-    void Act();
     int CountDevices();
     void Open(int index);
     void Update();
@@ -32,5 +30,9 @@ public:
 
 private:
     SDL_Event Events;
-
+    std::vector<int> counters;
+    SDL_Joystick *joysticks[4]; 
+    SDL_Joystick *GamePad;
+    std::map<string, int> ButtonMap;
+        
 };

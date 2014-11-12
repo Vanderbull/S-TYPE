@@ -130,5 +130,5 @@ double CalcAverageTick(int newtick)
     return((double)ticksum/MAXSAMPLES);
 }
 
-SDL_Joystick *GamePad;
+//SDL_Joystick *GamePad;
 OctoBoss OctoBossman;

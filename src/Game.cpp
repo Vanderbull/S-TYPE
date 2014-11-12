@@ -277,6 +277,7 @@ void Game::HandleEvents( SDL_Event _event )
 						{
 							cout << "Music set to -> " << i << "..." << endl;
 							MUSIC = i;
+                            Audio.ToggleMusic();
 						}
 					}
 					for( int i = 7; i < 8; i++ )
@@ -379,7 +380,8 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_RUNNING_STATE:
 				{
-                    GamePad->HandleInput(_event);
+                    //GamePad->HandleInput(_event);
+                    GamePad.HandleInput(_event);
 				} break;
 			}
 		} break;
@@ -399,10 +401,14 @@ void Game::HandleEvents( SDL_Event _event )
 
 	if(gamestate.GameState.top() == MENU_MAIN_STATE)
 	{
-		//if( MUSIC == 5 )
-			Audio.PlayMusic( 3 );
-		//else
-			//Audio.PauseMusic();
+        if (Audio.IsPlaying() == 0)
+        {
+            Audio.PlayMusic(3);
+        }
+        else if (Audio.IsPaused() == 1)
+        {
+            Audio.ResumeMusic();
+        }
 
 		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
 		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
@@ -626,7 +632,7 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 Scroller.y = 0;
                 static int Bossy = 0;
                 static int Direction = 0;
-                if (Progressbar() > 1000)
+                if (Progressbar() > OCTOBOSS_MIN_PROGRESS)
                 {
                     OctoBossman.Update();
                     OctoBossman.Draw();
@@ -872,13 +878,13 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	{
 		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 4 ]);
 	}
-	if( MUSIC == 5 )
+	if( Audio.State() == 0/*MUSIC == 5*/ )
 	{
 		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 5 ]);
 		//Audio.PlayMusic( std::rand() % 3 );
 	}
 	else
-	if( MUSIC == 6 )
+	if( Audio.State() == 1/*MUSIC == 6*/ )
 	{
 		SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 6 ]);
 		Audio.PauseMusic();

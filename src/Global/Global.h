@@ -99,7 +99,7 @@ extern std::vector< int > PopupScore;
 
 double CalcAverageTick(int newtick);
 
-extern SDL_Joystick *GamePad;
+//extern SDL_Joystick *GamePad;
 extern OctoBoss OctoBossman;
 
 #endif

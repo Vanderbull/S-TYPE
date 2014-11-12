@@ -12,31 +12,60 @@ static char THIS_FILE[] = __FILE__;
 #endif
 #endif
 
+
+//XBox controller deadzones
+#define GAMEPAD_LEFT_THUMB_DEADZONE  7849
+#define GAMEPAD_RIGHT_THUMB_DEADZONE 8689
+#define GAMEPAD_TRIGGER_THRESHOLD    30
+
 // Initializing the GameControllers variables
 GameController::GameController()
 {
     cout << "Waking up the game controller for duty..." << endl;
+    ButtonMap["A"] = 0;
+    ButtonMap["B"] = 1;
+    ButtonMap["X"] = 2;
+    ButtonMap["Y"] = 3;
+    ButtonMap["Home"] = -1; // Not a button
+    ButtonMap["LB"] = 4;
+    ButtonMap["RB"] = 5;
+    ButtonMap["LT"] = 6;
+    ButtonMap["RT"] = 7;
+    ButtonMap["Select"] = 8;
+    ButtonMap["Start"] = 9;
+    ButtonMap["L3"] = 10;
+    ButtonMap["R3"] = 11;
+    ButtonMap["DPad Up"] = 12;
+    ButtonMap["DPad Down"] = 13;
+    ButtonMap["DPad Left"] = 14;
+    ButtonMap["DPad Right"] = 15;
 }
 
 ///Init must be called after SDL is initialied
 void GameController::init()
 {
+    // Initialize the joystick subsystem
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+
     if (SDL_JoystickEventState(SDL_ENABLE) != SDL_ENABLE)
     {
         cout << "Cannot enable Joystick event polling!" << endl;
     }
 
-    // Close if opened
-    if (SDL_JoystickOpened(0))
+    for (int i = 0; i < CountDevices(); i++)
     {
-        cout << "Joystick closed" << endl;
-        SDL_JoystickClose(GamePad);
+        if (SDL_JoystickOpened(i))
+        {
+            cout << "Joystick " << i << " closed" << endl;
+            SDL_JoystickClose(joysticks[i]);
+        }
+        else
+        {
+            Open(i);
+            //joysticks[i] = SDL_JoystickOpen(i);
+        }
     }
-    else
-    {
-        cout << "Opened the joystick" << endl;
-        GamePad = SDL_JoystickOpen(0);
-    }
+    //GamePad = joysticks[1];
 }
 // Cleanup the game controller
 GameController::~GameController()
@@ -47,9 +76,6 @@ GameController::~GameController()
 // Handles input
 void GameController::HandleInput(SDL_Event _event)
 {
-    //Calculate angle
-    //double joystickAngle = atan2((double)yDir, (double)xDir) * (180.0 / M_PI);
-
     switch (_event.type)
     {
         case SDL_KEYUP:
@@ -82,7 +108,6 @@ void GameController::HandleInput(SDL_Event _event)
                 {
                     BulletController.Create_Bullets();
                     FIRED = 1;
-                    //Gfx.FLIP();
                     Audio.PlaySoundEffect(4);
                 }
             } break;
@@ -120,7 +145,6 @@ void GameController::HandleInput(SDL_Event _event)
                     {
                         BulletController.Create_Bullets();
                         FIRED = 1;
-                        //Gfx.FLIP();
                         Audio.PlaySoundEffect(4);
                     }
                 } break;
@@ -128,10 +152,6 @@ void GameController::HandleInput(SDL_Event _event)
        } break;
     }
     cout << "GameController.cpp is handling the input..." << endl;
-}
-
-void GameController::Act()
-{
 }
 
 int GameController::CountDevices()
@@ -149,9 +169,10 @@ int GameController::CountDevices()
 
 void GameController::Open(int index)
 {
-    GamePad = SDL_JoystickOpen(index);
+    GamePad = SDL_JoystickOpen(0);
+    joysticks[index] = SDL_JoystickOpen(index);
 
-    if (GamePad)
+    if (joysticks[index])
     {
         cout << "Opened Joystick" << index << endl;
         cout << "Name: " << SDL_JoystickName(index) << endl;
@@ -161,13 +182,77 @@ void GameController::Open(int index)
     }
     else
     {
-        printf("Couldn't open Joystick 0\n");
+        cout << "Something went wrong opening the joystick" << endl;
     }
 }
+
 void GameController::Update()
 {
     SDL_Surface * SrfUpdateController;
     std::string SrfText;
+    std::string JoystickButtonState;
+    std::string ControllerInfo;
+    ControllerInfo = "";
+    JoystickButtonState = "";
+
+    for (int i = 0; i < SDL_NumJoysticks(); i++)
+    {
+        SrfText = "";
+        SrfText = SDL_JoystickName(i);
+        ControllerInfo += SDL_JoystickName(i);
+        int w, h;
+        if (TTF_SizeText(Gfx.DefaultFont, SrfText.c_str(), &w, &h)) {
+            // perhaps print the current TTF_GetError(), the string can't be rendered...
+        }
+        else {
+            printf("width=%d height=%d\n", w, h);
+        }
+
+        ControllerInfo += " Buttons| ";
+
+        for (int button_index = 0; button_index < SDL_JoystickNumButtons(joysticks[i]); button_index++)
+        {
+            ControllerInfo += " | ";
+            ControllerInfo += std::to_string(button_index).c_str();
+            ControllerInfo += " : ";
+            ControllerInfo.append(std::to_string(SDL_JoystickGetButton(joysticks[i], button_index)));
+        }
+
+        ControllerInfo += " Hats| ";
+
+        for (int hat_index = 0; hat_index < SDL_JoystickNumHats(joysticks[i]); hat_index++)
+        {
+            ControllerInfo += " | ";
+            ControllerInfo += std::to_string(hat_index).c_str();
+            ControllerInfo += " : ";
+            ControllerInfo.append(std::to_string(SDL_JoystickGetHat(joysticks[i], hat_index)));
+        }
+        
+        ControllerInfo += " Axis| ";
+
+        for (int axes_index = 0; axes_index < SDL_JoystickNumAxes(joysticks[i]); axes_index++)
+        {
+            ControllerInfo += " | ";
+            ControllerInfo += std::to_string(axes_index).c_str();
+            ControllerInfo += " : ";
+            ControllerInfo.append(std::to_string(SDL_JoystickGetAxis(joysticks[i], axes_index)));
+        }
+       
+        ControllerInfo += " Balls| ";
+
+        int delta_x, delta_y;
+
+        for (int balls_index = 0; balls_index < SDL_JoystickNumBalls(joysticks[i]); balls_index++)
+        {
+            ControllerInfo += " | ";
+            ControllerInfo += std::to_string(balls_index).c_str();
+            ControllerInfo += " : ";
+            ControllerInfo.append(std::to_string(SDL_JoystickGetBall(joysticks[i], 0 , &delta_x, &delta_y)));
+        }
+    }
+
+    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, ControllerInfo.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 0, SrfUpdateController, Gfx.BackBuffer);
 
     SrfText = "Updating the GameController";
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
@@ -213,7 +298,7 @@ void GameController::Update()
     SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
     Gfx.apply_surface(0, 390, SrfUpdateController, Gfx.BackBuffer);
 
-    SDL_JoystickUpdate();
+    //SDL_JoystickUpdate();
 
     if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -32768)
     {
@@ -228,7 +313,7 @@ void GameController::Update()
         Spaceship.Accelerate(0.0f, 0.0f);
     }
 
-    if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -32768)
+    if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -32768) 
     {
         Spaceship.Accelerate(-1.0f, 0.0f);
     }

@@ -141,7 +141,10 @@ public:
 	Uint16 SPAWN_POSITION_X;
 	Uint16 SPAWN_POSITION_Y;
 
-    GameController *GamePad;
+    //GameController *GamePad;
+    GameController GamePad;
+
+
 private:
 	Gamestate _State;
     double _Progress;

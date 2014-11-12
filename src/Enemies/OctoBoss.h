@@ -8,7 +8,7 @@
 
 #define OCTOBOSS_MAX_FRAMES 15
 #define OCTOBOSS_MAX_PROGRESS 10000
-#define OCTOBOSS_MIN_PROGRESS 1000
+#define OCTOBOSS_MIN_PROGRESS 10000
 
 
 class OctoBoss : public Object

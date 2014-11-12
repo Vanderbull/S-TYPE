@@ -63,8 +63,9 @@ int main( int argc, char * arg[] )
 
 	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");
 
-    cout << Engine.GamePad->CountDevices() << endl;
-    Engine.GamePad->init();
+    //cout << Engine.GamePad->CountDevices() << endl;
+    //Engine.GamePad->init();
+    Engine.GamePad.init();
 	
 	while( Engine.Quit == false )
 	{
@@ -82,8 +83,10 @@ int main( int argc, char * arg[] )
 
 
 		Engine.Update( event, gamestate.DeltaTime );
-        Engine.GamePad->Update();
-        Engine.GamePad->HandleInput(event);
+        //Engine.GamePad->Update();
+        //Engine.GamePad->HandleInput(event);
+        Engine.GamePad.Update();
+        Engine.GamePad.HandleInput(event);
         Audio.Render();
 		Gfx.FLIP();
 

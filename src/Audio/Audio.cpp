@@ -56,10 +56,12 @@ void ControlAudio::SetVolume(int volume, int id)
 
 void ControlAudio::LoadAudio()
 {
+    
 	Playlist[0] = Mix_LoadMUS( "assets/sfx/sea_battles_in_space.ogg" );
 	Playlist[1] = Mix_LoadMUS( "assets/sfx/Let_the_Machines_do_the_Whistling_instrumental.ogg" );
 	Playlist[2] = Mix_LoadMUS( "assets/sfx/all_will_be_well.ogg" );
     Playlist[3] = Mix_LoadMUS("assets/sfx/listen/04.ogg");
+    Playlist[4] = Mix_LoadMUS("assets/sfx/listen/04.ogg");
 
 	Sfx[0] = Mix_LoadWAV( "assets/sfx/laser_blaster.ogg" );
     Sfx[1] = Mix_LoadWAV( "assets/sfx/blaster_explosion.ogg");
@@ -103,19 +105,14 @@ void ControlAudio::PlaySoundEffect( int effect )
 
 void ControlAudio::PauseMusic()
 {
-	if( Mix_PlayingMusic() == 1 )
-	{
-		Mix_FadeOutMusic(3000);
-	}
+    Mix_PauseMusic();
 }
 
-void ControlAudio::UnpauseMusic()
+void ControlAudio::ResumeMusic()
 {
-	if( Mix_PausedMusic() == 1 )
-	{
-		Mix_ResumeMusic();
-	}
+	Mix_ResumeMusic();
 }
+
 ControlAudio::~ControlAudio()
 {
 	std::cout << "Destroying ControlAudio object..." << endl;
