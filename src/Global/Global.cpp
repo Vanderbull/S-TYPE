@@ -42,6 +42,8 @@ float NO_VELOCITY = 0.0f;
 
 int PowerLevel = 100;
 int PowerLevelSecond = 5;
+int LaserRecharge = 1;
+
 void SetGameOptionButtons()
 {
     // easy option

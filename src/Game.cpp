@@ -602,11 +602,6 @@ void Game::Update( SDL_Event input, int iElapsedTime )
                 if( SDL_ShowCursor(SDL_QUERY) == SDL_ENABLE)
                     SDL_ShowCursor(SDL_DISABLE);
 
-                if (PowerLevel < 100)
-                {
-                    PowerLevel += 1;
-                }
-
                 if ( PowerLevelSecond < 5 )
                 {
                     PowerLevelSecond += 1;
@@ -953,6 +948,10 @@ void Gamestate::Cleanup()
 	{
 		delete SavesScreen;
 	}
+    if (gamestate.GameOverScreen != NULL)
+    {
+        delete GameOverScreen;
+    }
 }
 
 void Game::Cleanup()

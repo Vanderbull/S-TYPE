@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 using namespace std;
 
 #pragma once
@@ -27,6 +28,7 @@ public:
     void Open(int index);
     void Update();
     void KeyMapping(SDL_Event _event);
+    void RenderText();
 
 private:
     SDL_Event Events;
@@ -34,5 +36,9 @@ private:
     SDL_Joystick *joysticks[4]; 
     SDL_Joystick *GamePad;
     std::map<string, int> ButtonMap;
+    std::string ControllerInfo;
+    std::vector<string> CtrlData;
+    int magnitude;
+    int Charging;
         
 };

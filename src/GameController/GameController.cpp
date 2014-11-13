@@ -29,10 +29,13 @@ GameController::GameController()
     ButtonMap["Home"] = -1; // Not a button
     ButtonMap["LB"] = 4;
     ButtonMap["RB"] = 5;
-    ButtonMap["LT"] = 6;
-    ButtonMap["RT"] = 7;
-    ButtonMap["Select"] = 8;
-    ButtonMap["Start"] = 9;
+    ButtonMap["Select"] = 6;
+    ButtonMap["Start"] = 7;
+
+    //ButtonMap["LT"] = 6;
+    //ButtonMap["RT"] = 7;
+    //ButtonMap["Select"] = 8;
+    //ButtonMap["Start"] = 9;
     ButtonMap["L3"] = 10;
     ButtonMap["R3"] = 11;
     ButtonMap["DPad Up"] = 12;
@@ -186,12 +189,41 @@ void GameController::Open(int index)
     }
 }
 
+void GameController::RenderText()
+{
+    int w, h;
+    if (TTF_SizeText(Gfx.DefaultFont, ControllerInfo.c_str(), &w, &h))
+    {
+        // perhaps print the current TTF_GetError(), the string can't be rendered...
+    }
+    else 
+    {
+        //SDL_Surface * SrfUpdateController;
+        //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, ControllerInfo.c_str(), Gfx.WhiteRGB);
+        //Gfx.apply_surface(Gfx.BackBuffer->w - w, 100, SrfUpdateController, Gfx.BackBuffer);
+    }
+
+    int counter = 0;
+    for (auto &Dota : CtrlData) // access by reference to avoid copying
+    {
+        int w, h;
+        if (TTF_SizeText(Gfx.DefaultFont, Dota.c_str(), &w, &h))
+        { }
+        else 
+        { }
+        SDL_Surface * SrfUpdateController;
+        SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, Dota.c_str(), Gfx.WhiteRGB);
+        Gfx.apply_surface(Gfx.BackBuffer->w - w, h*counter++, SrfUpdateController, Gfx.BackBuffer);
+    }
+    CtrlData.clear();
+}
+
 void GameController::Update()
 {
     SDL_Surface * SrfUpdateController;
     std::string SrfText;
     std::string JoystickButtonState;
-    std::string ControllerInfo;
+    
     ControllerInfo = "";
     JoystickButtonState = "";
 
@@ -200,6 +232,7 @@ void GameController::Update()
         SrfText = "";
         SrfText = SDL_JoystickName(i);
         ControllerInfo += SDL_JoystickName(i);
+        CtrlData.push_back(SDL_JoystickName(i));
         int w, h;
         if (TTF_SizeText(Gfx.DefaultFont, SrfText.c_str(), &w, &h)) {
             // perhaps print the current TTF_GetError(), the string can't be rendered...
@@ -209,16 +242,23 @@ void GameController::Update()
         }
 
         ControllerInfo += " Buttons| ";
-
+        CtrlData.push_back("-------------------------");
+        CtrlData.push_back("Buttons");
+        CtrlData.push_back("-------------------------");
         for (int button_index = 0; button_index < SDL_JoystickNumButtons(joysticks[i]); button_index++)
         {
             ControllerInfo += " | ";
             ControllerInfo += std::to_string(button_index).c_str();
             ControllerInfo += " : ";
             ControllerInfo.append(std::to_string(SDL_JoystickGetButton(joysticks[i], button_index)));
+
+            CtrlData.push_back(" | " + std::to_string(button_index) + " >>> " + std::to_string(SDL_JoystickGetButton(joysticks[i], button_index)) + " | ");
         }
 
         ControllerInfo += " Hats| ";
+        CtrlData.push_back("-------------------------");
+        CtrlData.push_back("Hats");
+        CtrlData.push_back("-------------------------");
 
         for (int hat_index = 0; hat_index < SDL_JoystickNumHats(joysticks[i]); hat_index++)
         {
@@ -226,9 +266,13 @@ void GameController::Update()
             ControllerInfo += std::to_string(hat_index).c_str();
             ControllerInfo += " : ";
             ControllerInfo.append(std::to_string(SDL_JoystickGetHat(joysticks[i], hat_index)));
+            CtrlData.push_back(" | " + std::to_string(hat_index) + " >>> " + std::to_string(SDL_JoystickGetHat(joysticks[i], hat_index)) + " | ");
         }
         
         ControllerInfo += " Axis| ";
+        CtrlData.push_back("-------------------------");
+        CtrlData.push_back("Axis");
+        CtrlData.push_back("-------------------------");
 
         for (int axes_index = 0; axes_index < SDL_JoystickNumAxes(joysticks[i]); axes_index++)
         {
@@ -236,9 +280,13 @@ void GameController::Update()
             ControllerInfo += std::to_string(axes_index).c_str();
             ControllerInfo += " : ";
             ControllerInfo.append(std::to_string(SDL_JoystickGetAxis(joysticks[i], axes_index)));
+            CtrlData.push_back(" | " + std::to_string(axes_index) + " >>> " + std::to_string(SDL_JoystickGetAxis(joysticks[i], axes_index)) + " | ");
         }
        
         ControllerInfo += " Balls| ";
+        CtrlData.push_back("-------------------------");
+        CtrlData.push_back("Balls");
+        CtrlData.push_back("-------------------------");
 
         int delta_x, delta_y;
 
@@ -248,156 +296,197 @@ void GameController::Update()
             ControllerInfo += std::to_string(balls_index).c_str();
             ControllerInfo += " : ";
             ControllerInfo.append(std::to_string(SDL_JoystickGetBall(joysticks[i], 0 , &delta_x, &delta_y)));
+            CtrlData.push_back(" | " + std::to_string(balls_index) + " >>> " + std::to_string(SDL_JoystickGetBall(joysticks[i], 0, &delta_x, &delta_y)) + " | ");
         }
     }
 
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, ControllerInfo.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 0, SrfUpdateController, Gfx.BackBuffer);
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, ControllerInfo.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 0, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Updating the GameController";
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 200, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Updating the GameController";
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 200, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Red button: ";
-    SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 230, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Red button: ";
+    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 230, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Blue button: ";
-    SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 3)).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 260, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Blue button: ";
+    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 3)).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 260, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Green button: ";
-    SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 2)).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 290, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Green button: ";
+    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 2)).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 290, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Yellow button: ";
-    SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 1)).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 310, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Yellow button: ";
+    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 1)).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 310, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Xaxis: ";
-    SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 0)).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 330, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Xaxis: ";
+    //SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 0)).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 330, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Yaxis: ";
-    SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 1)).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 350, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Yaxis: ";
+    //SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 1)).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 350, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Velocity(X): ";
-    SrfText.append(std::to_string(Spaceship.GetVelocityX()).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 370, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Velocity(X): ";
+    //SrfText.append(std::to_string(Spaceship.GetVelocityX()).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 370, SrfUpdateController, Gfx.BackBuffer);
 
-    SrfText = "Velocity(Y): ";
-    SrfText.append(std::to_string(Spaceship.GetVelocityY()).c_str());
-    SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 390, SrfUpdateController, Gfx.BackBuffer);
+    //SrfText = "Velocity(Y): ";
+    //SrfText.append(std::to_string(Spaceship.GetVelocityY()).c_str());
+    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 390, SrfUpdateController, Gfx.BackBuffer);
 
     //SDL_JoystickUpdate();
 
-    if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -32768)
+    signed int LX = SDL_JoystickGetAxis(joysticks[0], 0);
+    signed int LY = SDL_JoystickGetAxis(joysticks[0], 1);
+
+    //determine how far the controller is pushed
+    float magnitude = sqrt(LX*LX + LY*LY);
+
+    float normalizedMagnitude = 0;
+    float normalizedLX = 0;
+    float normalizedLY = 0;
+
+
+    //check if the controller is outside a circular dead zone
+    if (magnitude > GAMEPAD_LEFT_THUMB_DEADZONE)
     {
-        Spaceship.Accelerate(0.0f,-1.0f);
+        normalizedLX = LX / magnitude;
+        normalizedLY = LY / magnitude;
+        //clip the magnitude at its expected maximum value
+        if (magnitude > 32767) magnitude = 32767;
+
+        //adjust magnitude relative to the end of the dead zone
+        magnitude -= GAMEPAD_LEFT_THUMB_DEADZONE;
+        
+        //optionally normalize the magnitude with respect to its expected range
+        //giving a magnitude value of 0.0 to 1.0
+        normalizedMagnitude = magnitude / (32767 - GAMEPAD_LEFT_THUMB_DEADZONE);
+        //determine the direction the controller is pushed
     }
-    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == 32767)
+    else //if the controller is in the deadzone zero out the magnitude
     {
-        Spaceship.Accelerate(0.0f, 1.0f);
-    }
-    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 1) == -1)
-    {
-        Spaceship.Accelerate(0.0f, 0.0f);
+        magnitude = 0.0;
+        normalizedMagnitude = 0.0;
     }
 
-    if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -32768) 
+    Spaceship.Accelerate(normalizedLX, normalizedLY);
+
+    if ((Sint16)SDL_JoystickGetAxis(joysticks[0], 1) == -32768)
     {
-        Spaceship.Accelerate(-1.0f, 0.0f);
+        //Spaceship.Accelerate(0.0f,-1.0f);
     }
-    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == 32767)
+    else if ((Sint16)SDL_JoystickGetAxis(joysticks[0], 1) == 32767)
     {
-        Spaceship.Accelerate(1.0f, 0.0f);
+        //Spaceship.Accelerate(0.0f, 1.0f);
     }
-    else if ((Sint16)SDL_JoystickGetAxis(GamePad, 0) == -1)
+    else if ((Sint16)SDL_JoystickGetAxis(joysticks[0], 1) == -1)
     {
-        Spaceship.Accelerate(0.0f, 0.0f);
+        //Spaceship.Accelerate(0.0f, 0.0f);
     }
 
-    if (SDL_JoystickGetButton(GamePad, 0) == 1)
+    if ((Sint16)SDL_JoystickGetAxis(joysticks[0], 0) == -32768)
     {
-        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevelSecond > 0)
-        {
-            BulletController.Create_Bullets();
-            FIRED = 1;
-            Audio.PlaySoundEffect(4);
-            PowerLevelSecond -= 5;
-        }
+        //Spaceship.Accelerate(-1.0f, 0.0f);
     }
-    else if (SDL_JoystickGetButton(GamePad, 1) == 1)
+    else if ((Sint16)SDL_JoystickGetAxis(joysticks[0], 0) == 32767)
     {
-        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevelSecond > 0)
-        {
-            BulletController.Create_Bullets();
-            FIRED = 1;
-            Audio.PlaySoundEffect(4);
-            PowerLevelSecond -= 5;
-        }
+        //Spaceship.Accelerate(1.0f, 0.0f);
     }
-    else if (SDL_JoystickGetButton(GamePad, 2) == 1)
+    else if ((Sint16)SDL_JoystickGetAxis(joysticks[0], 0) == -1)
     {
-        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevelSecond > 0)
-        {
-            BulletController.Create_Bullets();
-            FIRED = 1;
-            Audio.PlaySoundEffect(4);
-            PowerLevelSecond -= 5;
-        }
+        //Spaceship.Accelerate(0.0f, 0.0f);
     }
-    else if (SDL_JoystickGetButton(GamePad, 3) == 1)
-    {
-        Spaceship.DecreasePowerLevel();
-        if ((gamestate.GameState.top() != MENU_MAIN_STATE) && PowerLevel > 0)
-        {
-            BulletController.Create_Bullets();
-            FIRED = 1;
-            Audio.PlaySoundEffect(4);
 
-            if (PowerLevel >= 5)
-            {
-                PowerLevel -= 5;
+    if (SDL_JoystickGetButton(joysticks[0], ButtonMap["A"]) == 1)
+    {
+        if ( (gamestate.GameState.top() == GAME_RUNNING_STATE) )
+        {
+            if (LaserRecharge <= 0)
+                LaserRecharge = 3;
+            else
+                LaserRecharge -= 0.1;
+            if (LaserRecharge <= 0){
+            BulletController.Create_Bullets();
+            FIRED = 1;
+            Audio.PlaySoundEffect(4);
             }
         }
     }
-    else if (SDL_JoystickGetButton(GamePad, 8) == 1)
+    else if (SDL_JoystickGetButton(joysticks[0], ButtonMap["B"]) == 1)
     {
-        SDL_Surface * SrfText;
-        std::string ControlText;
-        ControlText = "Select Button: ";
-        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+        if ( (gamestate.GameState.top() == GAME_RUNNING_STATE) )
+        {
+            Spaceship.DecreasePowerLevel();
+            if (PowerLevel >= 5)
+            {
+                Spaceship.Accelerate(10, normalizedLY);
+                PowerLevel -= 5;
+            }
+           // Afterburner like sound
+        }
+    }
+    else if (SDL_JoystickGetButton(joysticks[0], ButtonMap["X"]) == 1)
+    {
+        if ( (gamestate.GameState.top() == GAME_RUNNING_STATE) )
+        {
+        }
+    }
+    else if (SDL_JoystickGetButton(joysticks[0], ButtonMap["Y"]) == 1)
+    {
+        if ( (gamestate.GameState.top() == GAME_RUNNING_STATE) )
+        {
+        }
+    }
+    else if (SDL_JoystickGetButton(joysticks[0], ButtonMap["LB"]) == 1)
+    {
+        if ((gamestate.GameState.top() == GAME_RUNNING_STATE))
+        {
+        }
+    }
+    else if (SDL_JoystickGetButton(joysticks[0], ButtonMap["Select"]) == 1)
+    {
+        //SDL_Surface * SrfText;
+        //std::string ControlText;
+        //ControlText = "Select Button: ";
+        //ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
 
-        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
-        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        //SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        //Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
         gamestate.GameState.pop();
         gamestate.GameState.push(MENU_MAIN_STATE);
     }
-    else if (SDL_JoystickGetButton(GamePad, 9) == 1)
+    else if (SDL_JoystickGetButton(joysticks[0], ButtonMap["Start"]) == 1)
     {
-        SDL_Surface * SrfText;
-        std::string ControlText;
-        ControlText = "Start Button: ";
-        ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
+        //SDL_Surface * SrfText;
+        //std::string ControlText;
+        //ControlText = "Start Button: ";
+        //ControlText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
 
-        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
-        Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
+        //SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, ControlText.c_str(), Gfx.WhiteRGB);
+        //Gfx.apply_surface(0, 500, SrfText, Gfx.BackBuffer);
         gamestate.GameState.pop();
         gamestate.GameState.push(MENU_MAIN_STATE);
     }
     else
     {
         FIRED = 0;
+    }
+    if (gamestate.GameState.top() == GAME_OPTIONS_STATE)
+    {
+        RenderText();
     }
 }
 

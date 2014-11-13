@@ -56,11 +56,10 @@ void ControlAudio::SetVolume(int volume, int id)
 
 void ControlAudio::LoadAudio()
 {
-    
 	Playlist[0] = Mix_LoadMUS( "assets/sfx/sea_battles_in_space.ogg" );
 	Playlist[1] = Mix_LoadMUS( "assets/sfx/Let_the_Machines_do_the_Whistling_instrumental.ogg" );
 	Playlist[2] = Mix_LoadMUS( "assets/sfx/all_will_be_well.ogg" );
-    Playlist[3] = Mix_LoadMUS("assets/sfx/listen/04.ogg");
+    Playlist[3] = Mix_LoadMUS("assets/sfx/time.ogg");
     Playlist[4] = Mix_LoadMUS("assets/sfx/listen/04.ogg");
 
 	Sfx[0] = Mix_LoadWAV( "assets/sfx/laser_blaster.ogg" );

@@ -58,10 +58,6 @@ bool BaseSpaceShip::IsAttacking()
 
 void BaseSpaceShip::Update()
 {
-    if (GetPowerLevel() < 100)
-    {
-        IncreasePowerLevel();
-    }
 	if( yVelocity != 0 )
 	{
 		if( (BaseSpaceShip::_Position.y + yVelocity > 0) && (BaseSpaceShip::_Position.y + yVelocity < Gfx.screen->h - 64) )
