@@ -39,9 +39,9 @@ public:
 	
 	std::stack<InGameStates> GameState;
 
-	float DeltaTime;
-	float UpdateAnimationSpeed;
-	float Parallax;
+	double DeltaTime;
+	double UpdateAnimationSpeed;
+	double Parallax;
 
 	StringInput * name;
 	MainMenu * MainMenuScreen;
@@ -51,7 +51,7 @@ public:
 	Save * SavesScreen;
     GameOver * GameOverScreen;
 
-	int m_srfGameover,
+    Sint16 m_srfGameover,
         m_srfPurpleShip,
         m_srfBlueShip,
         m_srfBlueFish,
@@ -148,7 +148,6 @@ public:
 private:
 	Gamestate _State;
     double _Progress;
-
 };
 
 extern Game Engine;

@@ -239,7 +239,6 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                 } break;
 
-
 				case GAME_OPTIONS_STATE:
 				{
 					SetGameOptionButtons();
@@ -483,6 +482,7 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
+    SetGameOptionButtons();
     logger.write(__LINE__, __FILE__);
 
 	SPAWN_POSITION_X = 0;
@@ -563,7 +563,7 @@ void Gamestate::load_files()
 // ----------------------------------------------------------------------------
 // Update() - Updates the whole game depending on which state it is in
 // ----------------------------------------------------------------------------
-void Game::Update( SDL_Event input, int iElapsedTime )
+void Game::Update( SDL_Event /*input*/, int iElapsedTime )
 {
     logger.write(__LINE__, __FILE__);
 	
@@ -805,7 +805,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 // Gameover() - Draws the gameover screen
 // ----------------------------------------------------------------------------
 
-void Gamestate::Gameover(int iElapsedTime)
+void Gamestate::Gameover(int /*iElapsedTime*/)
 {
     OctoBossman.onDestruction();
     logger.write(__LINE__, __FILE__);
@@ -1036,7 +1036,7 @@ bool Game::Init(SDL_Surface * &screen)
 
 	/* Create a 32-bit surface with the bytes of each pixel in R,G,B,A order,
        as expected by OpenGL for textures */
-    Uint32 rmask, gmask, bmask, amask;
+    //Uint32 rmask, gmask, bmask, amask;
 
 	/* SDL interprets each pixel as a 32-bit number, so our masks must depend
 	   on the endianness (byte order) of the machine */
@@ -1067,7 +1067,7 @@ int Game::UpdateScore(int add_score)
 
 int Game::Progressbar(int progress, int _reset)
 {
-    double t = 0.0;
+    //double t = 0.0;
     double dt = 1.0 / 60.0;
     if ( _reset == 1 )
         _Progress = 0;

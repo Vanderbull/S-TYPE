@@ -26,7 +26,7 @@ SDL_Rect Bullet::UpdateCollisionBox(SDL_Rect Box)
 void Bullet::Update()
 {
 	SetCollisionBox(this->GetLocAndSize().x, this->GetLocAndSize().y + 30, 5, 80);
-	LocAndSize.x += 0.0010f * gamestate.DeltaTime;
+	LocAndSize.x += (Sint16)(0.0010 * gamestate.DeltaTime);
 	
 	PrevFrame = Frame++;
 	
@@ -41,7 +41,7 @@ void Bullet::Update()
 void Bullet::OctoUpdate()
 {
     SetCollisionBox(this->GetLocAndSize().x, this->GetLocAndSize().y + 30, 5, 80);
-    LocAndSize.x -= 0.0010f * gamestate.DeltaTime;
+    LocAndSize.x -= Sint16(0.0010 * gamestate.DeltaTime);
 
     PrevFrame = Frame++;
 
@@ -62,7 +62,7 @@ void Bullet::Draw()
 		Gfx.GetSurface( SurfaceID ),
 		&Clips[ PrevFrame ], 
 		Gfx.BackBuffer, 
-		&GetLocAndSize() 
+        &LocAndSize
 	);
 }
 
@@ -93,7 +93,7 @@ Bullet::Bullet()
 	Frame = 0;
 	Active = 1;
 
-	for( int i = 0; i < 16; i++ )
+    for (Sint16 i = 0; i < 16; i++)
 	{
 		Clips[ i ].x = i * LocAndSize.w;
 		Clips[ i ].y = 0;
@@ -144,7 +144,7 @@ void ControlBullets::DrawOctoBullets()
     }
 }
 
-void ControlBullets::LoadBullet( int xPos, int yPos, int surface )
+void ControlBullets::LoadBullet(Sint16 xPos, Sint16 yPos, Sint16 surface)
 {
 	Bullet tempBullet;
 
@@ -155,7 +155,7 @@ void ControlBullets::LoadBullet( int xPos, int yPos, int surface )
 	BulletArrayRef.push_back( tempBullet );
  }
 
-Bullet ControlBullets::CreateBulletByReference( int xPos, int yPos, int surface )
+Bullet ControlBullets::CreateBulletByReference(Sint16 xPos, Sint16 yPos, Sint16 surface)
 {
 	Bullet temp;
 	temp.SurfaceID = surface;
@@ -172,7 +172,11 @@ void ControlBullets::Create_Bullets()
 
 void ControlBullets::CreateOctoBullets()
 {
-    LoadBullet(rand() % 1920, rand() % 1080, gamestate.m_srfLaser);
+    Sint16 ScreenWidth;
+    Sint16 ScreenHeight;
+    ScreenWidth = rand() % 1920;
+    ScreenHeight = rand() % 1080;
+    LoadBullet(ScreenWidth, ScreenHeight, gamestate.m_srfLaser);
 }
 
 ControlBullets::ControlBullets()

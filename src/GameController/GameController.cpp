@@ -21,6 +21,7 @@ static char THIS_FILE[] = __FILE__;
 // Initializing the GameControllers variables
 GameController::GameController()
 {
+    magnitude = 0;
     cout << "Waking up the game controller for duty..." << endl;
     ButtonMap["A"] = 0;
     ButtonMap["B"] = 1;

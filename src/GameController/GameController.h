@@ -14,7 +14,7 @@ class GameController
 {
 public:
 
-    const int JOYSTICK_DEAD_ZONE = 8000;
+    //const int JOYSTICK_DEAD_ZONE = 8000;
     //Initializing variables
     GameController();
     //Cleanup the game controller
@@ -39,6 +39,4 @@ private:
     std::string ControllerInfo;
     std::vector<string> CtrlData;
     int magnitude;
-    int Charging;
-        
 };

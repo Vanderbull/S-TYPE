@@ -36,6 +36,11 @@ using namespace std;
 
 int main( int argc, char * arg[] )
 {
+    std::cout << "Have " << argc << " arguments:" << std::endl;
+    for (int i = 0; i < argc; ++i) {
+        std::cout << arg[i] << std::endl;
+    }
+
     logger.write(__LINE__,__FILE__);
     std::srand(std::time(0)); // use current time as seed for random generator
 
@@ -48,9 +53,8 @@ int main( int argc, char * arg[] )
         tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
     _CrtSetDbgFlag( tmpFlag );
 
-	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 }, second = { 0 };
+	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 };
 	SDL_Event event = {0};
-	int timeOfEvent = 0;
 
 	QueryPerformanceFrequency(&freq);
 

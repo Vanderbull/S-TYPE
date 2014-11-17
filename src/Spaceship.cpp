@@ -22,7 +22,7 @@ BaseSpaceShip::BaseSpaceShip()
 	cout << "Creating Spaceship controller..." << endl;
 }
 
-BaseSpaceShip::BaseSpaceShip(int surface, int Xpos, int Ypos, int height, int width)
+BaseSpaceShip::BaseSpaceShip(int /*surface*/, int Xpos, int Ypos, int height, int width)
 {
 	_Lives = 3;
 	BaseSpaceShip::SetAliveState(AliveState::ALIVE);
@@ -91,7 +91,7 @@ void BaseSpaceShip::SetClips()
 }
 
 
-void BaseSpaceShip::UpdatePosition(float xUnits, float yUnits)
+void BaseSpaceShip::UpdatePosition(float /*xUnits*/, float /*yUnits*/)
 {
 	if( _Position.x < 0.0f )
 	{

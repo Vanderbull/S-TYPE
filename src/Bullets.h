@@ -53,10 +53,10 @@ public:
     // OctoBullet creators
     void CreateOctoBullets();
     void DrawOctoBullets();
-	void LoadBullet( int xPos, int yPos, int iSurfaceID );
+    void LoadBullet(Sint16 xPos, Sint16 yPos, Sint16 iSurfaceID);
 	std::vector< Bullet > GetVBulletsByReference(){ return BulletArrayRef; };
 
-	Bullet CreateBulletByReference( int xPos, int yPos, int surface );
+    Bullet CreateBulletByReference(Sint16 xPos, Sint16 yPos, Sint16 surface);
 
 	std::vector< Bullet > BulletArrayRef;	
 private:

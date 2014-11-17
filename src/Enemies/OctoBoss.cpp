@@ -4,10 +4,6 @@
 #include "../Game.h"
 #include "../ControlGfx.h"
 
-#define OCTOBOSS_MAX_FRAMES 15
-#define OCTOBOSS_MAX_PROGRESS 10000
-#define OCTOBOSS_MIN_PROGRESS 9000
-
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
 #ifdef _DEBUG

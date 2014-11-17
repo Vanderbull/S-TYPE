@@ -48,7 +48,7 @@ ControlAudio::ControlAudio()
     Reset(22050);
 }
 
-void ControlAudio::SetVolume(int volume, int id)
+void ControlAudio::SetVolume(int /*volume*/, int /*id*/)
 {
     //BUG When activating this
     //Mix_VolumeChunk(Sfx[id], volume);
