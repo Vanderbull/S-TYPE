@@ -108,6 +108,7 @@ SDL_Rect PurpleShip::GetDestination()
 
 void PurpleShip::FireMissile()
 {
+return;
 static int Flyby;
 SDL_Rect Position;
 if (Flyby > 100)
@@ -151,7 +152,7 @@ void ControlPurpleShip::CreatePurpleShip(int iProgress )
 {
 	if( iProgress > PURPLESHIP_MIN_PROGRESS && iProgress < PURPLESHIP_MAX_PROGRESS )
 	{
-        if (std::rand() % 100 + 1 > 99)
+        if (std::rand() % 1000 + 1 > 999)
         {
             PurpleShipArrayRef.push_back(CreatePurpleShipByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfPurpleShip));
         }

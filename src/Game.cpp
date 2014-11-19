@@ -627,49 +627,47 @@ void Game::Update( SDL_Event /*input*/, int iElapsedTime )
                 Scroller.y = 0;
                 static int Bossy = 0;
                 static int Direction = 0;
-                if (Progressbar() > OCTOBOSS_MIN_PROGRESS)
+                OctoBossman.Spawn(Progressbar());
+                if ( OctoBossman.isActive() )
                 {
                     OctoBossman.Update();
                     OctoBossman.Draw();
                     if (OctoBossman.onCollision(Spaceship.GetCollisionBox()))
                     {
-                        OctoBossman.onDestruction();
+                        //OctoBossman.onDestruction();
                         Spaceship.Died();
                         Spaceship.Reset();
                     }
-                    //Scroller.y = Bossy;
-                    //SDL_BlitSurface(Gfx.GetSurface(gamestate.m_srfOctoBoss), 0, Gfx.BackBuffer, &Scroller);
-                    //OctoBulletController.CreateOctoBullets();
-                    //if (Direction == 0)
-                    //{
-                    //    if ( Bossy == 1000)
-                    //    Direction = 1;
-                    //    else
-                    //    Bossy += 10;
-                    //}                        
-                    //else
-                    //{
-                    //    if ( Bossy == 0)
-                    //    Direction = 0;
-                    //    else
-                    //    Bossy -= 10;
-                    //}
-                    //
-
-                   
                 }
-                if (Progressbar() < 5000)
+                if (Progressbar() < 1000)
                 {
                     Gfx.srfText = TTF_RenderText_Blended(Gfx.TitleFont, "CHAPTER 1 - Chase of the octopus", Gfx.WhiteRGB);
                     Gfx.apply_surface(Gfx.BackBuffer->w / 4, Gfx.BackBuffer->h / 2, Gfx.srfText, Gfx.BackBuffer);
                 }
+
+                Gfx.srfText = TTF_RenderText_Blended(Gfx.TitleFont, std::to_string(OctoBossman.hasHealth()).c_str(), Gfx.WhiteRGB);
+                Gfx.apply_surface(Gfx.BackBuffer->w - 100, 0, Gfx.srfText, Gfx.BackBuffer);
+
+
 				Gfx.DrawObjects();				
 				
                 // Collision controllers for objects and player spaceship
                 CollisionController.ObjectCollider(BulletController.BulletArrayRef, PurpleShipController.PurpleShipArrayRef);
                 CollisionController.ObjectCollider( BulletController.BulletArrayRef, BlueShipController.BlueShipArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, BlueFishController.BlueFishArrayRef );
+                if (OctoBossman.isActive())
+                CollisionController.ObjectCollider(BulletController.BulletArrayRef, OctoBossman);
                 
+                if ( OctoBossman.hasHealth() <= 0 )
+                {
+                    //OctoBoss died
+                    if (OctoBossman.isActive())
+                    {
+                        OctoBossman.DeActivate();
+                        gamestate.GameState.pop();
+                        gamestate.GameState.push(GAME_CREDITS_STATE);
+                    }
+                }
                 CollisionController.SpaceshipCollider(Spaceship, PurpleShipController.PurpleShipArrayRef);
                 CollisionController.SpaceshipCollider( Spaceship, BlueShipController.BlueShipArrayRef );
 				CollisionController.SpaceshipCollider( Spaceship,BlueFishController.BlueFishArrayRef );

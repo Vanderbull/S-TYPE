@@ -143,6 +143,31 @@ public:
 		}
 	};
 
+    void ObjectCollider(std::vector<Bullet> &VBullets, OctoBoss &OctoBoss)
+    {
+        for (vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end();)
+        {
+            if (!(
+                iBullet->GetCollisionBox().x > OctoBoss.LocAndSize.x + OctoBoss.LocAndSize.w ||
+                iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < OctoBoss.LocAndSize.x ||
+                iBullet->GetCollisionBox().y > OctoBoss.LocAndSize.y + OctoBoss.LocAndSize.h ||
+                iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < OctoBoss.LocAndSize.y
+                ))
+            {
+                Audio.PlaySoundEffect(5);
+                OctoBoss.isWounded(10);
+                iBullet->DeActivate();
+            }
+            else
+            {
+            }
+            if (!iBullet->isActive())
+                iBullet = VBullets.erase(iBullet);
+            else
+                ++iBullet;
+        }
+    };
+
     void SpaceshipCollider(BaseSpaceShip Spaceship, std::vector<PurpleShip> &VPurpleShip)
     {
         if (VPurpleShip.empty() || VPurpleShip.size() < 1)

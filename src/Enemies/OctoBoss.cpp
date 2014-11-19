@@ -24,9 +24,10 @@ OctoBoss::OctoBoss()
     acceleration = Vector3D(0, 0, 0);
     velocity = Vector3D(0, 0, 0);
     location = Vector3D(0, 0, 0);
+    spawn_point = Vector3D(1000, 0, 0);
 
     lifespan = 255.0f;
-    Active = 1;
+    Active = 0;
 
     LocAndSize.x = 0;
     LocAndSize.y = 0;
@@ -35,6 +36,8 @@ OctoBoss::OctoBoss()
 
     _clip_height = 300;
     _clip_width = 300;
+    _health = 100;
+
 }
 
 OctoBoss::OctoBoss(Vector3D v, std::string inSurfaceImage)
@@ -45,13 +48,12 @@ OctoBoss::OctoBoss(Vector3D v, std::string inSurfaceImage)
 
     lifespan = 255.0f;
 
-    Active = 1;
+    Active = 0;
 
     LocAndSize.x = GetX();
     LocAndSize.y = GetY();
     LocAndSize.h = _clip_height;
     LocAndSize.w = _clip_width;
-
 };
 
 OctoBoss::~OctoBoss()
@@ -110,30 +112,33 @@ bool OctoBoss::onCollision(SDL_Rect object)
 
 void OctoBoss::Update()
 {
-    checkEdges(1920, 1080);
-    velocity = velocity + acceleration;
-    location = velocity + location;
-    // add acceleration to velocity
-    // add velocity to location
-    lifespan -= 2.0f;
+    if (isActive())
+    {
+        velocity = velocity + acceleration;
+        location = velocity + location;
+        // add acceleration to velocity
+        // add velocity to location
+        lifespan -= 2.0f;
 
-    applyForce(Vector3D(1,1,0));
+        //applyForce(Vector3D(1,1,0));
+        checkEdges(1920, 1080);
 
-    xPos = OctoBossSpeed * gamestate.DeltaTime;
-    LocAndSize.x = GetX();
-    LocAndSize.y = GetY();
-    LocAndSize.h = _clip_height;
-    LocAndSize.w = _clip_width;
+        xPos = OctoBossSpeed * gamestate.DeltaTime;
+        LocAndSize.x = GetX();
+        LocAndSize.y = GetY();
+        LocAndSize.h = _clip_height;
+        LocAndSize.w = _clip_width;
 
-    CollisionBox.x = GetX();
-    CollisionBox.y = GetY();
-    CollisionBox.h = _clip_height;
-    CollisionBox.w = _clip_width;
+        CollisionBox.x = GetX();
+        CollisionBox.y = GetY();
+        CollisionBox.h = _clip_height;
+        CollisionBox.w = _clip_width;
 
-    _collisionbox.x = GetX();
-    _collisionbox.y = GetY();
-    _collisionbox.h = _clip_height;
-    _collisionbox.w = _clip_width;
+        _collisionbox.x = GetX();
+        _collisionbox.y = GetY();
+        _collisionbox.h = _clip_height;
+        _collisionbox.w = _clip_width;
+    }
 }
 
 void OctoBoss::Draw()
@@ -188,6 +193,55 @@ int OctoBoss::LoadImageAlpha(std::string filename, int r = 0, int g = 0, int b =
     return 0;
 }
 
-void OctoBoss::FireLaser()
+int OctoBoss::hasHealth()
 {
+    return _health;
 }
+
+void OctoBoss::isWounded(int idamage)
+{
+    _health -= idamage;
+}
+
+Vector3D OctoBoss::GetSpawnPoint()
+{
+    return spawn_point;
+}
+
+void OctoBoss::Spawn(){}
+
+int OctoBoss::Spawn(int checkpoint)
+{
+    if (!isActive())
+    {
+        if (checkpoint > spawn_point.x )
+        {
+            //acceleration = Vector3D(0, 0, 0);
+            velocity = Vector3D(0, 0, 0);
+            location = Vector3D(Gfx.BackBuffer->w - _Surface->w, 0, 0);
+            applyForce(Vector3D(-1, 1, 0));
+            Activate();
+            return 0;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+}
+
+void OctoBoss::onDestruction()
+{
+    location.x = 0;
+    location.y = 0;
+    location.z = 0;
+    velocity.x = 0;
+    velocity.y = 0;
+    velocity.z = 0;
+    _collisionbox.x = 0;
+    _collisionbox.y = 0;
+    _collisionbox.h = 0;
+    _collisionbox.w = 0;
+    _health = 100;
+    DeActivate();
+};
