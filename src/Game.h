@@ -69,8 +69,6 @@ public:
 		m_srfOptions,
 		m_srfLoad,
 		m_srfSave,
-		m_srfCube,
-		m_srfTriangle,
 		m_srfButtonActive;
 
     // Powerup image index
@@ -91,12 +89,12 @@ public:
 	void LoadGame(){};
 	void SaveGame(){};
 
-	void MainScreen(int iElapsedTime);
-	void CreditScreen(int iElapsedTime);
-	void OptionScreen(int iElapsedTime);
-	void LoadScreen(int iElapsedTime);
-	void SaveScreen(int iElapsedTime);
-    void Gameover(int iElapsedTime);
+	void MainScreen(double iElapsedTime);
+    void CreditScreen(double iElapsedTime);
+    void OptionScreen(double iElapsedTime);
+    void LoadScreen(double iElapsedTime);
+    void SaveScreen(double iElapsedTime);
+    void Gameover(double iElapsedTime);
 
 	void Quit(){};
 
@@ -125,7 +123,7 @@ class Game
 public:
 	Game();
 	~Game(){ std::cout << "Destroying Game::Object..." << endl; };
-	void Update( SDL_Event input, int iElapsedTime );
+	void Update( SDL_Event input, double iElapsedTime );
 	bool Init( SDL_Surface * &screen );
 	void HandleEvents( SDL_Event input );
 	void Cleanup();

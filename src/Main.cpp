@@ -6,7 +6,7 @@
 #include <map>
 #include <random>
 #include <cmath>
-
+#include <chrono>
 using namespace std;
 #include <SDL.h>
 #include <SDL_mixer.h>
@@ -34,6 +34,10 @@ using namespace std;
 #endif
 #endif
 
+//deltatime variables
+double t = 0.0;
+double dt = 1 / 60.0;
+
 int main( int argc, char * arg[] )
 {
     std::cout << "Have " << argc << " arguments:" << std::endl;
@@ -42,11 +46,12 @@ int main( int argc, char * arg[] )
     }
 
     logger.write(__LINE__,__FILE__);
+    
     std::srand(std::time(0)); // use current time as seed for random generator
 
     int random_variable = std::rand();
-    std::cout << "Random value on [0 " << RAND_MAX << "]: "
-        << random_variable << '\n';
+    std::cout    << random_variable << '\n';
+    std::cout << "Random value on [0 " << RAND_MAX << "]: ";
 
     // At the beginning of our app we need this
     int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
@@ -71,12 +76,19 @@ int main( int argc, char * arg[] )
     //Engine.GamePad->init();
     Engine.GamePad.init();
 	
+    LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds = { 0 };
+    LARGE_INTEGER Frequency = { 0 };
+
 	while( Engine.Quit == false )
 	{
-        logger.write_score(_SCORE);
+        QueryPerformanceFrequency(&Frequency);
+        QueryPerformanceCounter(&StartingTime);
+        //logger.write(__LINE__, std::to_string(dt));
+        //logger.write_score(_SCORE);
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
+        logger.write(__LINE__, "Current Delta time: " + std::to_string(gamestate.DeltaTime));
 
-        logger.write_deltatime(gamestate.DeltaTime);
+        //logger.write_deltatime(gamestate.DeltaTime);
 		
 		QueryPerformanceCounter(&start);
 
@@ -86,15 +98,30 @@ int main( int argc, char * arg[] )
         }
 
 
-		Engine.Update( event, gamestate.DeltaTime );
+        Engine.Update(event, (double)ElapsedMicroseconds.QuadPart);
         //Engine.GamePad->Update();
         //Engine.GamePad->HandleInput(event);
         Engine.GamePad.Update();
-        Engine.GamePad.HandleInput(event);
-        Audio.Render();
+        //Engine.GamePad.HandleInput(event);
+        //Audio.Render();
 		Gfx.FLIP();
 
 		QueryPerformanceCounter(&end);
+
+
+
+        QueryPerformanceCounter(&EndingTime);
+        ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
+
+        //
+        // We now have the elapsed number of ticks, along with the
+        // number of ticks-per-second. We use these values
+        // to convert to the number of elapsed microseconds.
+        // To guard against loss-of-precision, we convert
+        // to microseconds *before* dividing by ticks-per-second.
+        //
+        ElapsedMicroseconds.QuadPart *= 1000000;
+        ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
 	}
 
     gamestate.Cleanup();

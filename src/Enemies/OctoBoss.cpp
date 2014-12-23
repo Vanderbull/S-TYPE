@@ -17,7 +17,7 @@ static char THIS_FILE[] = __FILE__;
 
 OctoBoss OctoController;
 
-const float OctoBossSpeed = 0.0005f;
+const float OctoBossSpeed = 0.0001f;
 
 OctoBoss::OctoBoss()
 {
@@ -26,7 +26,7 @@ OctoBoss::OctoBoss()
     location = Vector3D(0, 0, 0);
     spawn_point = Vector3D(1000, 0, 0);
 
-    lifespan = 255.0f;
+    lifespan = 2550.0f;
     Active = 0;
 
     LocAndSize.x = 0;
@@ -36,8 +36,7 @@ OctoBoss::OctoBoss()
 
     _clip_height = 300;
     _clip_width = 300;
-    _health = 100;
-
+    _health = 1000;
 }
 
 OctoBoss::OctoBoss(Vector3D v, std::string inSurfaceImage)
@@ -46,7 +45,7 @@ OctoBoss::OctoBoss(Vector3D v, std::string inSurfaceImage)
     velocity = Vector3D(0, 0, 0);
     location = v;
 
-    lifespan = 255.0f;
+    lifespan = 2550.0f;
 
     Active = 0;
 
@@ -201,6 +200,7 @@ int OctoBoss::hasHealth()
 void OctoBoss::isWounded(int idamage)
 {
     _health -= idamage;
+    FireInk();
 }
 
 Vector3D OctoBoss::GetSpawnPoint()
@@ -219,7 +219,7 @@ int OctoBoss::Spawn(int checkpoint)
             //acceleration = Vector3D(0, 0, 0);
             velocity = Vector3D(0, 0, 0);
             location = Vector3D(Gfx.BackBuffer->w - _Surface->w, 0, 0);
-            applyForce(Vector3D(-1, 1, 0));
+            //applyForce(Vector3D(-1, 1, 0));
             Activate();
             return 0;
         }
@@ -242,6 +242,11 @@ void OctoBoss::onDestruction()
     _collisionbox.y = 0;
     _collisionbox.h = 0;
     _collisionbox.w = 0;
-    _health = 100;
+    _health = 1000;
     DeActivate();
 };
+
+void OctoBoss::FireInk()
+{
+    OctoBulletController.Create_Bullets();
+}

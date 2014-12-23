@@ -128,7 +128,6 @@
     <ClCompile Include="src\Enemies.cpp" />
     <ClCompile Include="src\Enemies\BlueFish.cpp" />
     <ClCompile Include="src\Enemies\BlueShip.cpp" />
-    <ClCompile Include="src\Enemies\Cubes.cpp" />
     <ClCompile Include="src\Enemies\OctoBoss.cpp" />
     <ClCompile Include="src\Enemies\Powerup.cpp" />
     <ClCompile Include="src\Enemies\PurpleShip.cpp" />
@@ -160,7 +159,6 @@
     <ClInclude Include="src\Enemies.h" />
     <ClInclude Include="src\Enemies\BlueFish.h" />
     <ClInclude Include="src\Enemies\BlueShip.h" />
-    <ClInclude Include="src\Enemies\Cubes.h" />
     <ClInclude Include="src\Enemies\CWave1.h" />
     <ClInclude Include="src\Enemies\MovingThings.h" />
     <ClInclude Include="src\Enemies\OctoBoss.h" />

@@ -2,7 +2,6 @@
 #include "Game.h"
 #include "Enemies\PurpleShip.h"
 #include "Enemies\BlueShip.h"
-#include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
 #include "Enemies\BlueFish.h"
 #include "Bullets.h"
@@ -104,7 +103,7 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int
 	}
 	else
 	{
-		//MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
+		MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
 	}
 
 	if(optimizedImage != NULL)

@@ -37,9 +37,6 @@
     <ClCompile Include="src\Options.cpp">
       <Filter>Screens\Options</Filter>
     </ClCompile>
-    <ClCompile Include="src\Enemies\Cubes.cpp">
-      <Filter>Enemies\Cubes</Filter>
-    </ClCompile>
     <ClCompile Include="src\Load.cpp">
       <Filter>Screens\Load</Filter>
     </ClCompile>
@@ -129,9 +126,6 @@
     </ClInclude>
     <ClInclude Include="src\Options.h">
       <Filter>Screens\Options</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enemies\Cubes.h">
-      <Filter>Enemies\Cubes</Filter>
     </ClInclude>
     <ClInclude Include="src\Load.h">
       <Filter>Screens\Load</Filter>

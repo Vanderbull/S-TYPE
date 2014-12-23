@@ -21,7 +21,7 @@
 #endif
 
 ControlBlueShip BlueShipController;
-const float BlueShipSpeed = 0.0005f;
+const double BlueShipSpeed = -5.0;
 
 BlueShip::BlueShip()
 {
@@ -117,14 +117,14 @@ SDL_Rect BlueShip::UpdateCollisionBox(SDL_Rect Box)
 
 void BlueShip::Update()
 {
-    checkEdges(1920,1080);
+    checkEdges(1920 - SpriteWidth, 1080 - SpriteHeight);
     velocity = velocity + acceleration;
     location = velocity + location;
     // add acceleration to velocity
     // add velocity to location
     lifespan -= 2.0f;
 
-	xPos = BlueShipSpeed * gamestate.DeltaTime;
+	//xPos = BlueShipSpeed * gamestate.DeltaTime;
     LocAndSize.x = GetX();//(Sint16)xPos;
     LocAndSize.y = GetY();//(Sint16)yPos;
 	LocAndSize.h = SpriteHeight;
@@ -220,7 +220,7 @@ BlueShip ControlBlueShip::CreateBlueShipByReference( Sint16 xPos, Sint16 yPos, i
 
     // Using Vector3D
     BlueShip temp2(Vector3D(xPos,yPos,0.0f));
-    temp2.applyForce(Vector3D(-1, 0, 0));
+    temp2.applyForce(Vector3D(BlueShipSpeed, 0, 0));
     temp2.SurfaceID = surface;
     temp2.LocAndSize.x = temp2.GetX();
     temp2.LocAndSize.y = temp2.GetY();

@@ -39,6 +39,7 @@ public:
     Vector3D GetSpawnPoint();
     void Spawn();
     int Spawn(int checkpoint);
+    void FireInk();
 
 private:
     SDL_Rect Clips[16];

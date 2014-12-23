@@ -7,7 +7,8 @@ flog::flog()
 
 void flog::write(int line, std::string file)
 {
-    std::ofstream log("./logs/lastrun.txt");
+    //std::ofstream log("./logs/lastrun.txt");
+    std::ofstream log("./logs/lastrun.txt", ios::out | ios::app);
     std::streambuf *save = std::cerr.rdbuf();
     // Redirect stream buffers
     if (log.is_open())

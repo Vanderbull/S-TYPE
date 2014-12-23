@@ -8,7 +8,6 @@
 #include "Bullets.h"
 #include "Enemies\PurpleShip.h"
 #include "Enemies\BlueShip.h"
-#include "Enemies\Cubes.h"
 #include "Enemies\Powerup.h"
 #include "Enemies\BlueFish.h"
 #include "Audio\Audio.h"
@@ -81,36 +80,7 @@ public:
 				++iBullet;
 		}
 	};
-	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<Cube> &VCubes )
-	{
-		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
-		{
-			for(vector< Cube >::iterator iCube = VCubes.begin(); iCube != VCubes.end(); )
-			{
-				if( !( 
-					iBullet->GetCollisionBox().x > iCube->xPos + iCube->Width || 
-					iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iCube->xPos || 
-					iBullet->GetCollisionBox().y > iCube->yPos + iCube->Height || 
-					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iCube->yPos
-					) )
-				{
- 					Audio.PlaySoundEffect( 5 );
-					iCube = VCubes.erase(iCube);
-					iBullet->DeActivate();
-					PopupScore.push_back(50);
-                    _SCORE += 100;
-				}
-				else
-				{
-					++iCube;
-				}
-			}
-			if( !iBullet->isActive() )
-				iBullet = VBullets.erase(iBullet);
-			else
-				++iBullet;
-		}
-	};
+
 	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<BlueFish> &VBlueFish )
 	{
 		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
@@ -219,27 +189,7 @@ public:
 				}
 			}
 	};
-	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<Cube> &VCubes )
-	{
-			for(vector< Cube >::iterator iCube = VCubes.begin(); iCube != VCubes.end(); )
-			{
-				if( !( 
-					Spaceship.GetCollisionBox().x > iCube->xPos + iCube->Width || 
-					Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iCube->xPos || 
-					Spaceship.GetCollisionBox().y > iCube->yPos + iCube->Height || 
-					Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iCube->yPos
-					) )
-				{
-					Audio.PlaySoundEffect( 5 );
-					iCube = VCubes.erase(iCube);
-					Spaceship.Died();
-				}
-				else
-				{
-					++iCube;
-				}
-			}
-	};
+
 	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<BlueFish> &VBlueFish )
 	{
 			for(vector< BlueFish >::iterator iBlueFish = VBlueFish.begin(); iBlueFish != VBlueFish.end(); )

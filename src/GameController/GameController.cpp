@@ -74,7 +74,7 @@ void GameController::init()
 // Cleanup the game controller
 GameController::~GameController()
 {
-    cout << "GameController is Killed by a Headhunter..." << endl;
+    logger.write(__LINE__,"GameController is Killed by a Headhunter...");
 }
 
 // Handles input
@@ -186,7 +186,7 @@ void GameController::Open(int index)
     }
     else
     {
-        cout << "Something went wrong opening the joystick" << endl;
+        logger.write(__LINE__,"Something went wrong opening the joystick");
     }
 }
 
@@ -227,7 +227,7 @@ void GameController::Update()
     
     ControllerInfo = "";
     JoystickButtonState = "";
-
+    /*
     for (int i = 0; i < SDL_NumJoysticks(); i++)
     {
         SrfText = "";
@@ -300,56 +300,7 @@ void GameController::Update()
             CtrlData.push_back(" | " + std::to_string(balls_index) + " >>> " + std::to_string(SDL_JoystickGetBall(joysticks[i], 0, &delta_x, &delta_y)) + " | ");
         }
     }
-
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, ControllerInfo.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 0, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Updating the GameController";
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 200, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Red button: ";
-    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 0)).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 230, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Blue button: ";
-    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 3)).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 260, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Green button: ";
-    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 2)).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 290, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Yellow button: ";
-    //SrfText.append(std::to_string(SDL_JoystickGetButton(GamePad, 1)).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 310, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Xaxis: ";
-    //SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 0)).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 330, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Yaxis: ";
-    //SrfText.append(std::to_string(SDL_JoystickGetAxis(GamePad, 1)).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 350, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Velocity(X): ";
-    //SrfText.append(std::to_string(Spaceship.GetVelocityX()).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 370, SrfUpdateController, Gfx.BackBuffer);
-
-    //SrfText = "Velocity(Y): ";
-    //SrfText.append(std::to_string(Spaceship.GetVelocityY()).c_str());
-    //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, SrfText.c_str(), Gfx.WhiteRGB);
-    //Gfx.apply_surface(0, 390, SrfUpdateController, Gfx.BackBuffer);
-
-    //SDL_JoystickUpdate();
-
+    */
     signed int LX = SDL_JoystickGetAxis(joysticks[0], 0);
     signed int LY = SDL_JoystickGetAxis(joysticks[0], 1);
 

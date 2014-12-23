@@ -27,7 +27,6 @@ using namespace std;
 #include "Enemies.h"
 #include "Enemies\PurpleShip.h"
 #include "Enemies\BlueShip.h"
-#include "Enemies\Cubes.h"
 #include "Enemies\BlueFish.h"
 #include "Bullets.h"
 #include "MainMenu.h"
@@ -540,7 +539,7 @@ void Gamestate::load_files()
 
     // Powerups
     m_srfRedPowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfRedPowerup.png", 0, 0, 0);
-    m_srfGreenPowerup = Gfx.Load_imageAlpha("assets/gfx/pPowerups/srfGreenPowerup.png", 0, 0, 0);
+    m_srfGreenPowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfGreenPowerup.png", 0, 0, 0);
     m_srfBluePowerup = Gfx.Load_imageAlpha("assets/gfx/powerups/srfBluePowerup.png", 0, 0, 0);
     // Enemies
     m_srfPurpleShip = Gfx.Load_imageAlpha("assets/gfx/enemies/srfPurpleShip_128x128.png", 0, 0, 0);
@@ -563,7 +562,7 @@ void Gamestate::load_files()
 // ----------------------------------------------------------------------------
 // Update() - Updates the whole game depending on which state it is in
 // ----------------------------------------------------------------------------
-void Game::Update( SDL_Event /*input*/, int iElapsedTime )
+void Game::Update( SDL_Event /*input*/, double iElapsedTime )
 {
     logger.write(__LINE__, __FILE__);
 	
@@ -639,6 +638,10 @@ void Game::Update( SDL_Event /*input*/, int iElapsedTime )
                         Spaceship.Reset();
                     }
                 }
+
+                Gfx.srfText = TTF_RenderText_Blended(Gfx.TitleFont, std::to_string(BlueShipController.BlueShipArrayRef.size()).c_str(), Gfx.WhiteRGB);
+                Gfx.apply_surface(Gfx.BackBuffer->w - 50, 100, Gfx.srfText, Gfx.BackBuffer);
+
                 if (Progressbar() < 1000)
                 {
                     Gfx.srfText = TTF_RenderText_Blended(Gfx.TitleFont, "CHAPTER 1 - Chase of the octopus", Gfx.WhiteRGB);
@@ -718,7 +721,7 @@ void Game::Update( SDL_Event /*input*/, int iElapsedTime )
 // ----------------------------------------------------------------------------
 // MainScreen() - Draws the mainscreen, checks conditions. MenuScreen
 // ----------------------------------------------------------------------------
-void Gamestate::MainScreen(int iElapsedTime)
+void Gamestate::MainScreen(double iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
@@ -726,7 +729,8 @@ void Gamestate::MainScreen(int iElapsedTime)
 	SDL_BlitSurface( &Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfMainMenu_1920x1080.png"], 0, Gfx.BackBuffer, 0 );
 
 	stringstream ss;
-	ss << (float)iElapsedTime / 1000000;
+	//ss << (float)iElapsedTime / 1000000;
+    ss << iElapsedTime;
 	string str = "MainScreen @ ";
 	str.append(ss.str());
 	
@@ -736,7 +740,7 @@ void Gamestate::MainScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 // LoadScreen() - Draws the credit screen
 // ----------------------------------------------------------------------------
-void Gamestate::LoadScreen(int iElapsedTime)
+void Gamestate::LoadScreen(double iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
@@ -752,7 +756,8 @@ void Gamestate::LoadScreen(int iElapsedTime)
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &LoadsScreen->ButtonClips[7]);
 
 	stringstream ss;
-	ss << (float)iElapsedTime / 1000000;
+	//ss << (float)iElapsedTime / 1000000;
+    ss << iElapsedTime;
 	string str = "LoadScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
@@ -769,7 +774,7 @@ void Gamestate::LoadScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 // SaveScreen() - Draws the save screen
 // ----------------------------------------------------------------------------
-void Gamestate::SaveScreen(int iElapsedTime)
+void Gamestate::SaveScreen(double iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
@@ -785,7 +790,8 @@ void Gamestate::SaveScreen(int iElapsedTime)
     SDL_BlitSurface(Gfx.GetSurface(m_srfButtonActive), &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &SavesScreen->ButtonClips[7]);
 
 	stringstream ss;
-	ss << (float)iElapsedTime / 1000000;
+	//ss << (float)iElapsedTime / 1000000;
+    ss << iElapsedTime;
 	string str = "SaveScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
@@ -803,7 +809,7 @@ void Gamestate::SaveScreen(int iElapsedTime)
 // Gameover() - Draws the gameover screen
 // ----------------------------------------------------------------------------
 
-void Gamestate::Gameover(int /*iElapsedTime*/)
+void Gamestate::Gameover(double /*iElapsedTime*/)
 {
     OctoBossman.onDestruction();
     logger.write(__LINE__, __FILE__);
@@ -824,14 +830,15 @@ void Gamestate::Gameover(int /*iElapsedTime*/)
 // ----------------------------------------------------------------------------
 // CreditScreen() - Draws the credit screen
 // ----------------------------------------------------------------------------
-void Gamestate::CreditScreen(int iElapsedTime)
+void Gamestate::CreditScreen(double iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfCredits_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 	
 	stringstream ss;
-	ss << (float)iElapsedTime / 1000000;
+	//ss << (float)iElapsedTime / 1000000;
+    ss << iElapsedTime;
 	string str = "CreditsScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;
@@ -842,7 +849,7 @@ void Gamestate::CreditScreen(int iElapsedTime)
 // ----------------------------------------------------------------------------
 // OptionScreen() - Draws the option screen
 // ----------------------------------------------------------------------------
-void Gamestate::OptionScreen(int iElapsedTime)
+void Gamestate::OptionScreen(double iElapsedTime)
 {
     logger.write(__LINE__, __FILE__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
@@ -886,7 +893,8 @@ void Gamestate::OptionScreen(int iElapsedTime)
 	SDL_BlitSurface( Gfx.GetSurface( m_srfButtonActive ),  &SDL_GetVideoSurface()->clip_rect, Gfx.BackBuffer, &ButtonClips[ 7 ]);
 
 	stringstream ss;
-	ss << (float)iElapsedTime / 1000000;
+	//ss << (float)iElapsedTime / 1000000;
+    ss << iElapsedTime;
 	string str = "OptionsScreen @";
 	str.append(ss.str());
 	SDL_Surface * srfElapsedTime;

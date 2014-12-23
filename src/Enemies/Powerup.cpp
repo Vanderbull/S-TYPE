@@ -54,7 +54,7 @@ SDL_Rect Powerup::UpdateCollisionBox(SDL_Rect Box)
 
 void Powerup::Update()
 {
-    Timer--;
+    Timer = Timer - gamestate.DeltaTime;
     xPos = 0.0001f * gamestate.DeltaTime;
     LocAndSize.x -= (Sint16)xPos;
     LocAndSize.h = SpriteHeight;
@@ -76,7 +76,7 @@ void Powerup::Draw()
 {
 	SDL_BlitSurface( 
 		Gfx.GetSurface( SurfaceID ),
-		&Clips[ PrevFrame ], 
+		&Clips[ 0 ], 
 		Gfx.BackBuffer, 
 		&GetDestination() 
 	);
@@ -104,8 +104,6 @@ void ControlPowerup::DrawPowerup()
 			i = PowerupArrayRef.erase(i);
 		}
 		else
-
-
 		{
 			++i;
 		}
