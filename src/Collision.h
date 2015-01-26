@@ -66,8 +66,13 @@ public:
 					Audio.PlaySoundEffect( 5 );
 					iBlueShip = VBlueShip.erase(iBlueShip);
 					iBullet->DeActivate();
-					PopupScore.push_back(50);
+					//PopupScore.push_back(50);
 					_SCORE += 100;
+                    //SDL_Rect tmp;
+                    //tmp = iBlueShip->CollisionBox;
+                    //explosion_trigger.insert(std::pair<std::string, SDL_Rect>("Blueship", tmp));
+                    //animation_event_trigger.push_back("explosion");
+                    
 				}
 				else
 				{
@@ -126,6 +131,32 @@ public:
             {
                 Audio.PlaySoundEffect(5);
                 OctoBoss.isWounded(10);
+                iBullet->DeActivate();
+            }
+            else
+            {
+            }
+            if (!iBullet->isActive())
+                iBullet = VBullets.erase(iBullet);
+            else
+                ++iBullet;
+        }
+    };
+
+    void ObjectCollider(std::vector<Bullet> &VBullets, BaseSpaceShip Spaceship)
+    {
+        for (vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end();)
+        {
+            if (!(
+                iBullet->GetCollisionBox().x > Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w ||
+                iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < Spaceship.GetCollisionBox().x ||
+                iBullet->GetCollisionBox().y > Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h ||
+                iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < Spaceship.GetCollisionBox().y
+                ))
+            {
+                Audio.PlaySoundEffect(5);
+                Spaceship.Died();
+                Spaceship.Reset();
                 iBullet->DeActivate();
             }
             else

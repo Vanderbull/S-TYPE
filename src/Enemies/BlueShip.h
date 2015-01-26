@@ -70,6 +70,7 @@ public:
 	void onDestruction(){ };
 	void Spawn(){ };
 
+    std::vector<SDL_Rect> bullet_object;
 private:
 	SDL_Rect Clips[ 16 ];
 	int PrevFrame;
@@ -79,6 +80,7 @@ private:
     Vector3D location;
 
     float lifespan;
+
 };
 
 class ControlBlueShip

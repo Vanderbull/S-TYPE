@@ -143,6 +143,7 @@ ControlBlueFish::ControlBlueFish()
 
 ControlBlueFish::~ControlBlueFish()
 {
+    //animation_event_trigger.push_back("explosion");
 }
 
 BlueFish ControlBlueFish::CreateBlueFishByReference(Sint16 xPos, Sint16 yPos, int surface)

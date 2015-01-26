@@ -24,7 +24,7 @@ OctoBoss::OctoBoss()
     acceleration = Vector3D(0, 0, 0);
     velocity = Vector3D(0, 0, 0);
     location = Vector3D(0, 0, 0);
-    spawn_point = Vector3D(1000, 0, 0);
+    spawn_point = Vector3D(13000, 0, 0);
 
     lifespan = 2550.0f;
     Active = 0;
@@ -153,6 +153,23 @@ void OctoBoss::Draw()
         Gfx.BackBuffer,
         &m_location
         );
+
+    if (action_event.size() > 0)
+    {
+    for (int i = 0; i < 15; i++)
+    {
+        for (int i = 0; i < 15; i++)
+        {
+        SDL_BlitSurface(
+            Gfx.GetSurface(gamestate.m_srfExplosion[i]),
+            0,
+            Gfx.BackBuffer,
+            &_collisionbox
+            );
+            }
+    }
+    action_event.pop_back();
+    }
     // Debug drawing of the collisionbox
     //SDL_FillRect(Gfx.BackBuffer, &_collisionbox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
 }
@@ -199,6 +216,24 @@ int OctoBoss::hasHealth()
 
 void OctoBoss::isWounded(int idamage)
 {
+    action_event.push_back("explosion");
+
+    static int frame_explosion;
+
+    //if (frame_explosion > 15)
+    //    frame_explosion = 0;
+
+    //for (int i = 0; i < 15; i++)
+    //{
+    //SDL_BlitSurface(
+    //    Gfx.GetSurface(gamestate.m_srfExplosion[i]),
+    //    0,
+    //    Gfx.BackBuffer,
+    //    &_collisionbox
+    //    );
+    //}
+    //frame_explosion++;
+
     _health -= idamage;
     FireInk();
 }
@@ -248,5 +283,5 @@ void OctoBoss::onDestruction()
 
 void OctoBoss::FireInk()
 {
-    OctoBulletController.Create_Bullets();
+    OctoBulletController.CreateOctoBullets();
 }

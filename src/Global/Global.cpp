@@ -13,7 +13,7 @@
 
 flog logger;
 // Paths for files
-   const std::string path_assets = "assets/cfg/";
+const std::string path_assets = "assets/cfg/";
 
 //Screen resolution
 SDL_Rect ScreenSize = { 0, 0, 1920, 1080 };
@@ -35,6 +35,9 @@ int LevelProgress = 0;
 Sint16 SpriteWidth = 64;
 Uint16 SpriteHeight = 64;
 std::vector< int > PopupScore;
+std::vector< std::string > animation_event_trigger;
+std::map<std::string,SDL_Rect> explosion_trigger;
+std::vector<SDL_Rect> starbackground_trigger;
 
 float MAX_VELOCITY = 5.0f;
 float MIN_VELOCITY = -5.0f;
@@ -43,6 +46,34 @@ float NO_VELOCITY = 0.0f;
 int PowerLevel = 100;
 int PowerLevelSecond = 5;
 int LaserRecharge = 1;
+
+void setup_starbackground()
+{
+    SDL_Rect tmp;
+
+    for (int i = 0; i < 1000; i++)
+    {
+        tmp.h = rand() %5;
+        tmp.w = tmp.h;
+        tmp.x = rand() % 1920;
+        tmp.y = rand() % 1080;
+        starbackground_trigger.push_back(tmp);
+    };
+
+
+    // constructors used in the same order as described above:
+    std::vector<int> first;                                // empty vector of ints
+    std::vector<int> second(4, 100);                       // four ints with value 100
+    std::vector<int> third(second.begin(), second.end());  // iterating through second
+    std::vector<int> fourth(third);                       // a copy of third
+
+    // the iterator constructor can also be used to construct from arrays:
+    int myints[] = { 16, 2, 77, 29 };
+    std::vector<int> fifth(myints, myints + sizeof(myints) / sizeof(int));
+
+    for (std::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+        std::cout << ' ' << *it;
+}
 
 void SetGameOptionButtons()
 {

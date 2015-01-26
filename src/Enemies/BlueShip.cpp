@@ -25,6 +25,8 @@ const double BlueShipSpeed = -5.0;
 
 BlueShip::BlueShip()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     acceleration = Vector3D(0, 0, 0);
     velocity = Vector3D(0, 0, 0);
     location = Vector3D(0, 0, 0);
@@ -51,10 +53,22 @@ BlueShip::BlueShip()
 		Clips[ i ].h = SpriteHeight;
 		Clips[ i ].w = SpriteWidth;
 	}
+    SDL_Rect tmp;
+
+    for (int i = 0; i < 250; i++)
+    {
+        tmp.h = rand() % 5;
+        tmp.w = tmp.h;
+        tmp.x = location.x - rand() % 100;
+        tmp.y = location.y;
+        bullet_object.push_back(tmp);
+    };
 }
 
 BlueShip::BlueShip(Vector3D v)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     acceleration = Vector3D(0, 0, 0);
     velocity = Vector3D(0, 0, 0);
     location = v;
@@ -82,10 +96,23 @@ BlueShip::BlueShip(Vector3D v)
         Clips[i].h = SpriteHeight;
         Clips[i].w = SpriteWidth;
     }
+
+    SDL_Rect tmp;
+
+    for (int i = 0; i < 250; i++)
+    {
+        tmp.h = rand() % 5;
+        tmp.w = tmp.h;
+        tmp.x = location.x - rand() % 100;
+        tmp.y = location.y;
+        bullet_object.push_back(tmp);
+    };
 };
 
 int BlueShip::isColliding(SDL_Rect Box)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     SDL_Rect CollisionBox;
     CollisionBox = Box;
 	int PlayerRight = Spaceship.GetPosition().x + Spaceship.GetPosition().w;
@@ -108,6 +135,8 @@ int BlueShip::isColliding(SDL_Rect Box)
 
 SDL_Rect BlueShip::UpdateCollisionBox(SDL_Rect Box)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     SDL_Rect CollisionBox;
     CollisionBox = Box;
 
@@ -117,7 +146,13 @@ SDL_Rect BlueShip::UpdateCollisionBox(SDL_Rect Box)
 
 void BlueShip::Update()
 {
-    checkEdges(1920 - SpriteWidth, 1080 - SpriteHeight);
+    logger.write(__LINE__, __FUNCTION__);
+
+    SDL_Rect tmp;
+    bullet_object.clear();
+
+
+    //checkEdges(1920 - SpriteWidth, 1080 - SpriteHeight);
     velocity = velocity + acceleration;
     location = velocity + location;
     // add acceleration to velocity
@@ -135,6 +170,15 @@ void BlueShip::Update()
     CollisionBox.h = 16;
     CollisionBox.w = 16;
 
+    for (int i = 0; i < 1000; i++)
+    {
+        tmp.h = rand() % 5;
+        tmp.w = tmp.h;
+        tmp.x = GetX() - rand() % 100;
+        tmp.y = GetY() - rand() % 100;
+        bullet_object.push_back(tmp);
+    };
+
 	PrevFrame = Frame++;
 	if( Frame >= BLUESHIP_MAX_FRAMES )
 	{
@@ -145,22 +189,54 @@ void BlueShip::Update()
 
 void BlueShip::Draw()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	SDL_BlitSurface( 
 		Gfx.GetSurface( SurfaceID ),
-		&Clips[ 0 ], //PrevFrame replaced with 0 as there is no animation
+        &Clips[0], //PrevFrame replaced with 0 as there is no animation
 		Gfx.BackBuffer, 
 		&GetDestination() 
 	);
+
+    //for (map<std::string, SDL_Rect>::iterator ii = explosion_trigger.begin(); ii != explosion_trigger.end(); ++ii)
+    //    	   {
+    //               SDL_BlitSurface(
+    //                   Gfx.GetSurface(gamestate.m_srfExplosion[0]),
+    //                   0,
+    //                   Gfx.BackBuffer,
+    //                   &(*ii).second
+    //                   );
+    //    	   }
+
+    //if (animation_event_trigger.size() > 0)
+    //{
+    //    for (int i = 0; i < 15; i++)
+    //    {
+    //           SDL_BlitSurface(
+    //                Gfx.GetSurface(gamestate.m_srfExplosion[i]),
+    //                0,
+    //                Gfx.BackBuffer,
+    //                &GetDestination()
+    //                );
+    //           Gfx.FLIP();
+    //    };
+    //    animation_event_trigger.pop_back();
+    //}
+
     SDL_FillRect(Gfx.BackBuffer, &CollisionBox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
 }
 
 SDL_Rect BlueShip::GetDestination()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	return LocAndSize;
 }
 
 void ControlBlueShip::DrawBlueShip()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	std::vector< BlueShip >::iterator i;
 
 	i = BlueShipArrayRef.begin();
@@ -184,6 +260,8 @@ void ControlBlueShip::DrawBlueShip()
 
 void ControlBlueShip::CreateBlueShip(int iProgress )
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	if( iProgress > BLUESHIP_MIN_PROGRESS && iProgress < BLUESHIP_MAX_PROGRESS )
 	{
         if (std::rand() % 100 + 1 > 99)
@@ -195,14 +273,18 @@ void ControlBlueShip::CreateBlueShip(int iProgress )
 
 ControlBlueShip::ControlBlueShip()
 {
+    logger.write(__LINE__, __FUNCTION__);
 }
 
 ControlBlueShip::~ControlBlueShip()
 {
+    logger.write(__LINE__, __FUNCTION__);
 }
 
 BlueShip ControlBlueShip::CreateBlueShipByReference( Sint16 xPos, Sint16 yPos, int surface )
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	static int old_y_pos = 0;
 	
 	while( yPos > old_y_pos && yPos < old_y_pos + 128 )

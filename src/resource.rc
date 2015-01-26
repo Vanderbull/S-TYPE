@@ -2,10 +2,11 @@
 #include "resource.h"
 #include "version.h"
 
-IDI_S-TYPE ICON    "res/app.ico"
-IDI_BIG_ICON ICON "res/big.ico"
-IDI_SMALL       ICON    "res/small.ico"
-icon ICON DISCARDABLE "res/big.ico"
+MAINICON ICON "res/power.ico"
+IDI_S-TYPE ICON    "res/power.ico"
+IDI_BIG_ICON ICON "res/power.ico"
+IDI_SMALL       ICON    "res/power.ico"
+icon ICON DISCARDABLE "res/power.ico"
 
 
 VS_VERSION_INFO VERSIONINFO

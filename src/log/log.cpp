@@ -2,20 +2,37 @@
 
 flog::flog()
 {
+    // clearing the log file from data before logging
+    std::ofstream log("./logs/debug_runtime_log.txt", ios::out | ios::trunc);
 
-}
-
-void flog::write(int line, std::string file)
-{
-    //std::ofstream log("./logs/lastrun.txt");
-    std::ofstream log("./logs/lastrun.txt", ios::out | ios::app);
     std::streambuf *save = std::cerr.rdbuf();
     // Redirect stream buffers
     if (log.is_open())
         std::cerr.rdbuf(log.rdbuf());
 
-    std::cerr << __LINE__ << " " << __FILE__ << endl;
-    std::cerr << line << " " << file.c_str() << endl;
+    if (log.is_open())
+    {
+        std::cerr << "----------------------------------" << endl;
+        std::cerr << "|  Version 1.0                   |" << endl;
+        std::cerr << "|  Type: Debug log               |" << endl;
+        std::cerr << "----------------------------------" << endl;
+        // Restore cerr's stream buffer before terminating
+        if (log.is_open())
+            std::cerr.rdbuf(save);
+        log.close();
+    }
+}
+
+void flog::write(int line, std::string file)
+{
+    std::ofstream log("./logs/debug_runtime_log.txt", ios::out | ios::app);
+    std::streambuf *save = std::cerr.rdbuf();
+    // Redirect stream buffers
+    if (log.is_open())
+        std::cerr.rdbuf(log.rdbuf());
+
+    //std::cerr << currentDateTime() << " | " << __LINE__ << " | " << __FILE__ << endl;
+    std::cerr << currentDateTime() << " , " << line << " " << file.c_str() << endl;
 
     // Restore cerr's stream buffer before terminating
     if (log.is_open())

@@ -22,6 +22,8 @@ ControlGfx Gfx;
 
 ControlGfx::ControlGfx()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     Particle p(Vector3D(1920 / 2, 1080 / 2, 0.0f));
 
 	if (TTF_Init() == -1) 
@@ -75,6 +77,8 @@ ControlGfx::ControlGfx()
 // loads image with chosen value to not show
 int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int b = 0 )
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	//temp storage for the image loaded
 	SDL_Surface * loadedimage = NULL;
 
@@ -119,6 +123,8 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int
 // ----------------------------------------------------------------------------
 int ControlGfx::findAvailableIndex()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	for( int i = 0; i < MAX_SURFACES; i++ )
 	{
 		if( !m_surfaceList[i] )
@@ -133,11 +139,15 @@ int ControlGfx::findAvailableIndex()
 
 SDL_Surface* ControlGfx::GetSurface(int index)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	return m_surfaceList[index];
 }
 
 void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	SDL_LockSurface( Gfx.screen );
 	SDL_LockSurface( Gfx.BackBuffer );
 
@@ -177,6 +187,8 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 // ----------------------------------------------------------------------------
 bool ControlGfx::FLIP()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	SDL_Rect srcRect = { 0, 0, (Uint16)Gfx.BackBuffer->w, (Uint16)Gfx.BackBuffer->h };
 	SDL_Rect destRect = { 0, 0, (Uint16)SDL_GetVideoSurface()->w, (Uint16)SDL_GetVideoSurface()->h };
 					
@@ -194,6 +206,8 @@ bool ControlGfx::FLIP()
 
 void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     SDL_Rect offset;
     
     offset.x = x;
@@ -208,6 +222,8 @@ void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Sur
 // Draws the spaceship
 void ControlGfx::DrawSprite()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     Spaceship.Update();
     Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y, 64, 64);
 
@@ -221,6 +237,8 @@ void ControlGfx::DrawSprite()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawObjects()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     PurpleShipController.DrawPurpleShip();
     BlueShipController.DrawBlueShip();
 	BlueFishController.DrawBlueFish();
@@ -236,11 +254,15 @@ void ControlGfx::DrawObjects()
 // ----------------------------------------------------------------------------
 void ControlGfx::DrawBackgroundBlack()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
  	SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0,0,0,0));
 }
 
 void ControlGfx::DrawScore(unsigned int /*xCoord*/,unsigned int /*yCoord*/,int /*iScore*/)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
    /* p.checkEdges(1520,880);
     p.Update();
     p.applyForce(Vector3D(2 * (double)rand() / (double)RAND_MAX - 1, 2 * (double)rand() / (double)RAND_MAX - 1, 0));
@@ -275,11 +297,15 @@ void ControlGfx::DrawScore(unsigned int /*xCoord*/,unsigned int /*yCoord*/,int /
 
 void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )
 {
+    logger.write(__LINE__, __FUNCTION__);
+
 	SDL_SetAlpha( Gfx.GetSurface( _SurfaceIndex ), SDL_SRCALPHA | SDL_RLEACCEL, (Uint8)_Opacity );
 }
 
 void ControlGfx::RenderText(std::string _Text, int _x , int _y )
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     int w = 0;
     int h = 0;
 
@@ -298,6 +324,8 @@ void ControlGfx::RenderText(std::string _Text, int _x , int _y )
 
 void ControlGfx::RenderPowerupText(std::string _Text, int _x, int _y)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     int w = 0;
     int h = 0;
 

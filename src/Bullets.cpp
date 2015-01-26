@@ -133,7 +133,7 @@ void ControlBullets::DrawOctoBullets()
     {
         BulletCounter->OctoUpdate();
         BulletCounter->Draw();
-        if (BulletCounter->LocAndSize.x >= Gfx.screen->w - BulletCounter->LocAndSize.w)
+        if (BulletCounter->LocAndSize.x <= 0)
         {
             BulletCounter = BulletArrayRef.erase(BulletCounter);
         }
@@ -176,7 +176,7 @@ void ControlBullets::CreateOctoBullets()
     Sint16 ScreenHeight;
     ScreenWidth = rand() % 1920;
     ScreenHeight = rand() % 1080;
-    LoadBullet(ScreenWidth, ScreenHeight, gamestate.m_srfLaser);
+    LoadBullet(ScreenWidth, ScreenHeight, gamestate.m_srfInk);
 }
 
 ControlBullets::ControlBullets()

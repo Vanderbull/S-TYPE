@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cmath>
 #include <vector>
+#include <map>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -43,6 +44,7 @@ extern int PowerLevel;
 extern int PowerLevelSecond;
 extern int LaserRecharge;
 
+void setup_starbackground();
 void SetGameOptionButtons();
 void objRectangle(SDL_Rect &Rect, int XPos, int YPos, int Width, int Height);
 int MouseInBox(SDL_Rect &Rect);
@@ -95,6 +97,11 @@ const int GROUND_X = 400;
 const int STARTSCROLLING = 400;
 const int BOSS_ATTACK_START = 150;
 extern std::vector< int > PopupScore;
+extern std::vector< std::string > animation_event_trigger;
+extern std::map<std::string,SDL_Rect> explosion_trigger;
+extern std::vector<SDL_Rect> starbackground_trigger;
+
+const string PROJECT_ROOT_FOLDER = "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\";
 
 // Helper functions
 
@@ -102,5 +109,6 @@ double CalcAverageTick(int newtick);
 
 //extern SDL_Joystick *GamePad;
 extern OctoBoss OctoBossman;
+
 
 #endif

@@ -40,42 +40,71 @@ double dt = 1 / 60.0;
 
 int main( int argc, char * arg[] )
 {
-    std::cout << "Have " << argc << " arguments:" << std::endl;
-    for (int i = 0; i < argc; ++i) {
-        std::cout << arg[i] << std::endl;
+    // At the beginning of our application we need this
+    int tmpFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+    tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
+    _CrtSetDbgFlag(tmpFlag);
+
+    LARGE_INTEGER start = { 0 }, end = { 0 }, freq = { 0 };
+    SDL_Event event = { 0 };
+
+    std::srand(std::time(0)); // use current time as seed for random generator
+    QueryPerformanceFrequency(&freq);
+
+    OSVERSIONINFO osvi;
+    BOOL bIsWindowsXPorLater;
+
+    ZeroMemory(&osvi, sizeof(OSVERSIONINFO));
+    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+
+    GetVersionEx(&osvi);
+
+    bIsWindowsXPorLater =
+        ((osvi.dwMajorVersion > 5) ||
+        ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion >= 1)));
+
+    if (bIsWindowsXPorLater)
+    {   
+        logger.write(__LINE__, "The system meets the requirements.");
+    }
+    else
+    {
+        logger.write(__LINE__, "The system does not meets the requirements.");
     }
 
-    logger.write(__LINE__,__FILE__);
+    std::cout << "Have " << argc << " arguments:" << std::endl;
+    for (int i = 0; i < argc; ++i) 
+    {
+        std::cout << arg[i] << std::endl;
+    }
     
-    std::srand(std::time(0)); // use current time as seed for random generator
-
-    int random_variable = std::rand();
-    std::cout    << random_variable << '\n';
-    std::cout << "Random value on [0 " << RAND_MAX << "]: ";
-
-    // At the beginning of our app we need this
-    int tmpFlag = _CrtSetDbgFlag( _CRTDBG_REPORT_FLAG );
-        tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
-    _CrtSetDbgFlag( tmpFlag );
-
-	LARGE_INTEGER start  = { 0 }, end  = { 0 }, freq  = { 0 };
-	SDL_Event event = {0};
-
-	QueryPerformanceFrequency(&freq);
+    //int random_variable = std::rand();
+    //std::cout    << random_variable << '\n';
+    //std::cout << "Random value on [0 " << RAND_MAX << "]: ";
 
 	_putenv("SDL_VIDEO_WINDOW_POS=center");
 	_putenv("SDL_VIDEO_CENTERED=1");
-	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0000-0200.exe","", "", SW_SHOW );
-	//Sleep(10000);
-	//ShellExecute(NULL, "open", "C:\\Users\\risk\\Documents\\GitHub\\S-TYPE\\0001-0130.exe","", "", SW_SHOW );
-	//Sleep(8000);
 
-	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/app.ico");
+    // Playing Bink videos intro
+    std::string video_path;
+    video_path = PROJECT_ROOT_FOLDER;
+    video_path.append("assets\\video\\0000-0200.exe");
+	ShellExecute(NULL, "open", video_path.c_str(),"", "", SW_HIDE );
+    video_path = PROJECT_ROOT_FOLDER;
+    video_path.append("assets\\video\\0001-0130.exe");
+    ShellExecute(NULL, "open", video_path.c_str(), "", "", SW_HIDE);
+
+    logger.write(__LINE__, "Intro video playback finished...");
+
+
+	SDL_WM_SetCaption("S-TYPE DEBUG", "src/res/power.ico");
 
     //cout << Engine.GamePad->CountDevices() << endl;
     //Engine.GamePad->init();
     Engine.GamePad.init();
-	
+
+    logger.write(__LINE__, "Engine GamePad initialized...");
+    
     LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds = { 0 };
     LARGE_INTEGER Frequency = { 0 };
 
@@ -83,12 +112,9 @@ int main( int argc, char * arg[] )
 	{
         QueryPerformanceFrequency(&Frequency);
         QueryPerformanceCounter(&StartingTime);
-        //logger.write(__LINE__, std::to_string(dt));
-        //logger.write_score(_SCORE);
-		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
-        logger.write(__LINE__, "Current Delta time: " + std::to_string(gamestate.DeltaTime));
 
-        //logger.write_deltatime(gamestate.DeltaTime);
+		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
+        //logger.write(__LINE__, "DT = " + std::to_string(gamestate.DeltaTime));
 		
 		QueryPerformanceCounter(&start);
 
@@ -96,8 +122,7 @@ int main( int argc, char * arg[] )
         {
             Engine.HandleEvents( event );
         }
-
-
+        
         Engine.Update(event, (double)ElapsedMicroseconds.QuadPart);
         //Engine.GamePad->Update();
         //Engine.GamePad->HandleInput(event);
@@ -107,10 +132,8 @@ int main( int argc, char * arg[] )
 		Gfx.FLIP();
 
 		QueryPerformanceCounter(&end);
-
-
-
         QueryPerformanceCounter(&EndingTime);
+        
         ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
 
         //
@@ -120,6 +143,7 @@ int main( int argc, char * arg[] )
         // To guard against loss-of-precision, we convert
         // to microseconds *before* dividing by ticks-per-second.
         //
+        
         ElapsedMicroseconds.QuadPart *= 1000000;
         ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
 	}

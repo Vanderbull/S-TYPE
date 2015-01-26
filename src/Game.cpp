@@ -74,7 +74,7 @@ struct SaveGameData
 
 void Game::HandleEvents( SDL_Event _event )
 {
-    logger.write(__LINE__,__FILE__);
+    logger.write(__LINE__, __FUNCTION__);
 
 	switch ( _event.type )
 	{
@@ -481,8 +481,10 @@ void Game::HandleEvents( SDL_Event _event )
 
 Game::Game()
 {
+    logger.write(__LINE__, __FUNCTION__);
+    setup_starbackground();
+
     SetGameOptionButtons();
-    logger.write(__LINE__, __FILE__);
 
 	SPAWN_POSITION_X = 0;
 	SPAWN_POSITION_Y = 1080/2;
@@ -513,7 +515,27 @@ Game::Game()
 // loads all graphic files and all new files and the font
 void Gamestate::load_files()
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
+
+    // Explosion images
+    for (int i = 0; i < 16; i++)
+    {
+        stringstream ss;
+        if (i <= 8)
+        {
+            ss << "assets/gfx/animations/explosion/000";
+            ss << i+1 << ".png";
+        }
+        else
+        {
+            ss << "assets/gfx/animations/explosion/00";
+            ss << i+1 << ".png";
+        }
+        string str = "";
+        str.append(ss.str());
+
+        m_srfExplosion[i] = Gfx.Load_imageAlpha(str.c_str(), 0, 0, 0);
+    }
 
     // Backdrops and logos
 	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop_1920x1080.png", 0, 0, 0 );
@@ -525,6 +547,7 @@ void Gamestate::load_files()
 	m_srfStart = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfMainMenu_1920x1080.png", 0, 0, 0 );
 	m_srfHealth = Gfx.Load_imageAlpha( "assets/gfx/gui/srfHealth.png", 0, 0, 0 );
 	m_srfLaser = Gfx.Load_imageAlpha( "assets/gfx/lasers/srfLaserBlue.png", 0, 0, 0 );
+    m_srfInk = Gfx.Load_imageAlpha("assets/gfx/lasers/srfInk.png", 0, 0, 0);
 	m_srfButtonActive = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfButtonActive_101x33.png", 255, 255, 255 );
 
     // Sub menus & Screens
@@ -564,7 +587,7 @@ void Gamestate::load_files()
 // ----------------------------------------------------------------------------
 void Game::Update( SDL_Event /*input*/, double iElapsedTime )
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
 	
 	// Check game state
 	switch( gamestate.GameState.top() )
@@ -611,7 +634,15 @@ void Game::Update( SDL_Event /*input*/, double iElapsedTime )
                 gamestate.CreateAll();
 
                 Gfx.DrawBackgroundBlack();
-                
+
+                //SDL_Surface *surface = SDL_CreateRGBSurface(0, 1920, 1080, 32, 0, 0, 0, 255);
+                for (std::vector<SDL_Rect>::iterator it = starbackground_trigger.begin(); it != starbackground_trigger.end(); ++it)
+                {
+                    SDL_FillRect(Gfx.BackBuffer, &(*it), SDL_MapRGBA(Gfx.BackBuffer->format, 255, 255, 255, rand() % 255));
+                    //SDL_SetAlpha(surface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE);
+                    //SDL_BlitSurface(surface, NULL, Gfx.BackBuffer,NULL);
+                }
+
                 SDL_Rect Scroller;
                 Scroller.h = 1080;
                 Scroller.w = 1920;
@@ -652,14 +683,28 @@ void Game::Update( SDL_Event /*input*/, double iElapsedTime )
                 Gfx.apply_surface(Gfx.BackBuffer->w - 100, 0, Gfx.srfText, Gfx.BackBuffer);
 
 
-				Gfx.DrawObjects();				
-				
+				Gfx.DrawObjects();
+                
+
+                    //SDL_Surface *surface = SDL_CreateRGBSurface(0, 1920, 1080, 32, 0, 0, 0, 255);
+                if (BlueShipController.BlueShipArrayRef.size() > 0)
+                    for (std::vector<BlueShip>::iterator iBlueShip = BlueShipController.BlueShipArrayRef.begin(); iBlueShip != BlueShipController.BlueShipArrayRef.end(); ++iBlueShip)
+                        for (std::vector<SDL_Rect>::iterator it = (*iBlueShip).bullet_object.begin(); it != (*iBlueShip).bullet_object.end(); ++it)
+                    {
+                    SDL_FillRect(Gfx.BackBuffer, &(*it), SDL_MapRGBA(Gfx.BackBuffer->format, 255, 0, 0, rand() % 255));
+                    //SDL_SetAlpha(surface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE);
+                    //SDL_BlitSurface(surface, NULL, Gfx.BackBuffer,NULL);
+                    }
+
                 // Collision controllers for objects and player spaceship
                 CollisionController.ObjectCollider(BulletController.BulletArrayRef, PurpleShipController.PurpleShipArrayRef);
                 CollisionController.ObjectCollider( BulletController.BulletArrayRef, BlueShipController.BlueShipArrayRef );
 				CollisionController.ObjectCollider( BulletController.BulletArrayRef, BlueFishController.BlueFishArrayRef );
                 if (OctoBossman.isActive())
-                CollisionController.ObjectCollider(BulletController.BulletArrayRef, OctoBossman);
+                {
+                    CollisionController.ObjectCollider(BulletController.BulletArrayRef, OctoBossman);
+                    CollisionController.ObjectCollider(OctoBulletController.BulletArrayRef, Spaceship);
+                }
                 
                 if ( OctoBossman.hasHealth() <= 0 )
                 {
@@ -723,7 +768,7 @@ void Game::Update( SDL_Event /*input*/, double iElapsedTime )
 // ----------------------------------------------------------------------------
 void Gamestate::MainScreen(double iElapsedTime)
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfMooPie_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 	SDL_BlitSurface( &Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfMainMenu_1920x1080.png"], 0, Gfx.BackBuffer, 0 );
@@ -742,7 +787,7 @@ void Gamestate::MainScreen(double iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::LoadScreen(double iElapsedTime)
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfLoad_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 
@@ -776,7 +821,7 @@ void Gamestate::LoadScreen(double iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::SaveScreen(double iElapsedTime)
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfSave_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 
@@ -812,7 +857,7 @@ void Gamestate::SaveScreen(double iElapsedTime)
 void Gamestate::Gameover(double /*iElapsedTime*/)
 {
     OctoBossman.onDestruction();
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfGameover_1920x1080.png"], 0, Gfx.BackBuffer, 0);
     
@@ -832,7 +877,7 @@ void Gamestate::Gameover(double /*iElapsedTime*/)
 // ----------------------------------------------------------------------------
 void Gamestate::CreditScreen(double iElapsedTime)
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfCredits_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 	
@@ -851,7 +896,7 @@ void Gamestate::CreditScreen(double iElapsedTime)
 // ----------------------------------------------------------------------------
 void Gamestate::OptionScreen(double iElapsedTime)
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     SDL_FillRect(Gfx.BackBuffer, NULL, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 0, 0, 0));
     SDL_BlitSurface(&Gfx.m_SurfaceCollection["assets/gfx/backdrops/srfOptions_1920x1080.png"], 0, Gfx.BackBuffer, 0);
 	
@@ -904,7 +949,7 @@ void Gamestate::OptionScreen(double iElapsedTime)
 
 void Gamestate::RestartGame()
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     OctoBossman.onDestruction();
 	Spaceship.Reset();
 
@@ -919,7 +964,7 @@ void Gamestate::RestartGame()
 
 void Gamestate::Reset()
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
 	Spaceship.Reset();
 
     PurpleShipController.Destroy();
@@ -929,7 +974,7 @@ void Gamestate::Reset()
 
 void Gamestate::Cleanup()
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
 	if( MainMenuScreen != NULL )
 	{
 		delete MainMenuScreen;
@@ -962,7 +1007,7 @@ void Gamestate::Cleanup()
 
 void Game::Cleanup()
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     atexit(TTF_Quit); // Ensure TTF_Quit() is called when we exit
 	SDL_Quit();
 }
@@ -970,7 +1015,7 @@ void Game::Cleanup()
 // inits sdl, font and videomode
 bool Game::Init(SDL_Surface * &screen)
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
 
     //Testing
     SDL_putenv("SDL_VIDEO_CENTERED=center"); //Center the game Window
@@ -1067,18 +1112,18 @@ bool Game::Init(SDL_Surface * &screen)
 
 int Game::UpdateScore(int add_score)
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     return _SCORE += add_score;
 }
 
 int Game::Progressbar(int progress, int _reset)
 {
+    logger.write(__LINE__, __FUNCTION__);
     //double t = 0.0;
     double dt = 1.0 / 60.0;
     if ( _reset == 1 )
         _Progress = 0;
 
-    logger.write(__LINE__, __FILE__);
     if ( progress == 0 )
         return _Progress += dt * 20;
     else
@@ -1088,7 +1133,7 @@ int Game::Progressbar(int progress, int _reset)
 
 void Gamestate::CreateAll()
 {
-    logger.write(__LINE__, __FILE__);
+    logger.write(__LINE__, __FUNCTION__);
     PurpleShipController.CreatePurpleShip(Engine.Progressbar());
     BlueShipController.CreateBlueShip(Engine.Progressbar());
     BlueFishController.CreateBlueFish(Engine.Progressbar());

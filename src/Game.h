@@ -69,7 +69,10 @@ public:
 		m_srfOptions,
 		m_srfLoad,
 		m_srfSave,
-		m_srfButtonActive;
+		m_srfButtonActive,
+        m_srfInk;
+
+    Sint16 m_srfExplosion[15];
 
     // Powerup image index
     int m_srfRedPowerup;

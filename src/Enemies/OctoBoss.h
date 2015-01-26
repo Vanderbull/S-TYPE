@@ -59,6 +59,7 @@ private:
     int _clip_width;
     SDL_Rect _collisionbox;
     int _health;
+    std::vector<std::string> action_event;
 };
 
 extern OctoBoss OctoController;

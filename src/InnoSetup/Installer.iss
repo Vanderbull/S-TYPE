@@ -20,24 +20,60 @@ DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=C:\Users\risk\Downloads\S-TYPE
 OutputBaseFilename=setup
-SetupIconFile=C:\Users\risk\Documents\GitHub\S-TYPE\src\res\app.ico
+SetupIconFile=C:\Users\risk\Documents\GitHub\S-TYPE\src\res\power.ico
 Compression=lzma
 SolidCompression=yes
-
+WizardSmallImageFile=C:\Users\risk\Documents\GitHub\S-TYPE\src\res\power.bmp
+WizardImageFile=C:\Users\risk\Documents\GitHub\S-TYPE\src\res\power.bmp
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
+[Code]
+// Importing LoadSkin API from ISSkin.DLL
+procedure LoadSkin(lpszPath: String; lpszIniFileName: String);
+external 'LoadSkin@files:isskin.dll stdcall';
+
+// Importing UnloadSkin API from ISSkin.DLL
+procedure UnloadSkin();
+external 'UnloadSkin@files:isskin.dll stdcall';
+
+// Importing ShowWindow Windows API from User32.DLL
+function ShowWindow(hWnd: Integer; uType: Integer): Integer;
+external 'ShowWindow@user32.dll stdcall';
+
+function InitializeSetup(): Boolean;
+begin
+  ExtractTemporaryFile('Vista.cjstyles');
+  LoadSkin(ExpandConstant('{tmp}\Vista.cjstyles'), '');
+  Result := True;
+end; 
+
+procedure DeinitializeSetup();
+begin
+  // Hide Window before unloading skin so user does not get
+  // a glimpse of an unskinned window before it is closed.
+  ShowWindow(StrToInt(ExpandConstant('{wizardhwnd}')), 0);
+  UnloadSkin();
+end; 
+
 [Files]
+; Add the ISSkin DLL used for skinning Inno Setup installations.
+Source: C:\Users\risk\Documents\GitHub\S-TYPE\src\res\ISSkin.dll; DestDir: {app}; Flags: dontcopy
+
+; Add the Visual Style resource contains resources used for skinning,
+; you can also use Microsoft Visual Styles (*.msstyles) resources.
+Source: C:\Users\risk\Documents\GitHub\S-TYPE\src\res\Styles\Vista.cjstyles; DestDir: {tmp}; Flags: dontcopy
+
 Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Debug\*.*"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Graphics\*.*"; DestDir: "{app}\Graphics"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Fonts\*.*"; DestDir: "{app}\Fonts"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\S-TYPE\graphics.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\S-TYPE\highscore.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\S-TYPE\Music\*.*"; DestDir: "{app}\Music"; Flags: ignoreversion
-Source: "C:\Users\risk\Documents\GitHub\S-TYPE\src\res\*.*"; DestDir: "{app}\src\res"; Flags: ignoreversion
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\assets\video\*.*"; DestDir: "{app}\assets\video"; Flags: ignoreversion recursesubdirs
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\assets\fonts\*.*"; DestDir: "{app}\assets\fonts"; Flags: ignoreversion recursesubdirs
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\assets\sfx\*.*"; DestDir: "{app}\assets\sfx"; Flags: ignoreversion recursesubdirs
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\assets\gfx\*.*"; DestDir: "{app}\assets\gfx"; Flags: ignoreversion recursesubdirs
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\src\res\*.*"; DestDir: "{app}\src\res"; Flags: ignoreversion recursesubdirs
+Source: "C:\Users\risk\Documents\GitHub\S-TYPE\logs\*.*"; DestDir: "{app}\logs"; Flags: ignoreversion recursesubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
