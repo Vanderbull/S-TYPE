@@ -230,6 +230,16 @@ void ControlGfx::DrawSprite()
     SDL_BlitSurface(Gfx.GetSurface(Spaceship._SurfaceID),
         &Spaceship.AnimationArrays[0][Spaceship.Animate()],
         Gfx.BackBuffer, &Spaceship.GetPosition());
+
+    stringstream ss;
+    ss << Spaceship._SpawnTimer;
+    string str = "";
+    str.append(ss.str());
+
+
+    SDL_Surface * SrfText;
+    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(100, 100, SrfText, Gfx.BackBuffer);
 }
 
 // ----------------------------------------------------------------------------
@@ -302,7 +312,7 @@ void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )
 	SDL_SetAlpha( Gfx.GetSurface( _SurfaceIndex ), SDL_SRCALPHA | SDL_RLEACCEL, (Uint8)_Opacity );
 }
 
-void ControlGfx::RenderText(std::string _Text, int _x , int _y )
+void ControlGfx::RenderText(std::string _Text, int _x, int _y)
 {
     logger.write(__LINE__, __FUNCTION__);
 
@@ -311,6 +321,7 @@ void ControlGfx::RenderText(std::string _Text, int _x , int _y )
 
     if ((TTF_SizeText(Gfx.DefaultFont, _Text.c_str(), &w, &h) != -1))
     {
+        // Setting the width and height of the text
     }
     else 
     {
@@ -319,24 +330,12 @@ void ControlGfx::RenderText(std::string _Text, int _x , int _y )
 
     SDL_Surface * SrfText;
     SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface( (Gfx.BackBuffer->w - w) / 2, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);
-}
-
-void ControlGfx::RenderPowerupText(std::string _Text, int _x, int _y)
-{
-    logger.write(__LINE__, __FUNCTION__);
-
-    int w = 0;
-    int h = 0;
-
-    if ((TTF_SizeText(Gfx.DefaultFont, _Text.c_str(), &w, &h) != -1))
+    if ( (_x == 0) && (_y == 0) )
     {
+        Gfx.apply_surface( (Gfx.BackBuffer->w - w) / 2, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);
     }
-    else {
-        // Error...
+    else
+    {
+        Gfx.apply_surface((Gfx.BackBuffer->w - w) - _x, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);
     }
-
-    SDL_Surface * SrfText;
-    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface( _x - w, _y - h, SrfText, Gfx.BackBuffer);
 }

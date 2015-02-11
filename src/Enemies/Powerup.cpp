@@ -98,7 +98,8 @@ void ControlPowerup::DrawPowerup()
 		i->Update();
 		i->Draw();
 
-        Gfx.RenderPowerupText("POWERUP!", i->LocAndSize.x, i->LocAndSize.y + i->GetTimer());
+        Gfx.RenderText("POWERUP!", i->LocAndSize.x, i->LocAndSize.y + i->GetTimer());
+
         if (i->GetTimer() <= 0)
 		{
 			i = PowerupArrayRef.erase(i);

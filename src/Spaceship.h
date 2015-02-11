@@ -9,6 +9,7 @@ class SpaceshipInterface
 {
 public:
 
+    int _SpawnTimer;
     int _PowerLevel;
 
 	Sint16 _Lives;

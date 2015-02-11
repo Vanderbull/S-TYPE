@@ -44,15 +44,19 @@ OctoBoss::OctoBoss(Vector3D v, std::string inSurfaceImage)
     acceleration = Vector3D(0, 0, 0);
     velocity = Vector3D(0, 0, 0);
     location = v;
+    spawn_point = Vector3D(13000, 0, 0);
 
     lifespan = 2550.0f;
-
     Active = 0;
 
     LocAndSize.x = GetX();
     LocAndSize.y = GetY();
     LocAndSize.h = _clip_height;
     LocAndSize.w = _clip_width;
+
+    _clip_height = 300;
+    _clip_width = 300;
+    _health = 1000;
 };
 
 OctoBoss::~OctoBoss()
@@ -160,13 +164,13 @@ void OctoBoss::Draw()
     {
         for (int i = 0; i < 15; i++)
         {
-        SDL_BlitSurface(
-            Gfx.GetSurface(gamestate.m_srfExplosion[i]),
-            0,
-            Gfx.BackBuffer,
-            &_collisionbox
-            );
-            }
+            SDL_BlitSurface(
+                Gfx.GetSurface(gamestate.m_srfExplosion[i]),
+                0,
+                Gfx.BackBuffer,
+                &_collisionbox
+                );
+        }
     }
     action_event.pop_back();
     }

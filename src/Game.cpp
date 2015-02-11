@@ -538,7 +538,7 @@ void Gamestate::load_files()
     }
 
     // Backdrops and logos
-	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop_1920x1080.png", 0, 0, 0 );
+	m_srfBackdrop = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfBackdrop_14978x1080.png", 0, 0, 0 );
 	m_srfBlack = Gfx.Load_imageAlpha( "assets/gfx/backdrops/srfMooPie_1920x1080.png", 0, 0, 0 );
 
     // Player spaceship
@@ -779,7 +779,8 @@ void Gamestate::MainScreen(double iElapsedTime)
 	string str = "MainScreen @ ";
 	str.append(ss.str());
 	
-    Gfx.RenderText(str.c_str(), 0, 50);
+    //Gfx.RenderText(str.c_str(), 0, 50);
+    Gfx.RenderText("v 1.0", 150, 50);
 }
 
 // ----------------------------------------------------------------------------

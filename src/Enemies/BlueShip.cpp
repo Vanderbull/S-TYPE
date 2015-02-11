@@ -21,7 +21,7 @@
 #endif
 
 ControlBlueShip BlueShipController;
-const double BlueShipSpeed = -5.0;
+const double BlueShipSpeed = -15.0;
 
 BlueShip::BlueShip()
 {

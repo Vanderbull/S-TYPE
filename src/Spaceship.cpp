@@ -20,10 +20,12 @@ BaseSpaceShip Spaceship(0, 0, 300, SPACESHIP_HEIGHT, SPACESHIP_WIDTH);
 BaseSpaceShip::BaseSpaceShip()
 {
 	cout << "Creating Spaceship controller..." << endl;
+    _SpawnTimer = 0;
 }
 
 BaseSpaceShip::BaseSpaceShip(int /*surface*/, int Xpos, int Ypos, int height, int width)
 {
+    _SpawnTimer = 0;
 	_Lives = 3;
 	BaseSpaceShip::SetAliveState(AliveState::ALIVE);
 
@@ -72,6 +74,11 @@ void BaseSpaceShip::Update()
 			BaseSpaceShip::_Position.x += xVelocity;
 		}
 	}
+
+    if (_SpawnTimer > 0)
+    { 
+        _SpawnTimer--;
+    }
 }
 
 void BaseSpaceShip::SetClips()
@@ -105,7 +112,7 @@ void BaseSpaceShip::Reset()
 {
 	BaseSpaceShip::SetAliveState(AliveState::ALIVE);
 
-	isHit            = false; 
+	isHit = false; 
 
 	_Position.x = Engine.SPAWN_POSITION_X;
 	_Position.y = Engine.SPAWN_POSITION_Y;
@@ -114,6 +121,8 @@ void BaseSpaceShip::Reset()
 
 	xVelocity = 0.0f; 
 	yVelocity = 0.0f;
+
+    _SpawnTimer = 3000;
 }
 
 void BaseSpaceShip::Died()

@@ -171,6 +171,9 @@ public:
 
     void SpaceshipCollider(BaseSpaceShip Spaceship, std::vector<PurpleShip> &VPurpleShip)
     {
+        if (Spaceship._SpawnTimer > 0)
+            return;
+
         if (VPurpleShip.empty() || VPurpleShip.size() < 1)
         {
             return;
@@ -197,6 +200,9 @@ public:
 
 	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<BlueShip> &VBlueShip )
 	{
+        if (Spaceship._SpawnTimer > 0)
+            return;
+
         if (VBlueShip.empty() || VBlueShip.size() < 1)
 		{
 			return;
@@ -223,28 +229,34 @@ public:
 
 	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<BlueFish> &VBlueFish )
 	{
-			for(vector< BlueFish >::iterator iBlueFish = VBlueFish.begin(); iBlueFish != VBlueFish.end(); )
-			{
-                if (!(
-                    Spaceship.GetCollisionBox().x > iBlueFish->LocAndSize.x + iBlueFish->LocAndSize.w ||
-                    Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iBlueFish->LocAndSize.x ||
-                    Spaceship.GetCollisionBox().y > iBlueFish->LocAndSize.y + iBlueFish->LocAndSize.h ||
-                    Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iBlueFish->LocAndSize.y
-                    ))
-                {
-					Audio.PlaySoundEffect( 5 );
-					iBlueFish = VBlueFish.erase(iBlueFish);
-					Spaceship.Died();
-				}
-				else
-				{
-					++iBlueFish;
-				}
+        if (Spaceship._SpawnTimer > 0)
+            return;
+
+		for(vector< BlueFish >::iterator iBlueFish = VBlueFish.begin(); iBlueFish != VBlueFish.end(); )
+		{
+            if (!(
+                Spaceship.GetCollisionBox().x > iBlueFish->LocAndSize.x + iBlueFish->LocAndSize.w ||
+                Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iBlueFish->LocAndSize.x ||
+                Spaceship.GetCollisionBox().y > iBlueFish->LocAndSize.y + iBlueFish->LocAndSize.h ||
+                Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iBlueFish->LocAndSize.y
+                ))
+            {
+				Audio.PlaySoundEffect( 5 );
+				iBlueFish = VBlueFish.erase(iBlueFish);
+				Spaceship.Died();
 			}
+			else
+			{
+				++iBlueFish;
+			}
+		}
 	};
 
     void SpaceshipCollider(BaseSpaceShip Spaceship, std::vector<Powerup> &VPowerups)
     {
+        if (Spaceship._SpawnTimer > 0)
+            return;
+
         if (VPowerups.empty() || VPowerups.size() < 1)
         {
             return;
