@@ -165,3 +165,5 @@ double CalcAverageTick(int newtick)
 
 //SDL_Joystick *GamePad;
 OctoBoss OctoBossman;
+
+Level GameLevel;

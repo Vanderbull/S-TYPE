@@ -8,6 +8,7 @@
 #include <cmath>
 #include <vector>
 #include <map>
+#include <string>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
@@ -110,5 +111,91 @@ double CalcAverageTick(int newtick);
 //extern SDL_Joystick *GamePad;
 extern OctoBoss OctoBossman;
 
+struct Level {
+    
+    SDL_Rect LevelBox;
+    int Progress;
+    int MaxLevel = 9;
+    int StageCleared;
+
+    std::vector<std::string> IntroText;
+    std::vector<int> Length;
+
+    int active;
+    int last;
+    void Initialize()
+    {
+        IntroText.push_back("CHAPTER 1 - Chase of the octopus");
+        IntroText.push_back("Chapter 2 - Pickup the floating cargo");
+        IntroText.push_back("Chapter 3 - Space race, who is going to get there first");
+        IntroText.push_back("Chapter 4 - Dock with the space station");
+        IntroText.push_back("Chapter 5 - Tunnel rat, navigate through tunnels");
+        IntroText.push_back("Chapter 6 - Just blow stuff up");
+        IntroText.push_back("Chapter 7 - Just blow stuff up");
+        IntroText.push_back("Chapter 8 - Just blow stuff up");
+        IntroText.push_back("Chapter 9 - Just blow stuff up");
+        IntroText.push_back("Chapter 10 - Just blow stuff up");
+
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+        Length.push_back(14978 - 1920);
+
+        LevelBox.h = 1080;
+        LevelBox.w = 1920;
+        LevelBox.x = 0;
+        LevelBox.y = 0;
+
+        active = 0;
+        last = 0;
+        StageCleared = 0;
+    };
+
+    void Update(int _iElapsedTime)
+    {
+        if (Progress <= Length.at(active))
+        {
+            Progress += _iElapsedTime;
+            LevelBox.x = Progress;
+            if (Progress > Length.at(active))
+            {
+                Progress = 0;
+                Next();
+                StageCleared = 1;
+                //Progress = Length.at(active);
+                //LevelBox.x = Length.at(active);
+            }            
+        }
+    };
+    SDL_Rect GetBox(){ return LevelBox; };
+
+    void ResetProgress(){ Progress = 0; };
+    int GetLength(){ return Length.at(active); };
+
+    void Next()
+    {
+        if (active < 9)
+        {
+            active++;
+        }
+    };
+    void Previous()
+    {
+        if (active > 0)
+        {
+            active--;
+        }
+    };
+    int GetCurrent(){ return active; };
+    std::string GetIntroText(){ return IntroText.at(active); };
+};
+
+extern Level GameLevel;
 
 #endif

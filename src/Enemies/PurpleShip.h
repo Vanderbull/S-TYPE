@@ -3,51 +3,51 @@
 #include <stack>
 #include <SDL.h>
 #include "../Bullets.h"
-#include "../Objects.h"
+#include "../Objects/Objects.h"
+#include "../ParticleController/Vector3D.h"
 
 #define PURPLESHIP_MAX_FRAMES 15
-#define PURPLESHIP_MAX_PROGRESS 5000
-#define PURPLESHIP_MIN_PROGRESS 0
-
+#define PURPLESHIP_MAX_PROGRESS 10000
+#define PURPLESHIP_MIN_PROGRESS 1000
 
 class PurpleShip : public Object
 {
 
 public:
-	PurpleShip();
-	
-	int isColliding(SDL_Rect Box);
-	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
-	void Update();
-	void Draw();
-	
-	SDL_Rect GetDestination();
+    PurpleShip();
+    PurpleShip(Vector3D v);
 
-	bool isActive(){ return Active; };
-	void DeActivate(){ Active = false; };
-	void Activate(){ Active = true; };
-	void onCollision(){ };
-	void onDestruction(){  };
-	void Spawn(){ };
-    void FireMissile();
+    void Update();
+    void Draw();
+
+    bool isActive(){ return Active; };
+    void DeActivate(){ Active = false; };
+    void Activate(){ Active = true; };
+
+    void onCollision(){ };
+    void onDestruction(){ };
+    void Spawn(){ };
+
+    std::vector<SDL_Rect> bullet_object;
 
 private:
-	SDL_Rect Clips[ 16 ];
-	int PrevFrame;
+    SDL_Rect Clips[16];
+    int PrevFrame;
+    float lifespan;
 };
 
 class ControlPurpleShip
 {
 public:
-	ControlPurpleShip();
-	~ControlPurpleShip();
-	void DrawPurpleShip();
-	void CreatePurpleShip( int iProgress );
-	void Destroy(){ PurpleShipArrayRef.clear(); };
-	std::vector< PurpleShip > GetVectorWithPurpleShip(){ return PurpleShipArrayRef; };
-	PurpleShip CreatePurpleShipByReference( Sint16 xPos, Sint16 yPos, int surface );
+    ControlPurpleShip();
+    ~ControlPurpleShip();
+    void DrawPurpleShip();
+    void CreatePurpleShip(int iProgress);
+    void Destroy(){ PurpleShipArrayRef.clear(); };
+    std::vector< PurpleShip > GetVectorWithPurpleShip(){ return PurpleShipArrayRef; };
+    PurpleShip CreatePurpleShipByReference(Sint16 xPos, Sint16 yPos, int surface);
 
-	std::vector< PurpleShip > PurpleShipArrayRef;
+    std::vector< PurpleShip > PurpleShipArrayRef;
 private:
 
 };

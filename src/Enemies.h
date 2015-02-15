@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <list>
-#include "Objects.h"
+#include "Objects/Objects.h"
 #include "Enemies\MovingThings.h"
 
 #include "Enemies\CWave1.h"

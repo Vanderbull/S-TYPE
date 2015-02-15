@@ -15,7 +15,7 @@
 using namespace std;
 
 #include "Global\Global.h"
-#include "Objects.h"
+#include "Objects/Objects.h"
 #include "SDL_mixer.h"
 #include "SpaceShip.h"
 #include "Enemies.h"
@@ -53,7 +53,7 @@ public:
 
     Sint16 m_srfGameover,
         m_srfPurpleShip,
-        m_srfBlueShip,
+        m_srfRobotnic,
         m_srfBlueFish,
         m_srfBackdrop, 
 		m_srfAsteroid,
@@ -71,6 +71,8 @@ public:
 		m_srfSave,
 		m_srfButtonActive,
         m_srfInk;
+
+    Sint16 m_srfLevel[10];
 
     Sint16 m_srfExplosion[15];
 
@@ -98,6 +100,7 @@ public:
     void LoadScreen(double iElapsedTime);
     void SaveScreen(double iElapsedTime);
     void Gameover(double iElapsedTime);
+    void StageCleared(double iElapsedTime);
 
 	void Quit(){};
 

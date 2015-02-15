@@ -3,35 +3,37 @@
 #include <stack>
 #include <SDL.h>
 #include "../Bullets.h"
-#include "../Objects.h"
+#include "../Objects/Objects.h"
+#include "../ParticleController/Vector3D.h"
 
 #define BLUEFISH_MAX_FRAMES 15
-#define BLUEFISH_MAX_PROGRESS 20000
-#define BLUEFISH_MIN_PROGRESS 10000
+#define BLUEFISH_MAX_PROGRESS 10000
+#define BLUEFISH_MIN_PROGRESS 1000
 
 class BlueFish : public Object
 {
 
 public:
     BlueFish();
+    BlueFish(Vector3D v);
 
-    int isColliding(SDL_Rect Box);
-    SDL_Rect UpdateCollisionBox(SDL_Rect Box);
     void Update();
     void Draw();
-
-    SDL_Rect GetDestination();
 
     bool isActive(){ return Active; };
     void DeActivate(){ Active = false; };
     void Activate(){ Active = true; };
-    void onCollision(){ cout << "Im colliding with something" << endl; };
-    void onDestruction(){ cout << "Im getting destroyed here" << endl; };
-    void Spawn(){ cout << "Im getting spawned here" << endl; };
+
+    void onCollision(){ };
+    void onDestruction(){ };
+    void Spawn(){ };
+
+    std::vector<SDL_Rect> bullet_object;
 
 private:
     SDL_Rect Clips[16];
     int PrevFrame;
+    float lifespan;
 };
 
 class ControlBlueFish

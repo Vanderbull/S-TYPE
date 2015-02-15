@@ -129,7 +129,7 @@ void BaseSpaceShip::Died()
 {
 	Gfx.srfText = TTF_RenderText_Shaded( Gfx.DefaultFont, " YOU DIED STOP PLAYING GOD DAMN YOU!!!!! ", Gfx.WhiteRGB, Gfx.BlackRGB );
 	Gfx.apply_surface( 250, 500, Gfx.srfText, Gfx.BackBuffer );
-	Gfx.FLIP();
+	//Gfx.FLIP();
 
 	gamestate.GameState.push(GAME_PLAYER_DIED_STATE);
 }

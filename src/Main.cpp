@@ -21,7 +21,7 @@ using namespace std;
 #ifdef _DEBUG
 // THE CODE IS COMPILING IN DEBUG MODE.
 #endif
-#pragma comment(linker,"/SUBSYSTEM:windows")
+//#pragma comment(linker,"/SUBSYSTEM:windows")
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
@@ -37,6 +37,94 @@ using namespace std;
 //deltatime variables
 double t = 0.0;
 double dt = 1 / 60.0;
+
+
+
+// How many frames time values to keep
+// The higher the value the smoother the result is...
+// Don't make it 0 or less :)
+#define FRAME_VALUES 10
+
+// An array to store frame times:
+Uint32 frametimes[FRAME_VALUES];
+
+// Last calculated SDL_GetTicks
+Uint32 frametimelast;
+
+// total frames rendered
+Uint32 framecount;
+
+// the value you want
+float framespersecond;
+
+// This function gets called once on startup.
+void fpsinit() {
+
+    // Set all frame times to 0ms.
+    memset(frametimes, 0, sizeof(frametimes));
+    framecount = 0;
+    framespersecond = 0;
+    frametimelast = SDL_GetTicks();
+
+}
+
+void fpsthink() {
+
+    Uint32 frametimesindex;
+    Uint32 getticks;
+    Uint32 count;
+    Uint32 i;
+
+    // frametimesindex is the position in the array. It ranges from 0 to FRAME_VALUES.
+    // This value rotates back to 0 after it hits FRAME_VALUES.
+    frametimesindex = framecount % FRAME_VALUES;
+
+    // store the current time
+    getticks = SDL_GetTicks();
+
+    // save the frame time value
+    frametimes[frametimesindex] = getticks - frametimelast;
+
+    // save the last frame time for the next fpsthink
+    frametimelast = getticks;
+
+    // increment the frame count
+    framecount++;
+
+    // Work out the current framerate
+
+    // The code below could be moved into another function if you don't need the value every frame.
+
+    // I've included a test to see if the whole array has been written to or not. This will stop
+    // strange values on the first few (FRAME_VALUES) frames.
+    if (framecount < FRAME_VALUES) {
+
+        count = framecount;
+
+    }
+    else {
+
+        count = FRAME_VALUES;
+
+    }
+
+    // add up all the values and divide to get the average frame time.
+    framespersecond = 0;
+    for (i = 0; i < count; i++) {
+
+        framespersecond += frametimes[i];
+
+    }
+
+    framespersecond /= count;
+
+    // now to make it an actual frames per second value...
+    framespersecond = 1000.f / framespersecond;
+
+}
+
+
+
 
 int main( int argc, char * arg[] )
 {
@@ -89,10 +177,10 @@ int main( int argc, char * arg[] )
     std::string video_path;
     video_path = PROJECT_ROOT_FOLDER;
     video_path.append("assets\\video\\0000-0200.exe");
-	ShellExecute(NULL, "open", video_path.c_str(),"", "", SW_HIDE );
+	//ShellExecute(NULL, "open", video_path.c_str(),"", "", SW_HIDE );
     video_path = PROJECT_ROOT_FOLDER;
     video_path.append("assets\\video\\0001-0130.exe");
-    ShellExecute(NULL, "open", video_path.c_str(), "", "", SW_HIDE);
+    //ShellExecute(NULL, "open", video_path.c_str(), "", "", SW_HIDE);
 
     logger.write(__LINE__, "Intro video playback finished...");
 
@@ -107,6 +195,9 @@ int main( int argc, char * arg[] )
     
     LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds = { 0 };
     LARGE_INTEGER Frequency = { 0 };
+
+    // put this as close as possible to the start of the loop (before it starts!)
+    fpsinit();
 
 	while( Engine.Quit == false )
 	{
@@ -123,13 +214,17 @@ int main( int argc, char * arg[] )
             Engine.HandleEvents( event );
         }
         
-        Engine.Update(event, (double)ElapsedMicroseconds.QuadPart);
+        //Engine.Update(event, (double)ElapsedMicroseconds.QuadPart);
+        Engine.Update(event, (double)framespersecond);
         //Engine.GamePad->Update();
         //Engine.GamePad->HandleInput(event);
         Engine.GamePad.Update();
         //Engine.GamePad.HandleInput(event);
         //Audio.Render();
-		Gfx.FLIP();
+		Gfx.FLIP();  
+
+        fpsthink();
+        printf("%f\n", framespersecond);
 
 		QueryPerformanceCounter(&end);
         QueryPerformanceCounter(&EndingTime);

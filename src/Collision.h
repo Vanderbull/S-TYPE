@@ -2,12 +2,12 @@
 #include "SpaceShip.h"
 #include "Game.h"
 #include "Enemies\Powerup.h"
-#include "Objects.h"
+#include "Objects/Objects.h"
 #include "Enemies.h"
 #include "ControlGfx.h"
 #include "Bullets.h"
 #include "Enemies\PurpleShip.h"
-#include "Enemies\BlueShip.h"
+#include "Enemies\Robotnic.h"
 #include "Enemies\Powerup.h"
 #include "Enemies\BlueFish.h"
 #include "Audio\Audio.h"
@@ -48,35 +48,35 @@ public:
                 ++iBullet;
         }
     };
-	void ObjectCollider( std::vector<Bullet> &VBullets, std::vector<BlueShip> &VBlueShip )
+    void ObjectCollider(std::vector<Bullet> &VBullets, std::vector<Robotnic> &VRobotnic)
 	{
  		for(vector< Bullet >::iterator iBullet = VBullets.begin(); iBullet != VBullets.end(); )
 		{
-			for(vector< BlueShip >::iterator iBlueShip = VBlueShip.begin(); iBlueShip != VBlueShip.end(); )
+            for (vector< Robotnic >::iterator iRobotnic = VRobotnic.begin(); iRobotnic != VRobotnic.end();)
 			{
 				if( !( 
-					iBullet->GetCollisionBox().x > iBlueShip->LocAndSize.x + iBlueShip->LocAndSize.w || 
-					iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iBlueShip->LocAndSize.x || 
-					iBullet->GetCollisionBox().y > iBlueShip->LocAndSize.y + iBlueShip->LocAndSize.h || 
-					iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iBlueShip->LocAndSize.y
+                    iBullet->GetCollisionBox().x > iRobotnic->LocAndSize.x + iRobotnic->LocAndSize.w ||
+                    iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iRobotnic->LocAndSize.x ||
+                    iBullet->GetCollisionBox().y > iRobotnic->LocAndSize.y + iRobotnic->LocAndSize.h ||
+                    iBullet->GetCollisionBox().y + iBullet->GetCollisionBox().h < iRobotnic->LocAndSize.y
 					) )
 				{
-                    PowerupController.CreatePowerup( iBlueShip->LocAndSize );
+                    PowerupController.CreatePowerup(iRobotnic->LocAndSize);
                     Audio.SetVolume(10, 5);
 					Audio.PlaySoundEffect( 5 );
-					iBlueShip = VBlueShip.erase(iBlueShip);
+                    iRobotnic = VRobotnic.erase(iRobotnic);
 					iBullet->DeActivate();
 					//PopupScore.push_back(50);
 					_SCORE += 100;
                     //SDL_Rect tmp;
-                    //tmp = iBlueShip->CollisionBox;
-                    //explosion_trigger.insert(std::pair<std::string, SDL_Rect>("Blueship", tmp));
+                    //tmp = iRobotnic->CollisionBox;
+                    //explosion_trigger.insert(std::pair<std::string, SDL_Rect>("Robotnic", tmp));
                     //animation_event_trigger.push_back("explosion");
                     
 				}
 				else
 				{
-					++iBlueShip;
+					++iRobotnic;
 				}
 			}
 			if( !iBullet->isActive() )
@@ -198,31 +198,31 @@ public:
         }
     };
 
-	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<BlueShip> &VBlueShip )
+	void SpaceshipCollider( BaseSpaceShip Spaceship, std::vector<Robotnic> &VRobotnic )
 	{
         if (Spaceship._SpawnTimer > 0)
             return;
 
-        if (VBlueShip.empty() || VBlueShip.size() < 1)
+        if (VRobotnic.empty() || VRobotnic.size() < 1)
 		{
 			return;
 		}
-        for (vector< BlueShip >::iterator iBlueShip = VBlueShip.begin(); iBlueShip != VBlueShip.end();)
+        for (vector< Robotnic >::iterator iRobotnic = VRobotnic.begin(); iRobotnic != VRobotnic.end();)
 			{
 				if( !( 
-                    Spaceship.GetCollisionBox().x > iBlueShip->LocAndSize.x + iBlueShip->LocAndSize.w ||
-                    Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iBlueShip->LocAndSize.x ||
-                    Spaceship.GetCollisionBox().y > iBlueShip->LocAndSize.y + iBlueShip->LocAndSize.h ||
-                    Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iBlueShip->LocAndSize.y
+                    Spaceship.GetCollisionBox().x > iRobotnic->LocAndSize.x + iRobotnic->LocAndSize.w ||
+                    Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iRobotnic->LocAndSize.x ||
+                    Spaceship.GetCollisionBox().y > iRobotnic->LocAndSize.y + iRobotnic->LocAndSize.h ||
+                    Spaceship.GetCollisionBox().y + Spaceship.GetCollisionBox().h < iRobotnic->LocAndSize.y
 					) )
 				{
 					Audio.PlaySoundEffect( 5 );
-                    iBlueShip = VBlueShip.erase(iBlueShip);
+                    iRobotnic = VRobotnic.erase(iRobotnic);
 					Spaceship.Died();
 				}
 				else
 				{
-                    ++iBlueShip;
+                    ++iRobotnic;
 				}
 			}
 	};

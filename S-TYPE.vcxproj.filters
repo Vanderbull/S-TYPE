@@ -16,9 +16,6 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="src\Objects.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="src\OutroFinish.cpp">
       <Filter>OutroFinished</Filter>
     </ClCompile>
@@ -67,9 +64,6 @@
     <ClCompile Include="src\ParticleController\Particle.cpp">
       <Filter>ParticleController</Filter>
     </ClCompile>
-    <ClCompile Include="src\Enemies\BlueShip.cpp">
-      <Filter>Enemies\BlueShip</Filter>
-    </ClCompile>
     <ClCompile Include="src\Enemies\BlueFish.cpp">
       <Filter>Enemies\BlueFish</Filter>
     </ClCompile>
@@ -85,6 +79,12 @@
     <ClCompile Include="src\Enemies\OctoBoss.cpp">
       <Filter>Enemies\OctoBoss</Filter>
     </ClCompile>
+    <ClCompile Include="src\Enemies\Robotnic.cpp">
+      <Filter>Enemies\BlueShip</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\Objects.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Collision.h">
@@ -98,9 +98,6 @@
     </ClInclude>
     <ClInclude Include="src\GetInput.h">
       <Filter>GetInput</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\OutroFinish.h">
       <Filter>OutroFinished</Filter>
@@ -166,9 +163,6 @@
     <ClInclude Include="src\ParticleController\Vector3D.h">
       <Filter>ParticleController</Filter>
     </ClInclude>
-    <ClInclude Include="src\Enemies\BlueShip.h">
-      <Filter>Enemies\BlueShip</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enemies\BlueFish.h">
       <Filter>Enemies\BlueFish</Filter>
     </ClInclude>
@@ -183,6 +177,12 @@
     </ClInclude>
     <ClInclude Include="src\Enemies\OctoBoss.h">
       <Filter>Enemies\OctoBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enemies\Robotnic.h">
+      <Filter>Enemies\BlueShip</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\Objects.h">
+      <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 #include <stack>
 #include <SDL.h>
 #include "../Bullets.h"
-#include "../Objects.h"
+#include "../Objects/Objects.h"
 #include "../ParticleController/Vector3D.h"
 
 #define OCTOBOSS_MAX_FRAMES 15

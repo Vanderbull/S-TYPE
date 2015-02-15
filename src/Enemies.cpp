@@ -2,7 +2,7 @@
 #include "Enemies.h"
 #include "Game.h"
 #include <list>
-#include "Objects.h"
+#include "Objects/Objects.h"
 #include "Collision.h"
 #include "ControlGfx.h"
 

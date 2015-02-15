@@ -5,7 +5,7 @@
 
 using namespace std;
 #include <SDL.h>
-#include "../Objects.h"
+#include "../Objects/Objects.h"
 
 #define MAX_FRAMES 15
 #define MIN_PROGRESS 0

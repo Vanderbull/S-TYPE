@@ -1,8 +1,13 @@
 #include <SDL.h>
 
+//#include "Global\Global.h"
 #include "BlueFish.h"
 #include "../Game.h"
 #include "../ControlGfx.h"
+
+#define BLUEFISH_MAX_FRAMES 15
+#define BLUEFISH_MAX_PROGRESS 12000
+#define BLUEFISH_MIN_PROGRESS 10000
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
@@ -16,20 +21,71 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 ControlBlueFish BlueFishController;
-const float BlueFishSpeed = 0.0001f;
+const double BlueFishSpeed = -15.0;
 
 BlueFish::BlueFish()
 {
-    Active = 1;
-    CollisionBox.h = 0;
-    CollisionBox.w = 0;
-    CollisionBox.x = SpriteHeight;
-    CollisionBox.y = SpriteWidth;
+    logger.write(__LINE__, __FUNCTION__);
 
-    LocAndSize.x = 0;
-    LocAndSize.y = 0;
-    LocAndSize.h = SpriteHeight;
-    LocAndSize.w = SpriteWidth;
+    // Activate object
+    Active = 1;
+
+    // Setup speed and placement
+    acceleration = Vector3D(0, 0, 0);
+    velocity = Vector3D(0, 0, 0);
+    location = Vector3D(0, 0, 0);
+
+    // Set for how long the object should be activate
+    lifespan = 255.0f;
+
+    // Set size for collision box
+    CollisionBox.h = SpriteHeight - 16;
+    CollisionBox.w = SpriteWidth - 16;
+    CollisionBox.x = location.x;
+    CollisionBox.y = location.y;
+
+    // Setup framerelated information
+    PrevFrame = 0;
+    Frame = 0;
+
+    // Setup size of image clips for animation
+    for (int i = 0; i < 16; i++)
+    {
+        Clips[i].x = (Sint16)i * SpriteWidth;
+        Clips[i].y = 0;
+        Clips[i].h = SpriteHeight;
+        Clips[i].w = SpriteWidth;
+    }
+
+    // Setup the red noise box
+    SDL_Rect tmp;
+
+    for (int i = 0; i < 250; i++)
+    {
+        tmp.h = rand() % 5;
+        tmp.w = tmp.h;
+        tmp.x = location.x - rand() % 100;
+        tmp.y = location.y;
+        bullet_object.push_back(tmp);
+    };
+}
+
+BlueFish::BlueFish(Vector3D v)
+{
+    logger.write(__LINE__, __FUNCTION__);
+
+    Active = 1;
+
+    acceleration = Vector3D(0, 0, 0);
+    velocity = Vector3D(0, 0, 0);
+    location = v;
+
+    lifespan = 255.0f;
+
+    CollisionBox.h = SpriteHeight - 16;
+    CollisionBox.w = SpriteWidth - 16;
+    CollisionBox.x = location.x;
+    CollisionBox.y = location.y;
 
     PrevFrame = 0;
     Frame = 0;
@@ -41,71 +97,74 @@ BlueFish::BlueFish()
         Clips[i].h = SpriteHeight;
         Clips[i].w = SpriteWidth;
     }
-}
 
-int BlueFish::isColliding(SDL_Rect Box)
-{
-    SDL_Rect CollisionBox;
-    CollisionBox = Box;
-    int PlayerRight = Spaceship.GetPosition().x + Spaceship.GetPosition().w;
-    int PlayerLeft = Spaceship.GetPosition().x;
-    int PlayerTop = Spaceship.GetPosition().y;
-    int PlayerBottom = Spaceship.GetPosition().x + Spaceship.GetPosition().h;
+    SDL_Rect tmp;
 
-    int EnemyRight = LocAndSize.x + LocAndSize.w;
-    int EnemyLeft = LocAndSize.x;
-    int EnemyTop = LocAndSize.y;
-    int EnemyBottom = LocAndSize.y + LocAndSize.h;
-
-    if (EnemyBottom < PlayerTop) return(0);
-    if (EnemyTop > PlayerBottom) return(0);
-
-    if (EnemyRight < PlayerLeft) return(0);
-    if (EnemyLeft > PlayerRight) return(0);
-    return(1);
-}
-
-SDL_Rect BlueFish::UpdateCollisionBox(SDL_Rect Box)
-{
-    SDL_Rect CollisionBox;
-    CollisionBox = Box;
-
-    CollisionBox = LocAndSize;
-    return CollisionBox;
-}
+    for (int i = 0; i < 250; i++)
+    {
+        tmp.h = rand() % 5;
+        tmp.w = tmp.h;
+        tmp.x = location.x - rand() % 100;
+        tmp.y = location.y;
+        bullet_object.push_back(tmp);
+    };
+};
 
 void BlueFish::Update()
 {
-    xPos = BlueFishSpeed * gamestate.DeltaTime;
-    LocAndSize.x -= (Sint16)xPos;
-    LocAndSize.h = SpriteHeight;
-    LocAndSize.w = SpriteWidth;
+    logger.write(__LINE__, __FUNCTION__);
+
+    SDL_Rect tmp;
+    bullet_object.clear();
+
+
+    //checkEdges(1920 - SpriteWidth, 1080 - SpriteHeight);
+    velocity = velocity + acceleration;
+    location = velocity + location;
+
+    CollisionBox.x = GetX() + (SpriteHeight / 2);
+    CollisionBox.y = GetY() + (SpriteWidth / 2);
+    CollisionBox.h = SpriteHeight / 2;
+    CollisionBox.w = SpriteWidth / 2;
+
+    for (int i = 0; i < 1000; i++)
+    {
+        tmp.h = rand() % 5;
+        tmp.w = tmp.h;
+        tmp.x = GetX() - rand() % 100;
+        tmp.y = GetY() - rand() % 100;
+        bullet_object.push_back(tmp);
+    };
 
     PrevFrame = Frame++;
-    if (Frame >= BLUESHIP_MAX_FRAMES)
+    if (Frame >= BLUEFISH_MAX_FRAMES)
     {
         Frame = 0;
     }
-    UpdateCollisionBox(LocAndSize);
+
+    lifespan -= 2.0f;
+
+    //UpdateCollisionBox(LocAndSize);
 }
 
 void BlueFish::Draw()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     SDL_BlitSurface(
         Gfx.GetSurface(SurfaceID),
         &Clips[0], //PrevFrame replaced with 0 as there is no animation
         Gfx.BackBuffer,
-        &GetDestination()
+        &GetRenderBox()
         );
-}
 
-SDL_Rect BlueFish::GetDestination()
-{
-    return LocAndSize;
+    SDL_FillRect(Gfx.BackBuffer, &CollisionBox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
 }
 
 void ControlBlueFish::DrawBlueFish()
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     std::vector< BlueFish >::iterator i;
 
     i = BlueFishArrayRef.begin();
@@ -113,9 +172,10 @@ void ControlBlueFish::DrawBlueFish()
     while (i != BlueFishArrayRef.end())
     {
         i->Update();
+        i->applyForce(Vector3D(0, 2 * (double)rand() / (double)RAND_MAX - 1, 0));
         i->Draw();
 
-        if (i->LocAndSize.x <= 0.0f - SpriteWidth)
+        if (i->location.x <= 0.0f - SpriteWidth)
         {
             i = BlueFishArrayRef.erase(i);
         }
@@ -128,6 +188,8 @@ void ControlBlueFish::DrawBlueFish()
 
 void ControlBlueFish::CreateBlueFish(int iProgress)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     if (iProgress > BLUEFISH_MIN_PROGRESS && iProgress < BLUEFISH_MAX_PROGRESS)
     {
         if (std::rand() % 100 + 1 > 99)
@@ -139,29 +201,45 @@ void ControlBlueFish::CreateBlueFish(int iProgress)
 
 ControlBlueFish::ControlBlueFish()
 {
+    logger.write(__LINE__, __FUNCTION__);
 }
 
 ControlBlueFish::~ControlBlueFish()
 {
-    //animation_event_trigger.push_back("explosion");
+    logger.write(__LINE__, __FUNCTION__);
 }
 
 BlueFish ControlBlueFish::CreateBlueFishByReference(Sint16 xPos, Sint16 yPos, int surface)
 {
+    logger.write(__LINE__, __FUNCTION__);
+
     static int old_y_pos = 0;
 
     while (yPos > old_y_pos && yPos < old_y_pos + 128)
     {
         yPos = (Sint16)(std::rand() % Gfx.BackBuffer->h - 128);
     }
+
     if (yPos < 64)
+    {
         yPos = 64;
+    }
+
     if (yPos > Gfx.BackBuffer->h - 128)
+    {
         yPos = (Sint16)(Gfx.BackBuffer->h - 128);
+    }
+
     BlueFish temp;
     temp.SurfaceID = surface;
-    temp.LocAndSize.x = xPos;
-    temp.LocAndSize.y = yPos;
 
-    return temp;
+    temp.location = Vector3D(xPos, yPos, 0);
+
+    BlueFish temp2(Vector3D(xPos, yPos, 0.0f));
+    temp2.applyForce(Vector3D(BlueFishSpeed, 0, 0));
+    temp2.SurfaceID = surface;
+    temp2.LocAndSize.x = temp2.GetX();
+    temp2.LocAndSize.y = temp2.GetY();
+
+    return temp2;
 }

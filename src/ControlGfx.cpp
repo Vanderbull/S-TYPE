@@ -1,7 +1,7 @@
 #include "ControlGfx.h"
 #include "Game.h"
 #include "Enemies\PurpleShip.h"
-#include "Enemies\BlueShip.h"
+#include "Enemies\Robotnic.h"
 #include "Enemies\Powerup.h"
 #include "Enemies\BlueFish.h"
 #include "Bullets.h"
@@ -146,7 +146,7 @@ SDL_Surface* ControlGfx::GetSurface(int index)
 
 void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 {
-    logger.write(__LINE__, __FUNCTION__);
+    //logger.write(__LINE__, __FUNCTION__);
 
 	SDL_LockSurface( Gfx.screen );
 	SDL_LockSurface( Gfx.BackBuffer );
@@ -159,7 +159,6 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 
 	float scaleWidth = Gfx.BackBuffer->w / ( float )destRect.w;
 	float scaleHeight = Gfx.BackBuffer->h / ( float )destRect.h; 
-
 
 	float fSrcX = 0.0f,
 		  fSrcY = 0.0f;
@@ -187,7 +186,7 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 // ----------------------------------------------------------------------------
 bool ControlGfx::FLIP()
 {
-    logger.write(__LINE__, __FUNCTION__);
+    //logger.write(__LINE__, __FUNCTION__);
 
 	SDL_Rect srcRect = { 0, 0, (Uint16)Gfx.BackBuffer->w, (Uint16)Gfx.BackBuffer->h };
 	SDL_Rect destRect = { 0, 0, (Uint16)SDL_GetVideoSurface()->w, (Uint16)SDL_GetVideoSurface()->h };
@@ -227,9 +226,11 @@ void ControlGfx::DrawSprite()
     Spaceship.Update();
     Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y, 64, 64);
 
+    
     SDL_BlitSurface(Gfx.GetSurface(Spaceship._SurfaceID),
         &Spaceship.AnimationArrays[0][Spaceship.Animate()],
         Gfx.BackBuffer, &Spaceship.GetPosition());
+    
 
     stringstream ss;
     ss << Spaceship._SpawnTimer;
@@ -250,7 +251,7 @@ void ControlGfx::DrawObjects()
     logger.write(__LINE__, __FUNCTION__);
 
     PurpleShipController.DrawPurpleShip();
-    BlueShipController.DrawBlueShip();
+    RobotnicController.DrawRobotnic();
 	BlueFishController.DrawBlueFish();
 	BulletController.Draw_Bullets();
     OctoBulletController.DrawOctoBullets();
@@ -312,24 +313,49 @@ void ControlGfx::SetAlpha( int _SurfaceIndex, int _Opacity )
 	SDL_SetAlpha( Gfx.GetSurface( _SurfaceIndex ), SDL_SRCALPHA | SDL_RLEACCEL, (Uint8)_Opacity );
 }
 
-void ControlGfx::RenderText(std::string _Text, int _x, int _y)
+void ControlGfx::RenderText(std::string _Text, int _x, int _y,std::string _FontName)
 {
-    logger.write(__LINE__, __FUNCTION__);
+    //logger.write(__LINE__, __FUNCTION__);
 
     int w = 0;
     int h = 0;
 
-    if ((TTF_SizeText(Gfx.DefaultFont, _Text.c_str(), &w, &h) != -1))
-    {
+    if (_FontName == "Default")
+        if ((TTF_SizeText(Gfx.DefaultFont, _Text.c_str(), &w, &h) != -1))
+        {
         // Setting the width and height of the text
-    }
-    else 
-    {
+        }
+        else
+        {
+            // Error...
+        }
+    else
+    if (_FontName == "Title")
+        if ((TTF_SizeText(Gfx.TitleFont, _Text.c_str(), &w, &h) != -1))
+        {
+        // Setting the width and height of the text
+        }
+        else
+        {
+            // Error...
+        }
+
+
+    //if ((TTF_SizeText(Gfx.TitleFont, _Text.c_str(), &w, &h) != -1))
+    //{
+        // Setting the width and height of the text
+    //}
+    //else 
+    //{
         // Error...
-    }
+    //}
 
     SDL_Surface * SrfText;
-    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
+    if (_FontName == "Default")
+        SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, _Text.c_str(), Gfx.WhiteRGB);
+    if (_FontName == "Title")
+        SrfText = TTF_RenderText_Solid(Gfx.TitleFont, _Text.c_str(), Gfx.WhiteRGB);
+
     if ( (_x == 0) && (_y == 0) )
     {
         Gfx.apply_surface( (Gfx.BackBuffer->w - w) / 2, (Gfx.BackBuffer->h - h) - _y, SrfText, Gfx.BackBuffer);

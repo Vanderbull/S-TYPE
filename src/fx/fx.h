@@ -3,7 +3,7 @@
 #include <vector>
 #include <stack>
 #include <SDL.h>
-#include "../Objects.h"
+#include "../Objects/Objects.h"
 
 #define FX_MAX_FRAMES 15
 
