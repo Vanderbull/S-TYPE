@@ -148,6 +148,8 @@ public:
     //GameController *GamePad;
     GameController GamePad;
 
+    int MouseButtonTrigger(SDL_Rect TriggerArea);
+
 
 private:
 	Gamestate _State;

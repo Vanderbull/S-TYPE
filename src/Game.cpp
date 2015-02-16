@@ -72,6 +72,22 @@ struct SaveGameData
     SaveGameData(){version = 1; difficulty = DIFFICULTY; sound = SOUND; music = MUSIC; };
 } Savegame;
 
+int Game::MouseButtonTrigger(SDL_Rect TriggerArea)
+{
+    int MouseXCoordinates, MouseYCoordinates;
+    SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
+
+    cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+
+    if (MouseXCoordinates > TriggerArea.x &&
+        MouseXCoordinates < TriggerArea.x + TriggerArea.w &&
+        MouseYCoordinates > TriggerArea.y &&
+        MouseYCoordinates < TriggerArea.y + TriggerArea.h)
+        return 1;
+    else
+        return 0;
+}
+
 void Game::HandleEvents( SDL_Event _event )
 {
     logger.write(__LINE__, __FUNCTION__);
@@ -97,15 +113,10 @@ void Game::HandleEvents( SDL_Event _event )
                 case GAME_LOADING_STATE:
                 {
                         SetGameOptionButtons();
-                        int MouseXCoordinates, MouseYCoordinates;
-                        SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
-                        cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+
                         for (int i = 0; i < 3; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Difficuty set to -> " << i << "..." << endl;
                                 DIFFICULTY = i;
@@ -114,10 +125,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 3; i < 5; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Sound set to -> " << i << "..." << endl;
                                 SOUND = i;
@@ -126,10 +134,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 5; i < 7; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Music set to -> " << i << "..." << endl;
                                 MUSIC = i;
@@ -138,10 +143,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 7; i < 8; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Returning to main menu -> " << i << "..." << endl;
                                 gamestate.GameState.pop();
@@ -151,10 +153,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 0; i < 8; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Entering button " << i << "..." << endl;
                             }
@@ -164,15 +163,9 @@ void Game::HandleEvents( SDL_Event _event )
                 case GAME_SAVING_STATE:
                 {
                         SetGameOptionButtons();
-                        int MouseXCoordinates, MouseYCoordinates;
-                        SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
-                        cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
                         for (int i = 0; i < 3; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Saving -> " << i << "..." << endl;
                                 std::ofstream of("./saves/game.sav", std::ios::out);
@@ -193,10 +186,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 3; i < 5; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Sound set to -> " << i << "..." << endl;
                                 SOUND = i;
@@ -204,10 +194,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 5; i < 7; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Music set to -> " << i << "..." << endl;
                                 MUSIC = i;
@@ -215,10 +202,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 7; i < 8; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Returning to main menu -> " << i << "..." << endl;
                                 gamestate.GameState.pop();
@@ -228,10 +212,7 @@ void Game::HandleEvents( SDL_Event _event )
                         }
                         for (int i = 0; i < 8; i++)
                         {
-                            if (MouseXCoordinates > ButtonClips[i].x &&
-                                MouseXCoordinates < ButtonClips[i].x + ButtonClips[i].w &&
-                                MouseYCoordinates > ButtonClips[i].y &&
-                                MouseYCoordinates < ButtonClips[i].y + ButtonClips[i].h)
+                            if (MouseButtonTrigger(ButtonClips[i]))
                             {
                                 cout << "Entering button " << i << "..." << endl;
                             }
@@ -241,15 +222,9 @@ void Game::HandleEvents( SDL_Event _event )
 				case GAME_OPTIONS_STATE:
 				{
 					SetGameOptionButtons();
-					int MouseXCoordinates, MouseYCoordinates;
-					SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
-					cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 					for( int i = 0; i < 3; i++ )
 					{
-						if(MouseXCoordinates > ButtonClips[ i ].x && 
-						MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
-						MouseYCoordinates > ButtonClips[ i ].y &&
-						MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+                        if (MouseButtonTrigger(ButtonClips[i]))
 						{
 							cout << "Difficuty set to -> " << i << "..." << endl;
 							DIFFICULTY = i;
@@ -257,10 +232,7 @@ void Game::HandleEvents( SDL_Event _event )
 					}
 					for( int i = 3; i < 5; i++ )
 					{
-						if(MouseXCoordinates > ButtonClips[ i ].x && 
-						MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
-						MouseYCoordinates > ButtonClips[ i ].y &&
-						MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+                        if (MouseButtonTrigger(ButtonClips[i]))
 						{
 							cout << "Sound set to -> " << i << "..." << endl;
 							SOUND = i;
@@ -268,10 +240,7 @@ void Game::HandleEvents( SDL_Event _event )
 					}
 					for( int i = 5; i < 7; i++ )
 					{
-						if(MouseXCoordinates > ButtonClips[ i ].x && 
-						MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
-						MouseYCoordinates > ButtonClips[ i ].y &&
-						MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+                        if (MouseButtonTrigger(ButtonClips[i]))
 						{
 							cout << "Music set to -> " << i << "..." << endl;
 							MUSIC = i;
@@ -280,10 +249,7 @@ void Game::HandleEvents( SDL_Event _event )
 					}
 					for( int i = 7; i < 8; i++ )
 					{
-						if(MouseXCoordinates > ButtonClips[ i ].x && 
-						MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
-						MouseYCoordinates > ButtonClips[ i ].y &&
-						MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+                        if (MouseButtonTrigger(ButtonClips[i]))
 						{
 							cout << "Returning to main menu -> " << i << "..." << endl;
 							gamestate.GameState.pop();
@@ -293,10 +259,7 @@ void Game::HandleEvents( SDL_Event _event )
 					}
 					for( int i = 0; i < 8; i++ )
 					{
-						if(MouseXCoordinates > ButtonClips[ i ].x && 
-						MouseXCoordinates < ButtonClips[ i ].x + ButtonClips[ i ].w &&
-						MouseYCoordinates > ButtonClips[ i ].y &&
-						MouseYCoordinates < ButtonClips[ i ].y + ButtonClips[ i ].h )
+                        if (MouseButtonTrigger(ButtonClips[i]))
 						{
 							cout << "Entering button " << i << "..." << endl;
 						}
@@ -408,14 +371,9 @@ void Game::HandleEvents( SDL_Event _event )
             Audio.ResumeMusic();
         }
 
-		SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
-		cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
 		for( int i = 0; i < 8; i++ )
 		{
-			if(MouseXCoordinates > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
-			MouseXCoordinates < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
-			MouseYCoordinates > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
-			MouseYCoordinates < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
+            if (MouseButtonTrigger(gamestate.MainMenuScreen->ButtonClips[i]))
 			{
 				cout << "Entering button " << i << "..." << endl;
 			}
@@ -425,10 +383,7 @@ void Game::HandleEvents( SDL_Event _event )
 			// if mouse click within boundries of one of the buttons
 			for( int i = 0; i < 8; i++ )
 			{
-					if( _event.button.x > gamestate.MainMenuScreen->ButtonClips[ i ].x && 
-					_event.button.x < gamestate.MainMenuScreen->ButtonClips[ i ].x + gamestate.MainMenuScreen->ButtonClips[ i ].w &&
-					_event.button.y > gamestate.MainMenuScreen->ButtonClips[ i ].y &&
-					_event.button.y < gamestate.MainMenuScreen->ButtonClips[ i ].y + gamestate.MainMenuScreen->ButtonClips[ i ].h )
+                    if (MouseButtonTrigger(gamestate.MainMenuScreen->ButtonClips[i]))
 					{
 						if( i == 7 )
 						{
