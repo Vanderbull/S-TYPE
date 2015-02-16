@@ -2,7 +2,7 @@
 
 #include "OctoBoss.h"
 #include "../Game.h"
-#include "../ControlGfx.h"
+#include "../GfxController/ControlGfx.h"
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32

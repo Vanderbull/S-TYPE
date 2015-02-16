@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\Collision.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ControlGfx.cpp">
-      <Filter>ControlGfx</Filter>
-    </ClCompile>
     <ClCompile Include="src\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -19,29 +13,8 @@
     <ClCompile Include="src\OutroFinish.cpp">
       <Filter>OutroFinished</Filter>
     </ClCompile>
-    <ClCompile Include="src\MainMenu.cpp">
-      <Filter>Screens\MainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bullets.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="src\Global\Global.cpp">
       <Filter>Global</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Credits.cpp">
-      <Filter>Screens\Credits</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Options.cpp">
-      <Filter>Screens\Options</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Load.cpp">
-      <Filter>Screens\Load</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Save.cpp">
-      <Filter>Screens\Save</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Spaceship.cpp">
-      <Filter>Spaceship</Filter>
     </ClCompile>
     <ClCompile Include="src\GameController\GameController.cpp">
       <Filter>Gamecontroller</Filter>
@@ -70,9 +43,6 @@
     <ClCompile Include="src\Enemies\PurpleShip.cpp">
       <Filter>Enemies\PurpleShip</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameOver.cpp">
-      <Filter>Screens\GameOver</Filter>
-    </ClCompile>
     <ClCompile Include="src\fx\fx.cpp">
       <Filter>Fx</Filter>
     </ClCompile>
@@ -85,14 +55,38 @@
     <ClCompile Include="src\Objects\Objects.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="src\Save\Save.cpp">
+      <Filter>Screens\Save</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\Bullets.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screens\Credits.cpp">
+      <Filter>Screens\Credits</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screens\GameOver.cpp">
+      <Filter>Screens\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screens\MainMenu.cpp">
+      <Filter>Screens\MainMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screens\Options.cpp">
+      <Filter>Screens\Options</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screens\Load.cpp">
+      <Filter>Screens\Load</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Collision\Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GfxController\ControlGfx.cpp">
+      <Filter>ControlGfx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\Spaceship.cpp">
+      <Filter>Spaceship</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Collision.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ControlGfx.h">
-      <Filter>ControlGfx</Filter>
-    </ClInclude>
     <ClInclude Include="src\Game.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -106,35 +100,14 @@
     <ClInclude Include="src\Enemies\MovingThings.h">
       <Filter>Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="src\MainMenu.h">
-      <Filter>Screens\MainMenu</Filter>
-    </ClInclude>
     <ClInclude Include="src\resource.h">
       <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bullets.h">
-      <Filter>Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\Global\Global.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="src\Credits.h">
-      <Filter>Screens\Credits</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Options.h">
-      <Filter>Screens\Options</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Load.h">
-      <Filter>Screens\Load</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Save.h">
-      <Filter>Screens\Save</Filter>
-    </ClInclude>
     <ClInclude Include="version.h">
       <Filter>Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Spaceship.h">
-      <Filter>Spaceship</Filter>
     </ClInclude>
     <ClInclude Include="src\GameController\GameController.h">
       <Filter>Gamecontroller</Filter>
@@ -169,9 +142,6 @@
     <ClInclude Include="src\Enemies\PurpleShip.h">
       <Filter>Enemies\PurpleShip</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameOver.h">
-      <Filter>Screens\GameOver</Filter>
-    </ClInclude>
     <ClInclude Include="src\fx\fx.h">
       <Filter>Fx</Filter>
     </ClInclude>
@@ -183,6 +153,36 @@
     </ClInclude>
     <ClInclude Include="src\Objects\Objects.h">
       <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Save\Save.h">
+      <Filter>Screens\Save</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\Bullets.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\Credits.h">
+      <Filter>Screens\Credits</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\GameOver.h">
+      <Filter>Screens\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\MainMenu.h">
+      <Filter>Screens\MainMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\Options.h">
+      <Filter>Screens\Options</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Screens\Load.h">
+      <Filter>Screens\Load</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\Collision.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GfxController\ControlGfx.h">
+      <Filter>ControlGfx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Objects\Spaceship.h">
+      <Filter>Spaceship</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

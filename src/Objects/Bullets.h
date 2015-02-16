@@ -3,8 +3,8 @@
 #include <vector>
 #include <stack>
 #include <SDL.h>
-#include "Objects/Objects.h"
-#include "Enemies\Robotnic.h"
+#include "Objects.h"
+#include "../Enemies/Robotnic.h"
 
 #define BULLET_MAX_FRAMES 15
 

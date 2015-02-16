@@ -2,7 +2,7 @@
 #include <list>
 #include <stack>
 #include <SDL.h>
-#include "../Bullets.h"
+#include "../Objects/Bullets.h"
 #include "../Objects/Objects.h"
 #include "../ParticleController/Vector3D.h"
 

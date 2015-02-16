@@ -121,10 +121,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\Audio.cpp" />
-    <ClCompile Include="src\Bullets.cpp" />
-    <ClCompile Include="src\Collision.cpp" />
-    <ClCompile Include="src\ControlGfx.cpp" />
-    <ClCompile Include="src\Credits.cpp" />
+    <ClCompile Include="src\Objects\Bullets.cpp" />
+    <ClCompile Include="src\Collision\Collision.cpp" />
+    <ClCompile Include="src\GfxController\ControlGfx.cpp" />
+    <ClCompile Include="src\Screens\Credits.cpp" />
     <ClCompile Include="src\Enemies.cpp" />
     <ClCompile Include="src\Enemies\BlueFish.cpp" />
     <ClCompile Include="src\Enemies\Robotnic.cpp" />
@@ -133,29 +133,29 @@
     <ClCompile Include="src\Enemies\PurpleShip.cpp" />
     <ClCompile Include="src\fx\fx.cpp" />
     <ClCompile Include="src\GameController\GameController.cpp" />
-    <ClCompile Include="src\GameOver.cpp" />
+    <ClCompile Include="src\Screens\GameOver.cpp" />
     <ClCompile Include="src\Global\Global.cpp" />
-    <ClCompile Include="src\Load.cpp" />
+    <ClCompile Include="src\Screens\Load.cpp" />
     <ClCompile Include="src\log\log.cpp" />
-    <ClCompile Include="src\MainMenu.cpp" />
+    <ClCompile Include="src\Screens\MainMenu.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GetInput.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Objects\Objects.cpp" />
-    <ClCompile Include="src\Options.cpp" />
+    <ClCompile Include="src\Screens\Options.cpp" />
     <ClCompile Include="src\OutroFinish.cpp" />
     <ClCompile Include="src\ParallaxEffect\ParallaxEffect.cpp" />
     <ClCompile Include="src\ParticleController\Particle.cpp" />
-    <ClCompile Include="src\Save.cpp" />
-    <ClCompile Include="src\Spaceship.cpp" />
+    <ClCompile Include="src\Save\Save.cpp" />
+    <ClCompile Include="src\Objects\Spaceship.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Audio\Audio.h" />
     <ClInclude Include="src\BaseController.h" />
-    <ClInclude Include="src\Bullets.h" />
-    <ClInclude Include="src\Collision.h" />
-    <ClInclude Include="src\ControlGfx.h" />
-    <ClInclude Include="src\Credits.h" />
+    <ClInclude Include="src\Objects\Bullets.h" />
+    <ClInclude Include="src\Collision\Collision.h" />
+    <ClInclude Include="src\GfxController\ControlGfx.h" />
+    <ClInclude Include="src\Screens\Credits.h" />
     <ClInclude Include="src\Enemies.h" />
     <ClInclude Include="src\Enemies\BlueFish.h" />
     <ClInclude Include="src\Enemies\Robotnic.h" />
@@ -166,22 +166,22 @@
     <ClInclude Include="src\Enemies\PurpleShip.h" />
     <ClInclude Include="src\fx\fx.h" />
     <ClInclude Include="src\GameController\GameController.h" />
-    <ClInclude Include="src\GameOver.h" />
+    <ClInclude Include="src\Screens\GameOver.h" />
     <ClInclude Include="src\Global\Global.h" />
-    <ClInclude Include="src\Load.h" />
+    <ClInclude Include="src\Screens\Load.h" />
     <ClInclude Include="src\log\log.h" />
-    <ClInclude Include="src\MainMenu.h" />
+    <ClInclude Include="src\Screens\MainMenu.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GetInput.h" />
     <ClInclude Include="src\Objects\Objects.h" />
-    <ClInclude Include="src\Options.h" />
+    <ClInclude Include="src\Screens\Options.h" />
     <ClInclude Include="src\OutroFinish.h" />
     <ClInclude Include="src\ParallaxEffect\ParallaxEffect.h" />
     <ClInclude Include="src\ParticleController\Particle.h" />
     <ClInclude Include="src\ParticleController\Vector3D.h" />
     <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\Save.h" />
-    <ClInclude Include="src\Spaceship.h" />
+    <ClInclude Include="src\Save\Save.h" />
+    <ClInclude Include="src\Objects\Spaceship.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 //#include "Global\Global.h"
 #include "BlueFish.h"
 #include "../Game.h"
-#include "../ControlGfx.h"
+#include "../GfxController/ControlGfx.h"
 
 #define BLUEFISH_MAX_FRAMES 15
 #define BLUEFISH_MAX_PROGRESS 12000

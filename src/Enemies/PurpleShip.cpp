@@ -3,7 +3,7 @@
 //#include "Global\Global.h"
 #include "PurpleShip.h"
 #include "../Game.h"
-#include "../ControlGfx.h"
+#include "../GfxController/ControlGfx.h"
 
 #define PURPLESHIP_MAX_FRAMES 15
 #define PURPLESHIP_MAX_PROGRESS 10000

@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "ParticleController\Particle.h"
+#include "../ParticleController/Particle.h"
 const int MAX_SURFACES = 128;
 
 class ControlGfx

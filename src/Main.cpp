@@ -13,7 +13,7 @@ using namespace std;
 #include <SDL_ttf.h>
 #include "Global\Global.h"
 #include "Game.h"
-#include "SpaceShip.h"
+#include "Objects/SpaceShip.h"
 #include "time.h"
 #include "ConfigFileConverter.h"
 #include "resource.h"

@@ -3,7 +3,7 @@
 //#include "Global\Global.h"
 #include "Robotnic.h"
 #include "../Game.h"
-#include "../ControlGfx.h"
+#include "../GfxController/ControlGfx.h"
 
 #define ROBOTNIC_MAX_FRAMES 15
 #define ROBOTNIC_MAX_PROGRESS 5000

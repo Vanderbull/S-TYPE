@@ -1,9 +1,9 @@
 #include <cmath>
 #include "Objects.h"
 #include "../Game.h"
-#include "../SpaceShip.h"
-#include "../Collision.h"
-#include "../ControlGfx.h"
+#include "../Objects/SpaceShip.h"
+#include "../Collision/Collision.h"
+#include "../GfxController/ControlGfx.h"
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32

@@ -1,16 +1,16 @@
 #pragma once
-#include "SpaceShip.h"
-#include "Game.h"
-#include "Enemies\Powerup.h"
-#include "Objects/Objects.h"
-#include "Enemies.h"
-#include "ControlGfx.h"
-#include "Bullets.h"
-#include "Enemies\PurpleShip.h"
-#include "Enemies\Robotnic.h"
-#include "Enemies\Powerup.h"
-#include "Enemies\BlueFish.h"
-#include "Audio\Audio.h"
+#include "../Objects/SpaceShip.h"
+#include "../Game.h"
+#include "../Enemies/Powerup.h"
+#include "../Objects/Objects.h"
+#include "../Enemies.h"
+#include "../GfxController/ControlGfx.h"
+#include "../Objects/Bullets.h"
+#include "../Enemies/PurpleShip.h"
+#include "../Enemies/Robotnic.h"
+#include "../Enemies/Powerup.h"
+#include "../Enemies/BlueFish.h"
+#include "../Audio/Audio.h"
 
 class ControlCollision
 {

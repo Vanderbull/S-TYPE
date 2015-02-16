@@ -1,7 +1,7 @@
 #include <cmath>
 #include <SDL.h>
 #include <SDL_image.h>
-#include "Game.h"
+#include "../Game.h"
 #include "Spaceship.h"
 
 // 1. this should go into every .cpp , after all header inclusions

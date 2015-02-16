@@ -3,8 +3,8 @@
 #include "Game.h"
 #include <list>
 #include "Objects/Objects.h"
-#include "Collision.h"
-#include "ControlGfx.h"
+#include "Collision/Collision.h"
+#include "GfxController/ControlGfx.h"
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32

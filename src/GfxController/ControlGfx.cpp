@@ -1,11 +1,11 @@
 #include "ControlGfx.h"
-#include "Game.h"
-#include "Enemies\PurpleShip.h"
-#include "Enemies\Robotnic.h"
-#include "Enemies\Powerup.h"
-#include "Enemies\BlueFish.h"
-#include "Bullets.h"
-#include "ParticleController\Particle.h"
+#include "../Game.h"
+#include "../Enemies/PurpleShip.h"
+#include "../Enemies/Robotnic.h"
+#include "../Enemies/Powerup.h"
+#include "../Enemies/BlueFish.h"
+#include "../Objects/Bullets.h"
+#include "../ParticleController/Particle.h"
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32

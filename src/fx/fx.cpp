@@ -1,7 +1,7 @@
 #include "fx.h"
 #include <SDL.h>
 #include "../game.h"
-#include "../ControlGfx.h"
+#include "../GfxController/ControlGfx.h"
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32

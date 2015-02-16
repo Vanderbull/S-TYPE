@@ -1,4 +1,4 @@
-#include "Global\Global.h"
+#include "../Global/Global.h"
 #include "Save.h" 
 #include <SDL.h>
 

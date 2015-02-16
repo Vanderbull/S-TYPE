@@ -1,5 +1,5 @@
-#include "Global\Global.h"
-#include "MainMenu.h" 
+#include "../Global/Global.h"
+#include "Credits.h" 
 #include <SDL.h>
 
 // 1. this should go into every .cpp , after all header inclusions
@@ -24,8 +24,13 @@ enum BName {
 	QUIT_GAME
 };
 
-MainMenu::MainMenu( int ButtonX, int Surface, int SurfaceButtons )							
+Credits::Credits( int ButtonX, int Surface = 0, int SurfaceButtons = 0 )							
 {
+	std::cout << "Credits rendering like a god!!!!!" << endl;
+	surface = Surface;
+
+	SurfaceButt = SurfaceButtons;
+
 	int ArraySize = sizeof(ButtonClips) / sizeof(ButtonClips[0]);
 	for( int i = 0; i < ArraySize; i++ )
 	{
@@ -48,7 +53,7 @@ MainMenu::MainMenu( int ButtonX, int Surface, int SurfaceButtons )
 	ButtonBack = false; 
 	ButtonSound = false;
 	ButtonCredits = false;
-	ButtonOptions = false;
+	ButtonHighScore = false;
 	ButtonNewgame = false;
 
 	objRectangle(ButtonClips[ BName::RESUME_GAME ], 401, 130, 350, 45 );
