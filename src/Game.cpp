@@ -317,7 +317,7 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_RUNNING_STATE:
 				{
- 
+                    GamePad.HandleInput(_event);
 				} break;
 				case GAME_OPTIONS_STATE:
 				{
