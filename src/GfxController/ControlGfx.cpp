@@ -189,6 +189,21 @@ bool ControlGfx::FLIP()
 {
     //logger.write(__LINE__, __FUNCTION__);
 
+    MEMORYSTATUSEX memInfo;
+    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+    GlobalMemoryStatusEx(&memInfo);
+    DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile;
+    DWORDLONG virtualMemUsed = memInfo.ullTotalPageFile - memInfo.ullAvailPageFile;
+
+    stringstream ssmem;
+    ssmem << virtualMemUsed;
+    string mem = "MEM: ";
+    mem.append(ssmem.str());
+
+    SDL_Surface * SrfMem;
+    SrfMem = TTF_RenderText_Solid(Gfx.DefaultFont, mem.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 50, SrfMem, Gfx.BackBuffer);
+
     stringstream ss;
     ss << framespersecond;
     string str = "FPS: ";
