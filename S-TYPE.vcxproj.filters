@@ -85,6 +85,7 @@
     <ClCompile Include="src\Objects\Spaceship.cpp">
       <Filter>Spaceship</Filter>
     </ClCompile>
+    <ClCompile Include="src\fps\fps.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Game.h">
@@ -184,6 +185,7 @@
     <ClInclude Include="src\Objects\Spaceship.h">
       <Filter>Spaceship</Filter>
     </ClInclude>
+    <ClInclude Include="src\fps\fps.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Audio">

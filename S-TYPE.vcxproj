@@ -121,6 +121,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\Audio.cpp" />
+    <ClCompile Include="src\fps\fps.cpp" />
     <ClCompile Include="src\Objects\Bullets.cpp" />
     <ClCompile Include="src\Collision\Collision.cpp" />
     <ClCompile Include="src\GfxController\ControlGfx.cpp" />
@@ -152,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="src\Audio\Audio.h" />
     <ClInclude Include="src\BaseController.h" />
+    <ClInclude Include="src\fps\fps.h" />
     <ClInclude Include="src\Objects\Bullets.h" />
     <ClInclude Include="src\Collision\Collision.h" />
     <ClInclude Include="src\GfxController\ControlGfx.h" />

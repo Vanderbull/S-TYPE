@@ -198,4 +198,21 @@ struct Level {
 
 extern Level GameLevel;
 
+// How many frames time values to keep
+// The higher the value the smoother the result is...
+// Don't make it 0 or less :)
+#define FRAME_VALUES 1000
+
+// An array to store frame times:
+extern Uint32 frametimes[FRAME_VALUES];
+
+// Last calculated SDL_GetTicks
+extern Uint32 frametimelast;
+
+// total frames rendered
+extern Uint32 framecount;
+
+// the value you want
+extern float framespersecond;
+
 #endif

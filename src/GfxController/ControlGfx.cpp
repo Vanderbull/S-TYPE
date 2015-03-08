@@ -6,6 +6,7 @@
 #include "../Enemies/BlueFish.h"
 #include "../Objects/Bullets.h"
 #include "../ParticleController/Particle.h"
+#include "../fps/fps.h"
 
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
@@ -187,6 +188,16 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 bool ControlGfx::FLIP()
 {
     //logger.write(__LINE__, __FUNCTION__);
+
+    stringstream ss;
+    ss << framespersecond;
+    string str = "FPS: ";
+    str.append(ss.str());
+
+
+    SDL_Surface * SrfText;
+    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB);
+    Gfx.apply_surface(0, 0, SrfText, Gfx.BackBuffer);
 
 	SDL_Rect srcRect = { 0, 0, (Uint16)Gfx.BackBuffer->w, (Uint16)Gfx.BackBuffer->h };
 	SDL_Rect destRect = { 0, 0, (Uint16)SDL_GetVideoSurface()->w, (Uint16)SDL_GetVideoSurface()->h };

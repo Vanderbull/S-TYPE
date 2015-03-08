@@ -341,7 +341,6 @@ void Game::HandleEvents( SDL_Event _event )
 				} break;
 				case GAME_RUNNING_STATE:
 				{
-                    //GamePad->HandleInput(_event);
                     GamePad.HandleInput(_event);
 				} break;
 			}
@@ -422,7 +421,7 @@ void Game::HandleEvents( SDL_Event _event )
 							gamestate.GameState.pop();
 							gamestate.GameState.push(GAME_RUNNING_STATE);
 						}
-						cout << "Hit button..." << i << endl;
+						//cout << "Hit button..." << i << endl;
 					}
 			}
 		}

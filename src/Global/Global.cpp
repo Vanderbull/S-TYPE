@@ -167,3 +167,15 @@ double CalcAverageTick(int newtick)
 OctoBoss OctoBossman;
 
 Level GameLevel;
+
+// An array to store frame times:
+Uint32 frametimes[FRAME_VALUES];
+
+// Last calculated SDL_GetTicks
+Uint32 frametimelast = 0;
+
+// total frames rendered
+Uint32 framecount = 0;
+
+// the value you want
+float framespersecond = 0;
