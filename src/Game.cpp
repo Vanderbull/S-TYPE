@@ -54,7 +54,6 @@ Game Engine;
 Gamestate::Gamestate()
 {
 	GameState.push(MENU_MAIN_STATE);
-
 	Parallax = 0.0f;
 	DeltaTime = 0.0f;
 }
@@ -72,17 +71,19 @@ struct SaveGameData
     SaveGameData(){version = 1; difficulty = DIFFICULTY; sound = SOUND; music = MUSIC; };
 } Savegame;
 
+
+// Utility function for mouse trigger
 int Game::MouseButtonTrigger(SDL_Rect TriggerArea)
 {
-    int MouseXCoordinates, MouseYCoordinates;
-    SDL_GetMouseState(&MouseXCoordinates, &MouseYCoordinates);
+    int XCoordinates, YCoordinates;
+    SDL_GetMouseState(&XCoordinates, &YCoordinates);
 
-    cout << "(" << MouseXCoordinates << "," << MouseYCoordinates << ")" << endl;
+    std::cout << "(" << XCoordinates << "," << YCoordinates << ")" << endl;
 
-    if (MouseXCoordinates > TriggerArea.x &&
-        MouseXCoordinates < TriggerArea.x + TriggerArea.w &&
-        MouseYCoordinates > TriggerArea.y &&
-        MouseYCoordinates < TriggerArea.y + TriggerArea.h)
+    if (XCoordinates > TriggerArea.x &&
+        XCoordinates < TriggerArea.x + TriggerArea.w &&
+        YCoordinates > TriggerArea.y &&
+        YCoordinates < TriggerArea.y + TriggerArea.h)
         return 1;
     else
         return 0;
