@@ -1,6 +1,9 @@
 #pragma once
-#include "SDL/SDL.h"
-#include "SDL/SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include "SDL/SDL.h"
+//#include "SDL/SDL_image.h"
 #include <list>
 
 enum{ ENEMY_ZOMBIE, ENEMY_SKELETON };
@@ -10,7 +13,7 @@ enum{ ENEMY_ZOMBIE, ENEMY_SKELETON };
 class Enemy
 {
 public:
-	
+
 	void Set_Clips( int WhichTypeOfEnemy );
 	int xPos, yPos;
 	int Enemy_Width, Enemy_Height;
@@ -21,12 +24,12 @@ public:
 	bool Walk, Attack, Die;
 
 	void SetFrame();
-	
+
 	SDL_Rect SkeletonClips[ 2 ][ 14 ];
 	SDL_Rect EnemyClips[10];
 
 
-	
+
 private:
 };
 
@@ -37,7 +40,7 @@ public:
 	int Frame;
 	int radius;
 	int Width, Height;
-	
+
 	int surface;
 	SDL_Rect Clips[ 16 ];
 };
@@ -88,10 +91,10 @@ public:
 
 	std::list< Heads* > My_BossHead;
 
-	
-	
+
+
 private:
-	int AttackTimer, State;; 
+	int AttackTimer, State;;
 
 };
 

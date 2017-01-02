@@ -1,6 +1,7 @@
 #include "fx.h"
-#include <SDL.h>
-#include "../game.h"
+#include <SDL2/SDL.h>
+//#include <SDL.h>
+#include "../Game.h"
 #include "../GfxController/ControlGfx.h"
 
 // 1. this should go into every .cpp , after all header inclusions
@@ -26,29 +27,29 @@ void FX::Update()
 {
 	SetCollisionBox(this->GetLocAndSize().x, this->GetLocAndSize().y + 30, 5, 80);
 	LocAndSize.x += 0.0010f * gamestate.DeltaTime;
-	
+
 	PrevFrame = Frame++;
-	
+
 	if( Frame >= FX_MAX_FRAMES )
 	{
 		Frame = 0;
 	}
-	
+
 	//UpdateCollisionBox( LocAndSize );
 }
 
 void FX::Draw()
 {
-	#ifdef _DEBUG 
+	#ifdef _DEBUG
 	 //SDL_FillRect(Gfx.BackBuffer, &CollisionBox,0xffffff );
 	#endif
 
     //LocAndSize.y = LocAndSize.y - 10;
-	SDL_BlitSurface( 
+	SDL_BlitSurface(
 		Gfx.GetSurface( SurfaceID ),
-		&Clips[ PrevFrame ], 
-		Gfx.BackBuffer, 
-		&GetLocAndSize() 
+		&Clips[ PrevFrame ],
+		Gfx.BackBuffer,
+		GetLocAndSize
 	);
 }
 
@@ -57,9 +58,9 @@ int FX::GetSurfaceID()
 	return SurfaceID;
 }
 
-SDL_Rect FX::GetLocAndSize()
+SDL_Rect* FX::GetLocAndSize()
 {
-	return LocAndSize;
+	return &LocAndSize;
 }
 
 FX::FX()

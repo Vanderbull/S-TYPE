@@ -1,8 +1,12 @@
 #pragma once
+
+#include <SDL2/SDL.h>
+//#include <SDL.h>
+
 #include <list>
 #include <vector>
 #include <stack>
-#include <SDL.h>
+
 #include "Objects.h"
 #include "../Enemies/Robotnic.h"
 
@@ -14,7 +18,7 @@ class Bullet : public Object
 
 public:
 	Bullet();
-	
+
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Update();
     // Octobullet Update
@@ -26,7 +30,7 @@ public:
 	void DeActivate(){ Active = false; };
 	void Activate(){ Active = true; };
 	void onDestruction(){ DeActivate(); };
-	
+
 	SDL_Rect GetLocAndSize();
 	void SetCollisionBox(Sint16 x, Sint16 y, Sint16 h, Sint16 w)
 	{
@@ -58,7 +62,7 @@ public:
 
     Bullet CreateBulletByReference(Sint16 xPos, Sint16 yPos, Sint16 surface);
 
-	std::vector< Bullet > BulletArrayRef;	
+	std::vector< Bullet > BulletArrayRef;
 private:
 
 };

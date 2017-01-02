@@ -1,5 +1,6 @@
 #pragma once
-#include "../Objects/SpaceShip.h"
+#include "../Objects/Spaceship.h"
+//#include "../Objects/SpaceShip.h"
 #include "../Game.h"
 #include "../Enemies/Powerup.h"
 #include "../Objects/Objects.h"
@@ -54,7 +55,7 @@ public:
 		{
             for (vector< Robotnic >::iterator iRobotnic = VRobotnic.begin(); iRobotnic != VRobotnic.end();)
 			{
-				if( !( 
+				if( !(
                     iBullet->GetCollisionBox().x > iRobotnic->LocAndSize.x + iRobotnic->LocAndSize.w ||
                     iBullet->GetCollisionBox().x + iBullet->GetCollisionBox().w < iRobotnic->LocAndSize.x ||
                     iBullet->GetCollisionBox().y > iRobotnic->LocAndSize.y + iRobotnic->LocAndSize.h ||
@@ -72,7 +73,7 @@ public:
                     //tmp = iRobotnic->CollisionBox;
                     //explosion_trigger.insert(std::pair<std::string, SDL_Rect>("Robotnic", tmp));
                     //animation_event_trigger.push_back("explosion");
-                    
+
 				}
 				else
 				{
@@ -209,7 +210,7 @@ public:
 		}
         for (vector< Robotnic >::iterator iRobotnic = VRobotnic.begin(); iRobotnic != VRobotnic.end();)
 			{
-				if( !( 
+				if( !(
                     Spaceship.GetCollisionBox().x > iRobotnic->LocAndSize.x + iRobotnic->LocAndSize.w ||
                     Spaceship.GetCollisionBox().x + Spaceship.GetCollisionBox().w < iRobotnic->LocAndSize.x ||
                     Spaceship.GetCollisionBox().y > iRobotnic->LocAndSize.y + iRobotnic->LocAndSize.h ||
@@ -271,7 +272,7 @@ public:
                 ))
             {
                 Audio.PlaySoundEffect(10);
-                
+
                 iPowerup = VPowerups.erase(iPowerup);
             }
             else

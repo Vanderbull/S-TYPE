@@ -1,4 +1,6 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+//#include <SDL.h>
 
 #include "OctoBoss.h"
 #include "../Game.h"
@@ -153,7 +155,7 @@ void OctoBoss::Draw()
     m_location.w = _Surface->clip_rect.w;
     SDL_BlitSurface(
         _Surface,
-        0, 
+        0,
         Gfx.BackBuffer,
         &m_location
         );
@@ -189,7 +191,7 @@ int OctoBoss::GetSurfaceID()
 }
 
 SDL_Surface* OctoBoss::GetSurface()
-{   
+{
     return _Surface;
 }
 
@@ -204,11 +206,13 @@ int OctoBoss::LoadImageAlpha(std::string filename, int r = 0, int g = 0, int b =
     _Surface = IMG_Load(filename.c_str());
     if (_Surface != NULL)
     {
-        _Surface = SDL_DisplayFormatAlpha(_Surface);
+        //_Surface = SDL_DisplayFormatAlpha(_Surface);
+        _Surface = SDL_ConvertSurface(_Surface, _Surface->format, NULL);
     }
     if (_Surface != NULL)
     {
-        SDL_SetColorKey(_Surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(_Surface->format, r, g, b));
+        //SDL_SetColorKey(_Surface, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(_Surface->format, r, g, b));
+        SDL_SetColorKey(_Surface, SDL_TRUE, SDL_MapRGB(_Surface->format, r, g, b));
     }
     return 0;
 }

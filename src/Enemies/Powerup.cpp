@@ -2,7 +2,7 @@
 #include <random>
 #include "Powerup.h"
 #include "../Game.h"
-#include "../Objects/SpaceShip.h"
+#include "../Objects/Spaceship.h"
 #include "../Collision/Collision.h"
 #include "../GfxController/ControlGfx.h"
 
@@ -22,7 +22,7 @@ ControlPowerup PowerupController;
 Powerup::Powerup()
 {
     Activate();
-	
+
     CollisionBox.x = 0;
 	CollisionBox.y = 0;
 	CollisionBox.h = SpriteHeight;
@@ -74,17 +74,17 @@ void Powerup::Update()
 
 void Powerup::Draw()
 {
-	SDL_BlitSurface( 
+	SDL_BlitSurface(
 		Gfx.GetSurface( SurfaceID ),
-		&Clips[ 0 ], 
-		Gfx.BackBuffer, 
-		&GetDestination() 
+		&Clips[ 0 ],
+		Gfx.BackBuffer,
+		GetDestination()
 	);
 }
 
-SDL_Rect Powerup::GetDestination()
+SDL_Rect* Powerup::GetDestination()
 {
-	return LocAndSize;
+	return &LocAndSize;
 }
 
 void ControlPowerup::DrawPowerup()

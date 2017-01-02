@@ -1,7 +1,8 @@
 #pragma once
-#include <SDL_mixer.h>
+#include <SDL2/SDL_mixer.h>
+//#include <SDL_mixer.h>
 
-enum E_AUDIO{	
+enum E_AUDIO{
 	LASER = 4,
 	EXPLOSION = 5
 };
@@ -40,7 +41,7 @@ public:
     //Note: Does not check if the music was been halted after it was paused, which may seem a little weird.
     //Returns : Zero if music is not paused. 1 if it is paused.
     int IsPaused(){ return Mix_PausedMusic(); }
-    
+
     bool ToggleMusic(){ return MusicToggle = !MusicToggle; };
     bool State(){ return MusicToggle; };
 };

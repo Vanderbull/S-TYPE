@@ -24,7 +24,7 @@ Object::Object()
 	Active = 0;
 	SurfaceID = 0;
 	Frame = 0;
-	
+
 	LocAndSize.h = 0;
 	LocAndSize.w = 0;
 	LocAndSize.x = 0;
@@ -82,7 +82,7 @@ int Object::SetClips(int _xStepping = 0, int _yStepping = 0, int _Width = 0, int
 	return 0;
 }
 
-SDL_Rect Object::GetRenderBox()
+SDL_Rect* Object::GetRenderBox()
 {
     logger.write(__LINE__, __FUNCTION__);
 
@@ -92,7 +92,7 @@ SDL_Rect Object::GetRenderBox()
     RenderBox.h = SpriteHeight;
     RenderBox.w = SpriteWidth;
 
-    return RenderBox;
+    return &RenderBox;
 }
 
 SDL_Rect Object::UpdateCollisionBox(SDL_Rect Box)
@@ -132,7 +132,7 @@ int Object::isColliding(SDL_Rect Box)
 
 ControlObject::ControlObject()
 {
-	destHealth.x = 50; 
+	destHealth.x = 50;
 	destHealth.y = 550;
 	destHealth.w = 70;
 	destHealth.h = 20;
@@ -147,7 +147,7 @@ void ControlObject::CreateObjects()
 void ControlObject::DrawObjects()
 {
 	list< CEnemy* >vRemoveEnemy;
-	list< CEnemy* >::iterator vRemoveIterEnemy; 
+	list< CEnemy* >::iterator vRemoveIterEnemy;
 
 	// x,y,w,h
 	SDL_Rect srfHealth = {0,0,64*Spaceship._Lives,64};

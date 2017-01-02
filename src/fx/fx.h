@@ -2,7 +2,8 @@
 #include <list>
 #include <vector>
 #include <stack>
-#include <SDL.h>
+#include <SDL2/SDL.h>
+//#include <SDL.h>
 #include "../Objects/Objects.h"
 
 #define FX_MAX_FRAMES 15
@@ -12,7 +13,7 @@ class FX : public Object
 
 public:
 	FX();
-	
+
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Update();
 	void Draw();
@@ -22,8 +23,8 @@ public:
 	void DeActivate(){ Active = false; };
 	void Activate(){ Active = true; };
 	void onDestruction(){ DeActivate(); };
-	
-	SDL_Rect GetLocAndSize();
+
+	SDL_Rect* GetLocAndSize();
 	void SetCollisionBox(Sint16 x, Sint16 y, Sint16 h, Sint16 w)
 	{
 		CollisionBox.x = x;
@@ -39,7 +40,7 @@ private:
 	int PrevFrame;
 };
 
-/// <summary>A class the controls the animals</summary> 
+/// <summary>A class the controls the animals</summary>
 class ControlFX
 {
 public:
@@ -53,7 +54,7 @@ public:
 
 	FX CreateFXByReference( int xPos, int yPos, int surface );
 
-	std::vector< FX > FXArrayRef;	
+	std::vector< FX > FXArrayRef;
 private:
 
 };

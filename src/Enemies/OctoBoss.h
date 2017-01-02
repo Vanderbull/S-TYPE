@@ -1,7 +1,11 @@
 #pragma once
+
+#include <SDL2/SDL.h>
+//#include <SDL.h>
+
 #include <list>
 #include <stack>
-#include <SDL.h>
+
 #include "../Objects/Bullets.h"
 #include "../Objects/Objects.h"
 #include "../ParticleController/Vector3D.h"

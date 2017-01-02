@@ -4,7 +4,10 @@
 #include <vector>
 
 using namespace std;
-#include <SDL.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include <SDL.h>
 #include "../Objects/Objects.h"
 
 #define MAX_FRAMES 15
@@ -21,8 +24,8 @@ public:
 	SDL_Rect UpdateCollisionBox(SDL_Rect Box);
 	void Update();
 	void Draw();
-	
-	SDL_Rect GetDestination();
+
+	SDL_Rect* GetDestination();
 
 	bool isActive(){ return Active; };
 	void DeActivate(){ Active = false; };

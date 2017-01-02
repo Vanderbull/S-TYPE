@@ -1,6 +1,7 @@
 #include "fps.h"
-#include <SDL.h>
-#include "../game.h"
+#include <SDL2/SDL.h>
+//#include <SDL.h>
+#include "../Game.h"
 //#include "../GfxController/ControlGfx.h"
 
 // 1. this should go into every .cpp , after all header inclusions

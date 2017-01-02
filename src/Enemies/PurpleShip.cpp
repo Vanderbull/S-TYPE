@@ -1,4 +1,5 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
+//#include <SDL.h>
 
 //#include "Global\Global.h"
 #include "PurpleShip.h"
@@ -155,7 +156,7 @@ void PurpleShip::Draw()
         Gfx.GetSurface(SurfaceID),
         &Clips[0], //PrevFrame replaced with 0 as there is no animation
         Gfx.BackBuffer,
-        &GetRenderBox()
+        GetRenderBox()
         );
 
     SDL_FillRect(Gfx.BackBuffer, &CollisionBox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
@@ -194,7 +195,7 @@ void ControlPurpleShip::CreatePurpleShip(int iProgress)
     {
         if (std::rand() % 100 + 1 > 99)
         {
-            PurpleShipArrayRef.push_back(CreatePurpleShipByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfPurpleShip));
+            //PurpleShipArrayRef.push_back(CreatePurpleShipByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfPurpleShip));
         }
     }
 }

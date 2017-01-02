@@ -1,5 +1,8 @@
 #pragma once
-#include <SDL.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+//#include <SDL.h>
 
 // MainMenu for the game
 // input: int button,int surface,int surfacebutton
@@ -16,7 +19,7 @@ public:
 	bool ButtonOptions;
 	bool ButtonNewgame;
 	bool ButtonBack;
-	bool ButtonSound; 
+	bool ButtonSound;
 	bool ButtonCredits;
 
 	//bool ButtonHighScore;

@@ -4,7 +4,10 @@
 #include <vector>
 using namespace std;
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include <SDL.h>
 #include "Vector3D.h"
 
 class Particle
@@ -32,18 +35,18 @@ public:
 
     void checkEdges(float width = 0, float height = 0)
     {
-        if (location.x > width) 
+        if (location.x > width)
         {
             location.x = width;
             velocity.x *= -1;
         }
-        else if (location.x < 0) 
+        else if (location.x < 0)
         {
             velocity.x *= -1;
             location.x = 0;
         }
 
-        if (location.y > height) 
+        if (location.y > height)
         {
                 velocity.y *= -1;
             location.y = height;
@@ -55,7 +58,7 @@ public:
         }
      }
 
-    void applyForce(Vector3D force) 
+    void applyForce(Vector3D force)
     {
         acceleration = force;
     }

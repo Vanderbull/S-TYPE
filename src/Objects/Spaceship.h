@@ -1,9 +1,14 @@
 #pragma once
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include <SDL.h>
+//#include <SDL_image.h>
+
 #include <queue>
 #include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
+
 
 class SpaceshipInterface
 {
@@ -20,7 +25,7 @@ public:
 
 	SDL_Rect _Velocity;
 	SDL_Rect _CollisionBox;
-	
+
 	int CalculateVelocity()
 	{
 		_Velocity.x = _Speed + _Scale;
@@ -84,7 +89,7 @@ public:
 
 	void Update();
 	void SetClips();
-	void UpdatePosition(float x, float y); 
+	void UpdatePosition(float x, float y);
 
 	void SetAliveState( BaseSpaceShip::AliveState state )
 	{
@@ -95,7 +100,7 @@ public:
 	   return _AliveState;
 	}
 
-	std::string BaseSpaceShip::GetAction()
+	std::string GetAction()
 	{
 		if( !Action.empty() )
 		{
@@ -109,22 +114,22 @@ public:
 		}
 	}
 
-	void BaseSpaceShip::AddAction(std::string action_event)
+	void AddAction(std::string action_event)
 	{
 		//Action.push(action_event);
 	}
 
-	std::string BaseSpaceShip::GetVelocity()
+	std::string GetVelocity()
 	{
 		return "No actions...";
 	}
 
-	void BaseSpaceShip::AddVelocity(std::string velocity_event)
+	void AddVelocity(std::string velocity_event)
 	{
 		//Action.push(action_event);
 	}
 
-	std::string BaseSpaceShip::GetBeam()
+	std::string GetBeam()
 	{
 		if( !Beam.empty() )
 		{
@@ -138,12 +143,12 @@ public:
 		}
 	}
 
-	void BaseSpaceShip::AddBeam(std::string beam_event)
+	void AddBeam(std::string beam_event)
 	{
 		//Action.push(action_event);
 	}
 
-	void BaseSpaceShip::SetCollisionBox(Sint16 x, Sint16 y, Sint16 h, Sint16 w)
+	void SetCollisionBox(Sint16 x, Sint16 y, Sint16 h, Sint16 w)
 	{
 		_CollisionBox.x = x;
 		_CollisionBox.y = y;
@@ -151,12 +156,12 @@ public:
 		_CollisionBox.w = w;
 	}
 
-	SDL_Rect BaseSpaceShip::GetCollisionBox()
+	SDL_Rect GetCollisionBox()
 	{
 		return _CollisionBox;
 	}
 
-	int BaseSpaceShip::isColliding( SDL_Rect CollisionObject )
+	int isColliding( SDL_Rect CollisionObject )
 	{
 		Sint16 PlayerRight = GetPosition().x + GetPosition().w;
 		Sint16 PlayerLeft = GetPosition().x;
@@ -170,28 +175,28 @@ public:
 
 		if (CollisionObjectBottom < PlayerTop) return(0);
 		if (CollisionObjectTop > PlayerBottom) return(0);
-  
+
 		if (CollisionObjectRight < PlayerLeft) return(0);
 		if (CollisionObjectLeft > PlayerRight) return(0);
 
 		return(1);
 	}
 
-    int BaseSpaceShip::IncreasePowerLevel()
+    int IncreasePowerLevel()
     {
-        return _PowerLevel++;   
+        return _PowerLevel++;
     }
 
-    int BaseSpaceShip::DecreasePowerLevel()
+    int DecreasePowerLevel()
     {
         return _PowerLevel = _PowerLevel - 5;
     }
-    int BaseSpaceShip::GetPowerLevel()
+    int GetPowerLevel()
     {
         return _PowerLevel;
     }
 
-    int BaseSpaceShip::Accelerate(float x, float y)
+    int Accelerate(float x, float y)
     {
         if (y == 0.0f)
             yVelocity = yVelocity;
@@ -211,11 +216,11 @@ public:
         return 0;
     };
 
-    float BaseSpaceShip::GetVelocityX()
+    float GetVelocityX()
     {
         return xVelocity;
     }
-    float BaseSpaceShip::GetVelocityY()
+    float GetVelocityY()
     {
         return yVelocity;
     }

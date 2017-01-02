@@ -1,10 +1,14 @@
 #pragma once
+
+#include <SDL2/SDL.h>
+//#include <SDL.h>
+
 #include <iostream>
 #include <list>
 #include <vector>
 
 using namespace std;
-#include <SDL.h>
+
 #include "../ParticleController/Vector3D.h"
 
 
@@ -25,7 +29,7 @@ public:
 	virtual void onDestruction() = 0;
 	virtual void Spawn() = 0;
 
-    SDL_Rect GetRenderBox();
+    SDL_Rect* GetRenderBox();
     SDL_Rect UpdateCollisionBox(SDL_Rect Box);
     int isColliding(SDL_Rect Box);
 
@@ -69,7 +73,7 @@ public:
 
 	int Initialize(SDL_Rect iData,int Frame);
 
-	int Object::SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
+	int SetClips(int _xStepping, int _yStepping, int _Width, int _Height);
 
 	bool Active;
 	int SurfaceID;
@@ -113,10 +117,10 @@ public:
 	ControlObject();
 	void DrawObjects();
 	void CreateObjects();
-	
+
 	SDL_Rect destHealth;
 	int FrameHealth;
-	
+
 	//vector of objects
 	std::vector<Asteroid> ActiveAsteroids;
 	Asteroid SpawnAsteroid( int _xPos, int _yPos, int _SurfaceID )
@@ -138,7 +142,7 @@ public:
 
 	void RemoveActiveObjects()
 	{
-		for(std::vector<Asteroid>::iterator it = ActiveAsteroids.begin(); it != ActiveAsteroids.end(); ++it) 
+		for(std::vector<Asteroid>::iterator it = ActiveAsteroids.begin(); it != ActiveAsteroids.end(); ++it)
 		{
 			std::cout << (*it).isActive() << endl;
 			if( !(*it).isActive() )

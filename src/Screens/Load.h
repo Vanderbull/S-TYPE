@@ -1,5 +1,9 @@
 #pragma once
-#include <SDL.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include <SDL.h>
 
 class Load
 {
@@ -15,7 +19,7 @@ public:
 	bool ButtonOptions;
 	bool ButtonNewgame;
 	bool ButtonBack;
-	bool ButtonSound; 
+	bool ButtonSound;
 	bool ButtonCredits;
 	bool ButtonHighScore;
 };

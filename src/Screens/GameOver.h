@@ -1,5 +1,9 @@
 #pragma once
-#include <SDL.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include <SDL.h>
 
 class GameOver
 {
@@ -14,7 +18,7 @@ public:
 	bool ButtonOptions;
 	bool ButtonNewgame;
 	bool ButtonBack;
-	bool ButtonSound; 
+	bool ButtonSound;
 	bool ButtonCredits;
 
 };

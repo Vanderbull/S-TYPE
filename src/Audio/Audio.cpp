@@ -1,13 +1,16 @@
 #include "Audio.h"
-#include <SDL.h>
-#include <SDL_mixer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+
+//#include <SDL.h>
+//#include <SDL_mixer.h>
 #include <iostream>
-#include <Windows.h>
 using namespace std;
 
 #include "../Game.h"
 // 1. this should go into every .cpp , after all header inclusions
 #ifdef _WIN32
+    #include <Windows.h>
 #ifdef _DEBUG
    #include <crtdbg.h>
    #undef THIS_FILE
@@ -18,7 +21,7 @@ using namespace std;
 #endif
 
 ControlAudio Audio;
- 
+
 ControlAudio::ControlAudio()
 {
 	cout << "Creating the Audio controller..." << endl;
@@ -26,7 +29,7 @@ ControlAudio::ControlAudio()
 	{
 		Playlist[i] = NULL;
 	}
-	if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024)==-1) 
+	if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024)==-1)
 	{
 		cout << "Mix_OpenAudio: " << Mix_GetError() << endl;
 		exit(2);
@@ -73,7 +76,7 @@ void ControlAudio::PlayMusic( int song )
     if( Mix_PlayingMusic() == 0 )
     {
         Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-		if(Mix_PlayMusic(Playlist[song], -1)==-1) 
+		if(Mix_PlayMusic(Playlist[song], -1)==-1)
 		{
 			std::cout << "Mix_PlayMusic: " << Mix_GetError() << endl;
 		}
@@ -121,7 +124,7 @@ ControlAudio::~ControlAudio()
 	{
 		Playlist[i] = NULL;
 	}
-	
+
 	// Removing reference to loaded SFX
 	for( int i=0; i < (sizeof Sfx / sizeof Sfx[0]); i++ )
 	{
@@ -130,7 +133,7 @@ ControlAudio::~ControlAudio()
 }
 
 void ControlAudio::GetFadeStatusMusic()
-{ 	
+{
 // check the music fade status
 switch(Mix_FadingMusic()) {
     case MIX_NO_FADING:

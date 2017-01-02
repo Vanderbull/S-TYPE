@@ -8,9 +8,12 @@
 #include <cmath>
 #include <chrono>
 using namespace std;
-#include <SDL.h>
-#include <SDL_mixer.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
+//#include <SDL.h>
+//#include <SDL_mixer.h>
+//#include <SDL_ttf.h>
 #include "Global\Global.h"
 #include "Game.h"
 #include "Objects/SpaceShip.h"
@@ -25,7 +28,9 @@ using namespace std;
 //#pragma comment(linker,"/SUBSYSTEM:windows")
 
 // 1. this should go into every .cpp , after all header inclusions
-#ifdef _WIN32
+#ifdef linux
+
+#elif _WIN32
 #ifdef _DEBUG
    #include <crtdbg.h>
    #undef THIS_FILE
@@ -65,7 +70,7 @@ int main( int argc, char * arg[] )
         ((osvi.dwMajorVersion == 5) && (osvi.dwMinorVersion >= 1)));
 
     if (bIsWindowsXPorLater)
-    {   
+    {
         logger.write(__LINE__, "The system meets the requirements.");
     }
     else
@@ -74,11 +79,11 @@ int main( int argc, char * arg[] )
     }
 
     std::cout << "Have " << argc << " arguments:" << std::endl;
-    for (int i = 0; i < argc; ++i) 
+    for (int i = 0; i < argc; ++i)
     {
         std::cout << arg[i] << std::endl;
     }
-    
+
     //int random_variable = std::rand();
     //std::cout    << random_variable << '\n';
     //std::cout << "Random value on [0 " << RAND_MAX << "]: ";
@@ -105,7 +110,7 @@ int main( int argc, char * arg[] )
     Engine.GamePad.init();
 
     logger.write(__LINE__, "Engine GamePad initialized...");
-    
+
     LARGE_INTEGER StartingTime, EndingTime, ElapsedMicroseconds = { 0 };
     LARGE_INTEGER Frequency = { 0 };
 
@@ -119,9 +124,9 @@ int main( int argc, char * arg[] )
 
 		gamestate.DeltaTime = ((end.QuadPart - start.QuadPart) * 1000000 / freq.QuadPart);
         //logger.write(__LINE__, "DT = " + std::to_string(gamestate.DeltaTime));
-		
+
 		QueryPerformanceCounter(&start);
-        
+
         //Engine.Update(event, (double)ElapsedMicroseconds.QuadPart);
         Engine.Update(event, (double)framespersecond);
         //Engine.GamePad->Update();
@@ -132,7 +137,7 @@ int main( int argc, char * arg[] )
 
 		QueryPerformanceCounter(&end);
         QueryPerformanceCounter(&EndingTime);
-        
+
         ElapsedMicroseconds.QuadPart = EndingTime.QuadPart - StartingTime.QuadPart;
 
         //
@@ -142,7 +147,7 @@ int main( int argc, char * arg[] )
         // To guard against loss-of-precision, we convert
         // to microseconds *before* dividing by ticks-per-second.
         //
-        
+
         ElapsedMicroseconds.QuadPart *= 1000000;
         ElapsedMicroseconds.QuadPart /= Frequency.QuadPart;
 

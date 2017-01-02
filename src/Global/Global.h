@@ -1,7 +1,22 @@
-#ifndef GLOBAL_H // header guards 
-#define GLOBAL_H   // extern tells the compiler this variable is declared elsewhere 
+#ifndef GLOBAL_H // header guards
+#define GLOBAL_H   // extern tells the compiler this variable is declared elsewhere
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
+
+//#include <SDL.h>
+//#include <SDL_image.h>
+//#include <SDL_ttf.h>
+//#include <SDL_mixer.h>
+
 #include <iostream>
-#include <windows.h>
+
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
 #include <sstream>
 #include <stdlib.h>
 #include <fstream>
@@ -9,14 +24,11 @@
 #include <vector>
 #include <map>
 #include <string>
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
+
 
 using namespace std;
 
-#include "../src/log/log.h"
+#include "../log/log.h"
 #include "../Enemies/OctoBoss.h"
 
 extern flog logger;
@@ -112,7 +124,7 @@ double CalcAverageTick(int newtick);
 extern OctoBoss OctoBossman;
 
 struct Level {
-    
+
     SDL_Rect LevelBox;
     int Progress;
     int MaxLevel = 9;
@@ -170,7 +182,7 @@ struct Level {
                 StageCleared = 1;
                 //Progress = Length.at(active);
                 //LevelBox.x = Length.at(active);
-            }            
+            }
         }
     };
     SDL_Rect GetBox(){ return LevelBox; };

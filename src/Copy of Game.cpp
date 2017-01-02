@@ -1,11 +1,19 @@
 #pragma once
 
 #include <iostream>
-#include "SDL.h"
-#include "SDL_image.h"
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include "SDL.h"
+//#include "SDL_image.h"
 #include "Game.h"
 #include "characters.h"
-#include <windows.h>
+
+#ifdef _WIN32
+    #include <windows.h>
+#endif // _WIN32
+
 #include <sstream>
 #include <stdlib.h>
 #include <fstream>
@@ -39,7 +47,7 @@ Gamestate::Gamestate()
 	Current_AnimArray = 0;
 	Current_Frame = 0;
 
-	
+
 
 	m_paralax = 0;
 	Score = 0;
@@ -57,9 +65,9 @@ Tree * Gamestate::CreateTree( int xPos, int yPos )
 }
 
 void Game::Handle_events( SDL_Event input )
-{	
-	
-	
+{
+
+
 	// checks input for keypresses and releases
 	if( input.type == SDL_KEYUP )
 	{
@@ -106,16 +114,16 @@ void Game::Handle_events( SDL_Event input )
 		{
 		case SDLK_RIGHT:
 			{
-				if( demon.isCrouching == false && demon.isKicking == false 
+				if( demon.isCrouching == false && demon.isKicking == false
 					&& demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
-				{	
+				{
 					demon.isMovingRight = true;
 				}
 				break;
 			}
 		case SDLK_LEFT:
 			{
-				if( demon.isCrouching == false && demon.isKicking == false 
+				if( demon.isCrouching == false && demon.isKicking == false
 					&& demon.isPunching == false && demon.isJumping == false && demon.yPos == GROUND_Y )
 				{
 					demon.isMovingLeft = true;
@@ -124,8 +132,8 @@ void Game::Handle_events( SDL_Event input )
 			}
 		case SDLK_UP:
 			{
-				if( demon.isCrouching == false && demon.isPunching == false 
-					&& demon.isKicking == false && demon.isJumping == false 
+				if( demon.isCrouching == false && demon.isPunching == false
+					&& demon.isKicking == false && demon.isJumping == false
 					&& demon.yPos == GROUND_Y )
 				{
 					demon.isJumping = true;
@@ -134,7 +142,7 @@ void Game::Handle_events( SDL_Event input )
 			}
 		case SDLK_DOWN:
 			{
-				if( demon.isJumping == false && demon.isKicking == false && demon.isPunching == false 
+				if( demon.isJumping == false && demon.isKicking == false && demon.isPunching == false
 					&& demon.isMovingLeft == false && demon.isMovingRight == false )
 				{
 					demon.isCrouching = true;
@@ -148,7 +156,7 @@ void Game::Handle_events( SDL_Event input )
 					gamestate.IntroDone = true;
 				}
 
-				if( demon.isPunching == false  
+				if( demon.isPunching == false
 				 && demon.isKicking == false && demon.isJumping == false )
 				{
 					demon.isKicking = true;
@@ -157,7 +165,7 @@ void Game::Handle_events( SDL_Event input )
 			}
 		case SDLK_LALT:
 			{
-				if( demon.isPunching == false 
+				if( demon.isPunching == false
 				 && demon.isKicking == false && demon.isJumping == false )
 				{
 				demon.isPunching = true;
@@ -171,12 +179,12 @@ void Game::Handle_events( SDL_Event input )
 	{
 		return;
 	}
-	
+
 }
 
 bool Gamestate::CheckCollisionWithPlayer( Enemy *MyEnemy, int WhichCollisionToUse )
 {
-	
+
 	bool temp = false;
 
 	if( MyEnemy->Die == true )
@@ -219,15 +227,15 @@ Game::Game()
 {
 	gamestate.GameOK = true;
 	gamestate.GameOK = Init( gamestate.screen );
-	
-	demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH ); 
+
+	demon.InitiateDemon( demon.DemonSurface, GROUND_X, GROUND_Y, DEMONHEIGHT, DEMONWIDTH );
 
 	gamestate.load_files();
 	demon.Set_clips();
 }
 
 void Gamestate::load_files()
-{	
+{
 	m_srfGrass = Load_imageAlpha( "Graphics\\nyabananstor.png", 0, 0, 0 );
 	m_srfFence = Load_imageAlpha( "Graphics\\Fence.png", 0, 0, 0 );
 	m_srfClouds = Load_imageAlpha( "Graphics\\cloud.png", 0, 0, 0 );
@@ -248,7 +256,7 @@ void Gamestate::load_files()
 	m_srfButtons = Load_imageAlpha( "Graphics\\buttons.png", 255, 0, 0 );
 
 	Dragon = new DancingDragon( m_srfDragon );
-	TitleScreen = new FirstScreen(	0, 0, 800, 600, 50, 550, 150, 550, 185, 185, 250, 
+	TitleScreen = new FirstScreen(	0, 0, 800, 600, 50, 550, 150, 550, 185, 185, 250,
 						550, gamestate.m_srfStart, gamestate.m_srfButtons );
 	//sets up my background layers
 	setUpParallaxLayers();
@@ -276,7 +284,7 @@ void Gamestate::DrawObjects()
 	Control_ENEMY.Draw_Enemies();
 	Control_Anim.Draw_Animals();
 	Control_OBJ.DrawObjects();
-	
+
 }
 
 Boss * Gamestate::CreateBoss( int xPos, int yPos, int surface )
@@ -307,7 +315,7 @@ void Game::upDate( SDL_Event input )
 		// Intro sequence
 		case GS_INTRO:
 			{
-				
+
 				gamestate.MainScreen();
 				break;
 			}
@@ -320,7 +328,7 @@ void Game::upDate( SDL_Event input )
 		// Level1 Loop
 		case GS_LEVEL1:
 			{
-			
+
 				// handles events what the user does with the character
 				Handle_events( input );
 
@@ -330,7 +338,7 @@ void Game::upDate( SDL_Event input )
 				gamestate.DrawSprite();
 				gamestate.FLIP();
 				break;
-			
+
 			}
 		case GS_LEVEL1BOSS:
 			{
@@ -350,7 +358,7 @@ void Game::upDate( SDL_Event input )
 				break;
 			}
 	}
-	
+
 }
 
 void Gamestate::Loading()
@@ -358,12 +366,12 @@ void Gamestate::Loading()
 	ParallaxLayer  * MyParaBackGround;
 	MyParaBackGround = Paralax->getLayer( 0 );
 
-	SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
+	SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width,
 								MyParaBackGround->m_height };
 
 	SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
 
-	SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.screen, &dtRect ); 
+	SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.screen, &dtRect );
 
 	SDL_Rect dstRect = { Dragon->xPos, Dragon->yPos, Dragon->Width, Dragon->Height };
 	if ( gamestate.IntroDone == false )
@@ -380,10 +388,10 @@ void Gamestate::Loading()
 		{
 				SDL_BlitSurface(	m_surfaceList[ Dragon->surface ], &Dragon->Clips[ Dragon->PrevFrame ],
 									gamestate.screen, &dstRect );
-				Dragon->StateCounter++;	
+				Dragon->StateCounter++;
 		}
-	
-		
+
+
 	}
 	else
 	{
@@ -404,14 +412,14 @@ void Gamestate::DrawBoss()
 
 SDL_Surface * Gamestate::GetSurface( int WhichSurface )
 {
-	return m_surfaceList[ WhichSurface ];	
+	return m_surfaceList[ WhichSurface ];
 }
 
 void Gamestate::FLIP()
 {
 	SDL_Rect srcRect = { 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h };
 	SDL_Rect destRect = {	0, 0, gamestate.SCREEN_WIDTH, gamestate.SCREEN_HEIGHT };
-					
+
 	gamestate.PasteScreenToAnother( srcRect, destRect );
 
 	//flips screen
@@ -433,12 +441,12 @@ void Gamestate::MainScreen()
 	ParallaxLayer  * MyParaBackGround;
 	MyParaBackGround = Paralax->getLayer( TitleScreen->surface );
 
-	SDL_Rect scRect = { 0, 0,	TitleScreen->Width, 
+	SDL_Rect scRect = { 0, 0,	TitleScreen->Width,
 								TitleScreen->Height };
 
 	SDL_Rect dtRect = {	0, 0, TitleScreen->Width, TitleScreen->Height };
 
-	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect ); 
+	SDL_BlitSurface( gamestate.GetSurface( TitleScreen->surface ), &scRect, gamestate.BackBuffer, &dtRect );
 
 	bool ButtonNew = false;
 	bool ButtonOp = false;
@@ -448,11 +456,11 @@ void Gamestate::MainScreen()
 	{
 		SDL_Rect dstRect = { TitleScreen->ButtonClips[ i ].x, TitleScreen->ButtonClips[ i ].y , TitleScreen->Button_Width, TitleScreen->Button_Height };
 		SDL_BlitSurface( gamestate.GetSurface( TitleScreen->SurfaceButt ), &TitleScreen->ButtonClips[ i ],
-						 gamestate.BackBuffer, &dstRect ); 
+						 gamestate.BackBuffer, &dstRect );
 	}
-	
+
 	//gamestate.GameCondition = GS_LEVEL1;
-	
+
 	if( Clear == false )
 	{
 
@@ -472,7 +480,7 @@ void Gamestate::MainScreen()
 			//set gamestate Quit
 			return;
 		}
-		
+
 
 	}
 
@@ -512,13 +520,13 @@ void Gamestate::MainScreen()
 	//		break;
 	//}
 
-	
-			
-	//	
+
+
+	//
 	//// Draw background
 	//gamestate.drawParallaxLayers();
 	//gamestate.DrawSprite();
-	
+
 	// Print information
 	//if( introState == 0 )
 	//{
@@ -533,7 +541,7 @@ void Gamestate::MainScreen()
 
 void Game::cleanUp()
 {
-	
+
 	SDL_Quit();
 }
 
@@ -566,13 +574,13 @@ SDL_Surface * Gamestate::Load_imageToSurface(std::string filename)
 	//optimized image for storage and flipping
 	SDL_Surface * optimizedImage = NULL;
 
-	//load image 
+	//load image
 	loadedimage = IMG_Load( filename.c_str() );
 
 	//if something went wrong
 	if( loadedimage != NULL )
 	{
-		//create an optimized image 
+		//create an optimized image
 		optimizedImage = SDL_DisplayFormat( loadedimage );
 
 		//free old image
@@ -583,7 +591,7 @@ SDL_Surface * Gamestate::Load_imageToSurface(std::string filename)
 	{
 		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, 0, 0xFF, 0xFF));
 	}
-	
+
 	return optimizedImage;
 }
 
@@ -596,13 +604,13 @@ int Gamestate::Load_imageBrownAlpha(std::string filename)
 	//optimized image for storage and flipping
 	SDL_Surface * optimizedImage = NULL;
 
-	//load image 
+	//load image
 	loadedimage = IMG_Load( filename.c_str() );
 
 	//if something went wrong
 	if( loadedimage != NULL )
 	{
-		//create an optimized image 
+		//create an optimized image
 		optimizedImage = SDL_DisplayFormat( loadedimage );
 
 		//free old image
@@ -613,7 +621,7 @@ int Gamestate::Load_imageBrownAlpha(std::string filename)
 	{
 		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, 106, 76, 48 ) );
 	}
-	
+
 	int index = findAvailableIndex();
 	if( index == -1 )
 	{
@@ -632,13 +640,13 @@ int Gamestate::Load_imageAlpha( std::string filename, int r, int g, int b )
 	//optimized image for storage and flipping
 	SDL_Surface * optimizedImage = NULL;
 
-	//load image 
+	//load image
 	loadedimage = IMG_Load( filename.c_str() );
 
 	//if something went wrong
 	if( loadedimage != NULL )
 	{
-		//create an optimized image 
+		//create an optimized image
 		optimizedImage = SDL_DisplayFormat( loadedimage );
 
 		//free old image
@@ -649,7 +657,7 @@ int Gamestate::Load_imageAlpha( std::string filename, int r, int g, int b )
 	{
 		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
 	}
-	
+
 	int index = findAvailableIndex();
 	if( index == -1 )
 	{
@@ -680,7 +688,7 @@ bool Game::Init(SDL_Surface * &screen)
 
 	//set window caption
 	SDL_WM_SetCaption( " Demon hunter ", NULL);
-	
+
 	    /* Create a 32-bit surface with the bytes of each pixel in R,G,B,A order,
        as expected by OpenGL for textures */
     Uint32 rmask, gmask, bmask, amask;
@@ -740,18 +748,18 @@ void Gamestate::drawParallaxLayers()
 		ParallaxLayer  * MyParaBackGround;
 		MyParaBackGround = Paralax->getLayer( 0 );
 
-		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width, 
+		SDL_Rect scRect = { 0, 0,	MyParaBackGround->m_width,
 									MyParaBackGround->m_height };
 
 		SDL_Rect dtRect = {	0, 0, MyParaBackGround->DW, MyParaBackGround->DH };
 
-		SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect ); 
+		SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &scRect, gamestate.BackBuffer, &dtRect );
 
 		//gamestate.stretchPicToBackBuffer( MyParaBackGround, scRect, dtRect );
 
 		int x = 0;
 		for( int i = 1; i < Paralax->getLayerCount(); ++i )
-		{		
+		{
 			// Calc rects
 			MyParaBackGround = Paralax->getLayer( i );
 			if( MyParaBackGround->m_surface == m_srfClouds )
@@ -759,7 +767,7 @@ void Gamestate::drawParallaxLayers()
 				MyParaBackGround->AnimClouds++;
 
 				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );  
+				x = (int)( MyParaBackGround->m_parallax * (float)( +MyParaBackGround->AnimClouds ) );
 				if( x < 0 )	// neg -> pos
 				{
 					x *= -1;	// invert sign, because % only works with positive integers
@@ -776,7 +784,7 @@ void Gamestate::drawParallaxLayers()
 			{
 
 				//////// Calc parallax position
-				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_paralax ) );  
+				x = (int)( MyParaBackGround->m_parallax * (float)( +gamestate.m_paralax ) );
 				if( x < 0 )	// neg -> pos
 				{
 					x *= -1;	// invert sign, because % only works with positive integers
@@ -795,12 +803,12 @@ void Gamestate::drawParallaxLayers()
 				SDL_Rect sourceRect = { 0 + x, MyParaBackGround->m_surfaceYOffset,
 										MyParaBackGround->m_width, MyParaBackGround->m_height };
 
-				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY, 
+				SDL_Rect destinationRect = {	MyParaBackGround->DX, MyParaBackGround->DY,
 												MyParaBackGround->DW, MyParaBackGround->DH };
-			
-				SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect ); 
-				
-				
+
+				SDL_BlitSurface( m_surfaceList[ MyParaBackGround->m_surface ], &sourceRect, gamestate.BackBuffer, &destinationRect );
+
+
 				x += MyParaBackGround->m_width;
 			}
 
@@ -811,7 +819,7 @@ void Gamestate::drawParallaxLayers()
 
 		/*demon.xPos -= x;*/
 
-		
+
 }
 
 void Gamestate::CreateAll()
@@ -828,8 +836,8 @@ void Gamestate::DrawSprite()
 		{
 			Current_AnimArray = gamestate.WhichMorphType();
 			Current_Frame = demon.UpdatePlayer();
-		
-			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
+
+			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ],
 								&demon.AnimationArrays[ Current_AnimArray ][ Current_Frame ],
 								gamestate.screen, &demonDest );
 
@@ -839,7 +847,7 @@ void Gamestate::DrawSprite()
 		}
 		else
 		{
-			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ], 
+			SDL_BlitSurface(	m_surfaceList[ demon.DemonSurface ],
 								&demon.AnimationArrays[ Previous_AnimArray ][ Previous_Frame ],
 								gamestate.screen, &demonDest );
 			demon.UpdateXPos();
@@ -907,17 +915,17 @@ void Gamestate::apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* d
 {
     //Holds offsets
     SDL_Rect offset;
-    
+
     //Get offsets
     offset.x = x;
     offset.y = y;
-    
+
     //Blit
     SDL_BlitSurface( source, clip, destination, &offset );
 }
 
-void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-{			
+void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )
+{
 
 	int srcWidth = srcRect.w - srcRect.x;
 	int srcHeight = srcRect.h - srcRect.y,
@@ -935,7 +943,7 @@ void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect,
 	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
 
 	float scaleWidth = srcWidth / ( float )DestWidth;
-	float scaleHeight = srcHeight / ( float )DestHeight; 
+	float scaleHeight = srcHeight / ( float )DestHeight;
 
 
 	float fSrcX = srcRect.x,
@@ -952,7 +960,7 @@ void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect,
 			fSrcX += scaleWidth;
 		}
 
-		fSrcY += scaleHeight;	
+		fSrcY += scaleHeight;
 	}
 
 	SDL_UnlockSurface( gamestate.BackBuffer );
@@ -960,8 +968,8 @@ void Gamestate::stretchPicToBackBuffer( ParallaxLayer * layer, SDL_Rect srcRect,
 
 }
 
-void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )	
-{			
+void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect destRect )
+{
 
 	SDL_LockSurface( gamestate.BackBuffer );
 	SDL_LockSurface( m_surfaceList[ layer->m_surface ] );
@@ -974,7 +982,7 @@ void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect d
 	DWORD * src = ( DWORD * )m_surfaceList[ layer->m_surface ]->pixels;
 
 	float scaleWidth = srcRect.w / ( float )destRect.w;
-	float scaleHeight = srcRect.h / ( float )destRect.h; 
+	float scaleHeight = srcRect.h / ( float )destRect.h;
 
 
 	float fSrcX = srcRect.x,
@@ -990,7 +998,7 @@ void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect d
 
 			fSrcX += scaleWidth;
 		}
-		fSrcY += scaleHeight;	
+		fSrcY += scaleHeight;
 	}
 
 	SDL_UnlockSurface( gamestate.BackBuffer );
@@ -998,8 +1006,8 @@ void Gamestate::stretchBlit( ParallaxLayer * layer, SDL_Rect srcRect, SDL_Rect d
 
 }
 
-void Gamestate::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )	
-{			
+void Gamestate::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
+{
 
 	SDL_LockSurface( gamestate.screen );
 	SDL_LockSurface( gamestate.BackBuffer );
@@ -1011,7 +1019,7 @@ void Gamestate::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 	DWORD * src = ( DWORD * )gamestate.BackBuffer->pixels;
 
 	float scaleWidth = gamestate.BackBuffer->w / ( float )destRect.w;
-	float scaleHeight = gamestate.BackBuffer->h / ( float )destRect.h; 
+	float scaleHeight = gamestate.BackBuffer->h / ( float )destRect.h;
 
 
 	float fSrcX = 0.0f,
@@ -1028,7 +1036,7 @@ void Gamestate::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 			fSrcX += scaleWidth;
 		}
 
-		fSrcY += scaleHeight;	
+		fSrcY += scaleHeight;
 	}
 
 	SDL_UnlockSurface( gamestate.screen );
@@ -1078,40 +1086,40 @@ void Gamestate::setUpParallaxLayers()
 	Paralax->setLayer( 1, 0.0f, m_srfBack, 0, 800, 400, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	// trees
-	Paralax->setLayer( 2, 0.1f, m_srfTrees, 0, 1172, 170, 0, 370, 800, 170 ); 
+	Paralax->setLayer( 2, 0.1f, m_srfTrees, 0, 1172, 170, 0, 370, 800, 170 );
 
 	//clouds
-	Paralax->setLayer(	3, 0.5f, m_srfClouds, 
-						0, 800, 38, 0, 0, gamestate.BackBuffer->w, 
+	Paralax->setLayer(	3, 0.5f, m_srfClouds,
+						0, 800, 38, 0, 0, gamestate.BackBuffer->w,
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	4, 0.4f, m_srfClouds, 
-						38, 800, 87, 0, 38, gamestate.BackBuffer->w, 
+	Paralax->setLayer(	4, 0.4f, m_srfClouds,
+						38, 800, 87, 0, 38, gamestate.BackBuffer->w,
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	5, 0.3f, m_srfClouds, 
-						126, 800, 46, 0, 126, gamestate.BackBuffer->w, 
+	Paralax->setLayer(	5, 0.3f, m_srfClouds,
+						126, 800, 46, 0, 126, gamestate.BackBuffer->w,
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	6, 0.2f, m_srfClouds, 
-						172, 800, 21, 0, 172, gamestate.BackBuffer->w, 
+	Paralax->setLayer(	6, 0.2f, m_srfClouds,
+						172, 800, 21, 0, 172, gamestate.BackBuffer->w,
 						gamestate.BackBuffer->h );
 
-	Paralax->setLayer(	7, 0.1f, m_srfClouds, 
-						193, 800, 12, 0, 193, gamestate.BackBuffer->w, 
+	Paralax->setLayer(	7, 0.1f, m_srfClouds,
+						193, 800, 12, 0, 193, gamestate.BackBuffer->w,
 						gamestate.BackBuffer->h );
 
 	// City
 	Paralax->setLayer( 8, 0.1f, m_srfGrass, 0, 5100, 535, 0, 0, gamestate.BackBuffer->w, gamestate.BackBuffer->h );
 
 	// WalkPath
-	Paralax->setLayer(	9, 1.0f, m_srfGrass, 
-						540, 5100, 60, 0, 535, gamestate.BackBuffer->w, 
+	Paralax->setLayer(	9, 1.0f, m_srfGrass,
+						540, 5100, 60, 0, 535, gamestate.BackBuffer->w,
 						gamestate.BackBuffer->h );
 
 	///* Fence layer*/
-	//Paralax->setLayer(	9, 1.5f,m_srfFence, 0, 256, 26, 
-	//					0, GrassHeight-25, gamestate.BackBuffer->w, 
+	//Paralax->setLayer(	9, 1.5f,m_srfFence, 0, 256, 26,
+	//					0, GrassHeight-25, gamestate.BackBuffer->w,
 	//					gamestate.BackBuffer->h - GrassHeight);
 
 	gamestate.RecordAllData();

@@ -1,5 +1,9 @@
 #pragma once
-#include <SDL.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include <SDL.h>
 
 class Outro
 {
@@ -9,6 +13,6 @@ public:
 
 	Uint16 Height, Width;
 	Uint16 xPos, yPos;
-	
+
 	SDL_Rect ClipsOutro[ 2 ];
 };

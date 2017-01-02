@@ -1,8 +1,12 @@
 #pragma once
 
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
+//#include <SDL.h>
+//#include <SDL_image.h>
+//#include <SDL_ttf.h>
 
 #include <iostream>
 #include <map>
@@ -11,13 +15,19 @@
 #include <fstream>
 #include <list>
 #include <stack>
-#include <windows.h>
+
+#ifdef _WIN32
+    #include <windows.h>
+#endif
+
 using namespace std;
 
-#include "Global\Global.h"
+#include "../src/Global/Global.h"
+//#include "Objects/Objects.h"
+//#include "SDL_mixer.h"
 #include "Objects/Objects.h"
-#include "SDL_mixer.h"
-#include "Objects/SpaceShip.h"
+#include "Objects/Spaceship.h"
+//#include "Objects/SpaceShip.h"
 #include "Enemies.h"
 #include "Screens/MainMenu.h"
 #include "Screens/Credits.h"
@@ -28,15 +38,15 @@ using namespace std;
 #include "Collision/Collision.h"
 #include "OutroFinish.h"
 #include "GetInput.h"
-#include "GameController\GameController.h"
-#include "ParticleController\Particle.h"
-#include "Enemies\OctoBoss.h"
+#include "GameController/GameController.h"
+#include "ParticleController/Particle.h"
+#include "Enemies/OctoBoss.h"
 class Gamestate
 {
 public:
 	Gamestate();
 	~Gamestate(){ std::cout << "Destroying Gamestate object..." << endl; };
-	
+
 	std::stack<InGameStates> GameState;
 
 	double DeltaTime;
@@ -55,14 +65,14 @@ public:
         m_srfPurpleShip,
         m_srfRobotnic,
         m_srfBlueFish,
-        m_srfBackdrop, 
+        m_srfBackdrop,
 		m_srfAsteroid,
 		m_srfBlack,
-		m_srfStart, 
+		m_srfStart,
 		m_srfButtons,
-		m_srfIntro, 
-		m_srfPower, 
-		m_srfOutro, 
+		m_srfIntro,
+		m_srfPower,
+		m_srfOutro,
 		m_srfHealth,
 		m_srfLaser,
 		m_srfCredits,
@@ -117,7 +127,7 @@ public:
 	void Cleanup();
 
     Particle p;
-	
+
 private:
 	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
 };

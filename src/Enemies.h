@@ -1,11 +1,16 @@
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+
+//#include <SDL.h>
+//#include <SDL_image.h>
 #include <list>
 #include "Objects/Objects.h"
-#include "Enemies\MovingThings.h"
+#include "Enemies/MovingThings.h"
+//#include "Enemies\MovingThings.h"
 
-#include "Enemies\CWave1.h"
+#include "Enemies/CWave1.h"
 
 
 // Set_Clips enum
@@ -19,11 +24,11 @@ enum{ WAVE1 };
 class CEnemy : public MovingThings
 {
 public:
-	
+
 	CEnemy();
 	void Set_Clips( int WhichTypeOfEnemy ); // Should be replaced by objects SetClips
 	void SetFrame();
-	
+
 	// New update functionality
 	SDL_Rect GetPosition()
 	{
@@ -52,7 +57,7 @@ public:
 	void Create_Enemies();
 	std::list<CWave1*> _Wave1;
 	std::list< CEnemy* > Enemies;
-	CEnemy * CreateEnemy( Sint16 xPos, Sint16 yPos, int surface );	
+	CEnemy * CreateEnemy( Sint16 xPos, Sint16 yPos, int surface );
 private:
 
 	int SpawnTimer;

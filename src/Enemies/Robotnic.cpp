@@ -1,4 +1,5 @@
-#include <SDL.h>
+#include <SDL2/SDL.h>
+//#include <SDL.h>
 
 //#include "Global\Global.h"
 #include "Robotnic.h"
@@ -56,7 +57,7 @@ Robotnic::Robotnic()
 		Clips[ i ].h = SpriteHeight;
 		Clips[ i ].w = SpriteWidth;
 	}
-    
+
     // Setup the red noise box
     SDL_Rect tmp;
 
@@ -151,11 +152,11 @@ void Robotnic::Draw()
 {
     logger.write(__LINE__, __FUNCTION__);
 
-	SDL_BlitSurface( 
+	SDL_BlitSurface(
 		Gfx.GetSurface( SurfaceID ),
         &Clips[0], //PrevFrame replaced with 0 as there is no animation
-		Gfx.BackBuffer, 
-		&GetRenderBox() 
+		Gfx.BackBuffer,
+		GetRenderBox()
 	);
 
     SDL_FillRect(Gfx.BackBuffer, &CollisionBox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
@@ -174,7 +175,7 @@ void ControlRobotnic::DrawRobotnic()
 		i->Update();
         i->applyForce(Vector3D(0, 0, 0));
 		i->Draw();
-		
+
 		if( i->location.x <= 0.0f - SpriteWidth )
 		{
             i = RobotnicArrayRef.erase(i);
@@ -194,7 +195,7 @@ void ControlRobotnic::CreateRobotnic(int iProgress)
 	{
         if (std::rand() % 100 + 1 > 99)
         {
-            RobotnicArrayRef.push_back(CreateRobotnicByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfRobotnic));
+            //RobotnicArrayRef.push_back(CreateRobotnicByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfRobotnic));
         }
 	}
 }
@@ -214,17 +215,17 @@ Robotnic ControlRobotnic::CreateRobotnicByReference(Sint16 xPos, Sint16 yPos, in
     logger.write(__LINE__, __FUNCTION__);
 
 	static int old_y_pos = 0;
-	
+
 	while( yPos > old_y_pos && yPos < old_y_pos + 128 )
 	{
         yPos = (Sint16)(std::rand() % Gfx.BackBuffer->h - 128);
 	}
-	
+
     if( yPos < 64 )
     {
 		yPos = 64;
     }
-	
+
     if( yPos > Gfx.BackBuffer->h - 128 )
     {
         yPos = (Sint16)(Gfx.BackBuffer->h - 128);
@@ -232,9 +233,9 @@ Robotnic ControlRobotnic::CreateRobotnicByReference(Sint16 xPos, Sint16 yPos, in
 
     Robotnic temp;
 	temp.SurfaceID = surface;
-	
+
     temp.location = Vector3D(xPos, yPos, 0);
-    
+
     Robotnic temp2(Vector3D(xPos, yPos, 0.0f));
     temp2.applyForce(Vector3D(RobotnicSpeed, 0, 0));
     temp2.SurfaceID = surface;
