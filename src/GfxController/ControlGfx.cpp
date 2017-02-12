@@ -27,7 +27,7 @@ ControlGfx::ControlGfx()
 
     Particle p(Vector3D(1920 / 2, 1080 / 2, 0.0f));
 
-	if (TTF_Init() == -1) 
+	if (TTF_Init() == -1)
 	{
 		printf("Unable to initialize SDL_ttf: %s \n", TTF_GetError());
 	}
@@ -86,15 +86,15 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int
 	//optimized image for storage and flipping
 	SDL_Surface * optimizedImage = NULL;
 
-	//load image 
+	//load image
 	loadedimage = IMG_Load( filename.c_str() );
 	int index = findAvailableIndex();
 	//if something went wrong
 	if( loadedimage != NULL )
 	{
-		//create an optimized image 
-		optimizedImage = SDL_DisplayFormatAlpha( loadedimage );
-		
+		//create an optimized image
+		//optimizedImage = SDL_DisplayFormatAlpha( loadedimage );
+
 		if( index == -1 )
 		{
 			return -1;
@@ -108,14 +108,14 @@ int ControlGfx::Load_imageAlpha( std::string filename, int r = 0, int g = 0, int
 	}
 	else
 	{
-		MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
+		//MessageBox(NULL,filename.c_str(),"Failed Loading",MB_OK);
 	}
 
 	if(optimizedImage != NULL)
 	{
-		SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
+		//SDL_SetColorKey(optimizedImage, SDL_RLEACCEL | SDL_SRCCOLORKEY, SDL_MapRGB(optimizedImage->format, r, g, b ) );
 	}
-	
+
 	return index;
 }
 
@@ -155,11 +155,11 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 	int dstPitch = Gfx.screen->pitch;
 	int pitch = Gfx.BackBuffer->pitch;
 
-	DWORD * dst = ( DWORD * )Gfx.screen->pixels;
-	DWORD * src = ( DWORD * )Gfx.BackBuffer->pixels;
+	//DWORD * dst = ( DWORD * )Gfx.screen->pixels;
+	//DWORD * src = ( DWORD * )Gfx.BackBuffer->pixels;
 
 	float scaleWidth = Gfx.BackBuffer->w / ( float )destRect.w;
-	float scaleHeight = Gfx.BackBuffer->h / ( float )destRect.h; 
+	float scaleHeight = Gfx.BackBuffer->h / ( float )destRect.h;
 
 	float fSrcX = 0.0f,
 		  fSrcY = 0.0f;
@@ -170,12 +170,12 @@ void ControlGfx::PasteScreenToAnother( SDL_Rect srcRect, SDL_Rect destRect )
 
 		for(int x = destRect.x ;  x < destRect.x + destRect.w ; x++)
 		{
-			dst[ (y * dstPitch / 4) + (x) ] = src[ int(fSrcY) * (pitch / 4) + int(fSrcX) ];
+			//dst[ (y * dstPitch / 4) + (x) ] = src[ int(fSrcY) * (pitch / 4) + int(fSrcX) ];
 
 			fSrcX += scaleWidth;
 		}
 
-		fSrcY += scaleHeight;	
+		fSrcY += scaleHeight;
 	}
 
 	SDL_UnlockSurface( Gfx.screen );
@@ -189,44 +189,44 @@ bool ControlGfx::FLIP()
 {
     //logger.write(__LINE__, __FUNCTION__);
 
-    MEMORYSTATUSEX memInfo;
-    memInfo.dwLength = sizeof(MEMORYSTATUSEX);
-    GlobalMemoryStatusEx(&memInfo);
-    DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile;
-    DWORDLONG virtualMemUsed = memInfo.ullTotalPageFile - memInfo.ullAvailPageFile;
+    //MEMORYSTATUSEX memInfo;
+    //memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+    //GlobalMemoryStatusEx(&memInfo);
+    //DWORDLONG totalVirtualMem = memInfo.ullTotalPageFile;
+    //DWORDLONG virtualMemUsed = memInfo.ullTotalPageFile - memInfo.ullAvailPageFile;
 
-    stringstream ssmem;
-    ssmem << virtualMemUsed;
-    string mem = "MEM: ";
-    mem.append(ssmem.str());
+    //stringstream ssmem;
+    //ssmem << virtualMemUsed;
+    //string mem = "MEM: ";
+    //mem.append(ssmem.str());
 
-    SDL_Surface * SrfMem;
-    SrfMem = TTF_RenderText_Solid(Gfx.DefaultFont, mem.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 50, SrfMem, Gfx.BackBuffer);
+    //SDL_Surface * SrfMem;
+    //SrfMem = TTF_RenderText_Solid(Gfx.DefaultFont, mem.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 50, SrfMem, Gfx.BackBuffer);
 
-    stringstream ss;
-    ss << framespersecond;
-    string str = "FPS: ";
-    str.append(ss.str());
+    //stringstream ss;
+    //ss << framespersecond;
+    //string str = "FPS: ";
+    //str.append(ss.str());
 
 
-    SDL_Surface * SrfText;
-    SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB);
-    Gfx.apply_surface(0, 0, SrfText, Gfx.BackBuffer);
+    //SDL_Surface * SrfText;
+    //SrfText = TTF_RenderText_Solid(Gfx.DefaultFont, str.c_str(), Gfx.WhiteRGB);
+    //Gfx.apply_surface(0, 0, SrfText, Gfx.BackBuffer);
 
-	SDL_Rect srcRect = { 0, 0, (Uint16)Gfx.BackBuffer->w, (Uint16)Gfx.BackBuffer->h };
-	SDL_Rect destRect = { 0, 0, (Uint16)SDL_GetVideoSurface()->w, (Uint16)SDL_GetVideoSurface()->h };
-					
-	Gfx.PasteScreenToAnother( srcRect, destRect);
+	//SDL_Rect srcRect = { 0, 0, (Uint16)Gfx.BackBuffer->w, (Uint16)Gfx.BackBuffer->h };
+	//SDL_Rect destRect = { 0, 0, (Uint16)SDL_GetVideoSurface()->w, (Uint16)SDL_GetVideoSurface()->h };
 
-	if( SDL_Flip( Gfx.screen ) == -1)
-	{
-		return false;
-	}
-    else
-    { 
-	    return true;
-    }
+	//Gfx.PasteScreenToAnother( srcRect, destRect);
+
+	//if( SDL_Flip( Gfx.screen ) == -1)
+	//{
+	//	return false;
+	//}
+    //else
+    //{
+	//    return true;
+    //}
 }
 
 void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Surface* destination, SDL_Rect* clip )
@@ -234,10 +234,10 @@ void ControlGfx::apply_surface( Sint16 x, Sint16 y, SDL_Surface* source, SDL_Sur
     logger.write(__LINE__, __FUNCTION__);
 
     SDL_Rect offset;
-    
+
     offset.x = x;
     offset.y = y;
-    
+
     // Applies the image from source upon the destination source
     SDL_BlitSurface( source, clip, destination, &offset );
     SDL_FreeSurface(source);
@@ -252,11 +252,11 @@ void ControlGfx::DrawSprite()
     Spaceship.Update();
     Spaceship.SetCollisionBox(Spaceship.GetPosition().x, Spaceship.GetPosition().y, 64, 64);
 
-    
+
     SDL_BlitSurface(Gfx.GetSurface(Spaceship._SurfaceID),
         &Spaceship.AnimationArrays[0][Spaceship.Animate()],
-        Gfx.BackBuffer, &Spaceship.GetPosition());
-    
+        Gfx.BackBuffer, Spaceship.GetPosition());
+
 
     stringstream ss;
     ss << Spaceship._SpawnTimer;
@@ -371,7 +371,7 @@ void ControlGfx::RenderText(std::string _Text, int _x, int _y,std::string _FontN
     //{
         // Setting the width and height of the text
     //}
-    //else 
+    //else
     //{
         // Error...
     //}

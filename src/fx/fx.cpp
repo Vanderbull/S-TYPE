@@ -25,7 +25,7 @@ SDL_Rect FX::UpdateCollisionBox(SDL_Rect Box)
 
 void FX::Update()
 {
-	SetCollisionBox(this->GetLocAndSize().x, this->GetLocAndSize().y + 30, 5, 80);
+	SetCollisionBox(this->GetLocAndSize()->x, this->GetLocAndSize()->y + 30, 5, 80);
 	LocAndSize.x += 0.0010f * gamestate.DeltaTime;
 
 	PrevFrame = Frame++;
@@ -49,7 +49,7 @@ void FX::Draw()
 		Gfx.GetSurface( SurfaceID ),
 		&Clips[ PrevFrame ],
 		Gfx.BackBuffer,
-		GetLocAndSize
+		GetLocAndSize()
 	);
 }
 
@@ -133,7 +133,7 @@ FX ControlFX::CreateFXByReference( int xPos, int yPos, int surface )
 
 void ControlFX::CreateFX()
 {
-    LoadFX(Spaceship.GetPosition().x + Spaceship._CollisionBox.w / 2, Spaceship.GetPosition().y + Spaceship._CollisionBox.h / 2, gamestate.m_srfLaser);
+    //LoadFX(Spaceship.GetPosition().x + Spaceship._CollisionBox.w / 2, Spaceship.GetPosition().y + Spaceship._CollisionBox.h / 2, gamestate.m_srfLaser);
 }
 
 ControlFX::ControlFX()

@@ -58,16 +58,16 @@ void GameController::init()
 
     for (int i = 0; i < CountDevices(); i++)
     {
-        if (SDL_JoystickOpened(i))
-        {
-            cout << "Joystick " << i << " closed" << endl;
-            SDL_JoystickClose(joysticks[i]);
-        }
-        else
-        {
-            Open(i);
+        //if (SDL_JoystickOpened(i))
+        //{
+        //    cout << "Joystick " << i << " closed" << endl;
+        //    SDL_JoystickClose(joysticks[i]);
+        //}
+        //else
+        //{
+        //    Open(i);
             //joysticks[i] = SDL_JoystickOpen(i);
-        }
+        //}
     }
     //GamePad = joysticks[1];
 }
@@ -166,7 +166,7 @@ int GameController::CountDevices()
     {
         cout << "Controller(" << i << ") info" << endl;
         cout << "---------------" << endl;
-        cout << SDL_JoystickName(i) << endl;
+        //cout << SDL_JoystickName(i) << endl;
     }
     return SDL_NumJoysticks();
 }
@@ -178,11 +178,11 @@ void GameController::Open(int index)
 
     if (joysticks[index])
     {
-        cout << "Opened Joystick" << index << endl;
-        cout << "Name: " << SDL_JoystickName(index) << endl;
-        cout << "Number of Axes: " << SDL_JoystickNumAxes(GamePad) << endl;
-        cout << "Number of Buttons: " << SDL_JoystickNumButtons(GamePad) << endl;
-        cout << "Number of Balls: " << SDL_JoystickNumBalls(GamePad) << endl;
+        //cout << "Opened Joystick" << index << endl;
+        //cout << "Name: " << SDL_JoystickName(index) << endl;
+        //cout << "Number of Axes: " << SDL_JoystickNumAxes(GamePad) << endl;
+        //cout << "Number of Buttons: " << SDL_JoystickNumButtons(GamePad) << endl;
+        //cout << "Number of Balls: " << SDL_JoystickNumBalls(GamePad) << endl;
     }
     else
     {
@@ -197,7 +197,7 @@ void GameController::RenderText()
     {
         // perhaps print the current TTF_GetError(), the string can't be rendered...
     }
-    else 
+    else
     {
         //SDL_Surface * SrfUpdateController;
         //SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, ControllerInfo.c_str(), Gfx.WhiteRGB);
@@ -210,7 +210,7 @@ void GameController::RenderText()
         int w, h;
         if (TTF_SizeText(Gfx.DefaultFont, Dota.c_str(), &w, &h))
         { }
-        else 
+        else
         { }
         SDL_Surface * SrfUpdateController;
         SrfUpdateController = TTF_RenderText_Solid(Gfx.DefaultFont, Dota.c_str(), Gfx.WhiteRGB);
@@ -224,7 +224,7 @@ void GameController::Update()
     SDL_Surface * SrfUpdateController;
     std::string SrfText;
     std::string JoystickButtonState;
-    
+
     ControllerInfo = "";
     JoystickButtonState = "";
     /*
@@ -269,7 +269,7 @@ void GameController::Update()
             ControllerInfo.append(std::to_string(SDL_JoystickGetHat(joysticks[i], hat_index)));
             CtrlData.push_back(" | " + std::to_string(hat_index) + " >>> " + std::to_string(SDL_JoystickGetHat(joysticks[i], hat_index)) + " | ");
         }
-        
+
         ControllerInfo += " Axis| ";
         CtrlData.push_back("-------------------------");
         CtrlData.push_back("Axis");
@@ -283,7 +283,7 @@ void GameController::Update()
             ControllerInfo.append(std::to_string(SDL_JoystickGetAxis(joysticks[i], axes_index)));
             CtrlData.push_back(" | " + std::to_string(axes_index) + " >>> " + std::to_string(SDL_JoystickGetAxis(joysticks[i], axes_index)) + " | ");
         }
-       
+
         ControllerInfo += " Balls| ";
         CtrlData.push_back("-------------------------");
         CtrlData.push_back("Balls");
@@ -322,7 +322,7 @@ void GameController::Update()
 
         //adjust magnitude relative to the end of the dead zone
         magnitude -= GAMEPAD_LEFT_THUMB_DEADZONE;
-        
+
         //optionally normalize the magnitude with respect to its expected range
         //giving a magnitude value of 0.0 to 1.0
         normalizedMagnitude = magnitude / (32767 - GAMEPAD_LEFT_THUMB_DEADZONE);
@@ -450,7 +450,7 @@ void GameController::KeyMapping(SDL_Event _event)
         KEYS[i] = false;
     }
 
-    SDL_EnableKeyRepeat(0, 0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
+    //SDL_EnableKeyRepeat(0, 0); // you can configure this how you want, but it makes it nice for when you want to register a key continuously being held down
 
     switch (_event.type)
     {

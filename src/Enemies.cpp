@@ -1,4 +1,3 @@
-#pragma once
 #include "Enemies.h"
 #include "Game.h"
 #include <list>
@@ -66,16 +65,12 @@ CEnemy * Control_Enemies::CreateEnemy( Sint16 xPos, Sint16 yPos, int surface )
 	temp->Surface = surface;
 	temp->AnimCounter = 1;
 	temp->PrevFrame = 0;
-	
+
 	temp->_Position.x = xPos;
 	temp->_Position.y = yPos;
 
 	temp->Height = 96;
 	temp->Width = 96;
-
-	int Height, Width;
-	Height = temp->Height / 2;
-	Width = temp->Width / 2;
 
 	return temp;
 }

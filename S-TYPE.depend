@@ -1,0 +1,237 @@
+# depslib dependency file v1.0
+1486924753 source:/home/rickard/github/S-TYPE/src/Game.cpp
+	<stdlib.h>
+	<iostream>
+	<sstream>
+	<fstream>
+	<cmath>
+	<vector>
+	<string>
+	<map>
+	<utility>
+	<functional>
+	<limits>
+	<iomanip>
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_image.h>
+	"Global/Global.h"
+	"Game.h"
+	"Objects/Objects.h"
+	"GfxController/ControlGfx.h"
+	"Audio/Audio.h"
+	"Objects/Objects.h"
+	"Enemies/Powerup.h"
+	"Enemies.h"
+	"Enemies/PurpleShip.h"
+	"Enemies/Robotnic.h"
+	"Enemies/BlueFish.h"
+	"Objects/Bullets.h"
+	"Screens/MainMenu.h"
+	"Screens/Credits.h"
+	"Screens/Load.h"
+	"Save/Save.h"
+	"Collision/Collision.h"
+	"OutroFinish.h"
+	"GetInput.h"
+
+1483388654 /home/rickard/github/S-TYPE/src/Global/Global.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_mixer.h>
+	<iostream>
+	<windows.h>
+	<sstream>
+	<stdlib.h>
+	<fstream>
+	<cmath>
+	<vector>
+	<map>
+	<string>
+	"../log/log.h"
+	"../Enemies/OctoBoss.h"
+
+1483387281 /home/rickard/github/S-TYPE/src/log/log.h
+	<iostream>
+	<sstream>
+	<stdlib.h>
+	<fstream>
+	<ctime>
+
+1486074477 /home/rickard/github/S-TYPE/src/Enemies/OctoBoss.h
+	<SDL2/SDL.h>
+	<list>
+	<stack>
+	"../Objects/Bullets.h"
+	"../Objects/Objects.h"
+	"../ParticleController/Vector3D.h"
+
+1483388701 /home/rickard/github/S-TYPE/src/Objects/Bullets.h
+	<SDL2/SDL.h>
+	<list>
+	<vector>
+	<stack>
+	"Objects.h"
+	"../Enemies/Robotnic.h"
+
+1483564276 /home/rickard/github/S-TYPE/src/Objects/Objects.h
+	<SDL2/SDL.h>
+	<iostream>
+	<list>
+	<vector>
+	"../ParticleController/Vector3D.h"
+
+1483387281 /home/rickard/github/S-TYPE/src/ParticleController/Vector3D.h
+	<math.h>
+
+1483388745 /home/rickard/github/S-TYPE/src/Enemies/Robotnic.h
+	<SDL2/SDL.h>
+	<list>
+	<stack>
+	"../Objects/Bullets.h"
+	"../Objects/Objects.h"
+	"../ParticleController/Vector3D.h"
+
+1486820007 /home/rickard/github/S-TYPE/src/Game.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	<SDL2/SDL_mixer.h>
+	<iostream>
+	<map>
+	<string>
+	<sstream>
+	<fstream>
+	<list>
+	<stack>
+	<sys/types.h>
+	<dirent.h>
+	<libgen.h>
+	<windows.h>
+
+1483389431 /home/rickard/github/S-TYPE/src/GfxController/ControlGfx.h
+	<string>
+	<map>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<SDL2/SDL_ttf.h>
+	"../ParticleController/Particle.h"
+
+1483389438 /home/rickard/github/S-TYPE/src/ParticleController/Particle.h
+	<iostream>
+	<list>
+	<vector>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"Vector3D.h"
+
+1483388280 /home/rickard/github/S-TYPE/src/Audio/Audio.h
+	<SDL2/SDL_mixer.h>
+
+1483391004 /home/rickard/github/S-TYPE/src/Enemies/Powerup.h
+	<iostream>
+	<list>
+	<vector>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"../Objects/Objects.h"
+
+1483389262 /home/rickard/github/S-TYPE/src/Enemies.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<list>
+	"Objects/Objects.h"
+	"Enemies/MovingThings.h"
+	"Enemies/CWave1.h"
+
+1483389279 /home/rickard/github/S-TYPE/src/Enemies/MovingThings.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1483389289 /home/rickard/github/S-TYPE/src/Enemies/CWave1.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<list>
+	"../Objects/Objects.h"
+	"MovingThings.h"
+
+1483389447 /home/rickard/github/S-TYPE/src/Enemies/PurpleShip.h
+	<list>
+	<stack>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"../Objects/Bullets.h"
+	"../Objects/Objects.h"
+	"../ParticleController/Vector3D.h"
+
+1483389454 /home/rickard/github/S-TYPE/src/Enemies/BlueFish.h
+	<list>
+	<stack>
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	"../Objects/Bullets.h"
+	"../Objects/Objects.h"
+	"../ParticleController/Vector3D.h"
+
+1483389297 /home/rickard/github/S-TYPE/src/Screens/MainMenu.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1483389306 /home/rickard/github/S-TYPE/src/Screens/Credits.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1483389322 /home/rickard/github/S-TYPE/src/Screens/Load.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1483389335 /home/rickard/github/S-TYPE/src/Save/Save.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1486074477 /home/rickard/github/S-TYPE/src/Collision/Collision.h
+	"../Objects/Spaceship.h"
+	"../Game.h"
+	"../Enemies/Powerup.h"
+	"../Objects/Objects.h"
+	"../Enemies.h"
+	"../GfxController/ControlGfx.h"
+	"../Objects/Bullets.h"
+	"../Enemies/PurpleShip.h"
+	"../Enemies/Robotnic.h"
+	"../Enemies/Powerup.h"
+	"../Enemies/BlueFish.h"
+	"../Audio/Audio.h"
+
+1483569127 /home/rickard/github/S-TYPE/src/Objects/Spaceship.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+	<queue>
+	<iostream>
+
+1483389460 /home/rickard/github/S-TYPE/src/OutroFinish.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_image.h>
+
+1483389474 /home/rickard/github/S-TYPE/src/GetInput.h
+	<SDL2/SDL.h>
+	<SDL2/SDL_events.h>
+	<string>
+
+1486076787 source:/home/rickard/github/S-TYPE/src/Main.cpp
+	<cmath>
+	<queue>
+	<iostream>
+	<iomanip>
+	<string>
+	<map>
+	<random>
+	<cmath>
+	<chrono>
+	<SDL2/SDL.h>
+	<SDL2/SDL_mixer.h>
+	<SDL2/SDL_ttf.h>
+	"Game.h"
+

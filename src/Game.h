@@ -4,9 +4,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
-//#include <SDL.h>
-//#include <SDL_image.h>
-//#include <SDL_ttf.h>
 
 #include <iostream>
 #include <map>
@@ -16,50 +13,62 @@
 #include <list>
 #include <stack>
 
+#include <sys/types.h>
+#include <dirent.h>
+#include <libgen.h>
+
 #ifdef _WIN32
     #include <windows.h>
 #endif
 
 using namespace std;
 
-#include "../src/Global/Global.h"
+//#include "../src/Global/Global.h"
 //#include "Objects/Objects.h"
 //#include "SDL_mixer.h"
-#include "Objects/Objects.h"
-#include "Objects/Spaceship.h"
+//#include "Objects/Objects.h"
+//#include "Objects/Spaceship.h"
 //#include "Objects/SpaceShip.h"
-#include "Enemies.h"
-#include "Screens/MainMenu.h"
-#include "Screens/Credits.h"
-#include "Screens/Options.h"
-#include "Screens/Load.h"
-#include "Screens/GameOver.h"
-#include "Save/Save.h"
-#include "Collision/Collision.h"
-#include "OutroFinish.h"
-#include "GetInput.h"
-#include "GameController/GameController.h"
-#include "ParticleController/Particle.h"
-#include "Enemies/OctoBoss.h"
+//#include "Enemies.h"
+//#include "Screens/MainMenu.h"
+//#include "Screens/Credits.h"
+//#include "Screens/Options.h"
+//#include "Screens/Load.h"
+//#include "Screens/GameOver.h"
+//#include "Save/Save.h"
+//#include "Collision/Collision.h"
+//#include "OutroFinish.h"
+//#include "GetInput.h"
+//#include "GameController/GameController.h"
+//#include "ParticleController/Particle.h"
+//#include "Enemies/OctoBoss.h"
+
+class Spaceship
+{
+public:
+        Spaceship(){ std::cout << "Building spaceship" << std::endl; Position.x=0; Position.y=0; Position.w=100; Position.h=32; };
+        ~Spaceship(){ std::cout << "Dismantling spaceship" << std::endl; };
+
+        SDL_Rect Position;
+};
+
 class Gamestate
 {
 public:
 	Gamestate();
 	~Gamestate(){ std::cout << "Destroying Gamestate object..." << endl; };
 
-	std::stack<InGameStates> GameState;
-
 	double DeltaTime;
 	double UpdateAnimationSpeed;
 	double Parallax;
 
-	StringInput * name;
-	MainMenu * MainMenuScreen;
-	Credits * CreditsScreen;
-	Options * OptionsScreen;
-	Load * LoadsScreen;
-	Save * SavesScreen;
-    GameOver * GameOverScreen;
+	//StringInput * name;
+	//MainMenu * MainMenuScreen;
+	//Credits * CreditsScreen;
+	//Options * OptionsScreen;
+	//Load * LoadsScreen;
+	//Save * SavesScreen;
+    //GameOver * GameOverScreen;
 
     Sint16 m_srfGameover,
         m_srfPurpleShip,
@@ -126,44 +135,46 @@ public:
 	void Reset();
 	void Cleanup();
 
-    Particle p;
+    //Particle p;
 
 private:
-	SDL_Surface * m_surfaceList[ MAX_SURFACE ];
+	SDL_Surface * m_surfaceList[ 128 ];
 };
 
-extern Gamestate gamestate;
+//extern Gamestate gamestate;
 
 class Game
 {
 public:
 	Game();
-	~Game(){ std::cout << "Destroying Game::Object..." << endl; };
+	~Game(){ std::cout << "Game object destroyed..." << std::endl; };
 	void Update( SDL_Event input, double iElapsedTime );
-	bool Init( SDL_Surface * &screen );
+	void Init();
 	void HandleEvents( SDL_Event input );
 	void Cleanup();
 	int UpdateScore(int score = 0);
-    int Progressbar(int progress = 0, int _reset = 0);
+    //int Progressbar(int progress = 0, int _reset = 0);
 
-
-	bool Quit;
-	int MouseXCoordinates; // the last recorded x coordinate of the mouse
-	int MouseYCoordinates; // the last recorded y coordinate of the mouse
 	std::map <string, SDL_Rect> _Button;
 
-	Uint16 SPAWN_POSITION_X;
-	Uint16 SPAWN_POSITION_Y;
-
     //GameController *GamePad;
-    GameController GamePad;
+    //GameController GamePad;
 
     int MouseButtonTrigger(SDL_Rect TriggerArea);
+    void LoadFiles(std::string inFromPath);
 
+    std::stack<Gamestate> aState;
+    Spaceship Ship;
 
 private:
+
 	Gamestate _State;
     double _Progress;
+    bool Quit;
+   	int MouseXCoordinates; // the last recorded x coordinate of the mouse
+	int MouseYCoordinates; // the last recorded y coordinate of the mouse
+    Uint16 SPAWN_POSITION_X;
+	Uint16 SPAWN_POSITION_Y;
 };
 
-extern Game Engine;
+//extern Game Engine;

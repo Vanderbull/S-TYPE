@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-//#include <SDL.h>
 
 #include <iostream>
 #include <list>
@@ -11,12 +10,11 @@ using namespace std;
 
 #include "../ParticleController/Vector3D.h"
 
-
 class Object
 {
 protected:
 	Object();
-	~Object(){};
+	~Object(){ std::cout << "Destroying a object..." << std::endl; };
 
 public:
 

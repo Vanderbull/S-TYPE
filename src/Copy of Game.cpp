@@ -8,7 +8,7 @@
 //#include "SDL.h"
 //#include "SDL_image.h"
 #include "Game.h"
-#include "characters.h"
+//#include "characters.h"
 
 #ifdef _WIN32
     #include <windows.h>
@@ -18,12 +18,12 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cmath>
-#include "Objects.h"
+//#include "Objects.h"
 #include "Enemies.h"
-#include "TImers.h"
-#include "Paralaxlayers.h"
-#include "Animals.h"
-#include "Start.h"
+//#include "TImers.h"
+//#include "Paralaxlayers.h"
+//#include "Animals.h"
+//#include "Start.h"
 
 Gamestate gamestate;
 

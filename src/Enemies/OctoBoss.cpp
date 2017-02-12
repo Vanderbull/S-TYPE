@@ -106,13 +106,13 @@ void OctoBoss::checkEdges(float width = 0, float height = 0)
     }
 }
 
-bool OctoBoss::onCollision(SDL_Rect object)
+bool OctoBoss::onCollision(SDL_Rect* object)
 {
     return !(
-            object.x > ( _collisionbox.x + _collisionbox.w )
-        ||  ( object.x + object.w ) < _collisionbox.x
-        ||  object.y > ( _collisionbox.y + _collisionbox.h )
-        ||  ( object.y + _collisionbox.h ) < _collisionbox.y );
+            object->x > ( _collisionbox.x + _collisionbox.w )
+        ||  ( object->x + object->w ) < _collisionbox.x
+        ||  object->y > ( _collisionbox.y + _collisionbox.h )
+        ||  ( object->y + _collisionbox.h ) < _collisionbox.y );
 }
 
 void OctoBoss::Update()
@@ -271,6 +271,7 @@ int OctoBoss::Spawn(int checkpoint)
             return -1;
         }
     }
+    return 0;
 }
 
 void OctoBoss::onDestruction()
