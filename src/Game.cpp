@@ -89,22 +89,22 @@ public:
 class LaserBeam
 {
 public:
-    LaserBeam(){ std::cout << "Spawning a Laserbeam..." << std::endl; x=0; y=0; Position.x = 0; Position.y = 0; Position.w = 64; Position.h = 29;};
+    LaserBeam(){ std::cout << "Spawning a Laserbeam..." << std::endl; Position.x = 0; Position.y = 0; Position.w = 64; Position.h = 29;};
+    LaserBeam(int A, int B){ std::cout << "Spawning a Laserbeam..." << std::endl; Position.x = A; Position.y = B; Position.w = 64; Position.h = 29; startX = A; endX = Position.x + 400;};
     ~LaserBeam(){ std::cout << "Vaporizing a Laserbeam..." << std::endl; };
 
     void Move()
     {
-        x++;
-        if(x > 800)
-        x=0;
         Position.x++;
-        if(Position.x > 800)
-        Position.x=0;
+        if(Position.x > (Position.x + 400))
+        {
+            Position.x = startX;
+        }
     };
     int id;
     int color;
-    int x;
-    int y;
+    int startX;
+    int endX;
     SDL_Rect Position;
 };
 
@@ -200,6 +200,7 @@ bool SetupTTF( const std::string &fontName, int fontSize)
 Game Engine;
 Gamestate EngineState;
 MouseObject ObjMouse;
+     vector<LaserBeam>::iterator it;
 
 Game::Game()
 {
@@ -282,13 +283,8 @@ Game::Game()
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create texture from surface: %s", SDL_GetError());
     }
 
-    LaserBeam ABeam;
-    LaserBeams.push_back(ABeam);
-     vector<LaserBeam>::iterator it;
-
     while (1)
     {
-
         SDL_PollEvent(&event);
         HandleEvents( event );
 
@@ -305,17 +301,9 @@ Game::Game()
         SDL_RenderDrawRect( renderer, &Ship.Position );
 
 
-        for (it = LaserBeams.begin(); it != LaserBeams.end(); ++it) {
-            SDL_RenderCopy(renderer, srfLaserBlueTexture, NULL, &it->Position);
-            cout << it->x;
-            it->Move();
-        }
-        for(auto const& aBeam: LaserBeams)
-        {
-        }
+
 
         SDL_RenderPresent(renderer);
-        //SDL_Delay(100);
     }
 
     SDL_FreeSurface(surface);
@@ -397,6 +385,18 @@ void Game::HandleEvents( SDL_Event _event )
             {
                 std::cout << "SDL_KEYDOWN: SDLK_DOWN" << std::endl;
                 laserFired = true;
+                if(LaserBeams.size() > 0)
+                {
+                    if(LaserBeams.at(0).Position.x > LaserBeams.at(0).endX)
+                    {
+                        LaserBeams.pop_back();
+                    }
+                }
+                else
+                {
+                        LaserBeam ABeam(Ship.Position.x,Ship.Position.y);
+                        LaserBeams.push_back(ABeam);
+                }
             }
 
         } break;
@@ -781,7 +781,6 @@ void RunningScreen(int i)
 
 
     SDL_RenderCopy(renderer, srfBackdrop_5200x1080, &srcRect, NULL);
-    SDL_Delay(10);
 
 	stringstream ss;
 	std::string RenderedText;
@@ -810,9 +809,17 @@ void RunningScreen(int i)
 
 	SDL_RenderCopy(renderer, srfSpaceshipTexture, NULL, &Engine.Ship.Position);
 
+    /*
 	if(laserFired)
 	{
         SDL_RenderCopy(renderer, srfLaserBlueTexture, NULL, NULL);
+    }
+    */
+
+    for (it = LaserBeams.begin(); it != LaserBeams.end(); ++it)
+    {
+        SDL_RenderCopy(renderer, srfLaserBlueTexture, NULL, &it->Position);
+        it->Move();
     }
 
 	//SDL_RenderCopy(renderer, texture, NULL, NULL);
