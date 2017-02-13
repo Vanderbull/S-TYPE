@@ -29,7 +29,8 @@ bool ControlCollision::CollisionBox( BaseSpaceShip *cPlayer, CEnemy *cEnemy, boo
 {
 	//SDL_FillRect(Gfx.BackBuffer, &cPlayer->GetPosition(), 0xFFFFFF);
 	//SDL_FillRect(Gfx.BackBuffer, &cEnemy->GetPosition(), 0xFFFFFF);
-	
-	return (abs(cEnemy->GetPosition().x - cPlayer->GetPosition().x) * 2 < (cEnemy->GetPosition().w + cPlayer->GetPosition().w)) &&
-         (abs(cEnemy->GetPosition().y - cPlayer->GetPosition().y) * 2 < (cEnemy->GetPosition().h + cPlayer->GetPosition().h)); 
+
+	//return (abs(cEnemy->GetPosition().x - cPlayer->GetPosition().x) * 2 < (cEnemy->GetPosition().w + cPlayer->GetPosition().w)) &&
+    //     (abs(cEnemy->GetPosition().y - cPlayer->GetPosition().y) * 2 < (cEnemy->GetPosition().h + cPlayer->GetPosition().h));
+    return true;
 };

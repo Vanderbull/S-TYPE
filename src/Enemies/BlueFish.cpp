@@ -1,9 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-//#include <SDL.h>
-
-//#include "Global\Global.h"
 #include "BlueFish.h"
 #include "../Game.h"
 #include "../GfxController/ControlGfx.h"
@@ -12,24 +9,12 @@
 #define BLUEFISH_MAX_PROGRESS 12000
 #define BLUEFISH_MIN_PROGRESS 10000
 
-// 1. this should go into every .cpp , after all header inclusions
-#ifdef _WIN32
-#ifdef _DEBUG
-#include <crtdbg.h>
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#define new       new( _NORMAL_BLOCK, __FILE__, __LINE__)
-#define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
-#endif
-#endif
-
 ControlBlueFish BlueFishController;
+
 const double BlueFishSpeed = -15.0;
 
 BlueFish::BlueFish()
 {
-    logger.write(__LINE__, __FUNCTION__);
-
     // Activate object
     Active = 1;
 

@@ -23,7 +23,7 @@ public:
     float GetX();
     float GetY();
     void checkEdges(float width, float height);
-    bool onCollision(SDL_Rect object);
+    bool onCollision(SDL_Rect* object);
     void onCollision(){ };
     void Update();
     void Draw();

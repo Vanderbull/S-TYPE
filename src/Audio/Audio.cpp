@@ -120,13 +120,13 @@ ControlAudio::~ControlAudio()
 	std::cout << "Destroying ControlAudio object..." << endl;
 
 	// Removing reference to loaded Sound Tracks
-	for( int i=0; i < (sizeof Playlist / sizeof Playlist[0]); i++ )
+	for( unsigned int i=0; i < (sizeof Playlist / sizeof Playlist[0]); i++ )
 	{
 		Playlist[i] = NULL;
 	}
 
 	// Removing reference to loaded SFX
-	for( int i=0; i < (sizeof Sfx / sizeof Sfx[0]); i++ )
+	for( unsigned int i=0; i < (sizeof Sfx / sizeof Sfx[0]); i++ )
 	{
 		Sfx[i] = NULL;
 	}
@@ -150,6 +150,7 @@ switch(Mix_FadingMusic()) {
 
 void ControlAudio::QuerySpec()
 {
+/*
     // get and print the audio format in use
     int numtimesopened, frequency, channels;
     Uint16 format;
@@ -169,6 +170,7 @@ void ControlAudio::QuerySpec()
         }
         cout << "opened=" << numtimesopened << " times " << "frequency=" << frequency << " Hz " << "format=" << format_str << " channels=" << channels << endl;
     }
+*/
 }
 void ControlAudio::Reset(int frequency, Uint16 format, int channels, int chunksize)
 {
@@ -188,9 +190,9 @@ void ControlAudio::Reset(int frequency, Uint16 format, int channels, int chunksi
 void ControlAudio::Render()
 {
     Gfx.RenderText("Rendering the Audio controller...",0,100);
-    int numtimesopened, frequency, channels;
+    int frequency, channels;
     Uint16 format;
-    numtimesopened = Mix_QuerySpec(&frequency, &format, &channels);
+    Mix_QuerySpec(&frequency, &format, &channels);
     std::string ControlText;
     ControlText = "Frequency: ";
     ControlText.append(std::to_string(frequency).c_str());

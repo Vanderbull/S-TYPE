@@ -15,6 +15,9 @@
 					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add option="-lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/S-TYPE" prefix_auto="1" extension_auto="1" />
@@ -32,79 +35,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="src/Audio/Audio.cpp" />
-		<Unit filename="src/Audio/Audio.h" />
-		<Unit filename="src/BaseController.h" />
-		<Unit filename="src/Collision/Collision.cpp" />
-		<Unit filename="src/Collision/Collision.h" />
-		<Unit filename="src/ConfigFileConverter.h" />
-		<Unit filename="src/ControlInterface.h" />
-		<Unit filename="src/Enemies.cpp" />
-		<Unit filename="src/Enemies.h" />
-		<Unit filename="src/Enemies/BlueFish.cpp" />
-		<Unit filename="src/Enemies/BlueFish.h" />
-		<Unit filename="src/Enemies/CWave1.h" />
-		<Unit filename="src/Enemies/MovingThings.h" />
-		<Unit filename="src/Enemies/OctoBoss.cpp" />
-		<Unit filename="src/Enemies/OctoBoss.h" />
-		<Unit filename="src/Enemies/Powerup.cpp" />
-		<Unit filename="src/Enemies/Powerup.h" />
-		<Unit filename="src/Enemies/PurpleShip.cpp" />
-		<Unit filename="src/Enemies/PurpleShip.h" />
-		<Unit filename="src/Enemies/Robotnic.cpp" />
-		<Unit filename="src/Enemies/Robotnic.h" />
-		<Unit filename="src/EnemiesAndObjects.h" />
 		<Unit filename="src/Game.cpp" />
 		<Unit filename="src/Game.h" />
-		<Unit filename="src/GameController/GameController.cpp" />
-		<Unit filename="src/GameController/GameController.h" />
-		<Unit filename="src/GetInput.cpp" />
-		<Unit filename="src/GetInput.h" />
-		<Unit filename="src/GfxController/ControlGfx.cpp" />
-		<Unit filename="src/GfxController/ControlGfx.h" />
-		<Unit filename="src/Global/Global.cpp" />
-		<Unit filename="src/Global/Global.h" />
 		<Unit filename="src/Main.cpp" />
-		<Unit filename="src/Objects/Bullets.cpp" />
-		<Unit filename="src/Objects/Bullets.h" />
-		<Unit filename="src/Objects/Objects.cpp" />
-		<Unit filename="src/Objects/Objects.h" />
-		<Unit filename="src/Objects/Spaceship.cpp" />
-		<Unit filename="src/Objects/Spaceship.h" />
-		<Unit filename="src/OutroFinish.cpp" />
-		<Unit filename="src/OutroFinish.h" />
-		<Unit filename="src/Paralaxlayers.cpp" />
-		<Unit filename="src/Paralaxlayers.h" />
-		<Unit filename="src/ParallaxEffect/ParallaxEffect.cpp" />
-		<Unit filename="src/ParallaxEffect/ParallaxEffect.h" />
-		<Unit filename="src/ParticleController/Particle.cpp" />
-		<Unit filename="src/ParticleController/Particle.h" />
-		<Unit filename="src/ParticleController/Vector3D.h" />
-		<Unit filename="src/Save/Save.cpp" />
-		<Unit filename="src/Save/Save.h" />
-		<Unit filename="src/Screens/Credits.cpp" />
-		<Unit filename="src/Screens/Credits.h" />
-		<Unit filename="src/Screens/GameOver.cpp" />
-		<Unit filename="src/Screens/GameOver.h" />
-		<Unit filename="src/Screens/Load.cpp" />
-		<Unit filename="src/Screens/Load.h" />
-		<Unit filename="src/Screens/MainMenu.cpp" />
-		<Unit filename="src/Screens/MainMenu.h" />
-		<Unit filename="src/Screens/Options.cpp" />
-		<Unit filename="src/Screens/Options.h" />
-		<Unit filename="src/Variables.h" />
-		<Unit filename="src/close_code.h" />
-		<Unit filename="src/fps/fps.cpp" />
-		<Unit filename="src/fps/fps.h" />
-		<Unit filename="src/fx/fx.cpp" />
-		<Unit filename="src/fx/fx.h" />
-		<Unit filename="src/log/log.cpp" />
-		<Unit filename="src/log/log.h" />
-		<Unit filename="src/removal/Animals/Animals.cpp" />
-		<Unit filename="src/removal/Animals/Animals.h" />
-		<Unit filename="src/removal/begin_code.h" />
-		<Unit filename="src/resource.h" />
-		<Unit filename="src/resource.rc" />
 		<Extensions>
 			<code_completion />
 			<debugger />

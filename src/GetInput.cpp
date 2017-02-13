@@ -16,12 +16,12 @@ StringInput::StringInput()
 {
     //Initialize the string
     str = "";
-    
+
     //Initialize the surface
     text = NULL;
-    
+
     //Enable Unicode
-    SDL_EnableUNICODE( SDL_ENABLE );    
+    //SDL_EnableUNICODE( SDL_ENABLE );
 }
 
 StringInput::~StringInput()
@@ -29,9 +29,9 @@ StringInput::~StringInput()
     //Free text surface
     SDL_FreeSurface( text );
     text = NULL;
-    
+
     //Disable Unicode
-    SDL_EnableUNICODE( SDL_DISABLE );  
+    //SDL_EnableUNICODE( SDL_DISABLE );
 }
 
 // checks for input max three letters
@@ -52,9 +52,9 @@ bool StringInput::handle_input(   )
 				{
 					return false;
 				}
-				else 
+				else
 				{
-						str +=  StringEvent.key.keysym.unicode;
+						//str +=  StringEvent.key.keysym.unicode;
 				}
 			}break;
 	  }
@@ -69,7 +69,7 @@ bool StringInput::handle_input(   )
             //Free the old surface
             SDL_FreeSurface( text );
             text = NULL;
-        
+
             //Render a new text surface
 			text = TTF_RenderText_Solid( Gfx.DefaultFont, str.c_str(), textColor );
 
@@ -87,7 +87,7 @@ bool StringInput::handle_input(   )
 		}
         //Keep a copy of the current version of the string
         std::string temp = str;
-        
+
         //If the string less than maximum size
         if( str.length() <= 2 )
         {
@@ -96,7 +96,7 @@ bool StringInput::handle_input(   )
             if( StringEvent.key.keysym.unicode == (Uint16)' ' )
             {
                 //Append the character
-                str += (char)StringEvent.key.keysym.unicode;    
+                str += (char)StringEvent.key.keysym.unicode;
             }
             //If the key is a number
             else if( ( StringEvent.key.keysym.unicode >= (Uint16)'0' ) && ( StringEvent.key.keysym.unicode <= (Uint16)'9' ) )
@@ -117,20 +117,20 @@ bool StringInput::handle_input(   )
                 str += (char)StringEvent.key.keysym.unicode;
             }
         }
-    
+
         //If backspace was pressed and the string isn't blank
         if( ( StringEvent.key.keysym.sym == SDLK_BACKSPACE ) && ( str.length() != 0 ) )
         {
             //Remove a character from the end
             str.erase( str.length() - 1 );
         }
-        
+
         //If the string was changed
         if( str != temp )
         {
             //Free the old surface
             SDL_FreeSurface( text );
-        
+
             //Render a new text surface
             text = TTF_RenderText_Solid( gamestate.font, str.c_str(), textColor );
         }
@@ -140,7 +140,7 @@ bool StringInput::handle_input(   )
 	return false;
 }
 
-void StringInput::show_centered()  
+void StringInput::show_centered()
 {
     //If the surface isn't blank
     if( text != NULL )

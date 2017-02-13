@@ -26,7 +26,7 @@ public:
 	SDL_Rect _Velocity;
 	SDL_Rect _CollisionBox;
 
-	int CalculateVelocity()
+	void CalculateVelocity()
 	{
 		_Velocity.x = _Speed + _Scale;
 		_Velocity.y = _Speed + _Scale;
@@ -76,15 +76,15 @@ public:
 
 	SDL_Rect AnimationArrays[ 9 ][ 48 ];
 
-#define TICK_INTERVAL    125
+    //#define TICK_INTERVAL    125
 
 	Uint32 TimeLeft(void);
 
 	int Animate();
 
-	SDL_Rect GetPosition()
+	SDL_Rect* GetPosition()
 	{
-		return BaseSpaceShip::_Position;
+		return &_Position;
 	}
 
 	void Update();
@@ -163,10 +163,10 @@ public:
 
 	int isColliding( SDL_Rect CollisionObject )
 	{
-		Sint16 PlayerRight = GetPosition().x + GetPosition().w;
-		Sint16 PlayerLeft = GetPosition().x;
-		Sint16 PlayerTop = GetPosition().y;
-		Sint16 PlayerBottom = GetPosition().x + GetPosition().h;
+		Sint16 PlayerRight = GetPosition()->x + GetPosition()->w;
+		Sint16 PlayerLeft = GetPosition()->x;
+		Sint16 PlayerTop = GetPosition()->y;
+		Sint16 PlayerBottom = GetPosition()->x + GetPosition()->h;
 
 		Sint16 CollisionObjectRight = CollisionObject.x + CollisionObject.w;
 		Sint16 CollisionObjectLeft = CollisionObject.x;
