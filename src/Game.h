@@ -43,6 +43,51 @@ using namespace std;
 //#include "ParticleController/Particle.h"
 //#include "Enemies/OctoBoss.h"
 
+class Life
+{
+public:
+    Life(){ std::cout << "Constructing a Life..." << std::endl; m_Life = 6; };
+    ~Life(){ std:cout << "Destroying a Life..." << std::endl; };
+    int GetLife(){ return m_Life; };
+    void Add()
+    {
+        if(m_Life < 6)
+        {
+            m_Life++;
+        }
+    };
+    void Substract()
+    {
+        if(m_Life > 0)
+        {
+            m_Life--;
+        }
+    };
+
+    int m_Life;
+};
+
+class Beam
+{
+public:
+    Beam(){ std::cout << "Constructing a Beam..." << std::endl; m_Power = 0; };
+    ~Beam(){ std:cout << "Destroying a Beam..." << std::endl; };
+    int GetPower(){ return m_Power; };
+    void Charge()
+    {
+        if(m_Power < 100)
+        {
+            m_Power++;
+        }
+    };
+    void Discharge()
+    {
+        m_Power = 0;
+    };
+
+    int m_Power;
+};
+
 class Spaceship
 {
 public:
@@ -165,6 +210,8 @@ public:
 
     std::stack<Gamestate> aState;
     Spaceship Ship;
+    Beam BeamIndicator;
+    Life LifeIndicator;
 
 private:
 
@@ -175,6 +222,7 @@ private:
 	int MouseYCoordinates; // the last recorded y coordinate of the mouse
     Uint16 SPAWN_POSITION_X;
 	Uint16 SPAWN_POSITION_Y;
+
 };
 
 //extern Game Engine;

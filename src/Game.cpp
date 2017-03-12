@@ -10,6 +10,7 @@
 #include <functional>
 #include <limits>
 #include <iomanip>
+#include <random>
 using namespace std;
 
 #include <SDL2/SDL.h>
@@ -37,6 +38,15 @@ using namespace std;
 #include "OutroFinish.h"
 #include "GetInput.h"
 
+/* Initialise. Do this once (not for every
+ random number). */
+std::random_device rd;
+std::mt19937_64 gen(rd());
+
+/* This is where you define the number generator for unsigned long long: */
+std::uniform_int_distribution<unsigned long long> dis;
+
+
 bool laserFired = false;
 
 TTF_Font* font;
@@ -54,6 +64,7 @@ SDL_Surface *srfSpaceshipSurface;
 SDL_Texture* srfSpaceshipTexture;
 SDL_Texture* srfBackdrop_5200x1080;
 SDL_Texture* srfLaserBlueTexture;
+SDL_Texture* srfWalkerTexture;
 
 void LoadScreen(int i);
 void SaveScreen(int i);
@@ -110,6 +121,55 @@ public:
 
 std::vector<LaserBeam> LaserBeams;
 
+class Walker
+{
+public:
+    Walker(){ std::cout << "Constructing a walker ship" << std::endl; };
+    Walker(int A, int B){ std::cout << "Spawning a Walker ship..." << std::endl; Position.x = A; Position.y = B; Position.w = 64; Position.h = 29; startX = A; endX = Position.x + 400; XPosition = A;};
+    ~Walker(){ std::cout << "Destroying a walker ship" << std::endl; };
+
+    void Move()
+    {
+        XPosition -= 0.1f;
+        //YPosition = 0.1f;
+
+        Position.x = (int)XPosition;
+        //Position.y = (int)YPosition;
+    };
+
+    int id;
+    int color;
+    int startX;
+    int endX;
+    SDL_Rect Position;
+    float XPosition = 0.0f;
+    float YPosition = 0.0f;
+
+    /*
+   // Initialization
+
+   // Quad position
+   float XPosition = 0.0f;
+   float YPosition = 0.0f;
+
+   // A simple quad
+   SDL_Rect Quad = {0, 0, 32, 32};
+
+
+
+   // Update
+
+   XPosition += 20.0f * DeltaTime;
+   YPosition += 20.0f * DeltaTime;
+
+   // Move the quad to the right and down
+   Quad.x = (int)XPosition;
+   Quad.y = (int)YPosition;
+    */
+};
+
+std::vector<Walker> WalkerShip;
+
 LevelObj LevelOneObj;
 LevelObj LevelTwoObj;
 LevelObj LevelThreeObj;
@@ -124,7 +184,7 @@ int Progressbar(const SDL_Rect* iRect)
 void RenderVersion()
 {
     std::stringstream ss;
-    ss << std::fixed << std::setprecision(2) << 1.0;
+    ss << std::fixed << std::setprecision(2) << 1.0 << dis(gen);
     std::string version = ss.str();
     std::string version_text = "Version: " + version;
 
@@ -200,16 +260,25 @@ bool SetupTTF( const std::string &fontName, int fontSize)
 Game Engine;
 Gamestate EngineState;
 MouseObject ObjMouse;
-     vector<LaserBeam>::iterator it;
+
+vector<LaserBeam>::iterator it;
+vector<Walker>::iterator itWalkerShip;
+
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 600;
+
+int ExitGame = 1;
 
 Game::Game()
 {
+    srand(time(0));
+
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't initialize SDL: %s", SDL_GetError());
     }
 
-    if (SDL_CreateWindowAndRenderer(800, 600, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
+    if (SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create window and renderer: %s", SDL_GetError());
     }
 
@@ -218,6 +287,7 @@ Game::Game()
     srfSpaceshipTexture = IMG_LoadTexture(renderer, "./assets/gfx/spaceship/srfSpaceship.png");
     srfBackdrop_5200x1080 = IMG_LoadTexture(renderer, "./assets/gfx/backdrops/srfBackdrop_5200x1080.png");
     srfLaserBlueTexture = IMG_LoadTexture(renderer, "./assets/gfx/lasers/srfLaserBlue.png");
+    srfWalkerTexture = IMG_LoadTexture(renderer, "./assets/gfx/enemies/srfWalker.png");
 
     SetupTTF( "./assets/fonts/Mecha.ttf", 24 );
 
@@ -283,7 +353,10 @@ Game::Game()
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Couldn't create texture from surface: %s", SDL_GetError());
     }
 
-    while (1)
+    int startTime = 0;
+    int stopTime = 0;
+
+    while (ExitGame)
     {
         SDL_PollEvent(&event);
         HandleEvents( event );
@@ -300,8 +373,38 @@ Game::Game()
         SDL_SetRenderDrawColor( renderer, 255, 255, 0, 255 );
         SDL_RenderDrawRect( renderer, &Ship.Position );
 
+        /*
+        int spawnChance = 100;
+        if( spawnChance < (rand()%2000000))
+        {
+            std::cout << "Spawning a walker" << std::endl;
+            Walker AWalker(rand()%SCREEN_WIDTH,rand()%SCREEN_HEIGHT);
+            WalkerShip.push_back(AWalker);
+        }
+        */
 
+        if(WalkerShip.size() <= 0)
+        {
+            Walker AWalker(SCREEN_WIDTH,rand()%SCREEN_HEIGHT);
+            WalkerShip.push_back(AWalker);
+        }
 
+        if(WalkerShip.size() > 0)
+        {
+            if(WalkerShip.at(0).Position.x < (0-WalkerShip.at(0).Position.w))
+            {
+                WalkerShip.pop_back();
+            }
+        }
+
+        if(WalkerShip.size() > 0)
+        {
+            for (itWalkerShip = WalkerShip.begin(); itWalkerShip != WalkerShip.end(); ++itWalkerShip)
+            {
+                SDL_RenderCopy(renderer, srfWalkerTexture, NULL, &itWalkerShip->Position);
+                itWalkerShip->Move();
+            }
+        }
 
         SDL_RenderPresent(renderer);
     }
@@ -355,7 +458,7 @@ void Game::HandleEvents( SDL_Event _event )
             if(_event.key.keysym.sym==SDLK_RIGHT)
             {
                 std::cout << "SDL_KEYDOWN: SDLK_RIGHT" << std::endl;
-                if( Ship.Position.x < 700)
+                if( Ship.Position.x < SCREEN_WIDTH-Ship.Position.w)
                 {
                     Ship.Position.x++;
                 }
@@ -371,7 +474,7 @@ void Game::HandleEvents( SDL_Event _event )
             if(_event.key.keysym.sym==SDLK_DOWN)
             {
                 std::cout << "SDL_KEYDOWN: SDLK_DOWN" << std::endl;
-                if( Ship.Position.y < 500)
+                if( Ship.Position.y < SCREEN_HEIGHT-Ship.Position.h)
                 {
                     Ship.Position.y++;
                 }
@@ -383,6 +486,7 @@ void Game::HandleEvents( SDL_Event _event )
             }
             if(_event.key.keysym.sym==SDLK_SPACE)
             {
+                BeamIndicator.Charge();
                 std::cout << "SDL_KEYDOWN: SDLK_DOWN" << std::endl;
                 laserFired = true;
                 if(LaserBeams.size() > 0)
@@ -404,6 +508,7 @@ void Game::HandleEvents( SDL_Event _event )
         {
             if(_event.key.keysym.sym==SDLK_SPACE)
             {
+                BeamIndicator.Discharge();
                 std::cout << "SDL_KEYDOWN: SDLK_DOWN" << std::endl;
                 laserFired = false;
             }
@@ -415,6 +520,7 @@ void Game::HandleEvents( SDL_Event _event )
         case SDL_QUIT:
         {
             SDL_Quit();
+            ExitGame = 0;
         } break;
     }
 /*
@@ -775,10 +881,8 @@ void RunningScreen(int i)
     srcRect.x = 0;
     srcRect.x += 1;
     srcRect.y = 0;
-    srcRect.w = 600;
-    srcRect.h = 800;
-
-
+    srcRect.w = SCREEN_HEIGHT;
+    srcRect.h = SCREEN_WIDTH;
 
     SDL_RenderCopy(renderer, srfBackdrop_5200x1080, &srcRect, NULL);
 
@@ -791,7 +895,7 @@ void RunningScreen(int i)
 
 	RenderText(RenderedText,0,0);
 
-    ss.clear();
+    ss.str("");
     RenderedText = "";
     ss << i;
 	RenderedText = "Score: ";
@@ -799,30 +903,55 @@ void RunningScreen(int i)
 
 	RenderText(RenderedText,0,500);
 
-	ss.clear();
+
+
+	ss.str("");
 	RenderedText = "";
-    ss << i;
+    ss << Engine.BeamIndicator.GetPower();
 	RenderedText = "Power: ";
 	RenderedText.append(ss.str());
 
-	RenderText(RenderedText,200,500);
+	RenderText(RenderedText,SCREEN_WIDTH/2-50,SCREEN_HEIGHT-50);
+
+
+    SDL_Rect BeamRectangle;
+
+    BeamRectangle.x = SCREEN_WIDTH/2;
+    BeamRectangle.y = SCREEN_HEIGHT-100;
+    BeamRectangle.w = Engine.BeamIndicator.GetPower();
+    BeamRectangle.h = 30;
+    SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
+    SDL_RenderFillRect( renderer, &BeamRectangle );
+
+	ss.str("");
+	RenderedText = "";
+    ss << Engine.LifeIndicator.GetLife();
+	RenderedText = "Life: ";
+	RenderedText.append(ss.str());
+
+	RenderText(RenderedText,0,SCREEN_HEIGHT-25);
+
+    SDL_Rect LifeRectangle;
+
+    for(int LifeSymbols = 0; LifeSymbols < Engine.LifeIndicator.GetLife(); LifeSymbols++)
+    {
+        LifeRectangle.x = 25*LifeSymbols;
+        LifeRectangle.y = SCREEN_HEIGHT-50;
+        LifeRectangle.w = 20;
+        LifeRectangle.h = 20;
+
+        SDL_SetRenderDrawColor( renderer, 255, 0, 0, 255 );
+        SDL_RenderFillRect( renderer, &LifeRectangle );
+    }
+
 
 	SDL_RenderCopy(renderer, srfSpaceshipTexture, NULL, &Engine.Ship.Position);
-
-    /*
-	if(laserFired)
-	{
-        SDL_RenderCopy(renderer, srfLaserBlueTexture, NULL, NULL);
-    }
-    */
 
     for (it = LaserBeams.begin(); it != LaserBeams.end(); ++it)
     {
         SDL_RenderCopy(renderer, srfLaserBlueTexture, NULL, &it->Position);
         it->Move();
     }
-
-	//SDL_RenderCopy(renderer, texture, NULL, NULL);
 }
 
 void MainScreen(int i)
@@ -982,6 +1111,7 @@ void MainScreen(int i)
                         SDL_SetRenderDrawColor( renderer, 0, 0, 255, 255 );
                         SDL_RenderDrawRect( renderer, &r[7] );
                         SDL_Quit();
+                        ExitGame = 0;
                     }
                 }
             }
