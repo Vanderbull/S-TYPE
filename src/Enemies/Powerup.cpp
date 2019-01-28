@@ -72,6 +72,7 @@ void Powerup::Update()
 	}
 }
 
+// Replace code with SDL2 renderer call
 void Powerup::Draw()
 {
 	SDL_BlitSurface(
