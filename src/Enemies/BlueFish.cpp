@@ -131,21 +131,20 @@ void BlueFish::Update()
     }
 
     lifespan -= 2.0f;
-
-    //UpdateCollisionBox(LocAndSize);
 }
 
+// Add SDL2 Code for rendering a texture in this function and remove the SDL_BlitSurface
 void BlueFish::Draw()
 {
     logger.write(__LINE__, __FUNCTION__);
-/*
+
     SDL_BlitSurface(
         Gfx.GetSurface(SurfaceID),
         &Clips[0], //PrevFrame replaced with 0 as there is no animation
         Gfx.BackBuffer,
         &GetRenderBox()
         );
-*/
+
     SDL_FillRect(Gfx.BackBuffer, &CollisionBox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
 }
 
@@ -182,8 +181,6 @@ void ControlBlueFish::CreateBlueFish(int iProgress)
     {
         if (std::rand() % 100 + 1 > 99)
         {
-            //BlueFishArrayRef.push_back(CreateBlueFishByReference(SDL_GetVideoSurface()->w, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfBlueFish));
-
             BlueFishArrayRef.push_back(CreateBlueFishByReference(800, std::rand() % Gfx.BackBuffer->h, gamestate.m_srfBlueFish));
         }
     }
