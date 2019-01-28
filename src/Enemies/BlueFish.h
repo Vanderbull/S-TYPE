@@ -5,7 +5,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-//#include <SDL.h>
 #include "../Objects/Bullets.h"
 #include "../Objects/Objects.h"
 #include "../ParticleController/Vector3D.h"
