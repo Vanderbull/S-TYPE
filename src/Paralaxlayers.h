@@ -1,8 +1,8 @@
 // Paralaxlayers.h
 #pragma once
-#include <SDL.h>
+//#include <SDL.h>
+#include <SDL2.h>
 #include <vector>
-
 
 // Parallax layer structure
 
@@ -18,8 +18,6 @@ struct ParallaxLayer
 	int HowFarGone;
 	float AnimClouds;
 };
-
-
 
 // ParallaxBackground - container for ParallaxLayer
 class ParallaxBackground
