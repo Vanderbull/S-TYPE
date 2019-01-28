@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-//#include <SDL.h>
 
 #include "OctoBoss.h"
 #include "../Game.h"
@@ -125,7 +124,6 @@ void OctoBoss::Update()
         // add velocity to location
         lifespan -= 2.0f;
 
-        //applyForce(Vector3D(1,1,0));
         checkEdges(1920, 1080);
 
         xPos = OctoBossSpeed * gamestate.DeltaTime;
@@ -176,8 +174,6 @@ void OctoBoss::Draw()
     }
     action_event.pop_back();
     }
-    // Debug drawing of the collisionbox
-    //SDL_FillRect(Gfx.BackBuffer, &_collisionbox, SDL_MapRGBA(Gfx.BackBuffer->format, 0, 255, 0, 0));
 }
 
 SDL_Rect OctoBoss::GetDestination()
@@ -259,10 +255,8 @@ int OctoBoss::Spawn(int checkpoint)
     {
         if (checkpoint > spawn_point.x )
         {
-            //acceleration = Vector3D(0, 0, 0);
             velocity = Vector3D(0, 0, 0);
             location = Vector3D(Gfx.BackBuffer->w - _Surface->w, 0, 0);
-            //applyForce(Vector3D(-1, 1, 0));
             Activate();
             return 0;
         }
