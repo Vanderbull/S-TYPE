@@ -1,7 +1,7 @@
 // Paralaxlayers.h
 #pragma once
 //#include <SDL.h>
-#include <SDL2.h>
+#include <SDL2/SDL.h>
 #include <vector>
 
 // Parallax layer structure
