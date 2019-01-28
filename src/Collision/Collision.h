@@ -1,6 +1,5 @@
 #pragma once
 #include "../Objects/Spaceship.h"
-//#include "../Objects/SpaceShip.h"
 #include "../Game.h"
 #include "../Enemies/Powerup.h"
 #include "../Objects/Objects.h"
@@ -69,11 +68,6 @@ public:
 					iBullet->DeActivate();
 					//PopupScore.push_back(50);
 					_SCORE += 100;
-                    //SDL_Rect tmp;
-                    //tmp = iRobotnic->CollisionBox;
-                    //explosion_trigger.insert(std::pair<std::string, SDL_Rect>("Robotnic", tmp));
-                    //animation_event_trigger.push_back("explosion");
-
 				}
 				else
 				{
@@ -105,7 +99,6 @@ public:
 					iBullet->DeActivate();
 					PopupScore.push_back(50);
 					_SCORE += 100;
-
 				}
 				else
 				{
